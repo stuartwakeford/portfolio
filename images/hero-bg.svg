@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1170px" height="799px" viewBox="0 0 1170 799" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 60.1 (88133) - https://sketch.com -->
+    <title>Artboard</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="0%" y1="35.9820314%" x2="100%" y2="64.0179686%" id="linearGradient-1">
+            <stop stop-color="#000000" offset="0%"></stop>
+            <stop stop-color="#020FA8" offset="100%"></stop>
+        </linearGradient>
+        <polygon id="path-2" points="0 6.89556919e-14 1509 0 1509 799 0 799"></polygon>
+        <linearGradient x1="28.476122%" y1="46.5059497%" x2="100%" y2="69.2200611%" id="linearGradient-4">
+            <stop stop-color="#7400A0" offset="0%"></stop>
+            <stop stop-color="#2E37D1" offset="100%"></stop>
+        </linearGradient>
+        <path d="M-128,279 C-3.18364655,279 98,380.183647 98,505 C98,543.291959 88.4768085,579.359657 71.6696383,610.963883 C70.4482699,612.849328 69.3566721,614.826816 68.4062591,616.882933 L68.2541454,617.150551 L68.2789261,617.160734 C65.5306745,623.207583 64,629.925037 64,637 C64,663.509668 85.490332,685 112,685 C116.131839,685 120.141745,684.477939 123.967352,683.496181 L124.063792,683.873573 C134.42272,681.985954 145.096219,681 156,681 C253.754401,681 333,760.245599 333,858 C333,862.359731 332.842376,866.682647 332.532516,870.963359 L332.523972,870.958807 C364.758699,827.308955 416.573394,799 475,799 C572.754401,799 652,878.245599 652,976 C652,1073.7544 572.754401,1153 475,1153 C377.245599,1153 298,1073.7544 298,976 C298,971.640269 298.157624,967.317353 298.467484,963.036641 L298.476028,963.041193 C266.241301,1006.69105 214.426606,1035 156,1035 C58.2455993,1035 -21,955.754401 -21,858 C-21,832.8255 -15.7443766,808.878516 -6.27048029,787.196399 C-2.28383768,780.386709 0,772.460064 0,764 C0,738.594902 -20.5949015,718 -46,718 C-52.7876812,718 -59.2319912,719.470147 -65.0318802,722.109392 C-85.0189686,727.898454 -106.147282,731 -128,731 C-252.816353,731 -354,629.816353 -354,505 C-354,380.183647 -252.816353,279 -128,279 Z M1177.5,545 C1296.51736,545 1393,641.482636 1393,760.5 C1393,879.517364 1296.51736,976 1177.5,976 C1058.48264,976 962,879.517364 962,760.5 C962,641.482636 1058.48264,545 1177.5,545 Z M513,209 C610.754401,209 690,288.245599 690,386 C690,483.754401 610.754401,563 513,563 C415.245599,563 336,483.754401 336,386 C336,288.245599 415.245599,209 513,209 Z M861,-284 C994.652909,-284 1103,-175.652909 1103,-42 C1103,91.6529095 994.652909,200 861,200 C727.347091,200 619,91.6529095 619,-42 C619,-175.652909 727.347091,-284 861,-284 Z" id="path-5"></path>
+        <filter x="-18.1%" y="-22.1%" width="136.3%" height="144.1%" filterUnits="objectBoundingBox" id="filter-6">
+            <feGaussianBlur stdDeviation="1" in="SourceGraphic"></feGaussianBlur>
+        </filter>
+        <filter x="-27.1%" y="-33.0%" width="154.3%" height="166.0%" filterUnits="objectBoundingBox" id="filter-7">
+            <feOffset dx="0" dy="0" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="157" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.2 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Artboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-Copy-13">
+            <mask id="mask-3" fill="white">
+                <use xlink:href="#path-2"></use>
+            </mask>
+            <use id="Rectangle-Copy-4" fill="url(#linearGradient-1)" xlink:href="#path-2"></use>
+            <g id="Combined-Shape" filter="url(#filter-6)" mask="url(#mask-3)">
+                <use fill="black" fill-opacity="1" filter="url(#filter-7)" xlink:href="#path-5"></use>
+                <use fill="url(#linearGradient-4)" fill-rule="evenodd" xlink:href="#path-5"></use>
+            </g>
+        </g>
+    </g>
+</svg>

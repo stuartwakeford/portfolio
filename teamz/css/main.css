@@ -1,0 +1,1210 @@
+/* CSS Document */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    font-family: 'Barlow', sans-serif;
+	background-color: #F5F5F5;
+}
+
+
+/* selected text colours - not supported in IE */
+::-moz-selection{
+        background:#FAE006;
+		color: #000;
+}
+ 
+::selection {
+        background:#FAE006;
+		color: #000;
+}
+ 
+code::-moz-selection {
+        background: #FAE006;
+		color: #000;
+}
+ 
+code::selection {
+        background: #FAE006;
+		color: #000;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+
+/* TYPOGRAPHY */
+
+a {
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+}
+
+a:visited {
+	text-decoration:none;
+	color: #000;
+}
+
+p {
+  -margin: 0;
+  padding: 0;
+}
+
+h1 {
+	font-family: 'Barlow', sans-serif;
+	font-size: 20px;
+	color: #FFF;
+	padding: 0;
+	margin: 0;
+	font-weight: 700;
+}
+
+h2 {
+	font-family: 'Barlow', sans-serif;
+	font-size: 20px;
+	color: #000;
+	padding: 12px 0 0 0;
+	margin: 0;
+	font-weight: bold;
+}
+
+h3 {
+	font-family: 'Barlow', sans-serif;
+	font-size: 16px;
+	color: #000;
+	padding: 0 0 0 0;
+	margin: 0;
+	font-weight: bold;
+}
+
+
+h5 {
+	font-family: 'Barlow', sans-serif;
+	color: #000000;
+	font-size: 16px;
+	text-align: left;
+	padding: 0;
+	margin: 0;
+	font-weight: 700;
+}
+
+
+/* NAVIGATION */
+
+.topnav {
+  overflow: hidden;
+  -width: 300px;
+  margin: 0 0px 0 0;
+  background-color: #FFF;
+  box-shadow: 0px 0px 10px #999;
+
+}
+
+.navlinks {
+	width: auto;
+	-background-color:#0066CC;
+	-float: right;
+	-margin: 0 0px 20px 0;
+}
+
+.topnav a {
+  /* Each a floats left within NAVLINKS */
+  -float: left;
+  display: none;
+  color: #000;
+  text-align: center;
+  -padding: 14px 14px;
+  text-decoration: none;
+  font-size: 16px;
+  -background-color:red;
+}
+
+.topnav a:first-child {
+  -font-size: 16px;
+  margin: 60px 0 0 0;
+  
+}
+
+.topnav a:not(:first-child) {
+  display: none;
+  -font-size: 16px;
+}
+
+.topnav a:hover {
+	-background-color: red;
+	color:#999;
+}
+
+.active {
+  -border-radius: 0px 0 3px 3px;
+  -color: #FFF;
+ -background-color: green;
+}
+
+/* STYLING FOR INITIAL BURGER ICON */
+
+.topnav a.icon {
+    margin: 0;
+	float: left;
+    display: block;
+	height: 50px;
+  	width: 100%;
+  	-background-color: blue;
+	padding: 7px 0 0 15px;
+	text-align: left;
+	position: absolute;
+	left: 0;
+    top: 0;
+	color: #000;
+}
+
+.topnav.responsive {
+	position: relative;
+	/* hack to get page below to shunt down */
+	-margin-bottom: 50px;
+}
+ 
+/* STYLING MENU LINKS ONCE OPEN */
+
+.topnav.responsive a:not(:last-child) {
+	/* makes items stack vertically */
+	float: none;
+    display: block;
+    text-align: left;
+	-background-color:red;
+	padding: 0px 0 30px 20px;
+	-color: #000;
+}
+
+
+/* TOP BAR */ 
+
+.top-bar {
+  background-color: #FFF;
+  margin: 0px;
+  height: 50px;
+  background-image:url(../images/teamz-logo-black.svg);
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+}
+
+.top-bar-pick {
+  background-color: #FFF;
+  margin: 0px;
+  height: 50px;
+  text-align: center;
+  padding:  0 0 0 0;
+  box-shadow: 0px 5px 5px #E5E5E5;
+}
+
+.top-bar-pick a {
+	font-size: 12px;
+	-margin: 18px 0 0 0;
+	-padding: 20px 0 0 0;
+}
+
+.top-bar-pick a:visited {
+	text-decoration:none;
+	color: #000;
+}
+
+.top-bar-pick a:hover {
+	text-decoration: underline;
+}
+
+/* for close icon */
+.top-bar-pick img {
+	-margin: 18px 0px 0 0;
+	padding: 0;
+}
+
+.col-left {
+    margin: 0;
+	padding: 0px 0 0 20px;
+	display: block;
+	float: left;
+	width: 33.33%;
+	height: 50px;
+	text-align: left;
+	-background-color: orange;
+}
+
+.col-left a {
+	color: #000;
+	margin: 16px 0 0 0;
+	padding: 0px 0 0 0;
+	-background-color: red;
+	display: block;
+	height: 20px;
+}
+
+.col-left a:visited {
+	color: #000;
+}
+
+.col-center {
+    margin: 0;
+	padding: 14px 0 0 0;
+	display: block;
+	float: left;
+	width: 33.33%;
+	height: 50px;
+	text-align: center;
+	-background-color: red;
+}
+
+.col-right {
+    margin: 0;
+	padding: 0 20px 0 0px;
+	display: block;
+	float: right;
+	width: 33.33%;
+	height: 50px;
+	text-align: right;
+	-background-color: green;
+}
+
+.col-right a {
+	color: #000;
+	margin: 16px 0 0 0;
+	padding: 0px 0 0 0;
+	-background-color: red;
+	display: block;
+	height: 20px;
+}
+
+
+
+/*
+.top-bar img {
+	/* centre with display/margin combo 
+	display: block;
+  margin-left: auto;
+  margin-right: auto;
+  -padding-top: 18px;
+}
+*/
+
+.logo {
+  background-color: blue;
+  margin: 0;
+  padding: 0px;
+  -height: 50px;
+  -width: 50px;
+  -display:block;
+  -float: right;
+  text-align:center;
+}
+
+/*
+.menu-btn {
+  background-color: red;
+  margin: 0px;
+  padding: 15px;
+  height: 50px;
+  width: 50px;
+  display:block;
+  float: left;
+}
+*/
+
+.action {
+  background-color: red;
+  margin: 0px;
+  pqadding: 0;
+  height: 50px;
+  width: 50px;
+  display:block;
+  float: right;
+}
+
+
+/* BUTTONS */ 
+
+.button1 {
+  background-color: #000;
+  border-radius: 5px;
+  height: 50px;
+  -width: 100%;
+  display: block;
+  margin: 10px 10px 10px 10px;
+  color: #FFFFFF;
+  padding: 14px 0 0 0;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  clear: both;
+}
+
+.button1:hover {
+  background-color: #666666;
+}
+
+.button2 {
+  background-color: #000;
+  border-radius: 5px;
+  height: 40px;
+  -width: 100%;
+  display: block;
+  -margin: 10px 10px 10px 10px;
+  padding: 9px 0 0 0;
+  color: #FFF;
+}
+
+.button2:hover {
+  background-color: #666666;
+}
+
+.button3 {
+  background-color: #FFF;
+  border-radius: 5px;
+  height: 30px;
+  width: 100px;
+  float: right;
+  display: block;
+  -margin: 10px 10px 10px 10px;
+  padding: 7px 0 0 0;
+  color: #000;
+  font-size: 12px;
+  font-weight: bold;
+  text-align: center;
+  border: 1px solid #000;
+}
+
+.button3-selected {
+	background-color: #000;
+  border-radius: 5px;
+  height: 30px;
+  width: 100px;
+  float: right;
+  display: block;
+  -margin: 10px 10px 10px 10px;
+  padding: 7px 0 0 0;
+  color: #FFF;
+  font-size: 12px;
+  font-weight: bold;
+  text-align: center;
+  border: none;
+}
+
+.button3:hover {
+  background-color: #000;
+  color: #FFF;
+  border: none;
+}
+
+
+/* TABS */ 
+
+.tabs-top {
+  background-color: #FFF;
+  width: 100%;
+  height: 60px;
+  /* added 4px border and reduced container height to allow for border on selected tab */
+  -border-bottom: 4px solid green;
+  box-shadow: 0px 5px 5px #E5E5E5;
+}
+
+.tabs-top p {
+	text-align: center;
+	color: #000;
+	font-size: 16px;
+	font-weight: 700;
+}
+
+.tab-top-selected {
+  -background-color: blue;
+  width: 50%;
+  height: 60px;
+  display: block;
+  float: left;
+  border-top: 4px solid #FFF;
+  border-bottom: 4px solid #000;
+}
+
+.tabs-bottom {
+  -background-color: red;
+  width: 100%;
+  height: 60px;
+  -border-top: 4px solid green;
+  -box-shadow: 0px 5px 5px #E5E5E5;
+}
+
+.tabs-bottom p {
+	text-align: center;
+	color: #000;
+	font-size: 16px;
+	font-weight: 700;
+	-margin: 20px 0 0 0;
+}
+
+.tab-bottom-selected {
+  -background-color: blue;
+  width: 50%;
+  height: 60px;
+  display: block;
+  float: left;
+  border-top: 4px solid #000;
+  border-bottom: 4px solid #FFF;
+}
+
+.tab-deselected {
+  -background-color: green;
+  width: 50%;
+  height: 60px;
+  display: block;
+  float: left;
+  border-top: 4px solid #FFF;
+  border-bottom: 4px solid #FFF;
+}
+
+.tab-deselected p {
+  color: #B2B2B2;
+}
+
+
+.tab-deselected p:hover {
+	color: #000;
+}
+
+
+/* PICKER TABS */ 
+
+/* Style the tab */
+.picker-tab {
+  overflow: hidden;
+  border-top: 1px solid #D6D6D6;
+  -border-bottom: 1px solid #D6D6D6;
+  background-color: #FFF;
+  box-shadow: 0px 5px 5px #E5E5E5;
+  
+}
+
+.picker-tab img {
+  height: 20px;
+  width: 20px;
+  padding: 0;
+  margin: 0;
+}
+
+/* Style the buttons inside the tab */
+.picker-tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  -transition: 0.3s;
+  border-left: 1px solid #D6D6D6;
+  width: 20%;
+  height: 50px;
+}
+
+.picker-tab button:first-child {
+  border-left: none;
+}
+
+/* Change background color of buttons on hover */
+.picker-tab button:hover {
+  color: #999;
+  -background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.picker-tab button.active {
+  -background-color: #000;
+  color: #000;
+  border-bottom: 4px solid #000;
+}
+
+/* Style the tab content */
+.picker-tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+
+/* Style the close button */
+.picker-topright {
+  float: right;
+  cursor: pointer;
+  font-size: 28px;
+}
+
+.picker-topright:hover {color: red;}
+
+
+/* TABLE TABS */ 
+
+/* Style the tab */
+.table-tab {
+  overflow: hidden;
+  -border-top: 1px solid #D6D6D6;
+  -border-bottom: 1px solid #D6D6D6;
+  background-color: #FFF;
+  box-shadow: 0px 5px 5px #E5E5E5;
+  
+}
+
+/* Style the buttons inside the tab */
+.table-tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  -transition: 0.3s;
+  -border-left: 1px solid #D6D6D6;
+  width: 50%;
+  height: 50px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #999;
+}
+
+.table-tab button:first-child {
+  border-left: none;
+}
+
+/* Change background color of buttons on hover */
+.table-tab button:hover {
+  color: #999;
+  -background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.table-tab button.active {
+  -background-color: #000;
+  color: #000;
+  border-bottom: 4px solid #000;
+}
+
+/* Style the tab content */
+.tabletabcontent {
+  display: none;
+  padding: 4%;
+  margin: 0;
+  -border: 1px solid #ccc;
+  -border-top: none;
+}
+
+/* Style the close button */
+.table-topright {
+  float: right;
+  cursor: pointer;
+  font-size: 28px;
+}
+
+
+/* TOP PANEL */ 
+
+.top-panel {
+   -margin: 0;
+   padding: 1% 5% 20px 5%;
+   -display: block;
+   width: 100%;
+   -height: 70px;
+   background-color: #FFF;
+   box-shadow: 0px 5px 5px #E5E5E5;   
+}
+
+
+.total-points-bar {
+	height: 50px;
+  width: 100%;
+  background-color: #000;
+  color: #FFF;
+  margin: 0;
+  padding: 5px 0 0 0;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.total-points-bar p {
+	font-size: 30px;
+	-height: 50px;
+	margin: 0;
+	padding: 0;
+}
+
+
+/* TILES */ 
+
+.tile {
+   margin: 5% 5% 5% 5%;
+   padding: 20px 20px 20px 20px;
+   -width: 100%;
+   -height: 150px;
+   background-color: #FFF;
+   box-shadow: 0px 0px 5px #B2B2B2;
+   border-radius: 5px;
+   text-align: center;
+}
+
+.tile p {
+	-color: #999999;
+	margin: 0 0 20px 0;
+	padding: 0;
+}
+
+/* TILES - PICKER */ 
+
+.tile-fixture {
+   margin: 15px;
+   padding: 0px 0 0px 0;;
+   -width: 100%;
+   -height: 100px;
+   background-color: #FFF;
+   box-shadow: 0px 0px 5px #B2B2B2;
+   border-radius: 5px;
+   text-align: center;
+}
+
+.fixture-home-team {
+	-background-color: red;
+	display: block;
+	height: 50px;
+	border-bottom: 1px solid #D6D6D6;
+	margin: 0 0 0px 0;
+	padding: 10px 10px 10px 10px;
+}
+
+
+.fixture-away-team {
+	-background-color: #FFFBE4;
+	display: block;
+	height: 50px;
+	margin: 0;
+	padding: 10px 10px 10px 10px;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+
+.fixture-data {
+	height: 30px;
+	width: 30px;
+	margin: 0 10px 0 0;
+	padding:  8px 0 0 0;
+	-background-color: yellow;
+	display: block;
+	font-size: 12px;
+	font-weight: 400;
+	float: left;
+}
+
+/* Treat team letter different */
+.fixture-data:nth-child(3) {
+	height: 30px;
+	/* set circle color in html */
+	-background-color: blue;
+	border-radius: 100px;
+	color: #FFF;
+	font-size: 20px;
+	font-weight: bold;
+	padding:  2px 0 0 0;
+}
+
+/* Treat team name different */
+.fixture-data:nth-child(4) {
+	height: 30px;
+	width: auto;
+	-background-color: orange;
+	font-size: 14px;
+	font-weight: bold;
+	padding:  6px 0 0 0;
+}
+
+/* send team price to the right */
+.fixture-data:last-child {
+  -background-color: red;
+  float: right;
+}
+
+
+/* TILES - BONUSES */ 
+
+/* styling for entries on bonus screen */
+.fixture-picked-team {
+	-background-color: red;
+	display: block;
+	height: 56px;
+	border-bottom: 1px solid #D6D6D6;
+	margin: 0px 0 0px 0;
+	padding: 10px 10px 10px 10px;
+}
+
+.tile-bonus {
+   margin: 15px;
+   padding: 0px;
+   -width: 100%;
+   height: auto;
+   background-color: #FFF;
+   box-shadow: 0px 0px 5px #B2B2B2;
+   border-radius: 5px;
+   text-align: center;
+}
+
+.bonus-header {
+	height: 50px;
+	display: block;
+	margin: 0;
+	padding: 14px 10px 0 10px;
+	background-color: #000;
+	color: #FFFFFF;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
+.picked-team-data {
+	height: 35px;
+	width: 30px;
+	margin: 0 10px 0 0;
+	padding:  8px 0 0 0;
+	-background-color: yellow;
+	display: block;
+	font-size: 12px;
+	font-weight: 400;
+	float: left;
+	text-align: left;
+}
+
+/* Treat team letter different */
+.picked-team-data:nth-child(2) {
+	height: 30px;
+	/* set circle color in html */
+	-background-color: blue;
+	border-radius: 100px;
+	color: #FFF;
+	font-size: 20px;
+	font-weight: bold;
+	padding:  2px 0 0 0;
+	text-align: center;
+}
+
+/* Treat team name different */
+.picked-team-data:nth-child(3) {
+	height: 30px;
+	width: auto;
+	-background-color: orange;
+	font-size: 14px;
+	font-weight: bold;
+	padding:  0px 0 0 0;
+}
+
+.picked-team-data p {
+	color: #000;
+	font-size: 10px;
+	margin: 3px 0 0 0;
+	padding: 0;
+}
+
+
+/* TILES - HOME */
+
+.home-tiles{
+	margin: 0;
+	padding: 0%;
+}
+
+.row {
+	display: block;
+	-background-color: red;
+	height: 180px;
+	width:auto;
+	margin: 0 0 4% 0;
+	padding: 4%;
+}
+
+.tile-home {
+   width: 48%;
+   -height: auto;
+   margin: 0px 0 0 0;
+   padding: 10px;
+   display: block;
+   float: left;
+   background-color: #FFF;
+   box-shadow: 0px 0px 5px #B2B2B2;
+   border-radius: 5px;
+   text-align: center;
+}
+
+/* 2% added to half of middle gutter, taken off tile width */
+
+.tile-home:first-child {
+	margin-right: 2%;
+}
+
+.tile-home:last-child {
+	margin-left: 2%;
+}
+
+.team-data {
+	-height: 35px;
+	-width: 30px;
+	margin: 0;
+	-padding:  8px 0 0 0;
+	-background-color: yellow;
+	display: block;
+	-font-size: 12px;
+	-font-weight: 400;
+	-float: left;
+	-text-align: left;
+}
+
+/* kickoff*/
+.team-data:first-child {
+	-background-color: red;
+	height: 20px;
+	width: 50px;
+	display: block;
+	float: right;
+	margin: 0;
+	padding: 0;
+	font-size: 12px;
+	color: #959596;
+	text-align: right;
+}
+
+/* flag */
+.team-data:nth-child(2) {
+	-background-color: yellow;
+	height: 20px;
+	width: 20px;
+}
+
+.team-data img {
+	width: 20px;
+	height: 20px;
+	margin: 0;
+	padding: 0;
+}
+
+/* letter */
+.team-data:nth-child(3) {
+	-background-color: blue;
+	height: 50px;
+	width: 50px;
+	border-radius: 200px;
+	color: #FFF;
+	margin-right: auto;
+	margin-left: auto;
+	font-size: 30px;
+	padding: 6px 0 0 0;
+}
+
+/* name */
+.team-data:nth-child(4) {
+	-background-color: green;
+	height: 20px;
+	font-size: 20px;
+	font-weight: bold;
+	margin: 5px 0 25px 0;
+}
+
+/* points */
+.team-data:nth-child(5) {
+	background-color: #000;
+	height: 40px;
+	color: #FFF;
+	border-radius: 5px;
+	font-size: 24px;
+	padding: 5px 10px 0 10px;
+}
+
+.team-data:nth-child(5) img {
+	float: left;
+	display: block;
+	padding: 0px 0 0 0;
+	margin: 5px 0 0 0;
+}
+
+
+/* TABLES */
+
+.table-game-weeks {
+	margin: 0;
+	padding: 4%;
+}
+
+.player-table {
+	border-collapse:collapse;
+	border-spacing:0;width:100%;
+	display:table;
+	font-size: 12px;
+	margin: 20px 0 0 0;
+	background-color: #FFF;
+	border-radius: 5px;
+	box-shadow: 0px 0px 16px 0px rgba(0,0,0,0.2);
+}
+
+.player-table tr:first-child{
+	background-color: #000;
+	color: #FFF;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
+.player-table tr:nth-child(odd){
+	-background-color:red;
+	height: 40px;
+	border-bottom: 1px solid #D6D6D6;
+}
+
+.player-table tr:nth-child(even){
+	-background-color:#f1f1f1;
+	height: 40px;
+	border-bottom: 1px solid #D6D6D6;
+}
+
+.player-table tr:last-child{
+	border-bottom: none;
+	-background-color: red;
+}
+
+/* selected state */
+.selected-table-row {
+	background-color: #FFFBE4;
+}
+
+.player-table td,.player-table th,.player-table-all td,.player-table-all th{
+	padding: 12px 8px;
+	display:table-cell;
+	text-align:left;
+	vertical-align:top;
+}
+
+.player-table th:first-child,.player-table td:first-child,.player-table-all th:first-child,.player-table-all td:first-child{
+	padding-left:16px;
+}
+
+/*
+
+.player-table-all{border:1px solid #ccc}
+
+.w3-bordered tr,.player-table-all tr{border-bottom:1px solid #ddd}
+
+.w3-striped tbody tr:nth-child(even){background-color:#f1f1f1}
+
+.w3-hoverable tbody tr:hover,.w3-ul.w3-hoverable li:hover{background-color:#ccc}
+
+.w3-centered tr th,.w3-centered tr td{text-align:center}
+
+*/
+
+
+/* BOTTOM PANEL */ 
+
+.bottom-panel {
+   margin: 0;
+   padding: 0px 0px 0 0px;
+   -display: block;
+   text-align: center;
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   /* don't define a height so panel can be used on multiple screens*/
+   -height: 100px;
+   background-color: #FFF;
+   box-shadow: 0px 0px 10px #999;
+   -border-top: 1px solid #DDDDDD;
+   
+}
+
+.pick-cell {
+	background-color: #FFF;
+	height: 65px;
+	width: 16.66%;
+	 display: block;
+	 margin-top: 0px;
+	 margin-bottom: 10px;
+	 margin-left: auto;
+	 margin-right: auto;
+	 padding: 5px 5px 0 5px;
+	 float: left;
+	 border-bottom: 1px solid #D6D6D6;
+	 border-left: 1px solid #D6D6D6;
+	 text-align: left;
+	 font-size: 10px;
+}
+
+.pick-cell:first-child {
+	border-left: none;
+}
+
+.pick-cell a {
+	float: right;
+}
+
+.pick-cell img {
+	margin: 0 0 0 0;
+}
+
+.pick-cell-bank {
+	height: 55px;
+	margin: 0px 0 5px 0;
+	padding: 8px 0 0 0;
+	background-color: #000;
+	color: #FFF;
+	text-align: center;
+	font-size: 10px;
+	border-radius: 5px;
+}
+
+.pick-cell-bank span {
+	font-size: 20px;
+	display: block;
+}
+
+.pick-cell-team {
+	width: 30px;
+	height: 30px;
+	margin-left: auto;
+	margin-right: auto;
+	/*margin: 5px 0 5px 0;*/
+	padding: 2px 0 0 0;
+	/* circle color set in html */
+	-background-color: blue;
+	color: #FFF;
+	text-align: center;
+	font-size: 20px;
+	border-radius: 100px;
+}
+
+.pick-cell-team-unknown {
+	width: 30px;
+	height: 30px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 10px;
+	padding: 2px 0 0 0;
+	/* circle color set in html */
+	-background-color: blue;
+	color: #FFF;
+	text-align: center;
+	font-size: 20px;
+	border-radius: 100px;
+}
+
+
+
+
+/* DROPDOWNS */
+
+.dropbtn {
+  height: 50px;
+  width: 100%;
+  background-color: #FFF;
+  color: #000;
+  padding: 16px;
+  margin: 0;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  border: 1px solid #DDD;
+}
+
+.dropbtn img {
+	float: right;
+	margin: 5px 0 0 0;
+}
+
+.dropbtn:hover, .dropbtn:focus {
+  -background-color: #FFFBE4;
+  box-shadow: 0px 0px 16px 0px rgba(0,0,0,0.2);
+}
+
+.dropdown {
+  -position: relative;
+  -display: inline-block;
+  width: 100%;
+}
+
+.dropdown-content {
+  display: none;
+  -width: auto;
+ position: absolute;
+  background-color: #FFF;
+  min-width: 280px;
+  overflow: auto;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown a:hover {background-color: #FFFBE4;}
+
+.show {display: block;}
+
+
+/* FORM ELEMENTS */
+
+.form {
+   margin: 5%;
+   display: block;
+   -padding: 0px;
+   -background-color: red;
+   width: 90%;
+   
+}
+
+.form a {
+   margin: 0;
+   padding: 0;
+   font-size: 12px;
+   color: #000;
+   text-decoration: underline;
+   
+}
+
+input {
+	height: 50px;
+  width: 100%;
+  display: block;
+  margin: 10px 0px 20px 0px;
+  /* inner padding (l + r) means width needs taking down by 2%)*/
+  padding: 0 2% 0 2%;  
+  background-color: #FFF;
+  border: 1px solid #DDD;
+  border-radius: 5px;
+  font-size: 16px;
+  color: #000;
+  font-weight: 400;
+}
+
+input:focus {
+  background-color: #FFFBE4;
+}
+
+
+/* RESPONSIVE */
+
+
+
+/*
+/* Extra large devices (large laptops and desktops, 1200px and up) 
+@media only screen and (min-width: 1040px) {
+/* All widths below set to 940 - to allow for 50px margin L&R 
+
+    .topnav{
+		width: 940px;
+		margin: 0 0 0 20px;
+	}
+}*/

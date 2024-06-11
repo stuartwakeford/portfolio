@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="960px" height="517px" viewBox="0 0 960 517" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 60 (88103) - https://sketch.com -->
+    <title>Artboard</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M92,0 L705,0 C710.522847,-1.01453063e-15 715,4.4771525 715,10 L715,497 L715,497 L82,497 L82,10 C82,4.4771525 86.4771525,1.01453063e-15 92,0 Z" id="path-1"></path>
+        <filter x="-7.1%" y="-9.1%" width="114.2%" height="118.1%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="0" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="15" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.3 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <path d="M10,165 L196,165 C201.522847,165 206,169.477153 206,175 L206,489 L206,489 L0,489 L0,175 C-6.76353751e-16,169.477153 4.4771525,165 10,165 Z" id="path-3"></path>
+        <filter x="-21.8%" y="-13.9%" width="143.7%" height="127.8%" filterUnits="objectBoundingBox" id="filter-4">
+            <feOffset dx="0" dy="0" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="15" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.3 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <path d="M601,165 L787,165 C792.522847,165 797,169.477153 797,175 L797,489 L797,489 L591,489 L591,175 C591,169.477153 595.477153,165 601,165 Z" id="path-5"></path>
+        <filter x="-21.8%" y="-13.9%" width="143.7%" height="127.8%" filterUnits="objectBoundingBox" id="filter-6">
+            <feOffset dx="0" dy="0" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="15" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.3 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Artboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(82.000000, 30.000000)">
+            <g id="Rectangle-Copy-13">
+                <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+            </g>
+            <g id="Rectangle-Copy-13">
+                <use fill="black" fill-opacity="1" filter="url(#filter-4)" xlink:href="#path-3"></use>
+                <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-3"></use>
+            </g>
+            <g id="Rectangle-Copy-14">
+                <use fill="black" fill-opacity="1" filter="url(#filter-6)" xlink:href="#path-5"></use>
+                <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-5"></use>
+            </g>
+        </g>
+    </g>
+</svg>

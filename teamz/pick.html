@@ -1,0 +1,277 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<link rel="stylesheet" type="text/css" href="css/main.css" media="screen" />
+<link rel="shortcut icon" type="image/ico" href="images/icon.ico" />
+<link href="https://fonts.googleapis.com/css?family=Barlow" rel="stylesheet">
+<script src="lib/jquery-1.3.2.min.js" type="text/javascript"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>TEAMZ</title>
+
+</head>
+
+<body>
+
+<div class="top-bar-pick">
+	 <div class="col-left"><a href="pick-selected.html">Auto-pick</a></div>
+     <div class="col-center"><h3>Pick 5 Teamz</h3></div>
+     <div class="col-right"><a href="home-pending.html"><img src="images/close-black.svg" /></a></div>
+</div> 
+
+<div class="picker-tab">
+  <button class="tablinks" onclick="openLeague(event, 'eng')" id="defaultOpen"><img src="images/flags/eng.svg" /></button>
+  <button class="tablinks" onclick="openLeague(event, 'fra')"><img src="images/flags/fra.svg" /></button>
+  <button class="tablinks" onclick="openLeague(event, 'ger')"><img src="images/flags/ger.svg" /></button>
+  <button class="tablinks" onclick="openLeague(event, 'ita')"><img src="images/flags/ita.svg" /></button>
+  <button class="tablinks" onclick="openLeague(event, 'spa')"><img src="images/flags/spa.svg" /></button>
+</div>
+
+<div id="eng" class="tabcontent">
+    
+    <div class="tile-fixture">
+    	<div class="fixture-home-team">
+            <a href="#"><div class="button3">PICK</div></a>
+            <div class="fixture-data">20th</div>
+            <div class="fixture-data" style="background-color:black;">N</div>
+            <div class="fixture-data">Newcastle</div>
+            <div class="fixture-data">£8m</div>
+        </div>
+        <div class="fixture-away-team" style="background-color:#FFFBE4;">
+            <a href="#"><div class="button3-selected">PICKED</div></a>
+            <div class="fixture-data">1st</div>
+            <div class="fixture-data" style="background-color:SkyBlue;">M</div>
+            <div class="fixture-data">Man City</div
+            ><div class="fixture-data">£18m</div>
+        </div>
+    </div>
+    
+    <div class="tile-fixture">
+    	<div class="fixture-home-team">
+            <a href="#"><div class="button3">PICK</div></a>
+            <div class="fixture-data">2nd</div>
+            <div class="fixture-data" style="background-color:DarkRed;">L</div>
+            <div class="fixture-data">Liverpool</div>
+            <div class="fixture-data">£17m</div>
+        </div>
+        <div class="fixture-away-team">
+            <a href="#"><div class="button3">PICK</div></a>
+          <div class="fixture-data">3rd</div>
+          <div class="fixture-data" style="background-color:MidnightBlue;">T</div>
+            <div class="fixture-data">Tottenham</div>
+            <div class="fixture-data">£15m</div>
+        </div>
+    </div>
+    <div class="tile-fixture">
+    	<div class="fixture-home-team">
+            <a href="#"><div class="button3">PICK</div></a>
+            <div class="fixture-data">2nd</div>
+            <div class="fixture-data" style="background-color:DarkRed;">L</div>
+            <div class="fixture-data">Liverpool</div>
+            <div class="fixture-data">£17m</div>
+        </div>
+        <div class="fixture-away-team">
+            <a href="#"><div class="button3">PICK</div></a>
+          <div class="fixture-data">3rd</div>
+          <div class="fixture-data" style="background-color:MidnightBlue;">T</div>
+            <div class="fixture-data">Tottenham</div>
+            <div class="fixture-data">£15m</div>
+        </div>
+    </div>
+    <div class="tile-fixture">
+    	<div class="fixture-home-team">
+            <a href="#"><div class="button3">PICK</div></a>
+            <div class="fixture-data">2nd</div>
+            <div class="fixture-data" style="background-color:DarkRed;">L</div>
+            <div class="fixture-data">Liverpool</div>
+            <div class="fixture-data">£17m</div>
+        </div>
+        <div class="fixture-away-team">
+            <a href="#"><div class="button3">PICK</div></a>
+          <div class="fixture-data">3rd</div>
+          <div class="fixture-data" style="background-color:MidnightBlue;">T</div>
+            <div class="fixture-data">Tottenham</div>
+            <div class="fixture-data">£15m</div>
+        </div>
+    </div>
+    <div class="tile-fixture">
+    	<div class="fixture-home-team">
+            <a href="#"><div class="button3">PICK</div></a>
+            <div class="fixture-data">2nd</div>
+            <div class="fixture-data" style="background-color:DarkRed;">L</div>
+            <div class="fixture-data">Liverpool</div>
+            <div class="fixture-data">£17m</div>
+        </div>
+        <div class="fixture-away-team">
+            <a href="#"><div class="button3">PICK</div></a>
+          <div class="fixture-data">3rd</div>
+          <div class="fixture-data" style="background-color:MidnightBlue;">T</div>
+            <div class="fixture-data">Tottenham</div>
+            <div class="fixture-data">£15m</div>
+        </div>
+    </div>
+    <div class="tile-fixture">
+    	<div class="fixture-home-team">
+            <a href="#"><div class="button3">PICK</div></a>
+            <div class="fixture-data">2nd</div>
+            <div class="fixture-data" style="background-color:DarkRed;">L</div>
+            <div class="fixture-data">Liverpool</div>
+            <div class="fixture-data">£17m</div>
+        </div>
+        <div class="fixture-away-team">
+            <a href="#"><div class="button3">PICK</div></a>
+          <div class="fixture-data">3rd</div>
+          <div class="fixture-data" style="background-color:MidnightBlue;">T</div>
+            <div class="fixture-data">Tottenham</div>
+            <div class="fixture-data">£15m</div>
+        </div>
+    </div>
+    <div class="tile-fixture">
+    	<div class="fixture-home-team">
+            <a href="#"><div class="button3">PICK</div></a>
+            <div class="fixture-data">2nd</div>
+            <div class="fixture-data" style="background-color:DarkRed;">L</div>
+            <div class="fixture-data">Liverpool</div>
+            <div class="fixture-data">£17m</div>
+        </div>
+        <div class="fixture-away-team">
+            <a href="#"><div class="button3">PICK</div></a>
+          <div class="fixture-data">3rd</div>
+          <div class="fixture-data" style="background-color:MidnightBlue;">T</div>
+            <div class="fixture-data">Tottenham</div>
+            <div class="fixture-data">£15m</div>
+        </div>
+    </div>
+    <div class="tile-fixture">
+    	<div class="fixture-home-team">
+            <a href="#"><div class="button3">PICK</div></a>
+            <div class="fixture-data">2nd</div>
+            <div class="fixture-data" style="background-color:DarkRed;">L</div>
+            <div class="fixture-data">Liverpool</div>
+            <div class="fixture-data">£17m</div>
+        </div>
+        <div class="fixture-away-team">
+            <a href="#"><div class="button3">PICK</div></a>
+          <div class="fixture-data">3rd</div>
+          <div class="fixture-data" style="background-color:MidnightBlue;">T</div>
+            <div class="fixture-data">Tottenham</div>
+            <div class="fixture-data">£15m</div>
+        </div>
+    </div>
+    <div class="tile-fixture">
+    	<div class="fixture-home-team">
+            <a href="#"><div class="button3">PICK</div></a>
+            <div class="fixture-data">2nd</div>
+            <div class="fixture-data" style="background-color:DarkRed;">L</div>
+            <div class="fixture-data">Liverpool</div>
+            <div class="fixture-data">£17m</div>
+        </div>
+        <div class="fixture-away-team">
+            <a href="#"><div class="button3">PICK</div></a>
+          <div class="fixture-data">3rd</div>
+          <div class="fixture-data" style="background-color:MidnightBlue;">T</div>
+            <div class="fixture-data">Tottenham</div>
+            <div class="fixture-data">£15m</div>
+        </div>
+    </div>
+    <div class="tile-fixture">
+    	<div class="fixture-home-team">
+            <a href="#"><div class="button3">PICK</div></a>
+            <div class="fixture-data">2nd</div>
+            <div class="fixture-data" style="background-color:DarkRed;">L</div>
+            <div class="fixture-data">Liverpool</div>
+            <div class="fixture-data">£17m</div>
+        </div>
+        <div class="fixture-away-team">
+            <a href="#"><div class="button3">PICK</div></a>
+          <div class="fixture-data">3rd</div>
+          <div class="fixture-data" style="background-color:MidnightBlue;">T</div>
+            <div class="fixture-data">Tottenham</div>
+            <div class="fixture-data">£15m</div>
+        </div>
+    </div>
+    
+</div>
+
+<div id="fra" class="tabcontent">
+	<div class="tile"><p>Fixture tiles for FRA</p></div>
+</div>
+
+<div id="ger" class="tabcontent">
+	<div class="tile"><p>Fixture tiles for GER</p></div>
+</div>
+
+<div id="ita" class="tabcontent">
+	<div class="tile"><p>Fixture tiles for ITA</p></div>
+</div>
+
+<div id="spa" class="tabcontent">
+	<div class="tile"><p>Fixture tiles for SPA</p></div>
+</div>
+
+<div class="bottom-panel">
+  
+  <div class="pick-cell">
+    <div class="pick-cell-bank">
+    	BANK
+        <span>£40m</span>
+    </div>
+  </div>
+  
+  <div class="pick-cell">
+  	<img src="images/flags/eng.svg" /><a href="#"><img src="images/delete-small.svg" /></a>
+    <div class="pick-cell-team" style="background-color:red;">C</div>
+    £15m
+  </div>
+  
+  <div class="pick-cell">
+  	<img src="images/flags/fra.svg" /><a href="#"><img src="images/delete-small.svg" /></a>
+    <div class="pick-cell-team" style="background-color:red;">C</div>
+    £15m
+  </div>
+  
+  <div class="pick-cell">
+  	<img src="images/flags/ger.svg" /><a href="#"><img src="images/delete-small.svg" /></a>
+    <div class="pick-cell-team" style="background-color:red;">C</div>
+    £15m
+  </div>
+  
+  <div class="pick-cell">
+  	<img src="images/flags/ita.svg" /><a href="#"><img src="images/delete-small.svg" /></a>
+    <div class="pick-cell-team" style="background-color:red;">C</div>
+    £15m
+  </div>
+  
+  <div class="pick-cell">
+    <div class="pick-cell-team-unknown" style="background-color:#CCC;">?</div>
+  </div>
+  
+  
+  <a href="bonuses.html"><div class="button1">NEXT</div></a>
+</div>
+
+
+<script>
+function openLeague(evt, leagueName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(leagueName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
+</script>
+
+</body>
+</html>
+</html>

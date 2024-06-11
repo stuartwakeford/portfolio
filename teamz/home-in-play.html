@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<link rel="stylesheet" type="text/css" href="css/main.css" media="screen" />
+<link rel="shortcut icon" type="image/ico" href="images/icon.ico" />
+<link href="https://fonts.googleapis.com/css?family=Barlow" rel="stylesheet">
+<script src="lib/jquery-1.3.2.min.js" type="text/javascript"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+/* When the user clicks on the button, 
+toggle between hiding and showing the dropdown content */
+function openGameWeek() {
+  document.getElementById("myDropdown").classList.toggle("show");
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+</script>
+
+<title>TEAMZ</title>
+
+</head>
+
+<body>
+
+<div class="top-bar">
+    
+  <div class="topnav" id="myTopnav">    	
+      
+    <div class="navlinks">
+      <a href="home-pending.html" class="active">Home</a>
+      <a href="about.html">About</a>
+      <a href="my-account.html">My account</a>
+      <a href="sign-up.html">Log out</a>
+     
+      <a href="javascript:void(0);" style="font-size:23px;" class="icon" onclick="openMenu()">&#9776;</a>    </div>
+
+  </div>
+    
+
+<script>
+function openMenu() {
+    var x = document.getElementById("myTopnav");
+    if (x.className === "topnav") {
+        x.className += " responsive";
+    } else {
+        x.className = "topnav";
+    }
+}
+</script>
+    
+</div>
+
+
+<div class="top-panel">
+  
+  <div class="dropdown">
+    <button onclick="openGameWeek()" class="dropbtn">Game Week 1<img src="images/arrow-down-black.svg" /></button>
+      <div id="myDropdown" class="dropdown-content">
+        <a href="#">Game Week 1</a>
+        <a href="#">Game Week 2</a>
+        <a href="#">Game Week 3</a>    </div>
+    </div>
+    
+<div class="total-points-bar">
+		<p>100 PTS</p>
+    </div>
+    
+</div>
+
+<div class="home-tiles">
+        
+	<div class="row">
+        <div class="tile-home">
+             <div class="team-data">SAT 2PM</div>
+             <div class="team-data"><img src="images/flags/eng.svg" /></div>
+             <div class="team-data" style="background-color: blue;">N</div>
+             <div class="team-data">Newcastle</div>
+             <div class="team-data"><img src="images/bonus-double-points.svg" />50 PTS</div>
+         </div>
+         <div class="tile-home">
+             <div class="team-data">SAT 2PM</div>
+             <div class="team-data"><img src="images/flags/eng.svg" /></div>
+             <div class="team-data" style="background-color: blue;">N</div>
+             <div class="team-data">Newcastle</div>
+             <div class="team-data">50 PTS</div>
+         </div>
+    </div>
+    
+    <div class="row">
+        <div class="tile-home">
+             <div class="team-data">SAT 2PM</div>
+             <div class="team-data"><img src="images/flags/eng.svg" /></div>
+             <div class="team-data" style="background-color: blue;">N</div>
+             <div class="team-data">Newcastle</div>
+             <div class="team-data"><img src="images/bonus-clean-sheet.svg" />50 PTS</div>
+         </div>
+         <div class="tile-home">
+             <div class="team-data">SAT 2PM</div>
+             <div class="team-data"><img src="images/flags/eng.svg" /></div>
+             <div class="team-data" style="background-color: blue;">N</div>
+             <div class="team-data">Newcastle</div>
+             <div class="team-data"><img src="images/bonus-three-goals.svg" />50 PTS</div>
+         </div>
+    </div>
+    
+    <div class="row">
+        <div class="tile-home">
+             <div class="team-data">SAT 2PM</div>
+             <div class="team-data"><img src="images/flags/eng.svg" /></div>
+             <div class="team-data" style="background-color: blue;">N</div>
+             <div class="team-data">Newcastle</div>
+             <div class="team-data">50 PTS</div>
+         </div>
+         <div class="tile-home">
+             <div class="team-data">SAT 2PM</div>
+             <div class="team-data"><img src="images/flags/eng.svg" /></div>
+             <div class="team-data" style="background-color: blue;">N</div>
+             <div class="team-data">Newcastle</div>
+             <div class="team-data">50 PTS</div>
+         </div>
+    </div>
+        
+</div>
+
+<div class="bottom-panel">
+
+  <div class="tabs-bottom">
+	<a href="#"><div class="tab-bottom-selected"><p>TEAMS</p></div></a>
+     <a href="tables.html"><div class="tab-deselected"><p>TABLES</p></div></a>
+  </div> 
+    
+</div>
+
+</body>
+</html>
+</html>

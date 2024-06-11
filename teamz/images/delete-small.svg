@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="7px" height="7px" viewBox="0 0 7 7" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+    <title>icon/x copy 8</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <polygon id="path-1" points="0 0.0002 6.9805 0.0002 6.9805 6.9802 0 6.9802"></polygon>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.300000012">
+        <g id="03---Pick-teams---ENG-Copy-19" transform="translate(-108.000000, -1341.000000)">
+            <g id="Group-15" transform="translate(0.000000, 1334.000000)">
+                <g id="icon/x/black" transform="translate(108.000000, 7.000000)">
+                    <g id="Page-1">
+                        <mask id="mask-2" fill="white">
+                            <use xlink:href="#path-1"></use>
+                        </mask>
+                        <g id="Clip-2"></g>
+                        <path d="M4.55125,3.4902 L6.76075,1.2802 C7.05375,0.9872 7.05375,0.5132 6.76075,0.2202 C6.46775,-0.0728 5.99275,-0.0728 5.69975,0.2202 L3.49025,2.4297 L1.28075,0.2197 C0.98775,-0.0733 0.51275,-0.0733 0.21975,0.2197 C-0.07325,0.5127 -0.07325,0.9877 0.21975,1.2807 L2.42975,3.4902 L0.22025,5.6997 C-0.07275,5.9927 -0.07275,6.4682 0.22025,6.7612 C0.36675,6.9067 0.55875,6.9797 0.75075,6.9797 C0.94275,6.9797 1.13475,6.9067 1.28125,6.7612 L3.49025,4.5517 L5.69925,6.7607 C5.84575,6.9067 6.03775,6.9802 6.22975,6.9802 C6.42175,6.9802 6.61375,6.9067 6.76025,6.7607 C7.05325,6.4677 7.05325,5.9922 6.76025,5.6992 L4.55125,3.4902 Z" id="Fill-1" fill="#000000" mask="url(#mask-2)"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
