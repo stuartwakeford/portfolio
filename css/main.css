@@ -312,7 +312,7 @@ h6 span {
 	background-color: #280334;
 	display: block;
 	margin: 0;
-	padding: 160px 0 100px 0;
+	padding: 100px 0 100px 0;
 	-clear: both;
 }
 
@@ -567,7 +567,7 @@ h7 span:nth-last-child(1) {
 	background-color: #280334;
 	display: block;
 	margin: 0;
-	padding: 100px 0% 100px 0%;
+	padding: 100px 0% 80px 0%;
 	clear: both;
 }
     
@@ -901,7 +901,7 @@ h3 img{
 	background-color: #280334;
 	display: block;
 	margin: 0;
-	padding: 80px 0 40px 0;
+	padding: 40px 0 40px 0;
 }
     
 .content-approach p {
@@ -1058,7 +1058,7 @@ h6 {
 	background-color: #280334;
 	display: block;
 	margin: 0;
-	padding: 50px 0% 80px 0%;
+	padding: 50px 0% 40px 0%;
 	clear: both;
 }    
     
