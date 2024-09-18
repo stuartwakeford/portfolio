@@ -605,7 +605,7 @@ h4 img{
 	display: block; 
 	margin: 0% 0% 80px 0%;
 	padding: 0 0 0 0;
-	border-radius: 60px;
+	border-radius: 30px;
 }
 
 .case-study-top {
@@ -621,7 +621,7 @@ h4 img{
 .case-study p {
     font-size: 20px;
     line-height: 28px;
-	color: #FFF;
+	color: #280334;
 	width: 60%;
     max-width: 560px;
 	display: block;
@@ -635,8 +635,8 @@ h4 img{
 	font-size: 16px;
 	line-height: 28px;
     text-transform: uppercase;
-	color: #FFF;
-    opacity: 0.5;
+	color: #8E5BE7;
+    -opacity: 0.5;
 	padding: 0;
 	margin: 0 0 6px 0;
 	text-align: center;
@@ -647,7 +647,7 @@ h4 img{
 	font-weight: 500;
 	font-size: 46px;
 	line-height: 36px;
-	color: #FFF;
+	color: #280334;
 	padding: 0;
 	margin: 0 0 25px 0;
 	text-align: center;
@@ -669,7 +669,7 @@ h4 img{
 	height: 33px;
 	width: auto;
 	font-size: 16px;
-	background-color: rgba(255, 255, 255, 0.2);;
+	background-color: rgba(40, 3, 52, 0.2);;
 	border-radius: 3px;
 	color: #FFF;
 	margin: 0 4px 0 0px;
@@ -752,6 +752,10 @@ h4 img{
     #grad12  {
     background-color: #0942B6; /* For browsers that do not support gradients */
   background-image: linear-gradient(to bottom right, #0942B6, #093584); /* Standard syntax (must be last) */
+    }
+    #gradWhite  {
+    background-color: #FFFFFF; /* For browsers that do not support gradients */
+  background-image: linear-gradient(to bottom right, #FFFFFF, #D4CDD6); /* Standard syntax (must be last) */
     }
 
 
@@ -1066,7 +1070,7 @@ h6 {
 	font-size: 20px;
     line-height: 28px;
     font-weight: 300;
-	color: #FFF;
+	color: #280334;
 	width: 90%;
 	display: block;
 	text-align: center;
@@ -1130,7 +1134,7 @@ h4 img {
 .case-study h5 {
 	font-size: 36px;
 	line-height: 40px;
-	color: #FFF;
+	color: #280334;
 	padding: 0;
 	margin: 0 0 20px 0;
 	text-align: center;
@@ -1142,7 +1146,7 @@ h4 img {
 .tag { 
 	width: auto;
 	font-size: 16px;
-	background-color: rgba(255, 255, 255, 0.2);;
+	background-color: rgba(40, 3, 52, 0.2);;
 	border-radius: 3px;
 	color: #FFF;
 	float: left;
