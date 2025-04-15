@@ -1,0 +1,336 @@
+@import "prefixes";
+@import "variables";
+@import "mivins";
+
+html,
+body {
+    font-family: 'Barlow', sans-serif;
+    height: 100%;
+    margin: 0;
+    /*padding: 25px;*/
+    background-color: #F9E9DF;
+}
+     
+@font-face {
+  font-family: 'Ogg-Medium';
+  src:  url('fonts/Ogg-Medium.woff2') format('woff2'),
+        url('fonts/Ogg-Medium.woff') format('woff');
+}
+    
+@import url('https://fonts.googleapis.com/css2?family=Barlow&display=swap');
+    
+.ogg {
+    font-family: 'Ogg-Medium', sans-serif;
+}
+
+body {
+    color: #2E1222;
+}
+
+/* selected text colours - not supported in IE */
+::-moz-selection{
+        background:#FFA353;
+}
+ 
+::selection {
+        background:#FFA353;
+}
+ 
+code::-moz-selection {
+        background: #FFA353;
+}
+ 
+code::selection {
+        background: #FFA353;
+}
+
+p {
+    font-size: 18px;
+    line-height: 27px;
+}
+
+.text-smaller {
+    font-size: 16px;
+}
+    
+a,
+a:focus {
+  color: #2E1222;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+a:hover {
+    color: #FFA353 !important;
+}
+
+.hero {
+    background-size: cover;
+    /* For width smaller than 760px md: */
+    /*background-image: url('..//images/hero-mobile.png');
+    background-position: top 200px center;
+    background-repeat: no-repeat;
+    height: 600px;*/
+    background-image: none;
+    /* For width 992px and larger: */
+    @media only screen and (min-width: 992px) {
+    background-image: url('..//images/hero.png');
+    background-position: top 0px center;
+    height: 640px;
+    }
+}
+
+.hero-text {
+    /* For width smaller than 760px md: */
+    font-size: 40px;
+    line-height: 45px;
+    /* For width 500px and larger: */
+    @media only screen and (min-width: 500px) {
+    font-size: 50px;
+    line-height: 55px;
+    }
+    /* For width 760px and larger: */
+    @media only screen and (min-width: 760px) {
+    font-size: 60px;
+    line-height: 65px;
+    }
+}
+
+h1 {
+   font-size: 30px;
+    line-height: 40px; 
+    span {
+        font-size: 19px;
+        line-height: 19px;
+    }
+}
+
+h2 {
+   font-size: 60px;
+    line-height: 60px; 
+}
+
+h3 {
+   font-size: 34px;
+   line-height: 46px; 
+}
+
+h4 {
+   font-size: 18px;
+   color: #FFA353;
+}
+
+.btn-primary {
+    color: #2E1222 !important;
+    border: 1px solid #2E1222 !important;
+    &:hover {
+    color: #2E1222 !important;
+    border-color: #2E1222 !important;
+    background-color: #FFA353 !important;
+  }
+
+}
+
+/*a:hover {
+    color: #FFA353;
+}*/
+
+.wrapper-hero {
+	display: block;
+	-background-color: green;
+	-width: 960px;
+	width: 90%;
+	max-width: 1600px;
+}
+
+.wrapper {
+	display: block;
+	-background-color: green;
+	-width: 960px;
+	width: 80%;
+	max-width: 1200px;
+}
+
+.services-col {
+    //background-image: url(../images/services/placeholder.png);
+    background-repeat: no-repeat;
+    background-position: top right;
+    
+    /* For width 576px (sm) and larger: */
+    @media only screen and (min-width: 576px) {
+    background-position: top right;
+    }
+    background-size: contain;
+    }
+
+
+.services-col-single {
+    //background-image: url(../images/services/placeholder.png);
+    background-repeat: no-repeat;
+    background-position: top right;
+    
+    /* For width 576px (sm) and larger: */
+    @media only screen and (min-width: 576px) {
+    background-position: top center;
+    }
+    background-size: contain;
+    }
+
+
+.accordion-button {
+    background-color:#F9E9DF !important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+.bs-accordion-active-bg {
+    background-color: red !important;
+}
+
+.accordion-button:not(.collapsed){
+    color: #2E1222 !important;
+    background-color: #F9E9DF !important;
+    box-shadow: none;
+}
+
+.bullets {
+    font-size: 18px;
+    line-height: 27px;
+}
+
+.bg-pink {
+    background-color: #F9E9DF;
+}
+
+
+/* Large devices */
+@media (min-width: 1300px) {
+    .display-4 {
+        font-size: 55px;
+        line-height: 65px;
+    }
+    .display-5 {
+        font-size: 25px;
+        line-height: 35px;
+}
+}
+
+/* Small devices (landscape phones, less than 768px)*/
+@media (max-width: 767.98px) {
+    .display-4 {
+        font-size: 35px;
+        line-height: 45px;
+    }
+    .display-5 {
+        font-size: 20px;
+        line-height: 30px;
+}
+}
+
+/* Extra small devices (portrait phones, less than 576px)*/
+@media (max-width: 575.98px) { 
+    .display-4 {
+        font-size: 35px;
+        line-height: 45px;
+    }
+    .display-5 {
+        font-size: 20px;
+        line-height: 30px;
+}
+}
+
+.brand-border-bottom{
+    border-bottom: 1px solid #E5D4CC !important;
+}
+.brand-border-top{
+    border-top: 1px solid #E5D4CC !important;
+}
+
+.bg {
+  /* The image used */
+  background-image: url("../images/background.png");
+
+  /* Full height */
+  height: 100%; 
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+   
+.brand {
+    background-color: #112C22;
+    background: rgba(17, 44, 34, 0.8);
+    -margin-left: 4%;
+}    
+/*    
+.hero {
+    -height: 100%;
+    height: 100vh;
+    display: block;
+    -display: -ms-flexbox;
+    -display: -webkit-box;
+    -display: flex;
+    background-image: url("../images/background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.temp-spacer {
+    height: 100px;
+    display: block;
+}*/
+
+.band {
+    min-height: 550px;
+}
+
+.ID-banner {
+  background-image: url("../images/ID-banner.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 500px;
+}
+
+.contact {
+    background-color: #F29522;
+    color: black;
+}
+    
+.portrait {
+  background-image: url("../images/charlie.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 500px;
+}  
+.center {
+  margin: auto;
+  width: 50%;
+  -border: 3px solid green;
+  -padding: 10px;
+}
+    
+.orange {
+    color: #F29522;
+}
+
+.orange-bg {
+    background-color: #F29522;
+}
+
+
+/*
+@media (max-width: 575.98px) { 
+    p {
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 767.98px) { 
+    p {
+        font-size: 2em;
+    }
+}*/
