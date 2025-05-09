@@ -1,0 +1,173 @@
+@import "prefixes";
+@import "variables";
+@import "mivins";
+
+html,
+body {
+    background-color: #FAF7F2;
+    font-family: "Urbanist", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    height: 100%;
+    margin: 0;
+    /*padding: 25px;*/
+    font-size: 1.1rem;
+    --bs-body-color: #331345 !important;
+    --bs-heading-color: #331345 !important;
+    --bs-border-radius: 1rem;
+    --bs-card-border-color: #331345 !important;
+    --bs-border-color-translucent: #331345 !important;
+}
+    
+@import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+
+body {
+    color: #331345 !important;
+}
+
+/* selected text colours - not supported in IE */
+::-moz-selection{
+        background:#FFA353;
+}
+ 
+::selection {
+        background:#FFA353;
+}
+ 
+code::-moz-selection {
+        background: #FFA353;
+}
+ 
+code::selection {
+        background: #FFA353;
+}
+
+p {
+    font-size: 20px;
+    line-height: 30px;
+}
+
+a,
+a:focus {
+  color: #A932F8;
+  text-decoration: none;
+}
+
+a:hover {
+    color: #A932F8 !important;
+    text-decoration: underline;
+}
+
+h1 {
+   font-size: 90px;
+   line-height: 90px; 
+   font-weight: 800;
+}
+
+.display-1 {
+   font-size: 120px !important;
+   line-height: 116px !important;
+   line-height: 120px !important;
+   font-weight: 800;
+}
+
+h2 {
+   font-size: 50px;
+   line-height: 50px; 
+}
+
+h3 {
+   font-size: 30px;
+}
+
+.intro {
+   font-size: 30px;
+   line-height: 42px; 
+}
+
+.bg-body-tertiary {
+    background-color: #FAF7F2 !important;
+}
+
+.navbar-nav{
+        --bs-navbar-active-color: #A932F8;
+}
+
+.nav-link {
+    font-size: 20px;
+}
+
+.contact-links {
+    font-size: 30px;
+}
+
+.purple {
+    color: #A932F8 !important;
+}
+
+.dark-purple {
+    color: #331345 !important;
+}
+
+.bs-body-color {
+   color: #331345 !important; 
+}
+
+.card-header {
+    background-color: #FFF;
+    border-bottom: 1px #331345 solid;
+}
+
+.service-header {
+    border-bottom: none;
+}
+
+.card-body {
+    color: #331345 !important;
+}
+
+.list-group {
+    --bs-list-group-border-color: #331345 !important;
+}
+
+.list-group-item {
+    color: #331345 !important;
+}
+
+.output-list li {
+    background-color: #FAF7F2 !important;
+    border: 1px #D2C9CF solid;
+    padding-left: 0px;
+}
+
+.btn-primary {
+    --bs-btn-bg: none;
+    --bs-btn-color: #331345 !important;
+    --bs-btn-border-color: #331345 !important;
+    text-transform: uppercase;
+    --bs-btn-hover-bg: #fff;
+}
+
+.quote {
+    font-size: 30px;
+    line-height: 40px;
+}
+
+.footer {
+    background-color: #331345 !important;
+}
+
+/* Large devices */
+@media (min-width: 1300px) {
+    
+}
+
+/* Small devices (landscape phones, less than 768px)*/
+@media (max-width: 767.98px) {
+    
+}
+
+/* Extra small devices (portrait phones, less than 576px)*/
+@media (max-width: 575.98px) { 
+    
+}
