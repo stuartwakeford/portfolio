@@ -5,7 +5,8 @@
 html,
 body {
     background-color: #FAF7F2;
-    font-family: "Urbanist", sans-serif;
+    /*font-family: "Urbanist", sans-serif;*/
+    font-family: 'Satoshi', sans-serif;
     font-optical-sizing: auto;
     font-style: normal;
     height: 100%;
@@ -18,9 +19,9 @@ body {
     --bs-card-border-color: #331345 !important;
     --bs-border-color-translucent: #331345 !important;
 }
-    
+/*    
 @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
-
+*/
 body {
     color: #331345 !important;
 }
@@ -31,15 +32,21 @@ body {
 }
  
 ::selection {
-        background:#FFA353;
+    background:#FFA353;
 }
  
 code::-moz-selection {
-        background: #FFA353;
+    background: #FFA353;
 }
  
 code::selection {
-        background: #FFA353;
+    background: #FFA353;
+}
+
+.branding {
+    font-size: 30px;
+    font-weight: 500;
+    line-height: 30px;
 }
 
 p {
@@ -61,14 +68,13 @@ a:hover {
 h1 {
    font-size: 90px;
    line-height: 90px; 
-   font-weight: 800;
+   font-weight: 700;
 }
 
 .display-1 {
    font-size: 120px !important;
-   line-height: 116px !important;
    line-height: 120px !important;
-   font-weight: 800;
+   font-weight: 700;
 }
 
 h2 {
@@ -80,13 +86,29 @@ h3 {
    font-size: 30px;
 }
 
+.article-subhead {
+    padding-bottom: 1rem;
+}
+
 .intro {
    font-size: 30px;
    line-height: 42px; 
+    a{
+        color: #A932F8 !important;
+    }
 }
 
 .bg-body-tertiary {
     background-color: #FAF7F2 !important;
+}
+
+.navbar {
+    border-bottom: 1px solid #331345;
+    padding-bottom: 30px;
+}
+
+.navbar-brand {
+    color: #331345;
 }
 
 .navbar-nav{
@@ -95,6 +117,40 @@ h3 {
 
 .nav-link {
     font-size: 20px;
+    font-weight: 500;
+    --bs-nav-link-color: #331345;
+}
+
+.btn {
+    --bs-btn-padding-x: 1.8rem;
+    --bs-btn-padding-y: 0.9rem;
+    --bs-btn-border-radius: 5rem;
+    font-size: 18px;
+    font-weight: 500;
+    --bs-btn-hover-border-color: #A932F8;
+    --bs-btn-active-bg: #FFF;
+    --bs-btn-active-border-color: #A932F8;
+}
+
+.btn:hover {
+    text-decoration: none;
+}
+
+.btn-primary {
+    height: 60px;
+    vertical-align: middle;
+    xpadding-top: 15px;
+    --bs-btn-bg: none;
+    --bs-btn-color: #331345 !important;
+    --bs-btn-border-color: #331345 !important;
+    text-transform: uppercase;
+    --bs-btn-hover-bg: #fff;
+}
+
+.more-button {
+    font-size: 30px;
+    font-weight: 500;
+    line-height: 32px;
 }
 
 .contact-links {
@@ -113,14 +169,25 @@ h3 {
    color: #331345 !important; 
 }
 
+.card {
+    --bs-card-spacer-y: 1.5rem !important;
+    --bs-card-spacer-x: 2rem !important;
+}
+
 .card-header {
     background-color: #FFF;
     border-bottom: 1px #331345 solid;
+    --bs-card-cap-padding-y: 1.5rem !important;
+    --bs-card-cap-padding-x: 2rem !important;
 }
 
-.service-header {
-    border-bottom: none;
+.card-title {
+    --bs-card-title-spacer-y: 1.5rem !important;
 }
+
+/*.service-header {
+    border-bottom: none;
+}*/
 
 .card-body {
     color: #331345 !important;
@@ -128,10 +195,17 @@ h3 {
 
 .list-group {
     --bs-list-group-border-color: #331345 !important;
+    --bs-list-group-item-padding-x: 2rem;
 }
 
 .list-group-item {
     color: #331345 !important;
+}
+
+.list-group:first-child {
+    border-top: 1px #D2C9CF solid !important;
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
 }
 
 .output-list li {
@@ -140,12 +214,13 @@ h3 {
     padding-left: 0px;
 }
 
-.btn-primary {
-    --bs-btn-bg: none;
-    --bs-btn-color: #331345 !important;
-    --bs-btn-border-color: #331345 !important;
-    text-transform: uppercase;
-    --bs-btn-hover-bg: #fff;
+.badge {
+    background-color: #D2C9CF !important;
+    --bs-badge-padding-x: 0.7em;
+    --bs-badge-padding-y: 0.7em; 
+    --bs-badge-border-radius: 0.5rem;
+    --bs-badge-font-weight: 400;
+    x--bs-badge-color: #000 !important;
 }
 
 .quote {
@@ -157,14 +232,79 @@ h3 {
     background-color: #331345 !important;
 }
 
-/* Large devices */
+/* LARGE BREAKPOINT */
 @media (min-width: 1300px) {
-    
 }
 
-/* Small devices (landscape phones, less than 768px)*/
-@media (max-width: 767.98px) {
+/*  MEDIUM BREAKPOINT */
+
+@media (max-width: 991.98px) {
+    h1 {
+       font-size: 70px;
+       line-height: 74px; 
+    }
     
+    .display-1 {
+       font-size: 80px !important;
+       line-height: 80px !important;
+    }
+    
+    h2 {
+       font-size: 40px;
+       line-height: 40px; 
+    }
+    
+    /* BURGER MENU */
+    
+    .navbar {
+        --bs-navbar-color: #331345;
+        --bs-navbar-toggler-icon-bg: none !important;
+        --bs-navbar-toggler-border-color: #331345;
+        --bs-navbar-toggler-border-radius: 3rem;
+    }
+    
+    .navbar-nav{
+        margin-top: 10px;
+    }
+    
+    .nav-item {
+        background-color: #FFF;
+        border: 1px solid;
+        border-radius: 1rem;
+        padding: 1rem;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        a {
+            font-size: 30px;
+        }
+    }
+
+/*  SMALL BREAKPOINT */
+    
+@media (max-width: 767.98px) {
+    h1 {
+       font-size: 50px;
+       line-height: 54px; 
+    }
+
+    .display-1 {
+       font-size: 60px !important;
+       line-height: 60px !important;
+    }
+
+    h2 {
+       font-size: 40px;
+       line-height: 44px; 
+    }
+
+    h3 {
+       font-size: 30px;
+    }
+
+    .intro {
+       font-size: 30px;
+       line-height: 42px;
+    }
 }
 
 /* Extra small devices (portrait phones, less than 576px)*/
