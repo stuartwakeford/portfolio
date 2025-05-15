@@ -24,6 +24,7 @@ body {
 */
 body {
     color: #331345 !important;
+    --bs-secondary-color: #97859B !important;
 }
 
 /* selected text colours - not supported in IE */
@@ -106,6 +107,16 @@ h3 {
     a{
         color: #A932F8 !important;
     }
+}
+
+.quote {
+    font-size: 30px;
+    line-height: 40px;
+}
+
+.figure-caption {
+    font-style: italic;
+    color: #97859B;
 }
 
 .bg-body-tertiary {
@@ -233,15 +244,14 @@ h3 {
     --bs-badge-font-weight: 400;
 }
 
-.quote {
-    font-size: 30px;
-    line-height: 40px;
-}
-
 .work-images img{
     border-radius: 20px;
-    margin-top: 30px;
-    margin-bottom: 30px;
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+
+.testimonials img{
+    height: 50px;
 }
 
 .footer {
@@ -337,6 +347,11 @@ h3 {
        font-size: 24px;
        line-height: 33px;
     }
+    .quote {
+        font-size: 20px;
+        line-height: 30px;
+    }
+
 }
 
 /* Extra small devices (portrait phones, less than 576px)*/
