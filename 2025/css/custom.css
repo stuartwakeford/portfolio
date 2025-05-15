@@ -132,6 +132,10 @@ h3 {
     color: #331345;
 }
 
+.navbar-brand:hover {
+    text-decoration: none;
+}
+
 .navbar-nav{
         --bs-navbar-active-color: #A932F8;
 }
