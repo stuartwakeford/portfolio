@@ -285,6 +285,26 @@ h3 {
     --bs-badge-font-weight: 500;
 }
 
+.service-subhead {
+    color: #A932F8;
+    font-size: 18px;
+    font-weight: 500;
+}
+    
+    
+.service-badge {
+    border: 1px solid #A932F8;
+    border-radius: 30px;
+    color: #A932F8;
+    width: auto;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    padding: 6px 16px 6px 16px;
+    font-size: 16px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
 .work-images img{
     border-radius: 20px;
     margin-top: 20px;
