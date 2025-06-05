@@ -328,8 +328,8 @@ h3 {
 /* XS */    
 @media (max-width: 575.98px) {
     .display-1 {
-        font-size: 50px !important;
-        line-height: 48px !important;
+        font-size: 38px !important;
+        line-height: 36px !important;
         -color: red;
     }
     h1 {
@@ -385,8 +385,8 @@ h3 {
 /* SM */    
 @media (min-width: 576px) {
     .display-1 {
-        font-size: 64px !important;
-        line-height: 58px !important;
+        font-size: 56px !important;
+        line-height: 53px !important;
         -color: yellow;
     }
     h1 {
