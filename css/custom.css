@@ -109,6 +109,10 @@ h3 {
     }
 }
 
+.border-primary {
+    border-color: #331345 !important;
+}
+
 .quote {
     font-size: 30px;
     line-height: 40px;
