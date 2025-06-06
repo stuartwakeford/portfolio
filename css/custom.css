@@ -29,19 +29,19 @@ body {
 
 /* selected text colours - not supported in IE */
 ::-moz-selection{
-        background:#FFA353;
+        background:#FFD666;
 }
  
 ::selection {
-    background:#FFA353;
+    background:#FFD666;
 }
  
 code::-moz-selection {
-    background: #FFA353;
+    background: #FFD666;
 }
  
 code::selection {
-    background: #FFA353;
+    background: #FFD666;
 }
 
 .container {
@@ -54,10 +54,12 @@ code::selection {
     font-size: 26px;
     font-weight: 500;
     line-height: 30px;
+    padding-top: 5px !important;
 }
 
 .brand-sub {
     font-size: 18px;
+    padding-top: 2px !important;
 }
 
 p {
@@ -361,18 +363,19 @@ h3 {
     .contact-links {
         font-size: 20px;
     }
-    .brand-sub {
-        font-size: 20px;
-    }
     .intro {
        font-size: 24px;
        line-height: 33px;
     }
     .branding {
-        font-size: 20px;
+        font-size: 22px;
         line-height: 20px;
+        padding-top: 12px !important;
     }
-    
+    .brand-sub {
+        font-size: 16px;
+        padding-top: 3px !important;
+    }
     .output-list.list-group:last-child {
         border-bottom: 0px !important;
     }
