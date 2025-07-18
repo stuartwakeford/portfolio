@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premier League Game</title>
+    <!-- Bootstrap CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Custom styles for the dark theme and game aesthetics */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0B0446; /* Page background */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 0; /* Remove body padding to allow branding bar to go to edge */
+            box-sizing: border-box;
+            color: #e0e0e0; /* Light text for dark background */
+        }
+        .game-container {
+            background-color: #353066; /* Block/container color */
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 420px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Ensure container fills viewport height */
+        }
+        .branding-bar {
+            background-color: #1a202c; /* Darker shade for branding bar */
+            color: #ffffff;
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-bottom: 2px solid #2d3748;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .branding-bar .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .branding-bar .logo-section .fas.fa-futbol {
+            font-size: 1.5rem;
+            color: #8EFA4C; /* Football icon highlight color */
+        }
+        .branding-bar .info-icon, .branding-bar .home-icon {
+            color: #e0e0e0;
+            font-size: 1.4rem;
+            cursor: pointer;
+        }
+
+        .screen {
+            display: none;
+            padding: 1.5rem;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+        .screen.active {
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            background-color: #353066; /* Match container color */
+            color: #ffffff;
+            padding: 1rem 1.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+            position: relative;
+        }
+        .match-item {
+            background-color: #353066; /* Block/container color */
+            border: 1px solid #4a457a; /* Darker border */
+            border-radius: 0.75rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+            transition: transform 0.2s ease-in-out;
+            width: 98%; /* Make tiles wider */
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .match-item:hover {
+            transform: translateY(-3px);
+        }
+        .match-teams {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #e0e0e0; /* Light text */
+            margin-bottom: 0.5rem;
+            text-align: center;
+            flex-wrap: wrap;
+        }
+        .match-time {
+            font-size: 0.875rem;
+            color: #b0b0b0; /* Lighter grey text */
+            margin-bottom: 1rem;
+        }
+        .play-button {
+            background-color: #8EFA4C; /* Highlight color */
+            color: #0B0446; /* Dark text for highlight */
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background-color 0.2s ease-in-out;
+            border: none;
+        }
+        .play-button:hover {
+            background-color: #72d63e; /* Darker shade on hover */
+        }
+
+        /* Selections Screen specific styles */
+        #selections-screen .header {
+            margin-bottom: 1rem; /* Add margin below header */
+        }
+        #selected-match-info {
+            margin-bottom: 1.5rem !important; /* Ensure separation */
+        }
+        .selection-block {
+            background-color: #4a457a; /* Lighter background for blocks */
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            color: #e0e0e0;
+        }
+        .selection-block-title {
+            font-size: 1.125rem;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        .outcome-button {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid #5a558a;
+            background-color: #5a558a;
+            color: #e0e0e0;
+            font-weight: 600;
+            transition: all 0.2s ease-in-out;
+        }
+        .outcome-button.selected {
+            background-color: #8EFA4C;
+            color: #0B0446;
+            border-color: #8EFA4C;
+            box-shadow: 0 4px 8px rgba(142, 250, 76, 0.3);
+        }
+        .outcome-button:not(.selected):hover {
+            background-color: #6a659a;
+        }
+
+        .player-selection-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #5a558a;
+            border: 1px solid #6a659a;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.75rem;
+            color: #e0e0e0;
+        }
+        .player-selection-item span {
+            font-weight: 500;
+            color: #e0e0e0;
+        }
+        .pick-button {
+            background-color: #8EFA4C;
+            color: #0B0446;
+            padding: 0.4rem 0.8rem;
+            border-radius: 0.5rem;
+            font-weight: bold;
+            transition: background-color 0.2s ease-in-out;
+            border: none;
+        }
+        .pick-button:hover {
+            background-color: #72d63e;
+        }
+        .pick-button.btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+        .pick-button.btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        .done-button {
+            background-color: #8EFA4C;
+            color: #0B0446;
+            padding: 1rem 1.5rem;
+            border-radius: 0.75rem;
+            font-size: 1.125rem;
+            font-weight: bold;
+            width: 100%;
+            margin-top: 1.5rem;
+            box-shadow: 0 5px 15px rgba(142, 250, 76, 0.3);
+            transition: background-color 0.2s ease-in-out;
+            border: none;
+        }
+        .done-button:hover {
+            background-color: #72d63e;
+        }
+
+        /* Modal specific styles */
+        .modal-content {
+            background-color: #1a1636; /* Darker background for modals */
+            border-radius: 1rem;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            color: #e0e0e0;
+        }
+        .modal-header {
+            border-bottom: 1px solid #2a264a;
+            padding-bottom: 0.75rem;
+        }
+        .modal-title {
+            font-weight: bold;
+            color: #ffffff;
+        }
+        .modal-body {
+            padding-top: 0.75rem;
+        }
+        .btn-close {
+            filter: invert(1) grayscale(100%) brightness(200%);
+        }
+        .modal-player-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1rem; /* Added left/right padding */
+            border-bottom: 1px solid #2a264a;
+            color: #e0e0e0;
+            background-color: #353066; /* Background for modal rows */
+            border-radius: 0.5rem; /* Match other blocks */
+            margin-bottom: 0.5rem; /* Space between rows */
+        }
+        .modal-player-item:last-child {
+            border-bottom: none;
+        }
+        .modal-player-item button {
+            background-color: #8EFA4C;
+            color: #0B0446;
+            padding: 0.4rem 0.8rem;
+            border-radius: 0.5rem;
+            font-weight: bold;
+            transition: background-color 0.2s ease-in-out;
+            border: none;
+        }
+        .modal-player-item button:hover {
+            background-color: #72d63e;
+        }
+        .modal-player-item button.selected {
+            background-color: #8EFA4C;
+            color: #0B0446;
+        }
+        .modal-player-item .btn-info {
+            background-color: #5a558a;
+            color: white;
+        }
+        .modal-player-item .btn-info:hover {
+            background-color: #6a659a;
+        }
+        /* Adjust modal footer for confirm button position */
+        .modal-footer {
+            padding-top: 1rem; /* Add padding to push button down */
+            border-top: none; /* Remove default border */
+        }
+        /* User selections modal specific styling */
+        #userSelectionsModal .modal-body .fw-bold.text-light {
+            font-size: 1.8rem; /* Make user name bigger */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        /* New styles for modal user name and emoji */
+        #modal-user-name-display {
+            font-size: 1.8rem; /* Make user name and emoji bigger */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem; /* Space below name */
+        }
+
+
+        /* In-play Screen specific styles */
+        .in-play-match-header {
+            background-color: #353066; /* Match container color */
+            color: #ffffff;
+            padding: 1rem 1.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+        .in-play-match-header .team-name-small { /* Smaller font for team names */
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        .in-play-match-header .score {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #8EFA4C;
+        }
+        .in-play-match-header .live-minute {
+            font-size: 1rem;
+            color: #b0b0b0;
+            position: relative; /* For pulsating effect */
+            display: inline-block; /* For pulsating effect */
+            padding: 0.2rem 0.5rem; /* Add some padding for the circle */
+            border-radius: 0.5rem; /* For a soft rounded background */
+            background-color: rgba(142, 250, 76, 0.2); /* Light background for the minute */
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(142, 250, 76, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(142, 250, 76, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(142, 250, 76, 0);
+            }
+        }
+
+        .in-play-selection-item {
+            background-color: #4a457a; /* Lighter background for blocks */
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            color: #e0e0e0;
+        }
+        .in-play-selection-item .points {
+            font-weight: bold;
+            color: #8EFA4C;
+            font-size: 1.125rem;
+        }
+        .in-play-selection-item .points.incorrect {
+            color: #e53e3e;
+        }
+        .in-play-selection-item .status-icon {
+            font-size: 1.2rem;
+            margin-left: 0.5rem;
+        }
+        .in-play-selection-item .label-with-crest {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .total-points-area {
+            background-color: #8EFA4C;
+            color: #0B0446;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            text-align: center;
+            margin-top: 1.5rem;
+            margin-bottom: 2rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(142, 250, 76, 0.4);
+        }
+
+        .leaderboard-item {
+            background-color: #353066;
+            border-radius: 0.75rem;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+            color: #e0e0e0;
+            border: none; /* Removed default border */
+        }
+        .leaderboard-item.active-user {
+            border: 2px solid #8EFA4C; /* Highlight color border */
+        }
+        .leaderboard-item .rank {
+            font-weight: bold;
+            width: 2rem;
+            text-align: center;
+            color: #ffffff;
+        }
+        .leaderboard-item .name {
+            flex-grow: 1;
+            font-weight: 600;
+            color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .leaderboard-item .score {
+            font-weight: bold;
+            color: #8EFA4C;
+            margin-right: 0.75rem; /* Space between score and button */
+        }
+        .leaderboard-item .btn-info {
+            background-color: #8EFA4C;
+            color: #0B0446;
+            border: none;
+        }
+        .leaderboard-item .btn-info:hover {
+            background-color: #72d63e;
+        }
+
+        .crest-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: contain;
+            background-color: #ffffff;
+            padding: 2px;
+        }
+        .player-crest-img {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            object-fit: contain;
+            background-color: #ffffff;
+            padding: 1px;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <!-- Top Branding Bar -->
+        <div class="branding-bar">
+            <div class="logo-section">
+                <i class="fas fa-futbol me-2"></i>
+                <span>Match Picks</span>
+            </div>
+            <div>
+                <i class="fas fa-home home-icon me-3" onclick="showScreen('homescreen')"></i>
+                <i class="fas fa-info-circle info-icon"></i>
+            </div>
+        </div>
+
+        <!-- Screen 1: Homescreen -->
+        <div id="homescreen" class="screen active">
+            <!-- No header here as per request -->
+            <div class="flex-grow-1 p-4 overflow-auto">
+                <!-- Matches will be dynamically loaded here -->
+            </div>
+        </div>
+
+        <!-- Screen 2: Selections -->
+        <div id="selections-screen" class="screen">
+            <div class="header">
+                <button class="position-absolute start-0 top-50 translate-middle-y btn text-white fs-4" onclick="showScreen('homescreen')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                Make Your Selections
+            </div>
+            <div id="selected-match-info" class="bg-secondary bg-opacity-25 p-3 text-center fw-semibold rounded-bottom-3 mb-4 text-light">
+                <!-- Match info will be dynamically inserted here -->
+            </div>
+            <div class="flex-grow-1 p-4 overflow-auto">
+                <!-- Match Outcome -->
+                <div class="selection-block mb-4">
+                    <div class="selection-block-title">Match Outcome</div>
+                    <div class="d-flex gap-2">
+                        <button class="outcome-button btn" data-outcome="home">Home Win</button>
+                        <button class="outcome-button btn" data-outcome="draw">Draw</button>
+                        <button class="outcome-button btn" data-outcome="away">Away Win</button>
+                    </div>
+                </div>
+
+                <!-- Players to Score -->
+                <div class="selection-block mb-4">
+                    <div class="selection-block-title">Players to Score (x2)</div>
+                    <div id="players-to-score-list">
+                        <!-- Pre-selected players will be here -->
+                    </div>
+                    <button class="pick-button btn mt-3 w-100" onclick="openPlayerModal('score')">Pick Players to Score</button>
+                </div>
+
+                <!-- Players to Assist -->
+                <div class="selection-block mb-4">
+                    <div class="selection-block-title">Players to Assist (x2)</div>
+                    <div id="players-to-assist-list">
+                        <!-- Pre-selected players will be here -->
+                    </div>
+                    <button class="pick-button btn mt-3 w-100" onclick="openPlayerModal('assist')">Pick Players to Assist</button>
+                </div>
+
+                <!-- Players to Get a Card -->
+                <div class="selection-block mb-4">
+                    <div class="selection-block-title">Players to Get a Card (x2)</div>
+                    <div id="players-to-card-list">
+                        <!-- Pre-selected players will be here -->
+                    </div>
+                    <button class="pick-button btn mt-3 w-100" onclick="openPlayerModal('card')">Pick Players to Get a Card</button>
+                </div>
+
+                <!-- Home team CS? -->
+                <div class="selection-block mb-4">
+                    <div class="selection-block-title" id="home-cs-title"></div>
+                    <div class="d-flex gap-2">
+                        <button class="outcome-button btn" data-outcome="yes" data-team="homeCS">Yes</button>
+                        <button class="outcome-button btn" data-outcome="no" data-team="homeCS">No</button>
+                    </div>
+                </div>
+
+                <!-- Away team CS? -->
+                <div class="selection-block mb-4">
+                    <div class="selection-block-title" id="away-cs-title"></div>
+                    <div class="d-flex gap-2">
+                        <button class="outcome-button btn" data-outcome="yes" data-team="awayCS">Yes</button>
+                        <button class="outcome-button btn" data-outcome="no" data-team="awayCS">No</button>
+                    </div>
+                </div>
+
+                <button class="done-button btn w-100 mt-4" onclick="showInPlayScreen()">DONE</button>
+            </div>
+        </div>
+
+        <!-- Screen 3: In-play -->
+        <div id="in-play-screen" class="screen">
+            <div class="in-play-match-header">
+                <!-- Removed back button from here -->
+                <img id="in-play-home-crest" src="" alt="Home Crest" class="crest-img">
+                <span id="in-play-home-team" class="team-name-small"></span>
+                <span id="in-play-score" class="score"></span>
+                <span id="in-play-away-team" class="team-name-small"></span>
+                <img id="in-play-away-crest" src="" alt="Away Crest" class="crest-img">
+                <span id="in-play-minute" class="live-minute"></span>
+            </div>
+            <div class="flex-grow-1 p-4 overflow-auto">
+                <h3 class="fs-5 fw-bold text-light mb-3">Your Selections</h3>
+                <div id="in-play-selections-area">
+                    <!-- User selections and points will be loaded here -->
+                </div>
+
+                <div class="total-points-area rounded-3 p-4 text-center mt-4 mb-5">
+                    Total Points: <span id="total-points">0</span>
+                </div>
+
+                <h3 class="fs-5 fw-bold text-light mb-3">Leaderboard</h3>
+                <div id="leaderboard-area">
+                    <!-- Leaderboard will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Player Selection Modal -->
+    <div class="modal fade" id="playerModal" tabindex="-1" aria-labelledby="playerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="playerModalLabel">Select players</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="modal-player-list" class="list-group list-group-flush">
+                        <!-- Players will be dynamically loaded here -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="done-button btn w-100" data-bs-dismiss="modal" onclick="confirmPlayerSelection()">Confirm Selection</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Selections Modal (for leaderboard) -->
+    <div class="modal fade" id="userSelectionsModal" tabindex="-1" aria-labelledby="userSelectionsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="userSelectionsModalLabel">User Selections</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Moved above total points and made bigger -->
+                    <h6 class="text-center text-light" id="modal-user-name-display"></h6>
+                    <div class="total-points-area rounded-3 p-3 text-center mb-4">
+                        Total Points: <span id="modal-user-total-points">0</span>
+                    </div>
+                    <div id="modal-user-selections-area" class="mb-4">
+                        <!-- User's mock selections and points will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle (Popper included) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <script>
+        // Static Data for the game
+        const matches = [
+            { id: 'match1', home: 'Man City', away: 'Arsenal', time: 'Sun, May 25, 4:00 PM', outcome: 'home', homeScore: 3, awayScore: 1, liveMinute: 88, scorers: ['mc1', 'mc2'], assists: ['mc2', 'mc3'], cards: ['ar3', 'ar5'] },
+            { id: 'match2', home: 'Liverpool', away: 'Man Utd', time: 'Sun, May 25, 4:00 PM', outcome: 'draw', homeScore: 2, awayScore: 2, liveMinute: 75, scorers: ['li1', 'mu1'], assists: ['li2', 'mu2'], cards: ['li5', 'mu3'] },
+            { id: 'match3', home: 'Chelsea', away: 'Tottenham', time: 'Sun, May 25, 4:00 PM', outcome: 'away', homeScore: 0, awayScore: 1, liveMinute: 90, scorers: ['to1', 'to3'], assists: ['to2', 'to4'], cards: ['ch4', 'to5'] },
+            { id: 'match4', home: 'Aston Villa', away: 'Newcastle', time: 'Sun, May 25, 4:00 PM', outcome: 'home', homeScore: 1, awayScore: 0, liveMinute: 66, scorers: ['av1', 'av3'], assists: ['av2', 'av4'], cards: ['nw5', 'nw7'] },
+            { id: 'match5', home: 'Everton', away: 'West Ham', time: 'Sun, May 25, 4:00 PM', outcome: 'draw', homeScore: 1, awayScore: 1, liveMinute: 55, scorers: ['ev1', 'wh1'], assists: ['ev2', 'wh2'], cards: ['ev5', 'wh4'] }
+        ];
+
+        // Expanded player list to ensure 10 players per team for demo purposes
+        const allPlayers = [
+            // Man City (10 players)
+            { id: 'mc1', name: 'Erling Haaland', team: 'Man City' }, { id: 'mc2', name: 'Kevin De Bruyne', team: 'Man City' },
+            { id: 'mc3', name: 'Phil Foden', team: 'Man City' }, { id: 'mc4', name: 'Rodri', team: 'Man City' },
+            { id: 'mc5', name: 'Jack Grealish', team: 'Man City' }, { id: 'mc6', name: 'Bernardo Silva', team: 'Man City' },
+            { id: 'mc7', name: 'Ruben Dias', team: 'Man City' }, { id: 'mc8', name: 'Kyle Walker', team: 'Man City' },
+            { id: 'mc9', name: 'Ederson', team: 'Man City' }, { id: 'mc10', name: 'Julian Alvarez', team: 'Man City' },
+            // Arsenal (10 players)
+            { id: 'ar1', name: 'Bukayo Saka', team: 'Arsenal' }, { id: 'ar2', name: 'Martin Ødegaard', team: 'Arsenal' },
+            { id: 'ar3', name: 'Declan Rice', team: 'Arsenal' }, { id: 'ar4', name: 'Gabriel Martinelli', team: 'Arsenal' },
+            { id: 'ar5', name: 'William Saliba', team: 'Arsenal' }, { id: 'ar6', name: 'Gabriel Jesus', team: 'Arsenal' },
+            { id: 'ar7', name: 'Ben White', team: 'Arsenal' }, { id: 'ar8', name: 'Aaron Ramsdale', team: 'Arsenal' },
+            { id: 'ar9', name: 'Kai Havertz', team: 'Arsenal' }, { id: 'ar10', name: 'Leandro Trossard', team: 'Arsenal' },
+            // Liverpool (10 players)
+            { id: 'li1', name: 'Mohamed Salah', team: 'Liverpool' }, { id: 'li2', name: 'Trent Alexander-Arnold', team: 'Liverpool' },
+            { id: 'li3', name: 'Darwin Núñez', team: 'Liverpool' }, { id: 'li4', name: 'Alexis Mac Allister', team: 'Liverpool' },
+            { id: 'li5', name: 'Virgil van Dijk', team: 'Liverpool' }, { id: 'li6', name: 'Alisson Becker', team: 'Liverpool' },
+            { id: 'li7', name: 'Luis Díaz', team: 'Liverpool' }, { id: 'li8', name: 'Cody Gakpo', team: 'Liverpool' },
+            { id: 'li9', name: 'Fabinho', team: 'Liverpool' }, { id: 'li10', name: 'Andrew Robertson', team: 'Liverpool' },
+            // Man Utd (10 players)
+            { id: 'mu1', name: 'Marcus Rashford', team: 'Man Utd' }, { id: 'mu2', name: 'Bruno Fernandes', team: 'Man Utd' },
+            { id: 'mu3', name: 'Casemiro', team: 'Man Utd' }, { id: 'mu4', name: 'Alejandro Garnacho', team: 'Man Utd' },
+            { id: 'mu5', name: 'Lisandro Martínez', team: 'Man Utd' }, { id: 'mu6', name: 'Raphael Varane', team: 'Man Utd' },
+            { id: 'mu7', name: 'Andre Onana', team: 'Man Utd' }, { id: 'mu8', name: 'Mason Mount', team: 'Man Utd' },
+            { id: 'mu9', name: 'Antony', team: 'Man Utd' }, { id: 'mu10', name: 'Luke Shaw', team: 'Man Utd' },
+            // Chelsea (10 players)
+            { id: 'ch1', name: 'Cole Palmer', team: 'Chelsea' }, { id: 'ch2', name: 'Enzo Fernández', team: 'Chelsea' },
+            { id: 'ch3', name: 'Raheem Sterling', team: 'Chelsea' }, { id: 'ch4', name: 'Moisés Caicedo', team: 'Chelsea' },
+            { id: 'ch5', name: 'Reece James', team: 'Chelsea' }, { id: 'ch6', name: 'Mykhailo Mudryk', team: 'Chelsea' },
+            { id: 'ch7', name: 'Nicolas Jackson', team: 'Chelsea' }, { id: 'ch8', name: 'Thiago Silva', team: 'Chelsea' },
+            { id: 'ch9', name: 'Ben Chilwell', team: 'Chelsea' }, { id: 'ch10', name: 'Robert Sanchez', team: 'Chelsea' },
+            // Tottenham (10 players)
+            { id: 'to1', name: 'Son Heung-min', team: 'Tottenham' }, { id: 'to2', name: 'James Maddison', team: 'Tottenham' },
+            { id: 'to3', name: 'Dejan Kulusevski', team: 'Tottenham' }, { id: 'to4', name: 'Yves Bissouma', team: 'Tottenham' },
+            { id: 'to5', name: 'Cristian Romero', team: 'Tottenham' }, { id: 'to6', name: 'Richarlison', team: 'Tottenham' },
+            { id: 'to7', name: 'Guglielmo Vicario', team: 'Tottenham' }, { id: 'to8', name: 'Pedro Porro', team: 'Tottenham' },
+            { id: 'to9', name: 'Pape Matar Sarr', team: 'Tottenham' }, { id: 'to10', name: 'Micky van de Ven', team: 'Tottenham' },
+            // Aston Villa (10 players)
+            { id: 'av1', name: 'Ollie Watkins', team: 'Aston Villa' }, { id: 'av2', name: 'Douglas Luiz', team: 'Aston Villa' },
+            { id: 'av3', name: 'Leon Bailey', team: 'Aston Villa' }, { id: 'av4', name: 'John McGinn', team: 'Aston Villa' },
+            { id: 'av5', name: 'Ezri Konsa', team: 'Aston Villa' }, { id: 'av6', name: 'Emiliano Martinez', team: 'Aston Villa' },
+            { id: 'av7', name: 'Pau Torres', team: 'Aston Villa' }, { id: 'av8', name: 'Youri Tielemans', team: 'Aston Villa' },
+            { id: 'av9', name: 'Moussa Diaby', team: 'Aston Villa' }, { id: 'av10', name: 'Matty Cash', team: 'Aston Villa' },
+            // Newcastle (10 players)
+            { id: 'nw1', name: 'Alexander Isak', team: 'Newcastle' }, { id: 'nw2', name: 'Kieran Trippier', team: 'Newcastle' },
+            { id: 'nw3', name: 'Bruno Guimarães', team: 'Newcastle' }, { id: 'nw4', name: 'Anthony Gordon', team: 'Newcastle' },
+            { id: 'nw5', name: 'Sven Botman', team: 'Newcastle' }, { id: 'nw6', name: 'Nick Pope', team: 'Newcastle' },
+            { id: 'nw7', name: 'Joelinton', team: 'Newcastle' }, { id: 'nw8', name: 'Harvey Barnes', team: 'Newcastle' },
+            { id: 'nw9', name: 'Fabian Schär', team: 'Newcastle' }, { id: 'nw10', name: 'Callum Wilson', team: 'Newcastle' },
+            // Everton (10 players)
+            { id: 'ev1', name: 'Dominic Calvert-Lewin', team: 'Everton' }, { id: 'ev2', name: 'Abdoulaye Doucouré', team: 'Everton' },
+            { id: 'ev3', name: 'Dwight McNeil', team: 'Everton' }, { id: 'ev4', name: 'Jordan Pickford', team: 'Everton' },
+            { id: 'ev5', name: 'James Tarkowski', team: 'Everton' }, { id: 'ev6', name: 'Amadou Onana', team: 'Everton' },
+            { id: 'ev7', name: 'Vitaliy Mykolenko', team: 'Everton' }, { id: 'ev8', name: 'Jack Harrison', team: 'Everton' },
+            { id: 'ev9', name: 'Idrissa Gueye', team: 'Everton' }, { id: 'ev10', name: 'Jarrad Branthwaite', team: 'Everton' },
+            // West Ham (10 players)
+            { id: 'wh1', name: 'Jarrod Bowen', team: 'West Ham' }, { id: 'wh2', name: 'Lucas Paquetá', team: 'West Ham' },
+            { id: 'wh3', name: 'Mohammed Kudus', team: 'West Ham' }, { id: 'wh4', name: 'Tomáš Souček', team: 'West Ham' },
+            { id: 'wh5', name: 'Kurt Zouma', team: 'West Ham' }, { id: 'wh6', name: 'Alphonse Areola', team: 'West Ham' },
+            { id: 'wh7', name: 'Edson Álvarez', team: 'West Ham' }, { id: 'wh8', name: 'Nayef Aguerd', team: 'West Ham' },
+            { id: 'wh9', name: 'Danny Ings', team: 'West Ham' }, { id: 'wh10', name: 'Vladimir Coufal', team: 'West Ham' }
+        ];
+
+        // Simulated actual match results for point calculation
+        const actualMatchResults = {
+            'match1': { home: 'Man City', away: 'Arsenal', outcome: 'home', homeScore: 3, awayScore: 1, liveMinute: 88, scorers: ['mc1', 'mc2'], assists: ['mc2', 'mc3'], cards: ['ar3', 'ar5'] },
+            'match2': { home: 'Liverpool', away: 'Man Utd', outcome: 'draw', homeScore: 2, awayScore: 2, liveMinute: 75, scorers: ['li1', 'mu1'], assists: ['li2', 'mu2'], cards: ['li5', 'mu3'] },
+            'match3': { home: 'Chelsea', away: 'Tottenham', outcome: 'away', homeScore: 0, awayScore: 1, liveMinute: 90, scorers: ['to1', 'to3'], assists: ['to2', 'to4'], cards: ['ch4', 'to5'] },
+            'match4': { home: 'Aston Villa', away: 'Newcastle', outcome: 'home', homeScore: 1, awayScore: 0, liveMinute: 66, scorers: ['av1', 'av3'], assists: ['av2', 'av4'], cards: ['nw5', 'nw7'] },
+            'match5': { home: 'Everton', away: 'West Ham', outcome: 'draw', homeScore: 1, awayScore: 1, liveMinute: 55, scorers: ['ev1', 'wh1'], assists: ['ev2', 'wh2'], cards: ['ev5', 'wh4'] }
+        };
+
+        // Predefined selections for 'Stu' to be shown on the main In-Play screen
+        const stuSelections = {
+            matchOutcome: 'home',
+            playersToScore: ['mc1', 'mc3'],
+            playersToAssist: ['mc2', 'ar2'],
+            playersToCard: ['ar3', 'ch4'],
+            homeCleanSheet: 'no',
+            awayCleanSheet: 'no'
+        };
+
+        // List of animal emojis
+        const animalEmojis = ['🦁', '🐯', '🐻', '🦊', '🐼', '🐨', '🐷', '🐸', '🐒', '🐧', '🐺', '🦉', '🦋', '🐢', '🦖', '🐉', '🦄', '🐙', '🦀', '🐠'];
+
+        // Initial leaderboard data (will be populated with calculated points on load)
+        let leaderboardUsers = [
+            { name: 'Stu', selections: stuSelections, totalPoints: 0, emoji: '' },
+            { name: 'Billy', selections: null, totalPoints: 0, emoji: '' },
+            { name: 'Simon', selections: null, totalPoints: 0, emoji: '' },
+            { name: 'Dave', selections: null, totalPoints: 0, emoji: '' },
+            { name: 'Anj', selections: null, totalPoints: 0, emoji: '' }
+        ];
+
+        // Mapping for team crest placeholder images
+        const teamCrests = {
+            'Man City': 'https://placehold.co/40x40/87CEEB/0B0446?text=MCFC',
+            'Arsenal': 'https://placehold.co/40x40/EF0107/FFF?text=AFC',
+            'Liverpool': 'https://placehold.co/40x40/C8102E/FFF?text=LFC',
+            'Man Utd': 'https://placehold.co/40x40/DA291C/FFF?text=MUFC',
+            'Chelsea': 'https://placehold.co/40x40/034694/FFF?text=CFC',
+            'Tottenham': 'https://placehold.co/40x40/132257/FFF?text=THFC',
+            'Aston Villa': 'https://placehold.co/40x40/670E36/FFF?text=AVFC',
+            'Newcastle': 'https://placehold.co/40x40/241F20/FFF?text=NUFC',
+            'Everton': 'https://placehold.co/40x40/003399/FFF?text=EFC',
+            'West Ham': 'https://placehold.co/40x40/7A263A/FFF?text=WHU'
+        };
+
+        function getTeamCrest(teamName) {
+            return teamCrests[teamName] || 'https://placehold.co/40x40/cccccc/000?text=Club'; // Default placeholder
+        }
+
+        // Global state for current selections (for the user making selections)
+        let currentMatchId = null;
+        let currentUserSelections = {
+            matchOutcome: null,
+            playersToScore: [],
+            playersToAssist: [],
+            playersToCard: [],
+            homeCleanSheet: null,
+            awayCleanSheet: null
+        };
+        let currentModalType = null; // 'score', 'assist', or 'card'
+
+        // Bootstrap Modal instances
+        let playerModalInstance;
+        let userSelectionsModalInstance;
+
+        // --- Screen Navigation Functions ---
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            const targetScreen = document.getElementById(screenId);
+            if (targetScreen) {
+                targetScreen.classList.add('active');
+                // Reset scroll position for the selections screen
+                if (screenId === 'selections-screen') {
+                    const scrollableContent = document.querySelector('#selections-screen .flex-grow-1.p-4.overflow-auto');
+                    if (scrollableContent) {
+                        scrollableContent.scrollTop = 0;
+                    }
+                }
+            } else {
+                console.error(`Screen with ID "${screenId}" not found.`);
+            }
+        }
+
+        function showSelectionsScreen(matchId) {
+            currentMatchId = matchId;
+            // Reset currentUserSelections for a new match
+            currentUserSelections = {
+                matchOutcome: null,
+                playersToScore: [],
+                playersToAssist: [],
+                playersToCard: [],
+                homeCleanSheet: null,
+                awayCleanSheet: null
+            };
+
+            // Display selected match info
+            const selectedMatch = matches.find(m => m.id === currentMatchId);
+            if (selectedMatch) {
+                document.getElementById('selected-match-info').innerHTML = `
+                    <div class="d-flex align-items-center justify-content-center gap-2">
+                        <img src="${getTeamCrest(selectedMatch.home)}" alt="${selectedMatch.home} crest" class="crest-img">
+                        <span>${selectedMatch.home}</span>
+                        <span class="fw-bold">vs</span>
+                        <span>${selectedMatch.away}</span>
+                        <img src="${getTeamCrest(selectedMatch.away)}" alt="${selectedMatch.away} crest" class="crest-img">
+                    </div>
+                    <div class="text-sm text-light mt-1">${selectedMatch.time}</div>
+                `;
+                // Update Clean Sheet block titles with team names and crests
+                document.getElementById('home-cs-title').innerHTML = `<img src="${getTeamCrest(selectedMatch.home)}" alt="${selectedMatch.home} crest" class="player-crest-img me-2"> ${selectedMatch.home} Clean Sheet?`;
+                document.getElementById('away-cs-title').innerHTML = `<img src="${getTeamCrest(selectedMatch.away)}" alt="${selectedMatch.away} crest" class="player-crest-img me-2"> ${selectedMatch.away} Clean Sheet?`;
+            }
+
+            renderSelectionsScreen();
+            showScreen('selections-screen');
+        }
+
+        function showInPlayScreen() {
+            renderInPlayScreen();
+            showScreen('in-play-screen');
+        }
+
+        // --- Homescreen Logic ---
+        function renderHomescreen() {
+            const matchesContainer = document.querySelector('#homescreen .flex-grow-1');
+            matchesContainer.innerHTML = ''; // Clear previous matches
+
+            matches.forEach(match => {
+                const matchItem = document.createElement('div');
+                matchItem.className = 'match-item';
+                matchItem.innerHTML = `
+                    <div class="match-teams">
+                        <img src="${getTeamCrest(match.home)}" alt="${match.home} crest" class="crest-img">
+                        <span>${match.home}</span>
+                        <span class="fw-bold text-secondary">vs</span>
+                        <span>${match.away}</span>
+                        <img src="${getTeamCrest(match.away)}" alt="${match.away} crest" class="crest-img">
+                    </div>
+                    <div class="match-time">${match.time}</div>
+                    <button class="play-button btn" onclick="showSelectionsScreen('${match.id}')">
+                        <i class="fas fa-play me-2"></i> Play
+                    </button>
+                `;
+                matchesContainer.appendChild(matchItem);
+            });
+            showScreen('homescreen'); // Show homescreen initially
+        }
+
+        // --- Selections Screen Logic ---
+        function renderSelectionsScreen() {
+            // Render Match Outcome buttons
+            document.querySelectorAll('.outcome-button').forEach(button => {
+                button.classList.remove('selected', 'btn-primary');
+                button.classList.add('btn-light'); // Default unselected style
+                button.onclick = () => {
+                    if (button.dataset.team) { // For clean sheet buttons
+                        selectCleanSheetOutcome(button.dataset.team, button.dataset.outcome);
+                    } else { // For match outcome buttons
+                        selectMatchOutcome(button.dataset.outcome);
+                    }
+                };
+
+                // Apply selected state based on currentUserSelections
+                if (!button.dataset.team && currentUserSelections.matchOutcome === button.dataset.outcome) {
+                    button.classList.add('selected', 'btn-primary');
+                    button.classList.remove('btn-light');
+                } else if (button.dataset.team === 'homeCS' && currentUserSelections.homeCleanSheet === button.dataset.outcome) {
+                    button.classList.add('selected', 'btn-primary');
+                    button.classList.remove('btn-light');
+                } else if (button.dataset.team === 'awayCS' && currentUserSelections.awayCleanSheet === button.dataset.outcome) {
+                    button.classList.add('selected', 'btn-primary');
+                    button.classList.remove('btn-light');
+                }
+            });
+
+            // Render pre-selected players (or empty state if none)
+            renderSelectedPlayers('players-to-score-list', currentUserSelections.playersToScore);
+            renderSelectedPlayers('players-to-assist-list', currentUserSelections.playersToAssist);
+            renderSelectedPlayers('players-to-card-list', currentUserSelections.playersToCard);
+        }
+
+        function selectMatchOutcome(outcome) {
+            currentUserSelections.matchOutcome = outcome;
+            document.querySelectorAll('.outcome-button[data-outcome="home"], .outcome-button[data-outcome="draw"], .outcome-button[data-outcome="away"]').forEach(button => {
+                button.classList.remove('selected', 'btn-primary');
+                button.classList.add('btn-light');
+                if (button.dataset.outcome === outcome) {
+                    button.classList.add('selected', 'btn-primary');
+                    button.classList.remove('btn-light');
+                }
+            });
+        }
+
+        function selectCleanSheetOutcome(teamType, outcome) {
+            if (teamType === 'homeCS') {
+                currentUserSelections.homeCleanSheet = outcome;
+            } else if (teamType === 'awayCS') {
+                currentUserSelections.awayCleanSheet = outcome;
+            }
+
+            document.querySelectorAll(`.outcome-button[data-team="${teamType}"]`).forEach(button => {
+                button.classList.remove('selected', 'btn-primary');
+                button.classList.add('btn-light');
+                if (button.dataset.outcome === outcome) {
+                    button.classList.add('selected', 'btn-primary');
+                    button.classList.remove('btn-light');
+                }
+            });
+        }
+
+        function renderSelectedPlayers(containerId, selectedPlayersArray) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = ''; // Clear previous
+            if (selectedPlayersArray.length === 0) {
+                container.innerHTML = '<p class="text-secondary text-sm">No players selected yet.</p>';
+            } else {
+                selectedPlayersArray.forEach(playerId => {
+                    const player = allPlayers.find(p => p.id === playerId);
+                    if (player) {
+                        const playerItem = document.createElement('div');
+                        playerItem.className = 'player-selection-item';
+                        playerItem.innerHTML = `
+                            <div class="d-flex align-items-center gap-2">
+                                <img src="${getTeamCrest(player.team)}" alt="${player.team} crest" class="player-crest-img">
+                                <span>${player.name}</span>
+                            </div>
+                            <button class="pick-button btn btn-sm btn-danger" onclick="removeSelectedPlayer('${containerId}', '${playerId}')">Remove</button>
+                        `;
+                        container.appendChild(playerItem);
+                    }
+                });
+            }
+        }
+
+        function removeSelectedPlayer(containerId, playerIdToRemove) {
+            if (containerId === 'players-to-score-list') {
+                currentUserSelections.playersToScore = currentUserSelections.playersToScore.filter(id => id !== playerIdToRemove);
+            } else if (containerId === 'players-to-assist-list') {
+                currentUserSelections.playersToAssist = currentUserSelections.playersToAssist.filter(id => id !== playerIdToRemove);
+            } else if (containerId === 'players-to-card-list') {
+                currentUserSelections.playersToCard = currentUserSelections.playersToCard.filter(id => id !== playerIdToRemove);
+            }
+            renderSelectedPlayers(containerId, currentUserSelections[containerId.replace('players-to-', '').replace('-list', '')]);
+        }
+
+        // --- Player Selection Modal Logic ---
+        function openPlayerModal(type) {
+            currentModalType = type;
+            // Update modal header text to sentence case and include "two"
+            let modalTitleText = '';
+            if (type === 'score') {
+                modalTitleText = 'Select two players to score.';
+            } else if (type === 'assist') {
+                modalTitleText = 'Select two players to assist.';
+            } else if (type === 'card') {
+                modalTitleText = 'Select two players to get a card.';
+            }
+            document.getElementById('playerModalLabel').textContent = modalTitleText;
+
+            const modalPlayerList = document.getElementById('modal-player-list');
+            modalPlayerList.innerHTML = ''; // Clear previous players
+
+            const currentSelections = currentUserSelections[type === 'score' ? 'playersToScore' : type === 'assist' ? 'playersToAssist' : 'playersToCard'];
+
+            // Filter players for the current match's two teams (10 from each)
+            const selectedMatch = matches.find(m => m.id === currentMatchId);
+            let playersForThisMatch = [];
+            if (selectedMatch) {
+                const homePlayers = allPlayers.filter(player => player.team === selectedMatch.home).slice(0, 10);
+                const awayPlayers = allPlayers.filter(player => player.team === selectedMatch.away).slice(0, 10);
+                playersForThisMatch = [...homePlayers, ...awayPlayers];
+            } else {
+                playersForThisMatch = allPlayers.slice(0, 20); // Fallback, show first 20 if no match selected
+            }
+
+            playersForThisMatch.forEach(player => {
+                const playerItem = document.createElement('div');
+                playerItem.className = 'modal-player-item list-group-item';
+                const isSelected = currentSelections.includes(player.id);
+                playerItem.innerHTML = `
+                    <div class="d-flex align-items-center gap-2">
+                        <img src="${getTeamCrest(player.team)}" alt="${player.team} crest" class="player-crest-img">
+                        <span>${player.name}</span>
+                    </div>
+                    <button class="btn btn-sm ${isSelected ? 'btn-success selected' : 'btn-info'}" data-player-id="${player.id}" onclick="togglePlayerSelection(this, '${player.id}')">
+                        ${isSelected ? 'Selected' : 'Pick'}
+                    </button>
+                `;
+                modalPlayerList.appendChild(playerItem);
+            });
+
+            playerModalInstance = new bootstrap.Modal(document.getElementById('playerModal'));
+            playerModalInstance.show();
+        }
+
+        function togglePlayerSelection(button, playerId) {
+            const selectedPlayersArray = currentUserSelections[currentModalType === 'score' ? 'playersToScore' : currentModalType === 'assist' ? 'playersToAssist' : 'playersToCard'];
+
+            if (selectedPlayersArray.includes(playerId)) {
+                // Deselect
+                currentUserSelections[currentModalType === 'score' ? 'playersToScore' : currentModalType === 'assist' ? 'playersToAssist' : 'playersToCard'] = selectedPlayersArray.filter(id => id !== playerId);
+                button.classList.remove('selected', 'btn-success');
+                button.classList.add('btn-info');
+                button.textContent = 'Pick';
+            } else {
+                // Select, but only if less than 2 already selected
+                if (selectedPlayersArray.length < 2) {
+                    currentUserSelections[currentModalType === 'score' ? 'playersToScore' : currentModalType === 'assist' ? 'playersToAssist' : 'playersToCard'].push(playerId);
+                    button.classList.add('selected', 'btn-success');
+                    button.classList.remove('btn-info');
+                    button.textContent = 'Selected';
+                } else {
+                    console.log('Maximum 2 players can be selected.');
+                }
+            }
+        }
+
+        function confirmPlayerSelection() {
+            if (playerModalInstance) {
+                playerModalInstance.hide();
+            }
+            renderSelectedPlayers('players-to-score-list', currentUserSelections.playersToScore);
+            renderSelectedPlayers('players-to-assist-list', currentUserSelections.playersToAssist);
+            renderSelectedPlayers('players-to-card-list', currentUserSelections.playersToCard);
+        }
+
+        // --- In-play Screen Logic ---
+        function renderInPlayScreen() {
+            const inPlaySelectionsArea = document.getElementById('in-play-selections-area');
+            inPlaySelectionsArea.innerHTML = ''; // Clear previous content
+
+            let totalPoints = 0;
+            const currentMatchActuals = matches.find(m => m.id === currentMatchId); // Get actual match data
+
+            // Update In-Play Match Header
+            document.getElementById('in-play-home-crest').src = getTeamCrest(currentMatchActuals.home);
+            document.getElementById('in-play-home-team').textContent = currentMatchActuals.home;
+            document.getElementById('in-play-score').textContent = `${currentMatchActuals.homeScore} - ${currentMatchActuals.awayScore}`;
+            document.getElementById('in-play-away-team').textContent = currentMatchActuals.away;
+            document.getElementById('in-play-away-crest').src = getTeamCrest(currentMatchActuals.away);
+            document.getElementById('in-play-minute').textContent = `${currentMatchActuals.liveMinute}'`;
+
+            // Helper function to get points (fixed 50 or 0)
+            function getPoints(isCorrect) {
+                return isCorrect ? 50 : 0;
+            }
+
+            // Function to append selection item with status icon and optional crest
+            function appendSelectionItem(label, value, isCorrect, points, crestSrc = null) {
+                totalPoints += points;
+                let labelContent = label;
+                if (crestSrc) {
+                    labelContent = `<div class="label-with-crest"><img src="${crestSrc}" alt="Crest" class="player-crest-img"><span>${label}</span></div>`;
+                }
+
+                inPlaySelectionsArea.innerHTML += `
+                    <div class="in-play-selection-item">
+                        ${labelContent}
+                        <span class="d-flex align-items-center">
+                            <span class="points ${isCorrect ? '' : 'incorrect'}">${points} pts</span>
+                            <i class="status-icon fas ${isCorrect ? 'fa-check-circle text-success' : 'fa-times-circle text-danger'}"></i>
+                        </span>
+                    </div>
+                `;
+            }
+
+            // Use Stu's selections for the main in-play screen as requested
+            const selectionsToDisplay = stuSelections;
+
+            // 1. Match Outcome
+            if (selectionsToDisplay.matchOutcome) {
+                let actualOutcome;
+                if (currentMatchActuals.homeScore > currentMatchActuals.awayScore) {
+                    actualOutcome = 'home';
+                } else if (currentMatchActuals.awayScore > currentMatchActuals.homeScore) {
+                    actualOutcome = 'away';
+                } else {
+                    actualOutcome = 'draw';
+                }
+                const isOutcomeCorrect = selectionsToDisplay.matchOutcome === actualOutcome;
+                const points = getPoints(isOutcomeCorrect);
+                const predictedTeam = (selectionsToDisplay.matchOutcome === 'home') ? currentMatchActuals.home : (selectionsToDisplay.matchOutcome === 'away') ? currentMatchActuals.away : 'Draw';
+                const crest = (selectionsToDisplay.matchOutcome === 'home') ? getTeamCrest(currentMatchActuals.home) : (selectionsToDisplay.matchOutcome === 'away') ? getTeamCrest(currentMatchActuals.away) : null;
+                appendSelectionItem('Match Outcome', predictedTeam + (selectionsToDisplay.matchOutcome !== 'draw' ? ' Win' : ''), isOutcomeCorrect, points, crest);
+            } else {
+                appendSelectionItem('Match Outcome', 'Not Selected', false, 0);
+            }
+
+            // 2. Players to Score
+            inPlaySelectionsArea.innerHTML += `<h4 class="fs-6 fw-semibold text-light mt-4 mb-2">Players to Score</h4>`;
+            if (selectionsToDisplay.playersToScore.length > 0) {
+                selectionsToDisplay.playersToScore.forEach(playerId => {
+                    const player = allPlayers.find(p => p.id === playerId);
+                    const didScore = currentMatchActuals.scorers.includes(playerId);
+                    const points = getPoints(didScore);
+                    appendSelectionItem(player ? player.name : 'Unknown Player', '', didScore, points, player ? getTeamCrest(player.team) : null);
+                });
+            } else {
+                appendSelectionItem('Players to Score', 'Not Selected', false, 0);
+            }
+
+            // 3. Players to Assist
+            inPlaySelectionsArea.innerHTML += `<h4 class="fs-6 fw-semibold text-light mt-4 mb-2">Players to Assist</h4>`;
+            if (selectionsToDisplay.playersToAssist.length > 0) {
+                selectionsToDisplay.playersToAssist.forEach(playerId => {
+                    const player = allPlayers.find(p => p.id === playerId);
+                    const didAssist = currentMatchActuals.assists.includes(playerId);
+                    const points = getPoints(didAssist);
+                    appendSelectionItem(player ? player.name : 'Unknown Player', '', didAssist, points, player ? getTeamCrest(player.team) : null);
+                });
+            } else {
+                appendSelectionItem('Players to Assist', 'Not Selected', false, 0);
+            }
+
+            // 4. Players to Get a Card
+            inPlaySelectionsArea.innerHTML += `<h4 class="fs-6 fw-semibold text-light mt-4 mb-2">Players to Get a Card</h4>`;
+            if (selectionsToDisplay.playersToCard.length > 0) {
+                selectionsToDisplay.playersToCard.forEach(playerId => {
+                    const player = allPlayers.find(p => p.id === playerId);
+                    const didCard = currentMatchActuals.cards.includes(playerId);
+                    const points = getPoints(didCard);
+                    appendSelectionItem(player ? player.name : 'Unknown Player', '', didCard, points, player ? getTeamCrest(player.team) : null);
+                });
+            } else {
+                appendSelectionItem('Players to Get a Card', 'Not Selected', false, 0);
+            }
+
+            // 5. Home Team Clean Sheet
+            const isHomeCSActual = currentMatchActuals.awayScore === 0;
+            if (selectionsToDisplay.homeCleanSheet) {
+                const isHomeCSCorrect = (selectionsToDisplay.homeCleanSheet === 'yes' && isHomeCSActual) || (selectionsToDisplay.homeCleanSheet === 'no' && !isHomeCSActual);
+                const points = getPoints(isHomeCSCorrect);
+                appendSelectionItem(`${currentMatchActuals.home} Clean Sheet`, selectionsToDisplay.homeCleanSheet.charAt(0).toUpperCase() + selectionsToDisplay.homeCleanSheet.slice(1), isHomeCSCorrect, points, getTeamCrest(currentMatchActuals.home));
+            } else {
+                appendSelectionItem(`${currentMatchActuals.home} Clean Sheet`, 'Not Selected', false, 0, getTeamCrest(currentMatchActuals.home));
+            }
+
+            // 6. Away Team Clean Sheet
+            const isAwayCSActual = currentMatchActuals.homeScore === 0;
+            if (selectionsToDisplay.awayCleanSheet) {
+                const isAwayCSCorrect = (selectionsToDisplay.awayCleanSheet === 'yes' && isAwayCSActual) || (selectionsToDisplay.awayCleanSheet === 'no' && !isAwayCSActual);
+                const points = getPoints(isAwayCSCorrect);
+                appendSelectionItem(`${currentMatchActuals.away} Clean Sheet`, selectionsToDisplay.awayCleanSheet.charAt(0).toUpperCase() + selectionsToDisplay.awayCleanSheet.slice(1), isAwayCSCorrect, points, getTeamCrest(currentMatchActuals.away));
+            } else {
+                appendSelectionItem(`${currentMatchActuals.away} Clean Sheet`, 'Not Selected', false, 0, getTeamCrest(currentMatchActuals.away));
+            }
+
+
+            document.getElementById('total-points').textContent = totalPoints;
+
+            // Render Leaderboard
+            const leaderboardArea = document.getElementById('leaderboard-area');
+            leaderboardArea.innerHTML = '';
+            leaderboardUsers.sort((a, b) => b.totalPoints - a.totalPoints); // Sort by pre-calculated totalPoints
+            leaderboardUsers.forEach((user, index) => {
+                const leaderboardItem = document.createElement('div');
+                leaderboardItem.className = `leaderboard-item ${user.name === 'Stu' ? 'active-user' : ''}`;
+                leaderboardItem.innerHTML = `
+                    <span class="rank">${index + 1}.</span>
+                    <span class="name">${user.emoji} ${user.name}</span>
+                    <span class="score">${user.totalPoints} pts</span>
+                    <button class="btn btn-sm btn-info" onclick="openUserSelectionsModal('${user.name}')">Selections</button>
+                `;
+                leaderboardArea.appendChild(leaderboardItem);
+            });
+        }
+
+        // --- User Selections Modal Logic (for Leaderboard) ---
+        function openUserSelectionsModal(userName) {
+            // Update the modal title to just the user's name and emoji
+            document.getElementById('modal-user-name-display').innerHTML = `${leaderboardUsers.find(u => u.name === userName).emoji} ${userName}`;
+            const modalUserSelectionsArea = document.getElementById('modal-user-selections-area');
+            modalUserSelectionsArea.innerHTML = '';
+
+            let modalTotalPoints = 0;
+
+            // Get the selections for the specific user
+            const userInLeaderboard = leaderboardUsers.find(u => u.name === userName);
+            const selectionsForModal = userInLeaderboard.selections;
+
+            // Get the actual match results for point calculation
+            const matchActualsForModal = matches.find(m => m.id === currentMatchId);
+
+            // Helper to get points (fixed 50 or 0) for modal
+            function getPointsForModal(isCorrect) {
+                return isCorrect ? 50 : 0;
+            }
+
+            // Function to append selection item with status icon for modal
+            function appendModalSelectionItem(label, value, isCorrect, points, crestSrc = null) {
+                modalTotalPoints += points;
+                let labelContent = label;
+                if (crestSrc) {
+                    labelContent = `<div class="label-with-crest"><img src="${crestSrc}" alt="Crest" class="player-crest-img"><span>${label}</span></div>`;
+                }
+                modalUserSelectionsArea.innerHTML += `
+                    <div class="in-play-selection-item">
+                        ${labelContent}
+                        <span class="d-flex align-items-center">
+                            <span class="points ${isCorrect ? '' : 'incorrect'}">${points} pts</span>
+                            <i class="status-icon fas ${isCorrect ? 'fa-check-circle text-success' : 'fa-times-circle text-danger'}"></i>
+                        </span>
+                    </div>
+                `;
+            }
+
+            // 1. Match Outcome
+            if (selectionsForModal.matchOutcome) {
+                let actualOutcome;
+                if (matchActualsForModal.homeScore > matchActualsForModal.awayScore) {
+                    actualOutcome = 'home';
+                } else if (matchActualsForModal.awayScore > matchActualsForModal.homeScore) {
+                    actualOutcome = 'away';
+                } else {
+                    actualOutcome = 'draw';
+                }
+                const isOutcomeCorrect = selectionsForModal.matchOutcome === actualOutcome;
+                const points = getPointsForModal(isOutcomeCorrect);
+                const predictedTeam = (selectionsForModal.matchOutcome === 'home') ? matchActualsForModal.home : (selectionsForModal.matchOutcome === 'away') ? matchActualsForModal.away : 'Draw';
+                const crest = (selectionsForModal.matchOutcome === 'home') ? getTeamCrest(matchActualsForModal.home) : (selectionsForModal.matchOutcome === 'away') ? getTeamCrest(matchActualsForModal.away) : null;
+                appendModalSelectionItem('Match Outcome', predictedTeam + (selectionsForModal.matchOutcome !== 'draw' ? ' Win' : ''), isOutcomeCorrect, points, crest);
+            } else {
+                appendModalSelectionItem('Match Outcome', 'Not Selected', false, 0);
+            }
+
+            // 2. Players to Score
+            modalUserSelectionsArea.innerHTML += `<h4 class="fs-6 fw-semibold text-light mt-4 mb-2">Players to Score</h4>`;
+            if (selectionsForModal.playersToScore.length > 0) {
+                selectionsForModal.playersToScore.forEach(playerId => {
+                    const player = allPlayers.find(p => p.id === playerId);
+                    const didScore = matchActualsForModal.scorers.includes(playerId);
+                    const points = getPointsForModal(didScore);
+                    appendModalSelectionItem(player ? player.name : 'Unknown Player', '', didScore, points, player ? getTeamCrest(player.team) : null);
+                });
+            } else {
+                appendModalSelectionItem('Players to Score', 'Not Selected', false, 0);
+            }
+
+            // 3. Players to Assist
+            modalUserSelectionsArea.innerHTML += `<h4 class="fs-6 fw-semibold text-light mt-4 mb-2">Players to Assist</h4>`;
+            if (selectionsForModal.playersToAssist.length > 0) {
+                selectionsForModal.playersToAssist.forEach(playerId => {
+                    const player = allPlayers.find(p => p.id === playerId);
+                    const didAssist = matchActualsForModal.assists.includes(playerId);
+                    const points = getPointsForModal(didAssist);
+                    appendModalSelectionItem(player ? player.name : 'Unknown Player', '', didAssist, points, player ? getTeamCrest(player.team) : null);
+                });
+            } else {
+                appendModalSelectionItem('Players to Assist', 'Not Selected', false, 0);
+            }
+
+            // 4. Players to Get a Card
+            modalUserSelectionsArea.innerHTML += `<h4 class="fs-6 fw-semibold text-light mt-4 mb-2">Players to Get a Card</h4>`;
+            if (selectionsForModal.playersToCard.length > 0) {
+                selectionsForModal.playersToCard.forEach(playerId => {
+                    const player = allPlayers.find(p => p.id === playerId);
+                    const didCard = matchActualsForModal.cards.includes(playerId);
+                    const points = getPointsForModal(didCard);
+                    appendModalSelectionItem(player ? player.name : 'Unknown Player', '', didCard, points, player ? getTeamCrest(player.team) : null);
+                });
+            } else {
+                appendModalSelectionItem('Players to Get a Card', 'Not Selected', false, 0);
+            }
+
+            // 5. Home Team Clean Sheet
+            const isHomeCSActual = matchActualsForModal.awayScore === 0;
+            if (selectionsForModal.homeCleanSheet) {
+                const isHomeCSCorrect = (selectionsForModal.homeCleanSheet === 'yes' && isHomeCSActual) || (selectionsForModal.homeCleanSheet === 'no' && !isHomeCSActual);
+                const points = getPointsForModal(isHomeCSCorrect);
+                appendModalSelectionItem(`${matchActualsForModal.home} Clean Sheet`, selectionsForModal.homeCleanSheet.charAt(0).toUpperCase() + selectionsForModal.homeCleanSheet.slice(1), isHomeCSCorrect, points, getTeamCrest(matchActualsForModal.home));
+            } else {
+                appendModalSelectionItem(`${matchActualsForModal.home} Clean Sheet`, 'Not Selected', false, 0, getTeamCrest(matchActualsForModal.home));
+            }
+
+            // 6. Away Team Clean Sheet
+            const isAwayCSActual = matchActualsForModal.homeScore === 0;
+            if (selectionsForModal.awayCleanSheet) {
+                const isAwayCSCorrect = (selectionsForModal.awayCleanSheet === 'yes' && isAwayCSActual) || (selectionsForModal.awayCleanSheet === 'no' && !isAwayCSActual);
+                const points = getPointsForModal(isAwayCSCorrect);
+                appendModalSelectionItem(`${matchActualsForModal.away} Clean Sheet`, selectionsForModal.awayCleanSheet.charAt(0).toUpperCase() + selectionsForModal.awayCleanSheet.slice(1), isAwayCSCorrect, points, getTeamCrest(matchActualsForModal.away));
+            } else {
+                appendModalSelectionItem(`${matchActualsForModal.away} Clean Sheet`, 'Not Selected', false, 0, getTeamCrest(matchActualsForModal.away));
+            }
+
+            document.getElementById('modal-user-total-points').textContent = modalTotalPoints;
+
+            userSelectionsModalInstance = new bootstrap.Modal(document.getElementById('userSelectionsModal'));
+            userSelectionsModalInstance.show();
+        }
+
+        // Helper to generate mock selections for leaderboard modal (for non-Stu users)
+        function generateMockUserSelections() {
+            const outcomes = ['home', 'draw', 'away'];
+            const randomOutcome = outcomes[Math.floor(Math.random() * outcomes.length)];
+
+            const csOutcomes = ['yes', 'no'];
+            const randomHomeCS = csOutcomes[Math.floor(Math.random() * csOutcomes.length)];
+            const randomAwayCS = csOutcomes[Math.floor(Math.random() * csOutcomes.length)];
+
+            // Pick 2 random players for score, assist, card from the full list
+            const shuffledPlayers = [...allPlayers].sort(() => 0.5 - Math.random());
+            const mockScorers = shuffledPlayers.slice(0, 2).map(p => p.id);
+            const mockAssists = shuffledPlayers.slice(2, 4).map(p => p.id);
+            const mockCards = shuffledPlayers.slice(4, 6).map(p => p.id);
+
+            return {
+                matchOutcome: randomOutcome,
+                playersToScore: mockScorers,
+                playersToAssist: mockAssists,
+                playersToCard: mockCards,
+                homeCleanSheet: randomHomeCS,
+                awayCleanSheet: randomAwayCS
+            };
+        }
+
+        // Function to calculate total points for a given set of selections against a specific match
+        function calculateTotalPoints(selections, matchActuals) {
+            let points = 0;
+            const getPoints = (isCorrect) => isCorrect ? 50 : 0;
+
+            // Match Outcome
+            if (selections.matchOutcome) {
+                let actualOutcome;
+                if (matchActuals.homeScore > matchActuals.awayScore) {
+                    actualOutcome = 'home';
+                } else if (matchActuals.awayScore > matchActuals.homeScore) {
+                    actualOutcome = 'away';
+                } else {
+                    actualOutcome = 'draw';
+                }
+                if (selections.matchOutcome === actualOutcome) {
+                    points += getPoints(true);
+                }
+            }
+
+            // Players to Score
+            selections.playersToScore.forEach(playerId => {
+                if (matchActuals.scorers.includes(playerId)) {
+                    points += getPoints(true);
+                }
+            });
+
+            // Players to Assist
+            selections.playersToAssist.forEach(playerId => {
+                if (matchActuals.assists.includes(playerId)) {
+                    points += getPoints(true);
+                }
+            });
+
+            // Players to Get a Card
+            selections.playersToCard.forEach(playerId => {
+                if (matchActuals.cards.includes(playerId)) {
+                    points += getPoints(true);
+                }
+            });
+
+            // Home Team Clean Sheet
+            const isHomeCSActual = matchActuals.awayScore === 0;
+            if (selections.homeCleanSheet) {
+                if ((selections.homeCleanSheet === 'yes' && isHomeCSActual) || (selections.homeCleanSheet === 'no' && !isHomeCSActual)) {
+                    points += getPoints(true);
+                }
+            }
+
+            // Away Team Clean Sheet
+            const isAwayCSActual = matchActuals.homeScore === 0;
+            if (selections.awayCleanSheet) {
+                if ((selections.awayCleanSheet === 'yes' && isAwayCSActual) || (selections.awayCleanSheet === 'no' && !isAwayCSActual)) {
+                    points += getPoints(true);
+                }
+            }
+            return points;
+        }
+
+
+        // Initialize the game on window load
+        window.onload = function() {
+            // Assign random emojis and calculate initial points for leaderboard users
+            const shuffledEmojis = [...animalEmojis].sort(() => 0.5 - Math.random());
+            leaderboardUsers.forEach((user, index) => {
+                user.emoji = shuffledEmojis[index % shuffledEmojis.length]; // Assign emoji
+                if (user.name !== 'Stu') {
+                    // For non-Stu users, generate mock selections and calculate points
+                    user.selections = generateMockUserSelections();
+                }
+                // Calculate total points for each user based on their selections against a fixed match (e.g., match1)
+                // This ensures consistency between leaderboard and modal
+                user.totalPoints = calculateTotalPoints(user.selections, actualMatchResults['match1']);
+            });
+
+            renderHomescreen();
+        };
+    </script>
+</body>
+</html>
