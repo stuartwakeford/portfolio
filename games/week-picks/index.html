@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week Picks - Football Game</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+
+    <header class="branding-bar">
+        <div class="logo">
+            <span class="material-icons football-icon">sports_soccer</span>
+            <span class="logo-text">Week Picks</span>
+        </div>
+    </header>
+
+    <section id="homescreen" class="screen active-screen">
+        <div class="container">
+            <h1>Premier League Week 38</h1>
+            <a href="#selections" class="btn primary-btn" id="make-selections-btn">Make selections</a>
+        </div>
+    </section>
+
+    ---
+
+    <section id="selections" class="screen">
+        <div class="container">
+            <h1>Make your selections</h1>
+
+            <div class="selection-block">
+                <h2>Pick 3 teams to win</h2>
+                <button class="btn selection-btn" data-modal="modal-teams-win">Make selections</button>
+                <div class="selected-items" id="selected-teams-win">
+                    <span class="placeholder">No teams selected</span>
+                </div>
+            </div>
+
+            <div id="modal-teams-win" class="modal">
+                <div class="modal-content">
+                    <span class="close-button">&times;</span>
+                    <h2>Select 3 Teams to Win</h2>
+                    <div class="team-list">
+                        <div class="team-item" data-team-id="arsenal" data-team-name="Arsenal" data-team-crest="https://crests.football-data.org/crests/66.png">
+                            <img src="https://crests.football-data.org/crests/66.png" alt="Arsenal" class="team-crest">
+                            <span>Arsenal</span>
+                            <button class="btn select-item-btn">Select</button>
+                        </div>
+                        <div class="team-item" data-team-id="man-city" data-team-name="Man City" data-team-crest="https://crests.football-data.org/crests/65.png">
+                            <img src="https://crests.football-data.org/crests/65.png" alt="Man City" class="team-crest">
+                            <span>Man City</span>
+                            <button class="btn select-item-btn">Select</button>
+                        </div>
+                        <div class="team-item" data-team-id="liverpool" data-team-name="Liverpool" data-team-crest="https://crests.football-data.org/crests/64.png">
+                            <img src="https://crests.football-data.org/crests/64.png" alt="Liverpool" class="team-crest">
+                            <span>Liverpool</span>
+                            <button class="btn select-item-btn">Select</button>
+                        </div>
+                         <div class="team-item" data-team-id="chelsea" data-team-name="Chelsea" data-team-crest="https://crests.football-data.org/crests/73.png">
+                            <img src="https://crests.football-data.org/crests/73.png" alt="Chelsea" class="team-crest">
+                            <span>Chelsea</span>
+                            <button class="btn select-item-btn">Select</button>
+                        </div>
+                         <div class="team-item" data-team-id="man-utd" data-team-name="Man Utd" data-team-crest="https://crests.football-data.org/crests/61.png">
+                            <img src="https://crests.football-data.org/crests/61.png" alt="Man Utd" class="team-crest">
+                            <span>Man Utd</span>
+                            <button class="btn select-item-btn">Select</button>
+                        </div>
+                        <div class="team-item" data-team-id="tottenham" data-team-name="Tottenham" data-team-crest="https://crests.football-data.org/crests/76.png">
+                            <img src="https://crests.football-data.org/crests/76.png" alt="Tottenham" class="team-crest">
+                            <span>Tottenham</span>
+                            <button class="btn select-item-btn">Select</button>
+                        </div>
+                        <div class="team-item" data-team-id="aston-villa" data-team-name="Aston Villa" data-team-crest="https://crests.football-data.org/crests/58.png">
+                            <img src="https://crests.football-data.org/crests/58.png" alt="Aston Villa" class="team-crest">
+                            <span>Aston Villa</span>
+                            <button class="btn select-item-btn">Select</button>
+                        </div>
+                        <div class="team-item" data-team-id="newcastle" data-team-name="Newcastle" data-team-crest="https://crests.football-data.org/crests/67.png">
+                            <img src="https://crests.football-data.org/crests/67.png" alt="Newcastle" class="team-crest">
+                            <span>Newcastle</span>
+                            <button class="btn select-item-btn">Select</button>
+                        </div>
+                        <div class="team-item" data-team-id="brighton" data-team-name="Brighton" data-team-crest="https://crests.football-data.org/crests/397.png">
+                            <img src="https://crests.football-data.org/crests/397.png" alt="Brighton" class="team-crest">
+                            <span>Brighton</span>
+                            <button class="btn select-item-btn">Select</button>
+                        </div>
+                        <div class="team-item" data-team-id="west-ham" data-team-name="West Ham" data-team-crest="https://crests.football-data.org/crests/563.png">
+                            <img src="https://crests.football-data.org/crests/563.png" alt="West Ham" class="team-crest">
+                            <span>West Ham</span>
+                            <button class="btn select-item-btn">Select</button>
+                        </div>
+                        <div class="team-item" data-team-id="everton" data-team-name="Everton" data-team-crest="https://crests.football-data.org/crests/62.png">
+                            <img src="https://crests.football-data.org/crests/62.png" alt="Everton" class="team-crest">
+                            <span>Everton</span>
+                            <button class="btn select-item-btn">Select</button>
+                        </div>
+                        <div class="team-item" data-team-id="leeds" data-team-name="Leeds Utd" data-team-crest="https://crests.football-data.org/crests/341.png">
+                            <img src="https://crests.football-data.org/crests/341.png" alt="Leeds Utd" class="team-crest">
+                            <span>Leeds Utd</span>
+                            <button class="btn select-item-btn">Select</button>
+                        </div>
+                        <div class="team-item" data-team-id="wolves" data-team-name="Wolves" data-team-crest="https://crests.football-data.org/crests/77.png">
+                            <img src="https://crests.football-data.org/crests/77.png" alt="Wolves" class="team-crest">
+                            <span>Wolves</span>
+                            <button class="btn select-item-btn">Select</button>
+                        </div>
+                        <div class="team-item" data-team-id="crystal-palace" data-team-name="Crystal Palace" data-team-crest="https://crests.football-data.org/crests/354.png">
+                            <img src="https://crests.football-data.org/crests/354.png" alt="Crystal Palace" class="team-crest">
+                            <span>Crystal Palace</span>
+                            <button class="btn select-item-btn">Select</button>
+                        </div>
+                        <div class="team-item" data-team-id="leicester" data-team-name="Leicester City" data-team-crest="https://crests.football-data.org/crests/338.png">
+                            <img src="https://crests.football-data.org/crests/338.png" alt="Leicester City" class="team-crest">
+                            <span>Leicester City</span>
+                            <button class="btn select-item-btn">Select</button>
+                        </div>
+                        <div class="team-item" data-team-id="brentford" data-team-name="Brentford" data-team-crest="https://crests.football-data.org/crests/402.png">
+                            <img src="https://crests.football-data.org/crests/402.png" alt="Brentford" class="team-crest">
+                            <span>Brentford</span>
+                            <button class="btn select-item-btn">Select</button>
+                        </div>
+                        <div class="team-item" data-team-id="fulham" data-team-name="Fulham" data-team-crest="https://crests.football-data.org/crests/356.png">
+                            <img src="https://crests.football-data.org/crests/356.png" alt="Fulham" class="team-crest">
+                            <span>Fulham</span>
+                            <button class="btn select-item-btn">Select</button>
+                        </div>
+                        <div class="team-item" data-team-id="bournemouth" data-team-name="Bournemouth" data-team-crest="https://crests.football-data.org/crests/1044.png">
+                            <img src="https://crests.football-data.org/crests/1044.png" alt="Bournemouth" class="team-crest">
+                            <span>Bournemouth</span>
+                            <button class="btn select-item-btn">Select</button>
+                        </div>
+                        <div class="team-item" data-team-id="nottingham-forest" data-team-name="Nottm Forest" data-team-crest="https://crests.football-data.org/crests/351.png">
+                            <img src="https://crests.football-data.org/crests/351.png" alt="Nottm Forest" class="team-crest">
+                            <span>Nottm Forest</span>
+                            <button class="btn select-item-btn">Select</button>
+                        </div>
+                        <div class="team-item" data-team-id="sheffield-utd" data-team-name="Sheffield Utd" data-team-crest="https://crests.football-data.org/crests/346.png">
+                            <img src="https://crests.football-data.org/crests/346.png" alt="Sheffield Utd" class="team-crest">
+                            <span>Sheffield Utd</span>
+                            <button class="btn select-item-btn">Select</button>
+                        </div>
+                    </div>
+                    <button class="btn confirm-modal-btn">Confirm Selections</button>
+                </div>
+            </div>
+
+            <div class="selection-block">
+                <h2>Pick 3 players to score</h2>
+                <button class="btn selection-btn" data-modal="modal-players-score">Make selections</button>
+                <div class="selected-items" id="selected-players-score">
+                    <span class="placeholder">No players selected</span>
+                </div>
+            </div>
+
+            <div id="modal-players-score" class="modal
