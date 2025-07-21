@@ -11,8 +11,8 @@
             font-family: 'Inter', Arial, sans-serif; /* Using Inter for a modern feel */
             margin: 0;
             padding: 0;
-            background-color: #f0f2f5; /* Lighter background */
-            color: #333;
+            background-color: #0B0446; /* Dark mode main page background */
+            color: #C0C0C0; /* Light grey text for readability */
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
@@ -22,13 +22,13 @@
             max-width: 450px; /* More typical mobile width */
             margin: 20px auto;
             padding: 20px;
-            background-color: #fff;
+            background-color: #353066; /* Dark mode block container background */
             border-radius: 12px; /* More rounded corners */
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* Softer shadow */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3); /* Softer, darker shadow */
         }
 
         h1, h2 {
-            color: #2c3e50;
+            color: #E0E0E0; /* Light grey for titles */
             text-align: center;
             margin-bottom: 20px;
             font-weight: 700;
@@ -36,13 +36,13 @@
 
         /* Branding Bar */
         .branding-bar {
-            background-color: #1a73e8; /* Google Blue for branding */
+            background-color: #2A255C; /* Darker shade for branding bar */
             color: white;
             padding: 15px 20px;
             display: flex;
             align-items: center;
             justify-content: space-between; /* Space out logo and home icon */
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
         }
 
         .branding-bar .home-icon-btn {
@@ -88,7 +88,8 @@
             border: none;
             text-align: center;
             user-select: none;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* Consistent shadow */
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2); /* Consistent shadow */
+            color: #333; /* Dark text on bright green buttons */
         }
 
         .btn:active {
@@ -96,20 +97,18 @@
         }
 
         .primary-btn {
-            background-color: #1a73e8; /* Google Blue */
-            color: white;
+            background-color: #8EFA4C; /* Bright green for primary buttons */
             display: block;
             margin: 30px auto 0;
             width: fit-content;
         }
 
         .primary-btn:hover {
-            background-color: #155bb5;
+            background-color: #7ADF3B; /* Slightly darker green on hover */
         }
 
         .selection-btn {
-            background-color: #6c757d;
-            color: white;
+            background-color: #7ADF3B; /* Non-selected button color */
             margin-top: 15px; /* More spacing */
             display: block;
             width: fit-content;
@@ -118,12 +117,12 @@
         }
 
         .selection-btn:hover {
-            background-color: #5a6268;
+            background-color: #60B030; /* Darker green on hover */
         }
 
         .select-item-btn {
-            background-color: #28a745;
-            color: white;
+            background-color: #7ADF3B; /* Non-selected button color */
+            color: #333; /* Dark text on bright button */
             padding: 8px 15px; /* Adjusted padding */
             font-size: 0.95em;
             border-radius: 6px;
@@ -138,27 +137,29 @@
         }
 
         .select-item-btn:hover {
-            background-color: #218838;
+            background-color: #60B030; /* Darker green on hover */
         }
 
         .select-item-btn.selected {
-            background-color: #1a73e8; /* Blue when selected */
+            background-color: #0d6efd; /* Vibrant blue when selected */
+            color: white; /* White text on blue */
             cursor: default;
         }
 
         .select-item-btn.selected:hover {
-            background-color: #1a73e8;
+            background-color: #0d6efd; /* Keep same color when selected and hovered */
         }
 
         .select-item-btn.disabled {
             background-color: #cccccc;
             cursor: not-allowed;
             opacity: 0.7;
+            color: #666; /* Darker text on disabled */
         }
 
         .confirm-modal-btn {
-            background-color: #1a73e8;
-            color: white;
+            background-color: #8EFA4C;
+            color: #333;
             margin-top: 25px; /* More spacing */
             width: 100%;
             opacity: 0.5;
@@ -171,22 +172,25 @@
         }
 
         .confirm-modal-btn:hover.active {
-            background-color: #155bb5;
+            background-color: #7ADF3B;
         }
 
         .confirm-selections-main-btn {
             margin-top: 40px;
-            background-color: #28aa45; /* Slightly different green */
+            background-color: #8EFA4C;
+            width: 100%; /* Full width as requested */
+            padding: 15px 25px; /* Bigger padding for larger size */
+            font-size: 1.2em; /* Slightly larger font */
         }
 
         .confirm-selections-main-btn:hover {
-            background-color: #21993a;
+            background-color: #7ADF3B;
         }
 
         .view-selections-btn {
             background: none;
             border: none; /* Ensure no default button border */
-            color: #1a73e8;
+            color: #8EFA4C; /* Bright green for view buttons */
             padding: 5px;
             margin-left: auto;
             cursor: pointer;
@@ -197,7 +201,7 @@
         }
 
         .view-selections-btn:hover {
-            color: #155bb5;
+            color: #7ADF3B;
         }
 
         /* Screen Management */
@@ -213,8 +217,8 @@
 
         /* Screen 2: Selections */
         .selection-block {
-            background-color: #eef2f6; /* Lighter block background */
-            border: 1px solid #e0e4e8;
+            background-color: #353066; /* Dark mode block background */
+            border: 1px solid #403B70; /* Darker border */
             border-radius: 10px;
             padding: 18px; /* More padding */
             margin-bottom: 20px;
@@ -222,7 +226,7 @@
         }
 
         .selection-block h2 {
-            color: #34495e;
+            color: #E0E0E0;
             text-align: center;
             margin-bottom: 15px;
             font-weight: 700;
@@ -231,8 +235,8 @@
         .selected-items {
             margin-top: 20px;
             padding: 12px;
-            background-color: #f8f9fa;
-            border: 1px dashed #ced4da;
+            background-color: #403B70; /* Slightly lighter for selected items area */
+            border: 1px dashed #504B80; /* Dashed border for visual distinction */
             border-radius: 8px;
             min-height: 50px; /* Taller for better visual */
             display: flex;
@@ -240,13 +244,23 @@
             gap: 10px; /* More space between tags */
             align-items: center;
             justify-content: center;
-            color: #6c757d;
+            color: #C0C0C0;
             font-size: 0.95em;
+            transition: all 0.3s ease-in-out; /* Smooth transition for empty state */
+        }
+
+        /* Style for empty selection display */
+        .selected-items.empty-selection-display {
+            border: none;
+            background-color: transparent;
+            min-height: 0; /* Collapse height */
+            padding: 0;
+            margin-top: 0;
         }
 
         .selected-item-tag {
-            background-color: #e0f2f7; /* Lighter blue tag */
-            color: #0d6efd; /* Darker blue text */
+            background-color: #4A457D; /* Lighter shade of block background for tags */
+            color: #E0E0E0; /* Light text on tags */
             padding: 6px 12px;
             border-radius: 20px; /* More rounded */
             display: flex;
@@ -274,7 +288,7 @@
         .selected-item-tag .remove-btn {
             background: none;
             border: none;
-            color: #0d6efd;
+            color: #8EFA4C; /* Bright green X */
             font-size: 1.4em; /* Larger X */
             cursor: pointer;
             line-height: 1;
@@ -283,7 +297,7 @@
         }
 
         .selected-item-tag .remove-btn:hover {
-            color: #dc3545;
+            color: #FF6347; /* Tomato red on hover */
         }
 
 
@@ -297,24 +311,24 @@
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgba(0,0,0,0.7); /* Darker overlay */
+            background-color: rgba(0,0,0,0.8); /* Darker overlay */
             padding-top: 40px; /* Less top padding */
         }
 
         .modal-content {
-            background-color: #fefefe;
+            background-color: #353066; /* Dark mode block container background */
             margin: 5% auto;
             padding: 25px;
             border: none; /* No border */
             width: 95%; /* Wider on mobile */
             max-width: 550px; /* Slightly larger max-width for modals */
             border-radius: 15px; /* More rounded */
-            box-shadow: 0 8px 25px rgba(0,0,0,0.4); /* Stronger shadow */
+            box-shadow: 0 8px 25px rgba(0,0,0,0.6); /* Stronger shadow */
             position: relative;
         }
 
         .close-button {
-            color: #888;
+            color: #C0C0C0; /* Light grey close button */
             float: right;
             font-size: 36px; /* Larger close button */
             font-weight: bold;
@@ -326,12 +340,12 @@
 
         .close-button:hover,
         .close-button:focus {
-            color: #333;
+            color: #E0E0E0;
         }
 
         .modal-content h2 {
             margin-top: 0;
-            color: #34495e;
+            color: #E0E0E0;
             text-align: center;
             margin-bottom: 25px;
             font-size: 1.6em;
@@ -340,10 +354,10 @@
         .team-list, .player-list {
             max-height: 400px; /* Taller scrollable list */
             overflow-y: auto;
-            border: 1px solid #e9ecef;
+            border: 1px solid #504B80; /* Darker border */
             padding: 10px;
             border-radius: 8px;
-            background-color: #fcfcfc;
+            background-color: #403B70; /* Slightly lighter background for lists */
         }
 
         /* Fixture View Specific Styles */
@@ -351,8 +365,8 @@
             margin-bottom: 15px;
             padding: 10px; /* Padding for the group container */
             border-radius: 8px;
-            background-color: #eef2f6; /* Light grey background for the fixture block */
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05); /* Subtle shadow */
+            background-color: #403B70; /* Light grey background for the fixture block */
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* Subtle shadow */
         }
         .fixture-group:last-child {
             margin-bottom: 0;
@@ -365,7 +379,7 @@
             padding: 8px 0;
         }
         .fixture-group .fixture-team-selection-row:not(:last-child) {
-            border-bottom: 1px solid #e0e4e8; /* Separator between home and away team in a fixture */
+            border-bottom: 1px solid #504B80; /* Separator between home and away team in a fixture */
         }
 
         .team-name-with-position {
@@ -373,10 +387,16 @@
             align-items: center;
             gap: 10px;
         }
+        /* Make team names in modals white and bold */
+        .team-name-with-position span {
+            color: white;
+            font-weight: bold;
+        }
+
 
         .team-position {
             font-size: 0.85em;
-            color: #6c757d;
+            color: #C0C0C0;
             font-weight: normal;
             margin-left: 5px;
         }
@@ -387,7 +407,7 @@
             align-items: center;
             justify-content: space-between;
             padding: 10px 0;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid #504B80; /* Darker border */
         }
 
         .team-item:last-child, .player-item:last-child {
@@ -405,10 +425,16 @@
         .player-item-details .team-circle {
             flex-shrink: 0;
         }
+        /* Make player names in modals white and bold */
+        .player-item-details span {
+            color: white;
+            font-weight: bold;
+        }
 
-        .player-team-name { /* New style for the explicit team name column */
+        /* Updated class for player position display */
+        .player-position-name { /* This class is now removed from HTML, but keeping style for safety */
             font-size: 0.9em;
-            color: #6c757d;
+            color: #C0C0C0;
             margin-left: 10px; /* Space from player name */
             flex-shrink: 0;
             min-width: 80px; /* Give it some space */
@@ -417,7 +443,7 @@
 
         .player-stat {
             font-size: 0.9em;
-            color: #6c757d;
+            color: #C0C0C0;
             margin-left: auto; /* Push stat to the right */
             font-weight: normal;
             min-width: 60px; /* Give it some space */
@@ -430,7 +456,7 @@
             display: flex;
             justify-content: center;
             margin-bottom: 15px;
-            background-color: #e9ecef;
+            background-color: #403B70; /* Darker background for tabs */
             border-radius: 8px;
             overflow: hidden;
         }
@@ -440,7 +466,7 @@
             padding: 10px 15px;
             background-color: transparent;
             border: none;
-            color: #555;
+            color: #C0C0C0; /* Light text for inactive tabs */
             font-weight: 600;
             cursor: pointer;
             transition: background-color 0.3s ease, color 0.3s ease;
@@ -449,13 +475,13 @@
         }
 
         .player-position-tabs .tab-btn.active {
-            background-color: #1a73e8;
-            color: white;
-            box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+            background-color: #8EFA4C; /* Bright green for active tab */
+            color: #333; /* Dark text on active tab */
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.4);
         }
 
         .player-position-tabs .tab-btn:hover:not(.active) {
-            background-color: #d0d5db;
+            background-color: #504B80; /* Slightly lighter hover for inactive tabs */
         }
 
         /* Screen 3: In-play */
@@ -463,7 +489,7 @@
             display: flex;
             justify-content: center;
             margin-bottom: 20px;
-            background-color: #e9ecef;
+            background-color: #403B70; /* Darker background for tabs */
             border-radius: 8px;
             overflow: hidden;
         }
@@ -473,7 +499,7 @@
             padding: 12px 20px;
             background-color: transparent;
             border: none;
-            color: #555;
+            color: #C0C0C0;
             font-weight: 600;
             cursor: pointer;
             transition: background-color 0.3s ease, color 0.3s ease;
@@ -482,13 +508,13 @@
         }
 
         .in-play-tabs .tab-btn.active {
-            background-color: #1a73e8;
-            color: white;
-            box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+            background-color: #8EFA4C;
+            color: #333;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.4);
         }
 
         .in-play-tabs .tab-btn:hover:not(.active) {
-            background-color: #d0d5db;
+            background-color: #504B80;
         }
 
         .tab-content {
@@ -499,24 +525,42 @@
             display: block;
         }
 
+        /* Category grouping on In-Play and Leaderboard Modals */
+        .selection-category-group {
+            margin-bottom: 30px;
+            padding: 15px;
+            background-color: #353066; /* Dark mode block container background */
+            border-radius: 10px;
+            border: 1px solid #403B70; /* Darker border */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .selection-category-group h3 {
+            color: #E0E0E0; /* Light grey for subheaders */
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            font-weight: 600;
+        }
 
         .selection-status-grid {
             display: grid;
             grid-template-columns: 1fr;
             gap: 15px;
-            margin-bottom: 30px;
+            /* Removed margin-bottom here as it's now on the group */
         }
 
         .selection-item {
-            background-color: #f8f9fa;
-            border: 1px solid #e2e6ea;
+            background-color: #403B70; /* Slightly lighter background for individual items */
+            border: 1px solid #504B80; /* Darker border */
             border-radius: 10px;
             padding: 18px;
             display: flex;
             flex-direction: column; /* Stack details and fixture info */
             justify-content: space-between;
             align-items: flex-start; /* Align content to start */
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
 
         .selection-main-details { /* New container for type, name, status, outcome */
@@ -535,11 +579,28 @@
         }
 
         .selection-details strong {
-            color: #2c3e50;
+            color: #E0E0E0; /* Light grey for bold names */
             font-size: 1.1em;
+            display: flex; /* Enable flex for name and crest */
+            align-items: center;
+            gap: 10px; /* Space between crest and name */
+        }
+        /* Style for the crest within selection-details strong */
+        .selection-details strong .team-crest-small {
+            width: 24px; /* Smaller crest size */
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6em; /* Smaller font for abbr */
+            font-weight: bold;
+            color: white;
+            flex-shrink: 0;
         }
 
-        .status {
+
+        .status { /* This will be removed, but keeping styles for reference if needed */
             font-size: 0.85em;
             padding: 4px 10px;
             border-radius: 5px;
@@ -547,36 +608,36 @@
             margin-top: 8px;
             width: fit-content;
             font-weight: 600;
-            position: relative; /* For pulsating circle */
-            display: inline-flex; /* To contain pseudo-element */
+            position: relative;
+            display: inline-flex;
             align-items: center;
-            gap: 5px; /* Space for potential pulsating circle */
+            gap: 5px;
         }
 
         .status.finished {
-            background-color: #6c757d;
+            background-color: #606060; /* Darker grey for finished */
         }
 
         .status.in-play {
-            background-color: #ffc107;
+            background-color: #FFD700; /* Gold for in-play */
             color: #333;
         }
 
         .status.upcoming {
-            background-color: #17a2b8;
+            background-color: #5A5A5A; /* Medium grey for upcoming */
         }
 
         /* Pulsating Circle Animation */
         @keyframes pulse-green {
-            0% { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(40, 167, 69, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0); }
+            0% { box-shadow: 0 0 0 0 rgba(142, 250, 76, 0.7); } /* Use new green color */
+            70% { box-shadow: 0 0 0 10px rgba(142, 250, 76, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(142, 250, 76, 0); }
         }
 
         .status.in-play .live-indicator {
             width: 8px;
             height: 8px;
-            background-color: #28a745; /* Green */
+            background-color: #8EFA4C; /* Bright green */
             border-radius: 50%;
             animation: pulse-green 1.5s infinite;
             margin-right: 5px; /* Space between circle and text */
@@ -592,65 +653,65 @@
         }
 
         .outcome.correct {
-            color: #28a745;
+            color: #8EFA4C; /* Bright green for correct */
         }
 
         .outcome.incorrect {
-            color: #dc3545;
+            color: #FF6347; /* Tomato red for incorrect */
         }
 
         .outcome.pending {
-            color: #6c757d;
+            color: #C0C0C0; /* Light grey for pending */
         }
 
         .outcome-icon {
             font-size: 1.2em;
             vertical-align: middle;
         }
-        .correct-icon { color: #28a745; }
-        .incorrect-icon { color: #dc3545; }
+        .correct-icon { color: #8EFA4C; }
+        .incorrect-icon { color: #FF6347; }
 
 
         .points {
             font-size: 1.6em; /* Larger points */
             font-weight: bold;
-            color: #1a73e8;
+            color: #8EFA4C; /* Bright green for points */
             margin-left: 15px;
             flex-shrink: 0; /* Prevent shrinking */
         }
 
         .fixture-info { /* New style for fixture details on in-play screen */
             font-size: 0.9em;
-            color: #555;
+            color: #C0C0C0; /* Light grey for fixture info */
             padding-top: 10px;
-            border-top: 1px dashed #e0e4e8;
+            border-top: 1px dashed #504B80; /* Darker dashed border */
             width: 100%;
             text-align: center;
         }
 
         .fixture-info strong {
-            color: #333;
+            color: #E0E0E0; /* Lighter for bold teams in fixture info */
         }
 
         .total-points-bar {
-            background-color: #28a745;
-            color: white;
+            background-color: #8EFA4C; /* Bright green for total points bar */
+            color: #333; /* Dark text on bright green */
             padding: 18px;
             border-radius: 10px;
             text-align: center;
-            margin-top: 30px;
-            margin-bottom: 40px;
+            margin-top: 0px; /* Removed margin-top, now controlled by placement */
+            margin-bottom: 20px; /* Reduced margin-bottom */
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
         .total-points-bar h2 {
             margin: 0;
-            color: white;
+            color: #333; /* Dark text on bright green */
             font-size: 1.8em;
         }
 
         .total-points-value {
-            font-size: 2.2em; /* Even larger points */
+            font-size: 1.8em; /* Smaller points font size as requested */
             font-weight: bold;
         }
 
@@ -661,8 +722,8 @@
         }
 
         .leaderboard-item {
-            background-color: #f8f9fa;
-            border: 1px solid #e2e6ea;
+            background-color: #403B70; /* Slightly lighter background for leaderboard items */
+            border: 1px solid #504B80; /* Darker border */
             border-radius: 10px;
             padding: 15px 20px;
             display: flex;
@@ -681,11 +742,12 @@
             font-weight: bold;
             flex-grow: 1;
             font-size: 1.1em;
+            color: #E0E0E0; /* Light grey for username */
         }
 
         .leaderboard-item .leaderboard-points {
             font-weight: bold;
-            color: #1a73e8;
+            color: #8EFA4C; /* Bright green for leaderboard points */
             font-size: 1.3em;
             margin-right: 15px;
             flex-shrink: 0;
@@ -858,77 +920,12 @@
             </div>
 
             <div id="selections-tab" class="tab-content active-tab-content">
-                <div class="selection-status-grid" id="user-in-play-selections">
-                    <!-- User's actual selections will be populated here by JavaScript -->
-                    <div class="selection-item">
-                        <div class="selection-main-details">
-                            <div class="selection-details">
-                                <span>Team to Win: <strong>Man City</strong></span>
-                                <span class="status finished">Finished (2-1)</span>
-                                <span class="outcome correct">Correct!<span class="material-icons outcome-icon correct-icon">check_circle</span></span>
-                            </div>
-                            <span class="points">50pts</span>
-                        </div>
-                        <div class="fixture-info">
-                            <strong>Man City</strong> vs <strong>West Ham</strong> (Finished: 2-1)
-                        </div>
-                    </div>
-                    <div class="selection-item">
-                        <div class="selection-main-details">
-                            <div class="selection-details">
-                                <span>Player to Score: <strong>Erling Haaland</strong></span>
-                                <span class="status in-play"><div class="live-indicator"></div>Live (60')</span>
-                                <span class="outcome pending">Pending...</span>
-                            </div>
-                            <span class="points">0pts</span>
-                        </div>
-                        <div class="fixture-info">
-                            <strong>Man City</strong> vs <strong>West Ham</strong> (Live: 60')
-                        </div>
-                    </div>
-                    <div class="selection-item">
-                        <div class="selection-main-details">
-                            <div class="selection-details">
-                                <span>Player to Assist: <strong>Kevin De Bruyne</strong></span>
-                                <span class="status upcoming">Upcoming</span>
-                                <span class="outcome pending">Pending...</span>
-                            </div>
-                            <span class="points">0pts</span>
-                        </div>
-                        <div class="fixture-info">
-                            <strong>Man City</strong> vs <strong>West Ham</strong> (Upcoming)
-                        </div>
-                    </div>
-                    <div class="selection-item">
-                        <div class="selection-main-details">
-                            <div class="selection-details">
-                                <span>Player to Get Card: <strong>Joao Palhinha</strong></span>
-                                <span class="status finished">Finished (0-0)</span>
-                                <span class="outcome incorrect">Incorrect.<span class="material-icons outcome-icon incorrect-icon">cancel</span></span>
-                            </div>
-                            <span class="points">0pts</span>
-                        </div>
-                        <div class="fixture-info">
-                            <strong>Crystal Palace</strong> vs <strong>Fulham</strong> (Finished: 0-0)
-                        </div>
-                    </div>
-                     <div class="selection-item">
-                        <div class="selection-main-details">
-                            <div class="selection-details">
-                                <span>Clean Sheet: <strong>Arsenal</strong></span>
-                                <span class="status in-play"><div class="live-indicator"></div>Live (45')</span>
-                                <span class="outcome pending">Pending...</span>
-                            </div>
-                            <span class="points">0pts</span>
-                        </div>
-                        <div class="fixture-info">
-                            <strong>Arsenal</strong> vs <strong>Wolves</strong> (Live: 45')
-                        </div>
-                    </div>
-                </div>
-
+                <!-- Moved Total Points Bar to the top -->
                 <div class="total-points-bar">
-                    <h2>Total Points: <span class="total-points-value">50pts</span></h2>
+                    <h2>Total Points: <span class="total-points-value">0pts</span></h2>
+                </div>
+                <div id="user-in-play-selections">
+                    <!-- User's actual selections will be populated here by JavaScript, grouped by category -->
                 </div>
             </div>
 
@@ -985,7 +982,7 @@
                 <div class="modal-content">
                     <span class="close-button">&times;</span>
                     <h2 id="modal-user-selections-title">Stu's Selections</h2>
-                    <div class="selection-status-grid" id="modal-user-selections-content">
+                    <div id="modal-user-selections-content">
                         <!-- Content populated by JS -->
                     </div>
                     <div class="total-points-bar">
@@ -1098,26 +1095,33 @@
 
         // Mock fixture results for demo purposes (Week 38, 2024-25 season - hardcoded)
         const mockResults = {
-            'fix1': { home: "Arsenal", away: "Wolves", homeScore: 3, awayScore: 1, status: 'finished', statusText: 'Finished (3-1)', won: 'Arsenal', cleanSheet: false },
-            'fix2': { home: "Man City", away: "West Ham", homeScore: 2, awayScore: 0, status: 'finished', statusText: 'Finished (2-0)', won: 'Man City', cleanSheet: true },
-            'fix3': { home: "Liverpool", away: "Brighton", homeScore: 0, awayScore: 0, status: 'finished', statusText: 'Finished (0-0)', won: 'draw', cleanSheet: true },
-            'fix4': { home: "Chelsea", away: "Aston Villa", homeScore: 2, awayScore: 1, status: 'finished', statusText: 'Finished (2-1)', won: 'Chelsea', cleanSheet: false },
-            'fix5': { home: "Man Utd", away: "Tottenham", homeScore: 1, awayScore: 2, status: 'finished', statusText: 'Finished (1-2)', won: 'Tottenham', cleanSheet: false },
-            'fix6': { home: "Newcastle", away: "Everton", homeScore: 2, awayScore: 1, status: 'finished', statusText: 'Finished (2-1)', won: 'Newcastle', cleanSheet: false },
-            'fix7': { home: "Crystal Palace", away: "Fulham", homeScore: 1, awayScore: 0, status: 'finished', statusText: 'Finished (1-0)', won: 'Crystal Palace', cleanSheet: true },
-            'fix8': { home: "Brentford", away: "Nottm Forest", homeScore: 2, awayScore: 0, status: 'finished', statusText: 'Finished (2-0)', won: 'Brentford', cleanSheet: true },
-            'fix9': { home: "Bournemouth", away: "Southampton", homeScore: 1, awayScore: 0, status: 'finished', statusText: 'Finished (1-0)', won: 'Bournemouth', cleanSheet: true },
-            'fix10': { home: "Leicester City", away: "Ipswich Town", homeScore: 3, awayScore: 0, status: 'finished', statusText: 'Finished (3-0)', won: 'Leicester City', cleanSheet: true },
+            'fix1': { home: "Arsenal", away: "Wolves", homeScore: 3, awayScore: 1, status: 'finished', won: 'Arsenal', cleanSheet: false },
+            'fix2': { home: "Man City", away: "West Ham", homeScore: 2, awayScore: 0, status: 'finished', won: 'Man City', cleanSheet: true },
+            'fix3': { home: "Liverpool", away: "Brighton", homeScore: 0, awayScore: 0, status: 'finished', won: 'draw', cleanSheet: true },
+            'fix4': { home: "Chelsea", away: "Aston Villa", homeScore: 2, awayScore: 1, status: 'finished', won: 'Chelsea', cleanSheet: false },
+            'fix5': { home: "Man Utd", away: "Tottenham", homeScore: 1, awayScore: 2, status: 'finished', won: 'Tottenham', cleanSheet: false },
+            'fix6': { home: "Newcastle", away: "Everton", homeScore: 2, awayScore: 1, status: 'finished', won: 'Newcastle', cleanSheet: false },
+            'fix7': { home: "Crystal Palace", away: "Fulham", homeScore: 1, awayScore: 0, status: 'finished', won: 'Crystal Palace', cleanSheet: true },
+            'fix8': { home: "Brentford", away: "Nottm Forest", homeScore: 2, awayScore: 0, status: 'finished', won: 'Brentford', cleanSheet: true },
+            'fix9': { home: "Bournemouth", away: "Southampton", homeScore: 1, awayScore: 0, status: 'finished', won: 'Bournemouth', cleanSheet: true },
+            'fix10': { home: "Leicester City", away: "Ipswich Town", homeScore: 3, awayScore: 0, status: 'finished', won: 'Leicester City', cleanSheet: true },
 
             // Player specific outcomes (linked to fixture outcomes for simplicity)
-            'Erling Haaland': { scored: true, fixtureId: 'fix2', liveMinute: 75 },
-            'Ollie Watkins': { scored: false, fixtureId: 'fix4' },
-            'Mohamed Salah': { scored: false, fixtureId: 'fix3' },
-            'Bukayo Saka': { scored: true, fixtureId: 'fix1' },
-            'Kevin De Bruyne': { assisted: true, fixtureId: 'fix2', liveMinute: 60 },
-            'Bruno Fernandes': { assisted: false, fixtureId: 'fix5' },
-            'Joao Palhinha': { card: true, fixtureId: 'fix7' }, // Assuming a card was given in this match
-            'Douglas Luiz': { card: false, fixtureId: 'fix4' }
+            'haaland': { scored: true, fixtureId: 'fix2', liveMinute: 75, team: "Man City" }, // Use player ID
+            'watkins': { scored: false, fixtureId: 'fix4', team: "Aston Villa" },
+            'salah': { scored: false, fixtureId: 'fix3', team: "Liverpool" },
+            'saka': { scored: true, fixtureId: 'fix1', team: "Arsenal" },
+            'kdb': { assisted: true, fixtureId: 'fix2', liveMinute: 60, team: "Man City" },
+            'fernandes': { assisted: false, fixtureId: 'fix5', team: "Man Utd" },
+            'palhinha': { card: true, fixtureId: 'fix7', team: "Fulham" }, // Assuming a card was given in this match
+            'douglas-luiz': { card: false, fixtureId: 'fix4', team: "Aston Villa" },
+            // Dummy player outcomes for leaderboard users (if not already in allPlayers)
+            'xhaka': { scored: false, fixtureId: 'fix1', team: "Arsenal" },
+            'casemiro': { card: false, fixtureId: 'fix5', team: "Man Utd" },
+            'fabinho': { card: false, fixtureId: 'fix3', team: "Liverpool" },
+            'kane': { scored: true, fixtureId: 'fix5', team: "Tottenham" },
+            'romero': { card: false, fixtureId: 'fix5', team: "Tottenham" },
+            'mcginn': { card: false, fixtureId: 'fix4', team: "Aston Villa" }
         };
 
 
@@ -1153,55 +1157,55 @@
                     name: 'Stu',
                     points: 200,
                     selections: [
-                        { type: 'Team to Win', name: 'Arsenal', abbr: 'ARS', status: 'finished', outcome: 'correct', points: 50, fixtureId: 'fix1' },
-                        { type: 'Player to Score', name: 'Bukayo Saka', status: 'finished', outcome: 'correct', points: 50, fixtureId: 'fix1' },
-                        { type: 'Player to Assist', name: 'Martin Ødegaard', status: 'in-play', outcome: 'pending', points: 0, fixtureId: 'fix1', liveMinute: 70 },
-                        { type: 'Player to Get Card', name: 'Granit Xhaka', status: 'finished', outcome: 'incorrect', points: 0, fixtureId: 'fix1' },
-                        { type: 'Clean Sheet', name: 'Chelsea', abbr: 'CHE', status: 'upcoming', outcome: 'pending', points: 0, fixtureId: 'fix4' }
+                        { type: 'Team to Win', name: 'Arsenal', id: 'ARS', team: 'Arsenal', status: 'finished', outcome: 'correct', points: 50, fixtureId: 'fix1' },
+                        { type: 'Player to Score', name: 'Bukayo Saka', id: 'saka', team: 'Arsenal', status: 'finished', outcome: 'correct', points: 50, fixtureId: 'fix1' },
+                        { type: 'Player to Assist', name: 'Martin Ødegaard', id: 'ode', team: 'Arsenal', status: 'in-play', outcome: 'pending', points: 0, fixtureId: 'fix1', liveMinute: 70 },
+                        { type: 'Player to Get Card', name: 'Granit Xhaka', id: 'xhaka', team: 'Arsenal', status: 'finished', outcome: 'incorrect', points: 0, fixtureId: 'fix1' },
+                        { type: 'Clean Sheet', name: 'Chelsea', id: 'CHE', team: 'Chelsea', status: 'upcoming', outcome: 'pending', points: 0, fixtureId: 'fix4' }
                     ]
                 },
                 dave: {
                     name: 'Dave',
                     points: 150,
                     selections: [
-                        { type: 'Team to Win', name: 'Man Utd', abbr: 'MUN', status: 'finished', outcome: 'correct', points: 50, fixtureId: 'fix5' },
-                        { type: 'Player to Score', name: 'Marcus Rashford', status: 'finished', outcome: 'correct', points: 50, fixtureId: 'fix5' },
-                        { type: 'Player to Assist', name: 'Bruno Fernandes', status: 'in-play', outcome: 'correct', points: 50, fixtureId: 'fix5', liveMinute: 80 },
-                        { type: 'Player to Get Card', name: 'Casemiro', status: 'finished', outcome: 'incorrect', points: 0, fixtureId: 'fix5' },
-                        { type: 'Clean Sheet', name: 'Man City', abbr: 'MCI', status: 'upcoming', outcome: 'pending', points: 0, fixtureId: 'fix2' }
+                        { type: 'Team to Win', name: 'Man Utd', id: 'MUN', team: 'Man Utd', status: 'finished', outcome: 'correct', points: 50, fixtureId: 'fix5' },
+                        { type: 'Player to Score', name: 'Marcus Rashford', id: 'rashford', team: 'Man Utd', status: 'finished', outcome: 'correct', points: 50, fixtureId: 'fix5' },
+                        { type: 'Player to Assist', name: 'Bruno Fernandes', id: 'fernandes', team: 'Man Utd', status: 'in-play', outcome: 'correct', points: 50, fixtureId: 'fix5', liveMinute: 80 },
+                        { type: 'Player to Get Card', name: 'Casemiro', id: 'casemiro', team: 'Man Utd', status: 'finished', outcome: 'incorrect', points: 0, fixtureId: 'fix5' },
+                        { type: 'Clean Sheet', name: 'Man City', id: 'MCI', team: 'Man City', status: 'upcoming', outcome: 'pending', points: 0, fixtureId: 'fix2' }
                     ]
                 },
                 si: {
                     name: 'Si',
                     points: 100,
                     selections: [
-                        { type: 'Team to Win', name: 'Liverpool', abbr: 'LIV', status: 'finished', outcome: 'correct', points: 50, fixtureId: 'fix3' },
-                        { type: 'Player to Score', name: 'Darwin Núñez', status: 'finished', outcome: 'incorrect', points: 0, fixtureId: 'fix3' },
-                        { type: 'Player to Assist', name: 'Trent Alexander-Arnold', status: 'in-play', outcome: 'correct', points: 50, fixtureId: 'fix3', liveMinute: 65 },
-                        { type: 'Player to Get Card', name: 'Fabinho', status: 'finished', outcome: 'incorrect', points: 0, fixtureId: 'fix3' },
-                        { type: 'Clean Sheet', name: 'Arsenal', abbr: 'ARS', status: 'upcoming', outcome: 'pending', points: 0, fixtureId: 'fix1' }
+                        { type: 'Team to Win', name: 'Liverpool', id: 'LIV', team: 'Liverpool', status: 'finished', outcome: 'correct', points: 50, fixtureId: 'fix3' },
+                        { type: 'Player to Score', name: 'Darwin Núñez', id: 'nunez', team: 'Liverpool', status: 'finished', outcome: 'incorrect', points: 0, fixtureId: 'fix3' },
+                        { type: 'Player to Assist', name: 'Trent Alexander-Arnold', id: 'taa', team: 'Liverpool', status: 'in-play', outcome: 'correct', points: 50, fixtureId: 'fix3', liveMinute: 65 },
+                        { type: 'Player to Get Card', name: 'Fabinho', id: 'fabinho', team: 'Liverpool', status: 'finished', outcome: 'incorrect', points: 0, fixtureId: 'fix3' },
+                        { type: 'Clean Sheet', name: 'Arsenal', id: 'ARS', team: 'Arsenal', status: 'upcoming', outcome: 'pending', points: 0, fixtureId: 'fix1' }
                     ]
                 },
                 anj: {
                     name: 'Anj',
                     points: 75,
                     selections: [
-                        { type: 'Team to Win', name: 'Tottenham', abbr: 'TOT', status: 'finished', outcome: 'correct', points: 50, fixtureId: 'fix5' },
-                        { type: 'Player to Score', name: 'Harry Kane', status: 'finished', outcome: 'correct', points: 50, fixtureId: 'fix5' },
-                        { type: 'Player to Assist', name: 'Son Heung-min', status: 'in-play', outcome: 'incorrect', points: 0, fixtureId: 'fix5', liveMinute: 55 },
-                        { type: 'Player to Get Card', name: 'Cristian Romero', status: 'finished', outcome: 'incorrect', points: 0, fixtureId: 'fix5' },
-                        { type: 'Clean Sheet', name: 'Man Utd', abbr: 'MUN', status: 'upcoming', outcome: 'pending', points: 0, fixtureId: 'fix5' }
+                        { type: 'Team to Win', name: 'Tottenham', id: 'TOT', team: 'Tottenham', status: 'finished', outcome: 'correct', points: 50, fixtureId: 'fix5' },
+                        { type: 'Player to Score', name: 'Harry Kane', id: 'kane', team: 'Tottenham', status: 'finished', outcome: 'correct', points: 50, fixtureId: 'fix5' },
+                        { type: 'Player to Assist', name: 'Son Heung-min', id: 'son', team: 'Tottenham', status: 'in-play', outcome: 'incorrect', points: 0, fixtureId: 'fix5', liveMinute: 55 },
+                        { type: 'Player to Get Card', name: 'Cristian Romero', id: 'romero', team: 'Tottenham', status: 'finished', outcome: 'incorrect', points: 0, fixtureId: 'fix5' },
+                        { type: 'Clean Sheet', name: 'Man Utd', id: 'MUN', team: 'Man Utd', status: 'upcoming', outcome: 'pending', points: 0, fixtureId: 'fix5' }
                     ]
                 },
                 barry: {
                     name: 'Barry',
                     points: 50,
                     selections: [
-                        { type: 'Team to Win', name: 'Aston Villa', abbr: 'AVL', status: 'finished', outcome: 'correct', points: 50, fixtureId: 'fix4' },
-                        { type: 'Player to Score', name: 'Ollie Watkins', status: 'finished', outcome: 'incorrect', points: 0, fixtureId: 'fix4' },
-                        { type: 'Player to Assist', name: 'Douglas Luiz', status: 'in-play', outcome: 'incorrect', points: 0, fixtureId: 'fix4', liveMinute: 40 },
-                        { type: 'Player to Get Card', name: 'John McGinn', status: 'finished', outcome: 'incorrect', points: 0, fixtureId: 'fix4' },
-                        { type: 'Clean Sheet', name: 'Liverpool', abbr: 'LIV', status: 'upcoming', outcome: 'pending', points: 0, fixtureId: 'fix3' }
+                        { type: 'Team to Win', name: 'Aston Villa', id: 'AVL', team: 'Aston Villa', status: 'finished', outcome: 'correct', points: 50, fixtureId: 'fix4' },
+                        { type: 'Player to Score', name: 'Ollie Watkins', id: 'watkins', team: 'Aston Villa', status: 'finished', outcome: 'incorrect', points: 0, fixtureId: 'fix4' },
+                        { type: 'Player to Assist', name: 'Douglas Luiz', id: 'douglas-luiz', team: 'Aston Villa', status: 'in-play', outcome: 'incorrect', points: 0, fixtureId: 'fix4', liveMinute: 40 },
+                        { type: 'Player to Get Card', name: 'John McGinn', id: 'mcginn', team: 'Aston Villa', status: 'finished', outcome: 'incorrect', points: 0, fixtureId: 'fix4' },
+                        { type: 'Clean Sheet', name: 'Liverpool', id: 'LIV', team: 'Liverpool', status: 'upcoming', outcome: 'pending', points: 0, fixtureId: 'fix3' }
                     ]
                 }
             };
@@ -1217,6 +1221,8 @@
                     targetScreen.classList.add('active-screen');
                     // Update URL hash without refreshing
                     window.history.pushState(null, '', `#${screenId}`);
+                    // Scroll to top when navigating to a new screen
+                    window.scrollTo(0, 0);
                 } else {
                     console.error("Target screen not found:", screenId);
                 }
@@ -1291,13 +1297,13 @@
                     });
 
                     // Set current selections in modal
-                    const category = modal.id.replace('modal-', '').replace(/-/g, '');
+                    // Determine the correct array based on modal ID for initial selection state
                     let currentSelectionsArray;
-                    if (category === 'teamswin') currentSelectionsArray = userSelections.teamsToWin;
-                    else if (category === 'playerscore') currentSelectionsArray = userSelections.playersToScore;
-                    else if (category === 'playersassist') currentSelectionsArray = userSelections.playersToAssist;
-                    else if (category === 'playerscard') currentSelectionsArray = userSelections.playersToCard;
-                    else if (category === 'teamscleansheet') currentSelectionsArray = userSelections.teamsToCleanSheet;
+                    if (modalId === 'modal-teams-win') currentSelectionsArray = userSelections.teamsToWin;
+                    else if (modalId === 'modal-players-score') currentSelectionsArray = userSelections.playersToScore;
+                    else if (modalId === 'modal-players-assist') currentSelectionsArray = userSelections.playersToAssist;
+                    else if (modalId === 'modal-players-card') currentSelectionsArray = userSelections.playersToCard;
+                    else if (modalId === 'modal-teams-cleansheet') currentSelectionsArray = userSelections.teamsToCleanSheet;
                     else currentSelectionsArray = []; // Fallback to empty array
 
                     currentSelectionsArray.forEach(selectedItem => {
@@ -1325,31 +1331,40 @@
                     if (modal) {
                         modal.style.display = 'none';
                         // Re-render the main selections screen to reflect changes
-                        const category = modal.id.replace('modal-', '').replace(/-/g, '');
                         let targetSelectedItemsId;
                         let currentSelectionsArray;
+                        let categoryForRender; // New variable for category string
 
-                        if (category === 'teamswin') {
+                        // Correctly map modal ID to userSelections array
+                        if (modal.id === 'modal-teams-win') {
                             targetSelectedItemsId = 'selected-teams-win';
                             currentSelectionsArray = userSelections.teamsToWin;
-                        } else if (category === 'playerscore') {
+                            categoryForRender = 'teams-win';
+                        } else if (modal.id === 'modal-players-score') {
                             targetSelectedItemsId = 'selected-players-score';
                             currentSelectionsArray = userSelections.playersToScore;
-                        } else if (category === 'playersassist') {
+                            categoryForRender = 'players-score';
+                        } else if (modal.id === 'modal-players-assist') {
                             targetSelectedItemsId = 'selected-players-assist';
                             currentSelectionsArray = userSelections.playersToAssist;
-                        } else if (category === 'playerscard') {
+                            categoryForRender = 'players-assist';
+                        } else if (modal.id === 'modal-players-card') {
                             targetSelectedItemsId = 'selected-players-card';
                             currentSelectionsArray = userSelections.playersToCard;
-                        } else if (category === 'teamscleansheet') {
+                            categoryForRender = 'players-card';
+                        } else if (modal.id === 'modal-teams-cleansheet') {
                             targetSelectedItemsId = 'selected-teams-cleansheet';
                             currentSelectionsArray = userSelections.teamsToCleanSheet;
+                            categoryForRender = 'teams-cleansheet';
+                        } else {
+                            console.error("Unknown modal ID for close button:", modal.id);
+                            return;
                         }
 
                         const targetElementById = document.getElementById(targetSelectedItemsId);
                         // Only re-render if it's one of the selection modals
                         if (targetElementById) {
-                            renderSelectedItems(currentSelectionsArray, targetElementById, category);
+                            renderSelectedItems(currentSelectionsArray, targetElementById, categoryForRender);
                         }
                     }
                 });
@@ -1364,29 +1379,38 @@
                     }
                     modal.style.display = 'none';
 
-                    const category = modal.id.replace('modal-', '').replace(/-/g, '');
                     let targetSelectedItemsId;
                     let currentSelectionsArray;
+                    let categoryForRender; // New variable for category string
 
-                    if (category === 'teamswin') {
+                    // Correctly map modal ID to userSelections array
+                    if (modal.id === 'modal-teams-win') {
                         targetSelectedItemsId = 'selected-teams-win';
                         currentSelectionsArray = userSelections.teamsToWin;
-                    } else if (category === 'playerscore') {
+                        categoryForRender = 'teams-win';
+                    } else if (modal.id === 'modal-players-score') {
                         targetSelectedItemsId = 'selected-players-score';
                         currentSelectionsArray = userSelections.playersToScore;
-                    } else if (category === 'playersassist') {
+                        categoryForRender = 'players-score';
+                    } else if (modal.id === 'modal-players-assist') {
                         targetSelectedItemsId = 'selected-players-assist';
                         currentSelectionsArray = userSelections.playersToAssist;
-                    } else if (category === 'playerscard') {
+                        categoryForRender = 'players-assist';
+                    } else if (modal.id === 'modal-players-card') {
                         targetSelectedItemsId = 'selected-players-card';
                         currentSelectionsArray = userSelections.playersToCard;
-                    } else if (category === 'teamscleansheet') {
+                        categoryForRender = 'players-card';
+                    } else if (modal.id === 'modal-teams-cleansheet') {
                         targetSelectedItemsId = 'selected-teams-cleansheet';
                         currentSelectionsArray = userSelections.teamsToCleanSheet;
+                        categoryForRender = 'teams-cleansheet';
+                    } else {
+                        console.error("Unknown modal ID for confirm button:", modal.id);
+                        return;
                     }
-
+                    
                     const targetElementById = document.getElementById(targetSelectedItemsId);
-                    renderSelectedItems(currentSelectionsArray, targetElementById, category); // Re-render on confirm
+                    renderSelectedItems(currentSelectionsArray, targetElementById, categoryForRender); // Re-render on confirm
                 });
             });
 
@@ -1419,51 +1443,53 @@
 
                 const selectBtn = event.target;
 
-                const category = modal.id.replace('modal-', '').replace(/-/g, '');
                 let maxSelections = 3;
 
                 let currentSelectionsArray = null; // Initialize to null
-                if (category === 'teamswin') currentSelectionsArray = userSelections.teamsToWin;
-                else if (category === 'playerscore') currentSelectionsArray = userSelections.playersToScore;
-                else if (category === 'playersassist') currentSelectionsArray = userSelections.playersToAssist;
-                else if (category === 'playerscard') currentSelectionsArray = userSelections.playersToCard;
-                else if (category === 'teamscleansheet') currentSelectionsArray = userSelections.teamsToCleanSheet;
+                // Use explicit modal IDs to map to userSelections arrays
+                if (modal.id === 'modal-teams-win') currentSelectionsArray = userSelections.teamsToWin;
+                else if (modal.id === 'modal-players-score') currentSelectionsArray = userSelections.playersToScore;
+                else if (modal.id === 'modal-players-assist') currentSelectionsArray = userSelections.playersToAssist;
+                else if (modal.id === 'modal-players-card') currentSelectionsArray = userSelections.playersToCard;
+                else if (modal.id === 'modal-teams-cleansheet') currentSelectionsArray = userSelections.teamsToCleanSheet;
                 else {
-                    console.error("Unknown category:", category);
-                    // Do not return here, let the next check handle it
+                    console.error("Unknown modal ID for handleSelectItemClick:", modal.id);
+                    return; // Exit if modal ID is unknown
                 }
 
                 // Ensure currentSelectionsArray is an array before proceeding
                 if (!Array.isArray(currentSelectionsArray)) {
-                    console.error("currentSelectionsArray is not an array for category:", category);
+                    console.error("currentSelectionsArray is not an array for modal ID:", modal.id);
                     return; // Exit the function to prevent further errors
                 }
 
 
-                let itemId, itemName, itemColor, itemAbbr, fixtureId;
+                let itemId, itemName, itemColor, itemAbbr, fixtureId, itemTeam;
 
                 // Determine item details based on whether it's a team selection row or a player item
                 if (itemElement.dataset.teamId) { // It's a team item
                     itemId = itemElement.dataset.teamId;
                     itemName = itemElement.dataset.teamName;
-                    itemColor = itemElement.dataset.teamColor;
-                    itemAbbr = itemElement.dataset.teamAbbr;
+                    itemColor = teamData[itemName] ? teamData[itemName].color : '#888888'; // Ensure color is fetched from teamData
+                    itemAbbr = teamData[itemName] ? teamData[itemName].abbr : 'N/A'; // Ensure abbr is fetched from teamData
+                    itemTeam = itemName; // For teams, the team name is the itemTeam
                     // Find the fixture ID associated with this team
                     const fixture = week38Fixtures.find(f => f.home === itemName || f.away === itemName);
                     fixtureId = fixture ? fixture.id : null;
                 } else if (itemElement.dataset.playerId) { // It's a player item
                     itemId = itemElement.dataset.playerId;
                     itemName = itemElement.dataset.playerName;
-                    const playerTeamName = itemElement.dataset.playerTeam;
-                    if (teamData[playerTeamName]) {
-                        itemColor = teamData[playerTeamName].color;
-                        itemAbbr = teamData[playerTeamName].abbr;
+                    itemTeam = itemElement.dataset.playerTeam; // Get player's team name
+                    
+                    if (teamData[itemTeam]) {
+                        itemColor = teamData[itemTeam].color;
+                        itemAbbr = teamData[itemTeam].abbr;
                     } else {
                         itemColor = '#888888'; // Default grey if team data not found
                         itemAbbr = 'N/A';
                     }
                     // Find the fixture ID associated with this player's team
-                    const playerTeamFixture = week38Fixtures.find(f => f.home === playerTeamName || f.away === playerTeamName);
+                    const playerTeamFixture = week38Fixtures.find(f => f.home === itemTeam || f.away === itemTeam);
                     fixtureId = playerTeamFixture ? playerTeamFixture.id : null;
                 }
 
@@ -1473,7 +1499,7 @@
                     // Deselect item
                     currentSelectionsArray.splice(existingIndex, 1);
                     selectBtn.classList.remove('selected');
-                    selectBtn.textContent = 'Select';
+                    selectBtn.innerHTML = 'Select'; // Reset text
                     // Re-enable other disabled buttons if max selections was reached and this one was deselected
                     const disabledButtonsInModal = modal.querySelectorAll('.select-item-btn.disabled');
                     if (disabledButtonsInModal) {
@@ -1483,7 +1509,7 @@
                     }
                 } else if (currentSelectionsArray.length < maxSelections) {
                     // Select item
-                    currentSelectionsArray.push({ id: itemId, name: itemName, color: itemColor, abbr: itemAbbr, fixtureId: fixtureId });
+                    currentSelectionsArray.push({ id: itemId, name: itemName, color: itemColor, abbr: itemAbbr, fixtureId: fixtureId, team: itemTeam });
                     selectBtn.classList.add('selected');
                     selectBtn.innerHTML = '<span class="material-icons">check</span> Selected'; // Add icon and text
                 }
@@ -1512,22 +1538,21 @@
                 const confirmButton = modal.querySelector('.confirm-modal-btn');
                 if (!confirmButton) return;
 
-                const category = modal.id.replace('modal-', '').replace(/-/g, '');
-
                 let currentSelectionsArray = null; // Initialize to null
-                if (category === 'teamswin') currentSelectionsArray = userSelections.teamsToWin;
-                else if (category === 'playersscore') currentSelectionsArray = userSelections.playersToScore;
-                else if (category === 'playersassist') currentSelectionsArray = userSelections.playersToAssist;
-                else if (category === 'playerscard') currentSelectionsArray = userSelections.playersToCard;
-                else if (category === 'teamscleansheet') currentSelectionsArray = userSelections.teamsToCleanSheet;
+                // Use explicit modal IDs to map to userSelections arrays
+                if (modal.id === 'modal-teams-win') currentSelectionsArray = userSelections.teamsToWin;
+                else if (modal.id === 'modal-players-score') currentSelectionsArray = userSelections.playersToScore;
+                else if (modal.id === 'modal-players-assist') currentSelectionsArray = userSelections.playersToAssist;
+                else if (modal.id === 'modal-players-card') currentSelectionsArray = userSelections.playersToCard;
+                else if (modal.id === 'modal-teams-cleansheet') currentSelectionsArray = userSelections.teamsToCleanSheet;
                 else {
-                    console.error("Unknown category for confirm button:", category);
-                    // Do not return here, let the next check handle it
+                    console.error("Unknown modal ID for confirm button:", modal.id);
+                    return;
                 }
 
                 // Ensure currentSelectionsArray is an array before proceeding
                 if (!Array.isArray(currentSelectionsArray)) {
-                    console.error("currentSelectionsArray is not an array for confirm button, category:", category);
+                    console.error("currentSelectionsArray is not an array for confirm button, modal ID:", modal.id);
                     return; // Exit the function to prevent further errors
                 }
 
@@ -1544,10 +1569,14 @@
                     return;
                 }
                 targetElement.innerHTML = ''; // Clear existing
-                // No placeholder if array is empty
+
                 if (itemsArray.length === 0) {
+                    targetElement.classList.add('empty-selection-display');
                     return;
+                } else {
+                    targetElement.classList.remove('empty-selection-display');
                 }
+
 
                 itemsArray.forEach(item => {
                     const itemTag = document.createElement('span');
@@ -1575,7 +1604,7 @@
                         }
                         renderSelectedItems(itemsArray, targetElement, category); // Re-render on remove
                         // Also update modal state if it's currently open and corresponds to this category
-                        const modalId = `modal-${category.toLowerCase().replace('teams', 'teams-').replace('players', 'players-')}`;
+                        const modalId = `modal-${category.toLowerCase().replace('teams-', 'teams-').replace('players-', 'players-')}`;
                         const openModal = document.getElementById(modalId);
                         if (openModal && openModal.style.display === 'block') {
                              // Find the corresponding select button in the modal and reset its state
@@ -1584,10 +1613,7 @@
                                 const selectBtnInModal = itemInModal.querySelector('.select-item-btn');
                                 if (selectBtnInModal) {
                                     selectBtnInModal.classList.remove('selected');
-                                    selectBtnInModal.textContent = 'Select'; // Reset text
-                                    // Remove icon if present
-                                    const icon = selectBtnInModal.querySelector('.material-icons');
-                                    if (icon) icon.remove();
+                                    selectBtnInModal.innerHTML = 'Select'; // Reset text
                                 }
                             }
                             updateModalButtonStates(openModal, itemsArray.length, 3);
@@ -1682,7 +1708,7 @@
                         <div class="player-item-details">
                             <div class="team-circle" style="background-color: ${teamCircleColor};">${teamCircleAbbr}</div>
                             <span>${player.name}</span>
-                            <span class="player-team-name">${player.team}</span>
+                            <!-- Removed player position column as requested -->
                         </div>
                         <span class="player-stat">${statText}</span>
                         <button class="btn select-item-btn">Select</button>
@@ -1691,11 +1717,10 @@
                 });
 
                 // After populating, re-apply selected states and button states
-                const category = modal.id.replace('modal-', '').replace(/-/g, '');
                 let currentSelectionsArray;
-                if (category === 'playerscore') currentSelectionsArray = userSelections.playersToScore;
-                else if (category === 'playersassist') currentSelectionsArray = userSelections.playersToAssist;
-                else if (category === 'playerscard') currentSelectionsArray = userSelections.playersToCard;
+                if (modal.id === 'modal-players-score') currentSelectionsArray = userSelections.playersToScore;
+                else if (modal.id === 'modal-players-assist') currentSelectionsArray = userSelections.playersToAssist;
+                else if (modal.id === 'modal-players-card') currentSelectionsArray = userSelections.playersToCard;
                 else currentSelectionsArray = []; // Ensure it's an array even if category doesn't match
 
                 currentSelectionsArray.forEach(selectedItem => {
@@ -1746,11 +1771,43 @@
 
 
             // Initialize all selected items displays on page load
-            renderSelectedItems(userSelections.teamsToWin, document.getElementById('selected-teams-win'), 'teamswin');
-            renderSelectedItems(userSelections.playersToScore, document.getElementById('selected-players-score'), 'playerscore');
-            renderSelectedItems(userSelections.playersToAssist, document.getElementById('selected-players-assist'), 'playersassist');
-            renderSelectedItems(userSelections.playersToCard, document.getElementById('selected-players-card'), 'playerscard');
-            renderSelectedItems(userSelections.teamsToCleanSheet, document.getElementById('selected-teams-cleansheet'), 'teamscleansheet');
+            renderSelectedItems(userSelections.teamsToWin, document.getElementById('selected-teams-win'), 'teams-win');
+            renderSelectedItems(userSelections.playersToScore, document.getElementById('selected-players-score'), 'players-score');
+            renderSelectedItems(userSelections.playersToAssist, document.getElementById('selected-players-assist'), 'players-assist');
+            renderSelectedItems(userSelections.playersToCard, document.getElementById('selected-players-card'), 'players-card');
+            renderSelectedItems(userSelections.teamsToCleanSheet, document.getElementById('selected-teams-cleansheet'), 'teams-cleansheet');
+
+
+            // --- Function to create an in-play/leaderboard item HTML ---
+            const createInPlayItemHtml = (name, teamName, statusClass, outcome, points, fixtureInfoHtml) => {
+                const outcomeIconHtml = outcome === 'correct' ? '<span class="material-icons outcome-icon correct-icon">check_circle</span>' :
+                                        outcome === 'incorrect' ? '<span class="material-icons outcome-icon incorrect-icon">cancel</span>' : '';
+                
+                // Get team data for crest
+                const teamCrestColor = teamData[teamName] ? teamData[teamName].color : '#888888';
+                const teamCrestAbbr = teamData[teamName] ? teamData[teamName].abbr : 'N/A';
+                const teamCrestHtml = `
+                    <div class="team-crest-small" style="background-color: ${teamCrestColor};">
+                        ${teamCrestAbbr}
+                    </div>
+                `;
+
+                return `
+                    <div class="selection-item">
+                        <div class="selection-main-details">
+                            <div class="selection-details">
+                                <strong>${teamCrestHtml}${name}</strong>
+                                <!-- Removed status tag as requested -->
+                                <span class="outcome ${outcome}">${outcome === 'correct' ? 'Correct!' : (outcome === 'incorrect' ? 'Incorrect.' : 'Pending...')}${outcomeIconHtml}</span>
+                            </div>
+                            <span class="points">${points}pts</span>
+                        </div>
+                        <div class="fixture-info">
+                            ${fixtureInfoHtml}
+                        </div>
+                    </div>
+                `;
+            };
 
 
             // --- In-Play Screen User Selections & Leaderboard Logic ---
@@ -1764,216 +1821,95 @@
 
                 let totalUserPoints = 0;
 
-                // Function to create an in-play item HTML
-                const createInPlayItem = (type, name, statusClass, outcome, points, statusText, fixtureInfoHtml) => {
-                    const outcomeIconHtml = outcome === 'correct' ? '<span class="material-icons outcome-icon correct-icon">check_circle</span>' :
-                                            outcome === 'incorrect' ? '<span class="material-icons outcome-icon incorrect-icon">cancel</span>' : '';
-                    const liveIndicatorHtml = statusClass === 'in-play' ? '<div class="live-indicator"></div>' : '';
+                const categories = [
+                    { title: 'Teams to win', key: 'teamsToWin' },
+                    { title: 'Players to score', key: 'playersToScore' },
+                    { title: 'Players to assist', key: 'playersToAssist' },
+                    { title: 'Players to get card', key: 'playersToCard' },
+                    { title: 'Clean sheets', key: 'teamsToCleanSheet' }
+                ];
 
-                    return `
-                        <div class="selection-item">
-                            <div class="selection-main-details">
-                                <div class="selection-details">
-                                    <span>${type}: <strong>${name}</strong></span>
-                                    <span class="status ${statusClass}">${liveIndicatorHtml}${statusText}</span>
-                                    <span class="outcome ${outcome}">${outcome === 'correct' ? 'Correct!' : (outcome === 'incorrect' ? 'Incorrect.' : 'Pending...')}${outcomeIconHtml}</span>
-                                </div>
-                                <span class="points">${points}pts</span>
-                            </div>
-                            <div class="fixture-info">
-                                ${fixtureInfoHtml}
-                            </div>
-                        </div>
-                    `;
-                };
+                categories.forEach(category => {
+                    const categoryGroup = document.createElement('div');
+                    categoryGroup.classList.add('selection-category-group');
+                    
+                    const categoryTitle = document.createElement('h3');
+                    categoryTitle.textContent = category.title;
+                    categoryGroup.appendChild(categoryTitle);
 
+                    const gridContainer = document.createElement('div');
+                    gridContainer.classList.add('selection-status-grid');
+                    categoryGroup.appendChild(gridContainer);
 
-                // Populate Teams to Win
-                userSelections.teamsToWin.forEach(team => {
-                    const fixtureResult = team.fixtureId ? mockResults[team.fixtureId] : null;
-                    let statusClass = 'upcoming';
-                    let statusText = 'Upcoming';
-                    let outcome = 'pending';
-                    let points = 0;
-                    let fixtureInfoHtml = 'Fixture details unavailable.';
+                    const selections = userSelections[category.key];
 
-                    if (fixtureResult) {
-                        if (fixtureResult.status === 'in-play') {
-                            statusClass = 'in-play';
-                            statusText = `Live (${fixtureResult.liveMinute || '?'}')`;
-                            fixtureInfoHtml = `<strong>${fixtureResult.home}</strong> vs <strong>${fixtureResult.away}</strong> (Live: ${fixtureResult.liveMinute || '?'}')`;
-                        } else if (fixtureResult.status === 'finished') {
-                            statusClass = 'finished';
-                            statusText = `Finished (${fixtureResult.homeScore}-${fixtureResult.awayScore})`;
-                            fixtureInfoHtml = `<strong>${fixtureResult.home}</strong> vs <strong>${fixtureResult.away}</strong> (Finished: ${fixtureResult.homeScore}-${fixtureResult.awayScore})`;
-                        } else {
-                             fixtureInfoHtml = `<strong>${fixtureResult.home}</strong> vs <strong>${fixtureResult.away}</strong> (Upcoming)`;
-                        }
+                    if (selections.length === 0) {
+                        gridContainer.innerHTML = '<p style="text-align: center; color: #C0C0C0; margin-top: 10px;">No selections made.</p>';
+                    } else {
+                        selections.forEach(item => {
+                            const fixtureResult = item.fixtureId ? mockResults[item.fixtureId] : null;
+                            let statusClass = 'upcoming'; // Still need statusClass for internal logic, even if not displayed
+                            let outcome = 'pending';
+                            let points = 0;
+                            let fixtureInfoHtml = 'Fixture details unavailable.';
+                            let itemTeamName = item.team; // Get the team name for the crest
 
+                            if (fixtureResult) {
+                                if (fixtureResult.status === 'in-play') {
+                                    statusClass = 'in-play';
+                                    const liveMinute = (category.key.startsWith('players') && mockResults[item.id] && mockResults[item.id].liveMinute) ? mockResults[item.id].liveMinute : '?';
+                                    fixtureInfoHtml = `<strong>${fixtureResult.home}</strong> vs <strong>${fixtureResult.away}</strong> (Live: ${liveMinute}')`;
+                                } else if (fixtureResult.status === 'finished') {
+                                    statusClass = 'finished';
+                                    fixtureInfoHtml = `<strong>${fixtureResult.home}</strong> vs <strong>${fixtureResult.away}</strong> (Finished: ${fixtureResult.homeScore}-${fixtureResult.awayScore})`;
+                                } else {
+                                     fixtureInfoHtml = `<strong>${fixtureResult.home}</strong> vs <strong>${fixtureResult.away}</strong> (Upcoming)`;
+                                }
 
-                        if (fixtureResult.won && fixtureResult.won === team.name) { // Check if the team selected actually won
-                            outcome = 'correct';
-                            points = 50;
-                        } else if (fixtureResult.status === 'finished') {
-                            outcome = 'incorrect';
-                        }
-                    }
-                    totalUserPoints += points;
-                    inPlayContainer.innerHTML += createInPlayItem('Team to Win', team.name, statusClass, outcome, points, statusText, fixtureInfoHtml);
-                });
-
-                // Populate Players to Score
-                userSelections.playersToScore.forEach(player => {
-                    const playerOutcome = mockResults[player.name];
-                    const fixtureResult = playerOutcome && playerOutcome.fixtureId ? mockResults[playerOutcome.fixtureId] : null;
-
-                    let statusClass = 'upcoming';
-                    let statusText = 'Upcoming';
-                    let outcome = 'pending';
-                    let points = 0;
-                    let fixtureInfoHtml = 'Fixture details unavailable.';
-
-                    if (fixtureResult) {
-                        if (fixtureResult.status === 'in-play') {
-                            statusClass = 'in-play';
-                            statusText = `Live (${fixtureResult.liveMinute || '?'}')`;
-                            fixtureInfoHtml = `<strong>${fixtureResult.home}</strong> vs <strong>${fixtureResult.away}</strong> (Live: ${fixtureResult.liveMinute || '?'}')`;
-                        } else if (fixtureResult.status === 'finished') {
-                            statusClass = 'finished';
-                            statusText = `Finished (${fixtureResult.homeScore}-${fixtureResult.awayScore})`;
-                            fixtureInfoHtml = `<strong>${fixtureResult.home}</strong> vs <strong>${fixtureResult.away}</strong> (Finished: ${fixtureResult.homeScore}-${fixtureResult.awayScore})`;
-                        } else {
-                            fixtureInfoHtml = `<strong>${fixtureResult.home}</strong> vs <strong>${fixtureResult.away}</strong> (Upcoming)`;
-                        }
-
-                        if (playerOutcome && playerOutcome.scored !== undefined) {
-                            if (playerOutcome.scored) {
-                                outcome = 'correct';
-                                points = 50;
-                            } else if (fixtureResult.status === 'finished') {
-                                outcome = 'incorrect';
+                                if (fixtureResult.status === 'finished') {
+                                    if (category.key === 'teamsToWin') {
+                                        if (fixtureResult.won === item.name) {
+                                            outcome = 'correct';
+                                            points = 50;
+                                        } else {
+                                            outcome = 'incorrect';
+                                        }
+                                    } else if (category.key.startsWith('players')) {
+                                        const playerOutcome = mockResults[item.id];
+                                        if (playerOutcome) {
+                                            if ((category.key === 'playersToScore' && playerOutcome.scored) ||
+                                                (category.key === 'playersToAssist' && playerOutcome.assisted) ||
+                                                (category.key === 'playersToCard' && playerOutcome.card)) {
+                                                outcome = 'correct';
+                                                points = 50;
+                                            } else {
+                                                outcome = 'incorrect';
+                                            }
+                                        } else {
+                                            outcome = 'incorrect'; // No mock data for this player
+                                        }
+                                    } else if (category.key === 'teamsToCleanSheet') {
+                                        const selectedTeamKeptCleanSheet = (fixtureResult.home === item.name && fixtureResult.awayScore === 0) ||
+                                                                           (fixtureResult.away === item.name && fixtureResult.homeScore === 0);
+                                        if (selectedTeamKeptCleanSheet) {
+                                            outcome = 'correct';
+                                            points = 50;
+                                        } else {
+                                            outcome = 'incorrect';
+                                        }
+                                    }
+                                }
                             }
-                        }
+                            gridContainer.innerHTML += createInPlayItemHtml(item.name, itemTeamName, statusClass, outcome, points, fixtureInfoHtml);
+                        });
                     }
-                    totalUserPoints += points;
-                    inPlayContainer.innerHTML += createInPlayItem('Player to Score', player.name, statusClass, outcome, points, statusText, fixtureInfoHtml);
+                    inPlayContainer.appendChild(categoryGroup);
                 });
 
-                // Populate Players to Assist
-                userSelections.playersToAssist.forEach(player => {
-                    const playerOutcome = mockResults[player.name];
-                    const fixtureResult = playerOutcome && playerOutcome.fixtureId ? mockResults[playerOutcome.fixtureId] : null;
 
-                    let statusClass = 'upcoming';
-                    let statusText = 'Upcoming';
-                    let outcome = 'pending';
-                    let points = 0;
-                    let fixtureInfoHtml = 'Fixture details unavailable.';
-
-                    if (fixtureResult) {
-                        if (fixtureResult.status === 'in-play') {
-                            statusClass = 'in-play';
-                            statusText = `Live (${fixtureResult.liveMinute || '?'}')`;
-                            fixtureInfoHtml = `<strong>${fixtureResult.home}</strong> vs <strong>${fixtureResult.away}</strong> (Live: ${fixtureResult.liveMinute || '?'}')`;
-                        } else if (fixtureResult.status === 'finished') {
-                            statusClass = 'finished';
-                            statusText = `Finished (${fixtureResult.homeScore}-${fixtureResult.awayScore})`;
-                            fixtureInfoHtml = `<strong>${fixtureResult.home}</strong> vs <strong>${fixtureResult.away}</strong> (Finished: ${fixtureResult.homeScore}-${fixtureResult.awayScore})`;
-                        } else {
-                            fixtureInfoHtml = `<strong>${fixtureResult.home}</strong> vs <strong>${fixtureResult.away}</strong> (Upcoming)`;
-                        }
-
-                        if (playerOutcome && playerOutcome.assisted !== undefined) {
-                            if (playerOutcome.assisted) {
-                                outcome = 'correct';
-                                points = 50;
-                            } else if (fixtureResult.status === 'finished') {
-                                outcome = 'incorrect';
-                            }
-                        }
-                    }
-                    totalUserPoints += points;
-                    inPlayContainer.innerHTML += createInPlayItem('Player to Assist', player.name, statusClass, outcome, points, statusText, fixtureInfoHtml);
-                });
-
-                // Populate Players to Get Card
-                userSelections.playersToCard.forEach(player => {
-                    const playerOutcome = mockResults[player.name];
-                    const fixtureResult = playerOutcome && playerOutcome.fixtureId ? mockResults[playerOutcome.fixtureId] : null;
-
-                    let statusClass = 'upcoming';
-                    let statusText = 'Upcoming';
-                    let outcome = 'pending';
-                    let points = 0;
-                    let fixtureInfoHtml = 'Fixture details unavailable.';
-
-                    if (fixtureResult) {
-                        if (fixtureResult.status === 'in-play') {
-                            statusClass = 'in-play';
-                            statusText = `Live (${fixtureResult.liveMinute || '?'}')`;
-                            fixtureInfoHtml = `<strong>${fixtureResult.home}</strong> vs <strong>${fixtureResult.away}</strong> (Live: ${fixtureResult.liveMinute || '?'}')`;
-                        } else if (fixtureResult.status === 'finished') {
-                            statusClass = 'finished';
-                            statusText = `Finished (${fixtureResult.homeScore}-${fixtureResult.awayScore})`;
-                            fixtureInfoHtml = `<strong>${fixtureResult.home}</strong> vs <strong>${fixtureResult.away}</strong> (Finished: ${fixtureResult.homeScore}-${fixtureResult.awayScore})`;
-                        } else {
-                            fixtureInfoHtml = `<strong>${fixtureResult.home}</strong> vs <strong>${fixtureResult.away}</strong> (Upcoming)`;
-                        }
-
-                        if (playerOutcome && playerOutcome.card !== undefined) {
-                            if (playerOutcome.card) {
-                                outcome = 'correct';
-                                points = 50;
-                            } else if (fixtureResult.status === 'finished') {
-                                outcome = 'incorrect';
-                            }
-                        }
-                    }
-                    totalUserPoints += points;
-                    inPlayContainer.innerHTML += createInPlayItem('Player to Get Card', player.name, statusClass, outcome, points, statusText, fixtureInfoHtml);
-                });
-
-                // Populate Teams to Keep Clean Sheet
-                userSelections.teamsToCleanSheet.forEach(team => {
-                    const fixtureResult = team.fixtureId ? mockResults[team.fixtureId] : null;
-
-                    let statusClass = 'upcoming';
-                    let statusText = 'Upcoming';
-                    let outcome = 'pending';
-                    let points = 0;
-                    let fixtureInfoHtml = 'Fixture details unavailable.';
-
-                    if (fixtureResult) {
-                        if (fixtureResult.status === 'in-play') {
-                            statusClass = 'in-play';
-                            statusText = `Live (${fixtureResult.liveMinute || '?'}')`;
-                            fixtureInfoHtml = `<strong>${fixtureResult.home}</strong> vs <strong>${fixtureResult.away}</strong> (Live: ${fixtureResult.liveMinute || '?'}')`;
-                        } else if (fixtureResult.status === 'finished') {
-                            statusClass = 'finished';
-                            statusText = `Finished (${fixtureResult.homeScore}-${fixtureResult.awayScore})`;
-                            fixtureInfoHtml = `<strong>${fixtureResult.home}</strong> vs <strong>${fixtureResult.away}</strong> (Finished: ${fixtureResult.homeScore}-${fixtureResult.awayScore})`;
-                        } else {
-                             fixtureInfoHtml = `<strong>${fixtureResult.home}</strong> vs <strong>${fixtureResult.away}</strong> (Upcoming)`;
-                        }
-
-                        if (fixtureResult.cleanSheet && (fixtureResult.home === team.name || fixtureResult.away === team.name)) {
-                            outcome = 'correct';
-                            points = 50;
-                        } else if (fixtureResult.status === 'finished') {
-                            outcome = 'incorrect';
-                        }
-                    }
-                    totalUserPoints += points;
-                    inPlayContainer.innerHTML += createInPlayItem('Clean Sheet', team.name, statusClass, outcome, points, statusText, fixtureInfoHtml);
-                });
-
-                const totalPointsValueElement = document.querySelector('.total-points-value');
+                const totalPointsValueElement = document.querySelector('#selections-tab .total-points-value');
                 if (totalPointsValueElement) {
                     totalPointsValueElement.textContent = `${totalUserPoints}pts`;
-                }
-
-                if (totalUserPoints === 0 && inPlayContainer.children.length === 0) {
-                    inPlayContainer.innerHTML = '<p style="text-align: center; color: #6c757d;">No selections made. Go back to "Make selections" to pick your predictions!</p>';
                 }
             }
 
@@ -1989,44 +1925,52 @@
                         userSelectionsModalTotalPoints.textContent = `${userData.points}pts`;
                         userSelectionsModalContent.innerHTML = ''; // Clear previous content
 
-                        userData.selections.forEach(selection => {
-                            const fixtureResult = selection.fixtureId ? mockResults[selection.fixtureId] : null;
+                        const categories = [
+                            { title: 'Teams to win', typePrefix: 'Team to Win' },
+                            { title: 'Players to score', typePrefix: 'Player to Score' },
+                            { title: 'Players to assist', typePrefix: 'Player to Assist' },
+                            { title: 'Players to get card', typePrefix: 'Player to Get Card' },
+                            { title: 'Clean sheets', typePrefix: 'Clean Sheet' }
+                        ];
 
-                            let statusTextForLeaderboard = selection.status.charAt(0).toUpperCase() + selection.status.slice(1);
-                            let fixtureInfoHtml = 'Fixture details unavailable.';
+                        categories.forEach(categoryInfo => {
+                            const categoryGroup = document.createElement('div');
+                            categoryGroup.classList.add('selection-category-group');
+                            
+                            const categoryTitle = document.createElement('h3');
+                            categoryTitle.textContent = categoryInfo.title;
+                            categoryGroup.appendChild(categoryTitle);
 
-                            if (fixtureResult) {
-                                if (fixtureResult.status === 'finished') {
-                                    statusTextForLeaderboard = `Finished (${fixtureResult.homeScore}-${fixtureResult.awayScore})`;
-                                    fixtureInfoHtml = `<strong>${fixtureResult.home}</strong> vs <strong>${fixtureResult.away}</strong> (Finished: ${fixtureResult.homeScore}-${fixtureResult.awayScore})`;
-                                } else if (fixtureResult.status === 'in-play') {
-                                    statusTextForLeaderboard = `Live (${selection.liveMinute || '?'}')`;
-                                    fixtureInfoHtml = `<strong>${fixtureResult.home}</strong> vs <strong>${fixtureResult.away}</strong> (Live: ${selection.liveMinute || '?'}')`;
-                                } else {
-                                    fixtureInfoHtml = `<strong>${fixtureResult.home}</strong> vs <strong>${fixtureResult.away}</strong> (Upcoming)`;
-                                }
+                            const gridContainer = document.createElement('div');
+                            gridContainer.classList.add('selection-status-grid');
+                            categoryGroup.appendChild(gridContainer);
+
+                            const selectionsForCategory = userData.selections.filter(s => s.type === categoryInfo.typePrefix);
+
+                            if (selectionsForCategory.length === 0) {
+                                gridContainer.innerHTML = '<p style="text-align: center; color: #C0C0C0; margin-top: 10px;">No selections made.</p>';
+                            } else {
+                                selectionsForCategory.forEach(selection => {
+                                    const fixtureResult = selection.fixtureId ? mockResults[selection.fixtureId] : null;
+
+                                    let statusClass = selection.status; // Keep original status class for internal logic
+                                    let fixtureInfoHtml = 'Fixture details unavailable.';
+                                    let itemTeamName = selection.team; // Get the team name for the crest
+
+                                    if (fixtureResult) {
+                                        if (fixtureResult.status === 'finished') {
+                                            fixtureInfoHtml = `<strong>${fixtureResult.home}</strong> vs <strong>${fixtureResult.away}</strong> (Finished: ${fixtureResult.homeScore}-${fixtureResult.awayScore})`;
+                                        } else if (fixtureResult.status === 'in-play') {
+                                            fixtureInfoHtml = `<strong>${fixtureResult.home}</strong> vs <strong>${fixtureResult.away}</strong> (Live: ${selection.liveMinute || '?'}')`;
+                                        } else {
+                                            fixtureInfoHtml = `<strong>${fixtureResult.home}</strong> vs <strong>${fixtureResult.away}</strong> (Upcoming)`;
+                                        }
+                                    }
+                                    // Reuse the shared createInPlayItemHtml function
+                                    gridContainer.innerHTML += createInPlayItemHtml(selection.name, itemTeamName, statusClass, selection.outcome, selection.points, fixtureInfoHtml);
+                                });
                             }
-
-                            const outcomeIconHtml = selection.outcome === 'correct' ? '<span class="material-icons outcome-icon correct-icon">check_circle</span>' :
-                                                    selection.outcome === 'incorrect' ? '<span class="material-icons outcome-icon incorrect-icon">cancel</span>' : '';
-                            const liveIndicatorHtml = selection.status === 'in-play' ? '<div class="live-indicator"></div>' : '';
-
-                            const itemHtml = `
-                                <div class="selection-item">
-                                    <div class="selection-main-details">
-                                        <div class="selection-details">
-                                            <span>${selection.type}: <strong>${selection.name}</strong></span>
-                                            <span class="status ${selection.status}">${liveIndicatorHtml}${statusTextForLeaderboard}</span>
-                                            <span class="outcome ${selection.outcome}">${selection.outcome === 'correct' ? 'Correct!' : (selection.outcome === 'incorrect' ? 'Incorrect.' : 'Pending...')}${outcomeIconHtml}</span>
-                                        </div>
-                                        <span class="points">${selection.points}pts</span>
-                                    </div>
-                                    <div class="fixture-info">
-                                        ${fixtureInfoHtml}
-                                    </div>
-                                </div>
-                            `;
-                            userSelectionsModalContent.innerHTML += itemHtml;
+                            userSelectionsModalContent.appendChild(categoryGroup);
                         });
                         userSelectionsModal.style.display = 'block';
                     }
@@ -2044,31 +1988,39 @@
                     event.target.style.display = 'none';
                     // If a modal is closed by clicking outside, re-render the main selections screen
                     const modalId = event.target.id;
-                    const category = modalId.replace('modal-', '').replace(/-/g, '');
                     let targetSelectedItemsId;
                     let currentSelectionsArray;
+                    let categoryForRender;
 
-                    if (category === 'teamswin') {
+                    if (modalId === 'modal-teams-win') {
                         targetSelectedItemsId = 'selected-teams-win';
                         currentSelectionsArray = userSelections.teamsToWin;
-                    } else if (category === 'playerscore') {
+                        categoryForRender = 'teams-win';
+                    } else if (modalId === 'modal-players-score') {
                         targetSelectedItemsId = 'selected-players-score';
                         currentSelectionsArray = userSelections.playersToScore;
-                    } else if (category === 'playersassist') {
+                        categoryForRender = 'players-score';
+                    } else if (modalId === 'modal-players-assist') {
                         targetSelectedItemsId = 'selected-players-assist';
                         currentSelectionsArray = userSelections.playersToAssist;
-                    } else if (category === 'playerscard') {
+                        categoryForRender = 'players-assist';
+                    } else if (modalId === 'modal-players-card') {
                         targetSelectedItemsId = 'selected-players-card';
                         currentSelectionsArray = userSelections.playersToCard;
-                    } else if (category === 'teamscleansheet') {
+                        categoryForRender = 'players-card';
+                    } else if (modalId === 'modal-teams-cleansheet') {
                         targetSelectedItemsId = 'selected-teams-cleansheet';
                         currentSelectionsArray = userSelections.teamsToCleanSheet;
+                        categoryForRender = 'teams-cleansheet';
+                    } else {
+                        console.error("Unknown modal ID for window click close:", modalId);
+                        return;
                     }
-
+                    
                     const targetElementById = document.getElementById(targetSelectedItemsId);
                     // Only re-render if it's one of the selection modals
                     if (targetElementById) {
-                        renderSelectedItems(currentSelectionsArray, targetElementById, category);
+                        renderSelectedItems(currentSelectionsArray, targetElementById, categoryForRender);
                     }
                 }
             });
