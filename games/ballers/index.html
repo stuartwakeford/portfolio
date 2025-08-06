@@ -129,31 +129,31 @@
             // Add more teams as needed
         };
 
-        // Player data for each position (image URLs are placeholders as per instruction)
+        // Player data for each position with updated Sofascore image URLs
         const players = {
             defenders: [
-                { id: 'def-1', name: "Porro", team: "TOT", opponent: "BOU", stars: 3, image: "https://placehold.co/100x100/4F46E5/FFFFFF?text=P" },
-                { id: 'def-2', name: "Robertson", team: "LIV", opponent: "WHU", stars: 4, image: "https://placehold.co/100x100/4F46E5/FFFFFF?text=R" },
-                { id: 'def-3', name: "James", team: "CHE", opponent: "ARS", stars: 3, image: "https://placehold.co/100x100/4F46E5/FFFFFF?text=J" },
-                { id: 'def-4', name: "Saliba", team: "ARS", opponent: "MNU", stars: 4, image: "https://placehold.co/100x100/4F46E5/FFFFFF?text=S" },
-                { id: 'def-5', name: "Stones", team: "MCI", opponent: "LIV", stars: 5, image: "https://placehold.co/100x100/4F46E5/FFFFFF?text=S" },
-                { id: 'def-6', name: "Trippier", team: "NEW", opponent: "CHE", stars: 4, image: "https://placehold.co/100x100/4F46E5/FFFFFF?text=T" }
+                { id: 'def-1', name: "Porro", team: "TOT", opponent: "BOU", stars: 3, image: "https://img.sofascore.com/api/v1/player/913654/image" }, // Pedro Porro
+                { id: 'def-2', name: "Robertson", team: "LIV", opponent: "WHU", stars: 4, image: "https://img.sofascore.com/api/v1/player/262911/image" }, // Andrew Robertson
+                { id: 'def-3', name: "James", team: "CHE", opponent: "ARS", stars: 3, image: "https://img.sofascore.com/api/v1/player/847051/image" }, // Reece James
+                { id: 'def-4', name: "Saliba", team: "ARS", opponent: "MNU", stars: 4, image: "https://img.sofascore.com/api/v1/player/926673/image" }, // William Saliba
+                { id: 'def-5', name: "Stones", team: "MCI", opponent: "LIV", stars: 5, image: "https://img.sofascore.com/api/v1/player/226085/image" }, // John Stones
+                { id: 'def-6', name: "Trippier", team: "NEW", opponent: "CHE", stars: 4, image: "https://img.sofascore.com/api/v1/player/69256/image" }  // Kieran Trippier
             ],
             midfielders: [
-                { id: 'mid-1', name: "Odegaard", team: "ARS", opponent: "CHE", stars: 4, image: "https://placehold.co/100x100/4F46E5/FFFFFF?text=O" },
-                { id: 'mid-2', name: "Maddison", team: "TOT", opponent: "BOU", stars: 4, image: "https://placehold.co/100x100/4F46E5/FFFFFF?text=M" },
-                { id: 'mid-3', name: "Garnacho", team: "MNU", opponent: "LIV", stars: 3, image: "https://placehold.co/100x100/4F46E5/FFFFFF?text=G" },
-                { id: 'mid-4', name: "Joelinton", team: "NEW", opponent: "WHU", stars: 4, image: "https://placehold.co/100x100/4F46E5/FFFFFF?text=J" },
-                { id: 'mid-5', name: "Saka", team: "ARS", opponent: "MNU", stars: 5, image: "https://placehold.co/100x100/4F46E5/FFFFFF?text=S" },
-                { id: 'mid-6', name: "Foden", team: "MCI", opponent: "TOT", stars: 5, image: "https://placehold.co/100x100/4F46E5/FFFFFF?text=F" }
+                { id: 'mid-1', name: "Odegaard", team: "ARS", opponent: "CHE", stars: 4, image: "https://img.sofascore.com/api/v1/player/547410/image" }, // Martin Odegaard
+                { id: 'mid-2', name: "Maddison", team: "TOT", opponent: "BOU", stars: 4, image: "https://img.sofascore.com/api/v1/player/226086/image" }, // James Maddison
+                { id: 'mid-3', name: "Garnacho", team: "MNU", opponent: "LIV", stars: 3, image: "https://img.sofascore.com/api/v1/player/1135873/image" }, // Alejandro Garnacho
+                { id: 'mid-4', name: "Joelinton", team: "NEW", opponent: "WHU", stars: 4, image: "https://img.sofascore.com/api/v1/player/226087/image" }, // Joelinton
+                { id: 'mid-5', name: "Saka", team: "ARS", opponent: "MNU", stars: 5, image: "https://img.sofascore.com/api/v1/player/847053/image" }, // Bukayo Saka
+                { id: 'mid-6', name: "Foden", team: "MCI", opponent: "TOT", stars: 5, image: "https://img.sofascore.com/api/v1/player/847054/image" } // Phil Foden
             ],
             forwards: [
-                { id: 'fwd-1', name: "Johnson", team: "TOT", opponent: "BOU", stars: 3, image: "https://placehold.co/100x100/4F46E5/FFFFFF?text=J" },
-                { id: 'fwd-2', name: "Havertz", team: "CHE", opponent: "ARS", stars: 3, image: "https://placehold.co/100x100/4F46E5/FFFFFF?text=H" },
-                { id: 'fwd-3', name: "Watkins", team: "AST", opponent: "NEW", stars: 4, image: "https://placehold.co/100x100/4F46E5/FFFFFF?text=W" },
-                { id: 'fwd-4', name: "Nunez", team: "LIV", opponent: "WHU", stars: 3, image: "https://placehold.co/100x100/4F46E5/FFFFFF?text=N" },
-                { id: 'fwd-5', name: "Isak", team: "NEW", opponent: "CHE", stars: 4, image: "https://placehold.co/100x100/4F46E5/FFFFFF?text=I" },
-                { id: 'fwd-6', name: "Haaland", team: "MCI", opponent: "TOT", stars: 5, image: "https://placehold.co/100x100/4F46E5/FFFFFF?text=H" }
+                { id: 'fwd-1', name: "Johnson", team: "TOT", opponent: "BOU", stars: 3, image: "https://img.sofascore.com/api/v1/player/1085180/image" }, // Brennan Johnson
+                { id: 'fwd-2', name: "Havertz", team: "CHE", opponent: "ARS", stars: 3, image: "https://img.sofascore.com/api/v1/player/836705/image" }, // Kai Havertz
+                { id: 'fwd-3', name: "Watkins", team: "AST", opponent: "NEW", stars: 4, image: "https://img.sofascore.com/api/v1/player/555386/image" }, // Ollie Watkins
+                { id: 'fwd-4', name: "Nunez", team: "LIV", opponent: "WHU", stars: 3, image: "https://img.sofascore.com/api/v1/player/926675/image" }, // Darwin Nunez
+                { id: 'fwd-5', name: "Isak", team: "NEW", opponent: "CHE", stars: 4, image: "https://img.sofascore.com/api/v1/player/847056/image" }, // Alexander Isak
+                { id: 'fwd-6', name: "Haaland", team: "MCI", opponent: "TOT", stars: 5, image: "https://img.sofascore.com/api/v1/player/839956/image" }
             ]
         };
 
