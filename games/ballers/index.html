@@ -3,405 +3,1033 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ballers - Pick Team</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts - Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Multi-Stage Football Player Picker</title>
+    <!-- Bootstrap 5 CSS CDN for responsive layout -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <!-- Google Font for better aesthetics -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
+        :root {
+            --primary-color: #2c7be5;
+            --tile-bg-color: #fff;
+            --tile-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            --header-height: 65px;
+        }
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #1a1a2e; /* Dark purple background */
-            color: #ffffff;
-            overflow-x: hidden; /* Prevent horizontal scroll on body */
+            background-color: #e9ecef;
+            padding-top: var(--header-height);
+            padding-bottom: 20px;
         }
-        /* Custom scrollbar for horizontal rows */
-        .scroll-container::-webkit-scrollbar {
-            height: 8px;
-        }
-        .scroll-container::-webkit-scrollbar-track {
-            background: #2a2a4a; /* Darker track */
-            border-radius: 10px;
-        }
-        .scroll-container::-webkit-scrollbar-thumb {
-            background: #4F46E5; /* Indigo thumb */
-            border-radius: 10px;
-        }
-        .scroll-container::-webkit-scrollbar-thumb:hover {
-            background: #6366F1; /* Lighter indigo on hover */
-        }
-        /* Style for the team crest circle */
-        .team-crest-circle {
-            width: 32px; /* Small size */
-            height: 32px;
-            border-radius: 50%;
+        /* Fixed Header Bar Styling */
+        .app-header {
+            height: var(--header-height);
             display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header-title {
+            font-size: 1.8rem; 
+            font-weight: 900; 
+            color: #0d6efd;
+            flex-shrink: 0;
+            margin-right: 1rem;
+        }
+        .header-subtitle {
+            font-size: 1rem; 
+            font-weight: 700; 
+            text-align: center;
+            flex-grow: 1; 
+        }
+        .header-section {
+            padding: 10px 0;
+            text-align: center;
+        }
+        .grid-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        /* --- Tile Styling --- */
+        .player-tile {
+            height: 140px; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around; 
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: var(--tile-bg-color);
+            border-radius: 12px;
+            box-shadow: var(--tile-shadow);
+            text-align: center;
+            font-weight: 700;
+            transition: all 0.5s ease-out;
+            overflow: hidden;
+            border: 1px solid #dee2e6; /* subtle grey border */
+            
+            /* Enable 3D transforms and perspective for the flip effect */
+            transform-style: preserve-3d;
+            transform: perspective(1000px); 
+        }
+        .player-tile.is-picked {
+            border-color: #198754; 
+            background-color: #d1e7dd;
+        }
+        .player-tile .player-info {
+            opacity: 0;
+            transform: translateY(100%);
+            transition: opacity 0.5s, transform 0.5s;
+            height: 60px;
+            display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            font-size: 0.75rem; /* text-xs */
-            font-weight: bold;
-            color: white;
-            position: absolute;
-            top: 8px; /* Position within the card, not the image */
-            right: 8px; /* Position within the card, not the image */
-            border: 1px solid rgba(255, 255, 255, 0.3); /* Slight border for definition */
-            text-shadow: 0 0 2px rgba(0,0,0,0.5);
-            z-index: 10; /* Ensure it's above other elements in the card */
+            width: 100%;
         }
-        /* Ensure buttons have pointer cursor by default */
-        .pick-btn {
-            cursor: pointer;
+        .player-tile.revealed .player-info {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .player-name-main {
+            font-size: 1.1rem;
+            line-height: 1.1;
+            margin-bottom: 5px;
+        }
+        .player-team-badge-container {
+            height: 20px;
+            margin-top: 5px;
+        }
+        /* Team Color Badge */
+        .team-color-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 35px;
+            height: 18px;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 0.6rem;
+            font-weight: 900;
+            line-height: 1;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+        }
+        /* Opponent Text */
+        .opponent-hint {
+            font-size: 0.75rem;
+            color: #6c757d;
+            font-weight: 400;
+            margin-bottom: 5px;
+            height: 18px;
+        }
+        
+        /* --- UPDATED SPINNING EFFECT (X-Axis Flip) --- */
+        .player-tile.spinning {
+            /* Change the animation name and properties */
+            animation: card-flip-animation 0.1s infinite linear;
+            background: #e9ecef; 
+            border-color: var(--primary-color);
+        }
+        .player-tile.spinning .player-info,
+        .player-tile.spinning .opponent-hint,
+        .player-tile.spinning .btn {
+            opacity: 0;
+            pointer-events: none;
+        }
+        /* New Keyframes for X-Axis Rotation */
+        @keyframes card-flip-animation {
+            from { transform: perspective(1000px) rotateX(0deg); }
+            to { transform: perspective(1000px) rotateX(360deg); }
+        }
+        /* --- END UPDATED SPINNING EFFECT --- */
+
+        /* Button Styling */
+        .btn-shuffle {
+            font-size: 1rem;
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-weight: 700;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-tile-pick {
+            width: 80%; 
+            border-radius: 8px;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+        /* Full Width Save Button */
+        .btn-next-stage, .btn-save-picks {
+            width: 100%;
+            margin-top: 30px;
+            padding: 15px;
+            font-size: 1.3rem;
+            border-radius: 12px;
+            font-weight: 700;
+        }
+        /* Summary View Styling */
+        #summary-view {
+            display: none;
+        }
+        .summary-list .list-group-item {
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .grid-category-header {
+            font-family: 'Inter', sans-serif;
+            font-weight: 900;
+            text-align: center;
+            color: #0d6efd;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .pick-limit-msg {
+            font-size: 0.9rem;
+            font-weight: 600;
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col">
-    <!-- Header -->
-    <header class="bg-[#2a2a4a] p-4 flex items-center justify-between rounded-b-xl shadow-lg">
-        <button class="text-gray-300 text-sm font-semibold px-2 py-1 rounded-md hover:bg-[#3a3a5a]">X CANCEL</button>
-        <h1 class="text-xl font-bold text-white">BALLERS <span class="text-sm font-normal text-gray-400">EPL</span></h1>
-        <div class="flex space-x-4">
-            <button class="text-gray-300 text-xl hover:text-white">?</button>
-            <button class="text-gray-300 text-xl hover:text-white">⚙️</button>
-        </div>
+<body>
+    <!-- Fixed Header Bar -->
+    <header class="fixed-top bg-white shadow app-header px-3">
+        <!-- Left: BALLERS -->
+        <div class="header-title">BALLERS</div>
+        
+        <!-- Center: EPL week 2 -->
+        <div class="header-subtitle text-muted">EPL week 2</div>
+
+        <!-- Right: SPIN Button (Now powered by globalSpinsRemaining) -->
+        <button id="shuffleButton" class="btn btn-primary btn-shuffle shadow" onclick="startShuffle(currentGameIndex)">
+            <span id="buttonText">SPIN (3 left)</span>
+        </button>
     </header>
+    <!-- END Fixed Header Bar -->
+    
+    <div class="container grid-container">
 
-    <!-- Selection Screen -->
-    <div id="selection-screen" class="flex-grow flex flex-col p-4 space-y-6">
-        <!-- Player Selection Rows -->
-        <div id="defenders-row" class="bg-[#2a2a4a] p-4 rounded-xl shadow-md">
-            <h2 class="text-lg font-semibold mb-3 text-white text-center">PICK TWO DEFENDERS</h2>
-            <div class="flex overflow-x-scroll space-x-4 pb-4 scroll-container">
-                <!-- Defender cards will be injected here by JavaScript -->
+        <!-- ==================================== -->
+        <!-- SCREEN 1: DEFENDERS VIEW -->
+        <!-- ==================================== -->
+        <div id="shuffler-container">
+            
+            <div id="game-0-view" class="game-view" data-game-index="0" style="display: none;">
+                <div class="header-section">
+                    <!-- Updated Header Title -->
+                    <h2 class="grid-category-header">DEFENDERS</h2>
+                    <p id="pick-limit-0" class="pick-limit-msg text-primary">0 / 3 Players Picked</p>
+                    <!-- Removed: Loading Message for Game 0 -->
+                </div>
+                <div id="playerGrid-0" class="row mt-2">
+                    <!-- Tiles for Game 1 (g0) -->
+                    <div class="col-4"><div id="tile-g0-t0" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(0, 0)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g0-t1" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(0, 1)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g0-t2" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(0, 2)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g0-t3" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(0, 3)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g0-t4" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(0, 4)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g0-t5" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(0, 5)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g0-t6" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(0, 6)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g0-t7" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(0, 7)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g0-t8" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(0, 8)">PICK</button></div></div>
+                </div>
+                <!-- Updated Button Text (Initial) -->
+                <button id="nextButton-0" class="btn btn-next-stage btn-success shadow-lg" onclick="handleNextStage()">
+                    Pick Midfielders... <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+            
+            <!-- ==================================== -->
+            <!-- SCREEN 2: MIDFIELDERS VIEW -->
+            <!-- ==================================== -->
+            <div id="game-1-view" class="game-view" data-game-index="1" style="display: none;">
+                <div class="header-section">
+                    <!-- Updated Header Title -->
+                    <h2 class="grid-category-header">MIDFIELDERS</h2>
+                    <p id="pick-limit-1" class="pick-limit-msg text-primary">0 / 3 Players Picked</p>
+                    <!-- Removed: Loading Message for Game 1 -->
+                </div>
+                <div id="playerGrid-1" class="row mt-2">
+                    <!-- Tiles for Game 2 (g1) -->
+                    <div class="col-4"><div id="tile-g1-t0" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(1, 0)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g1-t1" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(1, 1)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g1-t2" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(1, 2)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g1-t3" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(1, 3)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g1-t4" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(1, 4)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g1-t5" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(1, 5)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g1-t6" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(1, 6)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g1-t7" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(1, 7)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g1-t8" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(1, 8)">PICK</button></div></div>
+                </div>
+                <!-- Updated Button Text (Initial) -->
+                <button id="nextButton-1" class="btn btn-next-stage btn-success shadow-lg" onclick="handleNextStage()">
+                    Pick Attackers <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+            
+            <!-- ==================================== -->
+            <!-- SCREEN 3: ATTACKERS VIEW -->
+            <!-- ==================================== -->
+            <div id="game-2-view" class="game-view" data-game-index="2" style="display: none;">
+                <div class="header-section">
+                    <!-- Updated Header Title -->
+                    <h2 class="grid-category-header">ATTACKERS</h2>
+                    <p id="pick-limit-2" class="pick-limit-msg text-primary">0 / 3 Players Picked</p>
+                    <!-- Removed: Loading Message for Game 2 -->
+                </div>
+                <div id="playerGrid-2" class="row mt-2">
+                    <!-- Tiles for Game 3 (g2) -->
+                    <div class="col-4"><div id="tile-g2-t0" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(2, 0)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g2-t1" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(2, 1)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g2-t2" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(2, 2)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g2-t3" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(2, 3)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g2-t4" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(2, 4)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g2-t5" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(2, 5)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g2-t6" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(2, 6)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g2-t7" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(2, 7)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g2-t8" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(2, 8)">PICK</button></div></div>
+                </div>
+                <!-- Updated Button Text (Initial) -->
+                <button id="nextButton-2" class="btn btn-save-picks btn-success shadow-lg" onclick="handleNextStage()">
+                    Save picks <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+
+        </div>
+
+        <!-- ==================================== -->
+        <!-- SCREEN 4: SUMMARY VIEW -->
+        <!-- ==================================== -->
+        <div id="summary-view" class="mt-5">
+            <h2 class="text-primary text-center mb-4">Your Final Team Selection (9 Players)</h2>
+            <div id="pickedPlayersList" class="list-group summary-list">
+                <!-- Picked players will be inserted here -->
+            </div>
+            <div class="text-center mt-5">
+                <button class="btn btn-secondary btn-lg" onclick="startNewGame()">
+                    <i class="fas fa-undo"></i> Start New Team Selection
+                </button>
             </div>
         </div>
-
-        <div id="midfielders-row" class="bg-[#2a2a4a] p-4 rounded-xl shadow-md">
-            <h2 class="text-lg font-semibold mb-3 text-white text-center">PICK TWO MIDFIELDERS</h2>
-            <div class="flex overflow-x-scroll space-x-4 pb-4 scroll-container">
-                <!-- Midfielder cards will be injected here by JavaScript -->
-            </div>
-        </div>
-
-        <div id="forwards-row" class="bg-[#2a2a4a] p-4 rounded-xl shadow-md">
-            <h2 class="text-lg font-semibold mb-3 text-white text-center">PICK TWO FORWARDS</h2>
-            <div class="flex overflow-x-scroll space-x-4 pb-4 scroll-container">
-                <!-- Forward cards will be injected here by JavaScript -->
-            </div>
-        </div>
-    </div>
-
-    <!-- Save Picks Button -->
-    <footer id="selection-footer" class="p-4 bg-[#1a1a2e] sticky bottom-0 z-10">
-        <button id="save-picks-btn" class="w-full bg-[#4F46E5] text-white font-bold py-3 px-6 rounded-full shadow-lg transition-all duration-300 hover:bg-[#6366F1] disabled:opacity-50 disabled:cursor-not-allowed" disabled>
-            SAVE MY PICKS
-        </button>
-    </footer>
-
-    <!-- Results Screen -->
-    <div id="results-screen" class="flex-grow flex flex-col p-4 space-y-6 hidden">
-        <div class="bg-[#2a2a4a] p-4 rounded-xl shadow-md text-center">
-            <h2 class="text-2xl font-bold text-white mb-2">TOTAL POINTS: <span id="total-points" class="text-green-400">0</span></h2>
-        </div>
-
-        <div id="picked-players-grid" class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-3">
-            <!-- Picked player tiles with points will be injected here -->
-        </div>
-
-        <button id="play-again-btn" class="w-full bg-[#4F46E5] text-white font-bold py-3 px-6 rounded-full shadow-lg transition-all duration-300 hover:bg-[#6366F1]">
-            PLAY AGAIN
-        </button>
     </div>
 
     <script>
-        // Mapping of team abbreviations to their main colors
-        const teamColors = {
-            "TOT": "#130C2E", // Tottenham (dark blue/purple)
-            "LIV": "#C80815", // Liverpool (red)
-            "CHE": "#034694", // Chelsea (blue)
-            "ARS": "#EF0107", // Arsenal (red)
-            "MNU": "#DA291C", // Man Utd (red)
-            "MCI": "#6CABDD", // Man City (sky blue)
-            "NEW": "#241F20", // Newcastle (black)
-            "AST": "#4F002D", // Aston Villa (claret)
-            "BOU": "#DA291C", // Bournemouth (red)
-            "WHU": "#7A263A", // West Ham (claret)
-            "CP": "#1B458F",  // Crystal Palace (blue)
-            // Add more teams as needed
+        // --- CONFIGURATION ---
+        const TEAM_DATA = {
+            "Man City": { abbr: "MCI", color: "#6CABDD" },
+            "Newcastle": { abbr: "NEW", color: "#383838" },
+            "Arsenal": { abbr: "ARS", color: "#EF0107" },
+            "Liverpool": { abbr: "LIV", color: "#C8102E" },
+            "Man United": { abbr: "MUN", color: "#DA291C" },
+            "Tottenham": { abbr: "TOT", color: "#132257" },
+            "Chelsea": { abbr: "CHE", color: "#034694" },
+            "Aston Villa": { abbr: "AVL", color: "#490024" },
+            "Notts Forest": { abbr: "FOR", color: "#DD0000" },
+            "Crystal Palace": { abbr: "CRY", color: "#1B458F" },
+            "Fulham": { abbr: "FUL", color: "#FFFFFF", border: true },
+            "West Ham": { abbr: "WHU", color: "#7A263A" },
+            "Brentford": { abbr: "BRE", color: "#E30613" },
+            "Bournemouth": { abbr: "BOU", color: "#DA291C" },
+            "Brighton": { abbr: "BHA", color: "#0057B8" },
+            "default": { abbr: "N/A", color: "#6c757d" }
         };
 
-        // Player data for each position with updated Sofascore image URLs
-        const players = {
-            defenders: [
-                { id: 'def-1', name: "Porro", team: "TOT", opponent: "BOU", stars: 3, image: "https://img.sofascore.com/api/v1/player/913654/image" }, // Pedro Porro
-                { id: 'def-2', name: "Robertson", team: "LIV", opponent: "WHU", stars: 4, image: "https://img.sofascore.com/api/v1/player/262911/image" }, // Andrew Robertson
-                { id: 'def-3', name: "James", team: "CHE", opponent: "ARS", stars: 3, image: "https://img.sofascore.com/api/v1/player/847051/image" }, // Reece James
-                { id: 'def-4', name: "Saliba", team: "ARS", opponent: "MNU", stars: 4, image: "https://img.sofascore.com/api/v1/player/926673/image" }, // William Saliba
-                { id: 'def-5', name: "Stones", team: "MCI", opponent: "LIV", stars: 5, image: "https://img.sofascore.com/api/v1/player/226085/image" }, // John Stones
-                { id: 'def-6', name: "Trippier", team: "NEW", opponent: "CHE", stars: 4, image: "https://img.sofascore.com/api/v1/player/69256/image" }  // Kieran Trippier
-            ],
-            midfielders: [
-                { id: 'mid-1', name: "Odegaard", team: "ARS", opponent: "CHE", stars: 4, image: "https://img.sofascore.com/api/v1/player/547410/image" }, // Martin Odegaard
-                { id: 'mid-2', name: "Maddison", team: "TOT", opponent: "BOU", stars: 4, image: "https://img.sofascore.com/api/v1/player/226086/image" }, // James Maddison
-                { id: 'mid-3', name: "Garnacho", team: "MNU", opponent: "LIV", stars: 3, image: "https://img.sofascore.com/api/v1/player/1135873/image" }, // Alejandro Garnacho
-                { id: 'mid-4', name: "Joelinton", team: "NEW", opponent: "WHU", stars: 4, image: "https://img.sofascore.com/api/v1/player/226087/image" }, // Joelinton
-                { id: 'mid-5', name: "Saka", team: "ARS", opponent: "MNU", stars: 5, image: "https://img.sofascore.com/api/v1/player/847053/image" }, // Bukayo Saka
-                { id: 'mid-6', name: "Foden", team: "MCI", opponent: "TOT", stars: 5, image: "https://img.sofascore.com/api/v1/player/847054/image" } // Phil Foden
-            ],
-            forwards: [
-                { id: 'fwd-1', name: "Johnson", team: "TOT", opponent: "BOU", stars: 3, image: "https://img.sofascore.com/api/v1/player/1085180/image" }, // Brennan Johnson
-                { id: 'fwd-2', name: "Havertz", team: "CHE", opponent: "ARS", stars: 3, image: "https://img.sofascore.com/api/v1/player/836705/image" }, // Kai Havertz
-                { id: 'fwd-3', name: "Watkins", team: "AST", opponent: "NEW", stars: 4, image: "https://img.sofascore.com/api/v1/player/555386/image" }, // Ollie Watkins
-                { id: 'fwd-4', name: "Nunez", team: "LIV", opponent: "WHU", stars: 3, image: "https://img.sofascore.com/api/v1/player/926675/image" }, // Darwin Nunez
-                { id: 'fwd-5', name: "Isak", team: "NEW", opponent: "CHE", stars: 4, image: "https://img.sofascore.com/api/v1/player/847056/image" }, // Alexander Isak
-                { id: 'fwd-6', name: "Haaland", team: "MCI", opponent: "TOT", stars: 5, image: "https://img.sofascore.com/api/v1/player/839956/image" }
-            ]
-        };
+        const EPL_OPPONENTS = [
+            "Wolves", "Everton", "Fulham", "Palace", "Luton", 
+            "West Ham", "Burnley", "Spurs", "Liverpool", "Brighton",
+            "Villa", "Forest", "Cherries", "Seagulls"
+        ];
+        
+        // Data refreshed from EAFC 26 ratings - ALL.csv.
+        const csvContent = `PLAYER,RATING ,Position,Team
+Erling Haaland,90,ATT,Man City
+Alexander Isak,88,ATT,Liverpool
+Bukayo Saka,88,ATT,Arsenal
+Viktor Gyökeres,87,ATT,Arsenal
+Bryan Mbeumo,85,ATT,Man United
+Phil Foden,85,ATT,Man City
+Ollie Watkins,84,ATT,Aston Villa
+Omar Marmoush,84,ATT,Man City
+Anthony Gordon,83,ATT,Newcastle
+Hugo Ekitiké,83,ATT,Liverpool
+Leandro Trossard,83,ATT,Arsenal
+Kai Havertz,82,ATT,Arsenal
+Jean-Philippe Mateta,82,ATT,Crystal Palace
+Yoane Wissa,82,ATT,Newcastle
+Savinho,82,ATT,Man City
+Chris Wood,82,ATT,Notts Forest
+Jacob Murphy,81,ATT,Newcastle
+Gabriel Martinelli,81,ATT,Arsenal
+Anthony Elanga,81,ATT,Newcastle
+Randal Kolo Muani,81,ATT,Tottenham
+Rayan Cherki,81,ATT,Man City
+Mohammed Kudus,80,ATT,Tottenham
+Noni Madueke,80,ATT,Arsenal
+Jack Grealish,80,ATT,Everton
+Benjamin Šeško,80,ATT,Man United
+Gabriel Jesus,80,ATT,Man City
+Harvey Barnes,80,ATT,Newcastle
+Jérémy Doku,80,ATT,Man City
+Dominic Solanke,80,ATT,Bournemouth
+João Pedro,79,ATT,Brighton
+Brennan Johnson,79,ATT,Tottenham
+Richarlison,78,ATT,Tottenham
+Amine Adli,78,ATT,Liverpool
+Danny Welbeck,78,ATT,Brighton
+Liam Delap,78,ATT,Chelsea
+Callum Wilson,78,ATT,Newcastle
+Maxwel Cornet,77,ATT,West Ham
+Darwin Núñez,77,ATT,Liverpool
+Armando Broja,77,ATT,Fulham
+Declan Rice,89,MID,Arsenal
+Rodri,88,MID,Manchester City
+Bruno Guimarães,86,MID,Newcastle United
+Enzo Fernández,85,MID,Chelsea
+Dominik Szoboszlai,84,MID,Liverpool
+Alexis Mac Allister,84,MID,Liverpool
+Ezequiel Palacios,84,MID,Tottenham
+Pape Matar Sarr,83,MID,Tottenham Hotspur
+Harvey Elliott,83,MID,Liverpool
+Eberechi Eze,83,MID,Crystal Palace
+Bruno Fernandes,83,MID,Manchester United
+Conor Gallagher,83,MID,Chelsea
+João Palhinha,83,MID,Fulham
+Sandro Tonali,82,MID,Newcastle United
+James Maddison,82,MID,Tottenham
+Kobie Mainoo,82,MID,Manchester United
+Lucas Paquetá,82,MID,West Ham United
+Tyler Adams,82,MID,Bournemouth
+Casemiro,81,MID,Manchester United
+Mason Mount,81,MID,Manchester United
+Moises Caicedo,81,MID,Chelsea
+Héctor Herrera,81,MID,Arsenal
+Martin Ødegaard,81,MID,Arsenal
+Douglas Luiz,81,MID,Aston Villa
+Moussa Diaby,81,MID,Aston Villa
+Cole Palmer,80,MID,Chelsea
+Cheick Doucouré,80,MID,Crystal Palace
+André Onana,80,MID,Nottingham Forest
+Jacob Ramsey,80,MID,Aston Villa
+Christian Eriksen,80,MID,Manchester United
+Matheus Nunes,80,MID,Manchester City
+Manuel Akanji,80,MID,Manchester City
+Morgan Gibbs-White,80,MID,Nottingham Forest
+Diogo Jota,79,MID,Liverpool
+Bernardo Silva,79,MID,Manchester City
+Hamer Traoré,79,MID,Bournemouth
+John McGinn,79,MID,Aston Villa
+Kiernan Dewsbury-Hall,79,MID,Chelsea
+Trent Alexander-Arnold,78,MID,Liverpool
+Kevin De Bruyne,78,MID,Manchester City
+Pervis Estupiñán,78,MID,Brighton
+Youri Tielemans,78,MID,Aston Villa
+Mohammed Salisu,78,MID,Fulham
+Max Kilman,78,MID,West Ham United
+João Cancelo,78,MID,Manchester City
+Solly March,77,MID,Brighton
+William Saliba,87,DEF,Arsenal
+Rúben Dias,86,DEF,Manchester City
+Ibrahima Konaté,86,DEF,Liverpool
+Joško Gvardiol,84,DEF,Manchester City
+Marc Cucurella,84,DEF,Chelsea
+Jeremie Frimpong,83,DEF,Liverpool
+Murillo,83,DEF,Nottingham Forest
+Nathan Aké,83,DEF,Manchester City
+Piero Hincapié,83,DEF,Arsenal
+Benjamin White,83,DEF,Arsenal
+Nikola Milenković,83,DEF,Nottingham Forest
+Pedro Porro,82,DEF,Tottenham
+Milos Kerkez,82,DEF,Liverpool
+Andrew Robertson,82,DEF,Liverpool
+Antonee Robinson,82,DEF,Fulham
+Micky van de Ven,82,DEF,Tottenham Hotspur
+Ezri Konsa,82,DEF,Aston Villa
+Jurriën Timber,82,DEF,Arsenal
+Fabian Schär,82,DEF,Newcastle United
+John Stones,82,DEF,Manchester City
+Matthijs de Ligt,82,DEF,Manchester United
+Marc Guéhi,82,DEF,Crystal Palace
+Cristian Romero,82,DEF,Tottenham
+Sven Botman,82,DEF,Newcastle United
+Reece James,81,DEF,Chelsea
+Daniel Muñoz,81,DEF,Crystal Palace
+Rayan Aït-Nouri,81,DEF,Manchester City
+Lisandro Martínez,81,DEF,Manchester United
+Aaron Wan-Bissaka,80,DEF,Manchester United
+Alex Moreno,80,DEF,Aston Villa
+Destiny Udogie,80,DEF,Tottenham Hotspur
+Ben Chilwell,80,DEF,Chelsea
+James Tarkowski,80,DEF,Everton
+Levi Colwill,80,DEF,Chelsea
+Virgil van Dijk,79,DEF,Liverpool
+Tino Livramento,79,DEF,Newcastle United
+Ben Mee,79,DEF,Brentford
+Tosin Adarabioyo,79,DEF,Tottenham
+Ethan Pinnock,79,DEF,Brentford
+Lewis Dunk,79,DEF,Brighton
+Tyrone Mings,78,DEF,Aston Villa
+Joe Gomez,78,DEF,Liverpool
+Issa Diop,78,DEF,Fulham
+Lucas Digne,78,DEF,Aston Villa
+José Sá,78,DEF,Wolves
+Kostas Tsimikas,77,DEF,Liverpool
+Luke Shaw,77,DEF,Manchester United
+Joel Matip,77,DEF,Liverpool
+Manuel Benson,77,DEF,Fulham
+`;
 
-        // Object to keep track of selected players for each position
-        const selectedPlayers = {
-            defenders: [],
-            midfielders: [],
-            forwards: []
-        };
+        const GAME_TITLES = ["DEFENDERS", "MIDFIELDERS", "ATTACKERS"];
+        const NEXT_BUTTON_TEXTS = [
+            "Pick Midfielders", 
+            "Pick Attackers",  
+            "Save picks"       
+        ];
 
-        // Get references to HTML elements
-        const selectionScreen = document.getElementById('selection-screen');
-        const selectionFooter = document.getElementById('selection-footer');
-        const resultsScreen = document.getElementById('results-screen');
-        const savePicksBtn = document.getElementById('save-picks-btn');
-        const totalPointsDisplay = document.getElementById('total-points');
-        const pickedPlayersGrid = document.getElementById('picked-players-grid');
-        const playAgainBtn = document.getElementById('play-again-btn');
+        // NEW: Global state for spins
+        let globalSpinsRemaining = 3; 
+
+        let defendersPool = [];
+        let midfieldersPool = [];
+        let attackersPool = [];
+        // Store pools indexed by position (0: DEF, 1: MID, 2: ATT)
+        const PLAYER_POOLS = [defendersPool, midfieldersPool, attackersPool]; 
+        
+        const NUM_GAMES = 3;
+        const NUM_TILES = 9;
+        const MAX_PICKS_PER_GAME = 3;
+        const SPIN_DURATION_MS = 2500;
+
+        // State management for all three games
+        let gameData = [];
+        let currentGameIndex = 0; // 0, 1, or 2
+
+        // --- HELPER FUNCTIONS ---
 
         /**
-         * Renders player cards for a given position into the specified container.
-         * @param {string} positionType - 'defenders', 'midfielders', or 'forwards'.
-         * @param {HTMLElement} container - The HTML element to append player cards to.
+         * Normalizes team names from the CSV to match the simplified TEAM_DATA keys.
          */
-        function renderPlayers(positionType, container) {
-            container.innerHTML = ''; // Clear existing cards
-            players[positionType].forEach(player => {
-                const isPicked = selectedPlayers[positionType].includes(player.id);
-                const card = document.createElement('div');
-                // Make the card position relative for absolute positioning of the crest
-                card.className = `relative flex-none w-36 bg-[#1a1a2e] rounded-xl shadow-md p-3 text-center transition-all duration-200 ${isPicked ? 'border-2 border-green-500' : 'border-2 border-transparent'}`;
-                
-                const teamColor = teamColors[player.team] || '#6B7280'; // Default to gray if color not found
-
-                card.innerHTML = `
-                    <div class="w-24 h-24 mx-auto mb-2 rounded-full overflow-hidden border-2 border-[#4F46E5]">
-                        <img src="${player.image}" alt="${player.name}" class="w-full h-full object-cover" onerror="this.onerror=null;this.src='https://placehold.co/100x100/4F46E5/FFFFFF?text=Player';">
-                    </div>
-                    <div class="team-crest-circle" style="background-color: ${teamColor};">
-                        ${player.team}
-                    </div>
-                    <p class="font-semibold text-white text-md">${player.name}</p>
-                    <p class="text-gray-400 text-xs">v ${player.opponent}</p>
-                    <div class="flex justify-center my-1">
-                        ${'⭐'.repeat(player.stars)}
-                    </div>
-                    <button data-player-id="${player.id}" data-position-type="${positionType}"
-                            class="pick-btn w-full mt-2 py-2 rounded-full font-bold text-sm transition-colors duration-200
-                                   ${isPicked ? 'bg-green-500 text-white' : 'bg-[#4F46E5] text-white hover:bg-[#6366F1]'}">
-                        ${isPicked ? 'PICKED' : 'PICK'}
-                    </button>
-                `;
-                container.appendChild(card);
-            });
-            updatePickButtons(positionType); // Update button states after rendering
+        function normalizeTeamName(teamName) {
+            if (!teamName) return 'default';
+            const norm = teamName.toLowerCase().trim();
+            if (norm.includes('manchester city')) return 'Man City';
+            if (norm.includes('manchester united')) return 'Man United';
+            if (norm.includes('newcastle united')) return 'Newcastle';
+            if (norm.includes('nottingham forest')) return 'Notts Forest';
+            if (norm.includes('tottenham hotspur') || norm.includes('tottenham')) return 'Tottenham';
+            if (norm.includes('aston villa')) return 'Aston Villa';
+            if (norm.includes('crystal palace')) return 'Crystal Palace';
+            if (norm.includes('west ham united')) return 'West Ham';
+            if (norm.includes('liverpool')) return 'Liverpool';
+            if (norm.includes('arsenal')) return 'Arsenal';
+            if (norm.includes('chelsea')) return 'Chelsea';
+            if (norm.includes('fulham')) return 'Fulham';
+            // Return trimmed name for other cases
+            return teamName.trim(); 
         }
 
         /**
-         * Updates the state (enabled/disabled, text, color) of pick buttons in a specific row.
-         * @param {string} positionType - 'defenders', 'midfielders', or 'forwards'.
+         * Parses the CSV content, filters players by position, and populates the position pools.
          */
-        function updatePickButtons(positionType) {
-            const buttons = document.querySelectorAll(`#${positionType}-row .pick-btn`);
-            const currentPickedCount = selectedPlayers[positionType].length;
+        function parsePlayers(csv) {
+            const lines = csv.split('\n');
+            // Reset pools
+            defendersPool = [];
+            midfieldersPool = [];
+            attackersPool = [];
 
-            buttons.forEach(button => {
-                const playerId = button.dataset.playerId;
-                const isCurrentlyPicked = selectedPlayers[positionType].includes(playerId);
-                const cardElement = button.closest('.flex-none');
-
-                if (isCurrentlyPicked) {
-                    button.classList.remove('bg-[#4F46E5]', 'hover:bg-[#6366F1]');
-                    button.classList.add('bg-green-500', 'text-white');
-                    button.textContent = 'PICKED';
-                    cardElement.classList.add('border-green-500');
-                    cardElement.classList.remove('border-transparent');
-                } else {
-                    button.classList.remove('bg-green-500', 'text-white');
-                    button.classList.add('bg-[#4F46E5]', 'hover:bg-[#6366F1]');
-                    button.textContent = 'PICK';
-                    cardElement.classList.remove('border-green-500');
-                    cardElement.classList.add('border-transparent');
-                }
-
-                // Disable 'PICK' buttons if 2 players are already picked in this row and this player is not picked
-                if (currentPickedCount >= 2 && !isCurrentlyPicked) {
-                    button.disabled = true;
-                    button.classList.add('opacity-50', 'cursor-not-allowed');
-                } else {
-                    button.disabled = false;
-                    button.classList.remove('opacity-50', 'cursor-not-allowed');
-                }
-            });
-            updateSaveButtonState(); // Update the main save button state
-            savePicksToLocalStorage(); // Save current state to local storage
-        }
-
-        /**
-         * Handles the click event for player 'PICK' buttons.
-         * @param {Event} event - The click event object.
-         */
-        function handlePickButtonClick(event) {
-            const button = event.target;
-            const playerId = button.dataset.playerId;
-            const positionType = button.dataset.positionType;
-
-            const index = selectedPlayers[positionType].indexOf(playerId);
-
-            if (index > -1) {
-                // Player is already picked, so unpick them
-                selectedPlayers[positionType].splice(index, 1);
-            } else {
-                // Player is not picked
-                if (selectedPlayers[positionType].length < 2) {
-                    // Pick the player if less than 2 are picked in this row
-                    selectedPlayers[positionType].push(playerId);
-                }
-            }
-            updatePickButtons(positionType); // Update buttons in the clicked row
-        }
-
-        /**
-         * Updates the enabled/disabled state of the 'SAVE MY PICKS' button.
-         */
-        function updateSaveButtonState() {
-            const totalPicked = Object.values(selectedPlayers).flat().length;
-            savePicksBtn.disabled = totalPicked !== 6; // Enable only if exactly 6 players are picked
-        }
-
-        /**
-         * Displays the selected players and their points on the results screen.
-         */
-        function showResultsScreen() {
-            selectionScreen.classList.add('hidden');
-            selectionFooter.classList.add('hidden');
-            resultsScreen.classList.remove('hidden');
-            pickedPlayersGrid.innerHTML = ''; // Clear previous results
-
-            let totalPoints = 0;
-            let allPickedPlayersData = [];
-
-            for (const positionType in selectedPlayers) {
-                selectedPlayers[positionType].forEach(playerId => {
-                    const player = players[positionType].find(p => p.id === playerId);
-                    if (player) {
-                        const points = Math.floor(Math.random() * 100) + 1; // Random points between 1 and 100
-                        totalPoints += points;
-                        allPickedPlayersData.push({ ...player, points: points });
-                    }
-                });
-            }
-
-            allPickedPlayersData.forEach(player => {
-                const card = document.createElement('div');
-                const teamColor = teamColors[player.team] || '#6B7280'; // Default to gray if color not found
-                card.className = `relative bg-[#1a1a2e] rounded-xl shadow-md p-3 text-center border-2 border-[#4F46E5]`;
-                card.innerHTML = `
-                    <div class="w-24 h-24 mx-auto mb-2 rounded-full overflow-hidden border-2 border-[#4F46E5]">
-                        <img src="${player.image}" alt="${player.name}" class="w-full h-full object-cover" onerror="this.onerror=null;this.src='https://placehold.co/100x100/4F46E5/FFFFFF?text=Player';">
-                    </div>
-                    <div class="team-crest-circle" style="background-color: ${teamColor};">
-                        ${player.team}
-                    </div>
-                    <p class="font-semibold text-white text-md">${player.name}</p>
-                    <p class="text-gray-400 text-xs">v ${player.opponent}</p>
-                    <div class="text-2xl font-bold mt-2 text-green-400">${player.points} pts</div>
-                `;
-                pickedPlayersGrid.appendChild(card);
-            });
-
-            totalPointsDisplay.textContent = totalPoints;
-        }
-
-        /**
-         * Resets the game to the initial selection screen.
-         */
-        function resetGame() {
-            // Clear selected players
-            for (const positionType in selectedPlayers) {
-                selectedPlayers[positionType] = [];
-            }
-            localStorage.removeItem('pickedTeam'); // Clear local storage
-
-            // Show selection screen, hide results screen
-            resultsScreen.classList.add('hidden');
-            selectionScreen.classList.remove('hidden');
-            selectionFooter.classList.remove('hidden');
-
-            // Re-render all player rows to reflect reset state
-            renderPlayers('defenders', document.querySelector('#defenders-row .flex'));
-            renderPlayers('midfielders', document.querySelector('#midfielders-row .flex'));
-            renderPlayers('forwards', document.querySelector('#forwards-row .flex'));
-
-            updateSaveButtonState(); // Ensure save button is disabled initially
-        }
-
-        /**
-         * Saves the current selected players state to local storage.
-         */
-        function savePicksToLocalStorage() {
-            localStorage.setItem('pickedTeam', JSON.stringify(selectedPlayers));
-        }
-
-        /**
-         * Loads selected players state from local storage on page load.
-         */
-        function loadPicksFromLocalStorage() {
-            const savedPicks = localStorage.getItem('pickedTeam');
-            if (savedPicks) {
-                try {
-                    const parsedPicks = JSON.parse(savedPicks);
-                    // Ensure the loaded data structure matches expected,
-                    // and filter out any players that might no longer exist in the data
-                    for (const positionType in selectedPlayers) {
-                        if (parsedPicks[positionType]) {
-                            selectedPlayers[positionType] = parsedPicks[positionType].filter(playerId =>
-                                players[positionType].some(p => p.id === playerId)
-                            );
+            for (let i = 1; i < lines.length; i++) {
+                const line = lines[i].trim();
+                if (line) {
+                    // Expects: PLAYER,RATING ,Position,Team
+                    const columns = line.split(',').map(col => col.trim());
+                    if (columns.length >= 4) {
+                        const name = columns[0];
+                        const position = columns[2].toUpperCase().replace(/\s/g, ''); // Ensure 'DEF', 'MID', 'ATT'
+                        const rawTeamName = columns[3]; 
+                        
+                        const teamKey = normalizeTeamName(rawTeamName);
+                        const team = TEAM_DATA[teamKey] || TEAM_DATA['default'];
+                        
+                        if (name && teamKey && position) {
+                            const player = { name: name, teamName: teamKey, teamData: team, position: position };
+                            
+                            if (position === 'DEF') {
+                                defendersPool.push(player);
+                            } else if (position === 'MID') {
+                                midfieldersPool.push(player);
+                            } else if (position === 'ATT') {
+                                attackersPool.push(player);
+                            }
                         }
                     }
-                } catch (e) {
-                    console.error("Error parsing saved picks from local storage:", e);
-                    // Clear corrupted data if parsing fails
-                    localStorage.removeItem('pickedTeam');
+                }
+            }
+            // Update the global indexed array reference
+            PLAYER_POOLS[0] = defendersPool;
+            PLAYER_POOLS[1] = midfieldersPool;
+            PLAYER_POOLS[2] = attackersPool;
+
+            console.log(`Pools loaded: DEF=${defendersPool.length}, MID=${midfieldersPool.length}, ATT=${attackersPool.length}`);
+        }
+
+        /**
+         * Initializes the game state.
+         */
+        function initializeGameData() {
+            gameData = [];
+            for (let i = 0; i < NUM_GAMES; i++) {
+                gameData.push({ 
+                    tiles: Array(NUM_TILES).fill(null), 
+                    picks: 0 
+                });
+            }
+            globalSpinsRemaining = 3;
+        }
+
+        /**
+         * Starts a new game/selection process.
+         */
+        function startNewGame() {
+            initializeGameData();
+            // Clear all tiles content and picks visually
+            for(let g = 0; g < NUM_GAMES; g++) {
+                for(let t = 0; t < NUM_TILES; t++) {
+                    const tile = document.getElementById(`tile-g${g}-t${t}`);
+                    if (tile) {
+                         tile.classList.remove('is-picked', 'revealed');
+                         const info = tile.querySelector('.player-info');
+                         info.querySelector('.player-name-main').textContent = '';
+                         info.querySelector('.player-team-badge-container').innerHTML = '';
+                         tile.querySelector('.opponent-hint').textContent = '';
+                         const button = tile.querySelector('.btn-tile-pick');
+                         button.classList.remove('btn-success');
+                         button.classList.add('btn-outline-primary');
+                         button.innerHTML = 'PICK';
+                    }
+                }
+            }
+            showGame(0);
+        }
+        
+        /**
+         * Updates the text and disabled state of the shuffle button and next stage button.
+         */
+        function updateShuffleButton() {
+            const currentData = gameData[currentGameIndex];
+            const shuffleButton = document.getElementById('shuffleButton');
+            const buttonTextSpan = document.getElementById('buttonText');
+            const pickLimitMsg = document.getElementById(`pick-limit-${currentGameIndex}`);
+
+            // Update Spin Button based on GLOBAL state with correct text format
+            buttonTextSpan.textContent = `SPIN (${globalSpinsRemaining} left)`;
+            shuffleButton.disabled = globalSpinsRemaining <= 0;
+
+            // Update Pick Count Message
+            pickLimitMsg.textContent = `${currentData.picks} / ${MAX_PICKS_PER_GAME} Players Picked`;
+            
+            // --- Update Next Stage Button ---
+            const nextButton = document.getElementById(`nextButton-${currentGameIndex}`);
+            if (nextButton) {
+                if (currentData.picks < MAX_PICKS_PER_GAME) {
+                    nextButton.disabled = true;
+                    const remaining = MAX_PICKS_PER_GAME - currentData.picks;
+                    nextButton.textContent = `Pick ${remaining} more to proceed...`;
+                } else {
+                    nextButton.disabled = false;
+                    
+                    let nextText = NEXT_BUTTON_TEXTS[currentGameIndex];
+                    let icon = ''; 
+                    
+                    if (currentGameIndex < NUM_GAMES - 1) {
+                        if(currentGameIndex === 0) {
+                            nextText += '...';
+                        }
+                        icon = ' <i class="fas fa-arrow-right"></i>';
+                    } else {
+                        icon = ''; 
+                    }
+
+                    nextButton.innerHTML = `${nextText} ${icon}`;
                 }
             }
         }
 
-        // Event Listeners
-        document.addEventListener('DOMContentLoaded', () => {
-            loadPicksFromLocalStorage(); // Load state first
-            renderPlayers('defenders', document.querySelector('#defenders-row .flex'));
-            renderPlayers('midfielders', document.querySelector('#midfielders-row .flex'));
-            renderPlayers('forwards', document.querySelector('#forwards-row .flex'));
+        /**
+         * Toggles the picked state of a player tile, enforcing the 3-pick limit.
+         */
+        function pickPlayer(gameId, tileId) {
+            const tile = document.getElementById(`tile-g${gameId}-t${tileId}`);
+            const button = tile.querySelector('.btn-tile-pick');
+            const currentData = gameData[gameId];
 
-            // Attach a single event listener to the document body for delegation
-            // This ensures clicks on the button itself, or its children (like text), are caught.
-            document.body.addEventListener('click', (event) => {
-                let targetButton = event.target.closest('.pick-btn');
-                if (targetButton && !targetButton.disabled) { // Added check for disabled state
-                    handlePickButtonClick(event);
+            if (!currentData.tiles[tileId]) {
+                 // Player data hasn't loaded yet (tile is empty)
+                console.warn("Attempted to pick an un-shuffled tile.");
+                return;
+            }
+
+            if (tile.classList.contains('is-picked')) {
+                // UNPICK
+                tile.classList.remove('is-picked');
+                button.classList.remove('btn-success');
+                button.classList.add('btn-outline-primary');
+                button.innerHTML = 'PICK';
+                
+                currentData.picks--;
+            } else {
+                // PICK
+                if (currentData.picks >= MAX_PICKS_PER_GAME) {
+                    console.log(`Cannot pick more than ${MAX_PICKS_PER_GAME} players in this stage.`);
+                    tile.style.transition = 'border-color 0.1s ease-in-out';
+                    tile.style.borderColor = '#dc3545'; // Red flash
+                    setTimeout(() => { tile.style.borderColor = '#dee2e6'; }, 300);
+                    return; 
                 }
+
+                tile.classList.add('is-picked');
+                button.classList.remove('btn-outline-primary');
+                button.classList.add('btn-success');
+                button.innerHTML = '<i class="fas fa-check"></i> PICKED';
+
+                currentData.picks++;
+            }
+            updateShuffleButton(); 
+        }
+
+        /**
+         * Selects random player objects from the pool specific to the gameId.
+         */
+        function getRandomPlayers(gameId, count, pickedPlayerNames) {
+            // Use the position-specific pool based on gameId
+            const pool = PLAYER_POOLS[gameId]; 
+            
+            // Get all player names already picked across ALL stages
+            const allPickedNames = [];
+            gameData.forEach(game => {
+                game.tiles.forEach(tile => {
+                    // Only count players that were actually picked in previous stages
+                    const tileElement = document.getElementById(`tile-g${gameData.indexOf(game)}-t${game.tiles.indexOf(tile)}`);
+                    if (tile && tileElement && tileElement.classList.contains('is-picked') && allPickedNames.indexOf(tile.name) === -1) {
+                        allPickedNames.push(tile.name);
+                    }
+                });
             });
 
-            savePicksBtn.addEventListener('click', showResultsScreen);
-            playAgainBtn.addEventListener('click', resetGame); // Event listener for the new "Play Again" button
-            updateSaveButtonState(); // Initial state update for save button
-        });
+            // Filter the current pool to ensure no duplicates from any stage
+            const availablePlayers = pool.filter(player => !allPickedNames.includes(player.name));
+            
+            if (availablePlayers.length < count) {
+                // Not enough unique players remaining in the specific pool, 
+                // fall back to shuffling unique players from the overall pool
+                console.warn(`Insufficient unique players in ${GAME_TITLES[gameId]} pool (${availablePlayers.length}). Recycling will occur.`);
+                
+                // If we absolutely must, we recycle from the current pool
+                if(pool.length >= count) {
+                    const shuffled = [...pool].sort(() => 0.5 - Math.random());
+                    return shuffled.slice(0, count);
+                } else {
+                    return pool; // return everything if pool is too small
+                }
+            }
+
+            const shuffled = [...availablePlayers].sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, count);
+        }
+
+        /**
+         * Sets the player name, team badge, and opponent hint for a tile.
+         */
+        function setTileContent(tile, player, opponent) {
+            tile.querySelector('.player-name-main').textContent = player.name;
+            
+            // Render Team Badge
+            const badgeContainer = tile.querySelector('.player-team-badge-container');
+            let badgeStyle = `background-color: ${player.teamData.color};`;
+            if (player.teamData.border) {
+                badgeStyle += `border: 1px solid #383838; color: #383838; text-shadow: none;`; 
+            }
+            badgeContainer.innerHTML = `
+                <div class="team-color-badge" style="${badgeStyle}">
+                    ${player.teamData.abbr}
+                </div>
+            `;
+            
+            // Render Opponent Hint
+            tile.querySelector('.opponent-hint').textContent = `vs ${opponent}`;
+        }
+
+        /**
+         * Gets a random opponent team from the list.
+         */
+        function getRandomOpponent() {
+            const randomIndex = Math.floor(Math.random() * EPL_OPPONENTS.length);
+            return EPL_OPPONENTS[randomIndex];
+        }
+
+        /**
+         * Loads all 9 tiles with fresh player data for a new stage without consuming a spin.
+         * Used only when transitioning to a stage for the first time.
+         */
+        function loadInitialTiles(gameId) {
+            const currentData = gameData[gameId];
+            const playerGrid = document.getElementById(`playerGrid-${gameId}`);
+            
+            // 1. Get the new players for all 9 tiles
+            const newRandomPlayers = getRandomPlayers(gameId, NUM_TILES, []);
+            
+            // 2. Store the new player data in gameData and render immediately
+            for (let i = 0; i < NUM_TILES; i++) {
+                const tile = playerGrid.querySelector(`#tile-g${gameId}-t${i}`);
+                const newPlayer = newRandomPlayers[i];
+                newPlayer.opponent = getRandomOpponent();
+                currentData.tiles[i] = newPlayer;
+
+                // Render immediately without waiting
+                setTileContent(tile, newPlayer, newPlayer.opponent);
+                tile.classList.add('revealed');
+            }
+            updateShuffleButton();
+        }
+
+        /**
+         * Initiates the shuffle and animation sequence for a specific game.
+         * This function IS CALLED BY THE BUTTON and decrements the GLOBAL spinsRemaining.
+         */
+        function startShuffle(gameId) {
+            if (globalSpinsRemaining <= 0) {
+                updateShuffleButton(); 
+                return;
+            }
+
+            const currentData = gameData[gameId];
+            const shuffleButton = document.getElementById('shuffleButton');
+            // const loadingMessage = document.getElementById(`loadingMessage-${gameId}`); // Removed
+            const playerGrid = document.getElementById(`playerGrid-${gameId}`);
+            
+            // GLOBAL SPIN DECREMENT - ONLY HAPPENS HERE
+            globalSpinsRemaining--; 
+
+            shuffleButton.disabled = true;
+            // loadingMessage.style.display = 'block'; // Removed
+
+            const unpickedTiles = [];
+            const pickedPlayerNames = []; // Players currently picked in this specific stage
+
+            // 1. Identify picked/unpicked tiles and collect current picked player names
+            for (let i = 0; i < NUM_TILES; i++) {
+                const tile = playerGrid.querySelector(`#tile-g${gameId}-t${i}`);
+                
+                // If a tile is picked, keep its player data and name, but don't spin it
+                if (tile.classList.contains('is-picked')) {
+                    const player = currentData.tiles[i];
+                    if (player) pickedPlayerNames.push(player.name);
+                    tile.classList.remove('spinning'); 
+                } else {
+                    // This tile will be shuffled
+                    unpickedTiles.push({ id: i, element: tile });
+                    
+                    // Clear and hide content during spin
+                    setTileContent(tile, { name: '...', teamData: TEAM_DATA['default'] }, '...');
+                    tile.classList.remove('revealed');
+                    
+                    // Start spin animation
+                    tile.classList.add('spinning');
+                }
+            }
+
+            const numToShuffle = unpickedTiles.length;
+            if (numToShuffle === 0) {
+                // loadingMessage.textContent = 'All tiles are picked. Cannot spin.'; // Removed
+                globalSpinsRemaining++; // Refund the spin since no shuffle occurred
+                setTimeout(() => {
+                    shuffleButton.disabled = false;
+                    // loadingMessage.style.display = 'none'; // Removed
+                    // loadingMessage.textContent = 'Shuffling... only unpicked tiles will spin.'; // Removed
+                }, 100); 
+                updateShuffleButton();
+                return;
+            }
+            
+            
+            // 2. Get new players from the correct position pool
+            // This ensures new players are unique across ALL picked players (not just the current stage)
+            const newRandomPlayers = getRandomPlayers(gameId, numToShuffle, pickedPlayerNames);
+            const opponentList = Array(numToShuffle).fill(0).map(() => getRandomOpponent());
+            
+            // 3. Store the new player data in gameData
+            unpickedTiles.forEach((tileData, index) => {
+                const newPlayer = newRandomPlayers[index];
+                newPlayer.opponent = opponentList[index];
+                currentData.tiles[tileData.id] = newPlayer;
+            });
+
+            // 4. Wait for the spin duration, then reveal
+            setTimeout(() => {
+                unpickedTiles.forEach((tileData, index) => {
+                    const tile = tileData.element;
+                    const newPlayer = currentData.tiles[tileData.id];
+
+                    tile.classList.remove('spinning');
+                    
+                    // Staggered reveal
+                    setTimeout(() => {
+                        setTileContent(tile, newPlayer, newPlayer.opponent);
+                        tile.classList.add('revealed');
+                    }, index * 100); 
+                });
+
+                // 5. Update UI state
+                // Ensure the button is enabled after animation finishes
+                setTimeout(() => {
+                    shuffleButton.disabled = globalSpinsRemaining <= 0;
+                    // loadingMessage.style.display = 'none'; // Removed
+                }, numToShuffle * 100 + 100); // Wait for all staggered reveals + a little extra
+                
+                updateShuffleButton();
+
+            }, SPIN_DURATION_MS); 
+        }
+
+        /**
+         * Logic for moving between stages (Game 1 -> 2 -> 3 -> Summary).
+         */
+        function handleNextStage() {
+            const currentData = gameData[currentGameIndex];
+            
+            // 1. Check pick limit enforcement
+            if (currentData.picks < MAX_PICKS_PER_GAME) {
+                console.error(`Must pick ${MAX_PICKS_PER_GAME} players before proceeding.`);
+                return;
+            }
+
+            currentGameIndex++;
+            
+            if (currentGameIndex < NUM_GAMES) {
+                // Move to the next game stage
+                showGame(currentGameIndex);
+            } else {
+                // Move to Summary View (Game 3 -> Summary)
+                showSummaryView();
+            }
+        }
+
+        /**
+         * Shows a specific game stage and hides others.
+         */
+        function showGame(gameId) {
+            currentGameIndex = gameId;
+
+            document.getElementById('shuffler-container').style.display = 'block';
+            document.getElementById('summary-view').style.display = 'none';
+
+            const gameViews = document.querySelectorAll('.game-view');
+            gameViews.forEach((view, index) => {
+                view.style.display = (index === gameId) ? 'block' : 'none';
+            });
+            
+            // Update the header of the current game view
+            document.querySelector(`#game-${gameId}-view .grid-category-header`).textContent = GAME_TITLES[gameId];
+
+            // Run initial load if not run before (i.e., tiles are empty)
+            if (!gameData[gameId].tiles[0]) {
+                loadInitialTiles(gameId); // Call the non-deducting initial load function
+            } else {
+                // Update button state immediately
+                updateShuffleButton();
+            }
+
+            // Ensure the initial visibility is correct if returning from summary
+            const shuffleButton = document.getElementById('shuffleButton');
+            shuffleButton.style.display = 'inline-block';
+        }
+
+        /**
+         * Switches from the Shuffler view to the Summary view and populates the list.
+         */
+        function showSummaryView() {
+            document.getElementById('shuffler-container').style.display = 'none';
+            document.getElementById('summary-view').style.display = 'block';
+            document.getElementById('shuffleButton').style.display = 'none'; // Hide spin button
+            
+            const pickedPlayersList = document.getElementById('pickedPlayersList');
+            pickedPlayersList.innerHTML = ''; // Clear previous list
+            
+            let allPickedPlayers = [];
+
+            // 1. Iterate through all three games to collect all 9 picks
+            gameData.forEach((game, gameIndex) => {
+                // Filter the game's tile data to find only the picked ones
+                game.tiles.forEach((player, tileIndex) => {
+                    const tile = document.getElementById(`tile-g${gameIndex}-t${tileIndex}`);
+                    if (tile && tile.classList.contains('is-picked') && player) {
+                        // Attach the position title to the player object for the summary
+                        allPickedPlayers.push({ 
+                            ...player, 
+                            position: GAME_TITLES[gameIndex],
+                            game: gameIndex + 1 
+                        });
+                    }
+                });
+            });
+            
+            // 2. Render list
+            if (allPickedPlayers.length !== NUM_GAMES * MAX_PICKS_PER_GAME) {
+                pickedPlayersList.innerHTML = `
+                    <div class="alert alert-warning text-center" role="alert">
+                        You have only picked ${allPickedPlayers.length} out of 9 players. Please complete your team selection.
+                    </div>
+                `;
+            } else {
+                allPickedPlayers.forEach((player, index) => {
+                    const listItem = document.createElement('li');
+                    listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
+                    
+                    let badgeStyle = `background-color: ${player.teamData.color};`;
+                    if (player.teamData.border) {
+                        badgeStyle += `border: 1px solid #383838; color: #383838; text-shadow: none;`; 
+                    }
+
+                    listItem.innerHTML = `
+                        <span>
+                            ${index + 1}. 
+                            <span class="badge bg-primary me-2">${player.position}</span>
+                            <span class="team-color-badge me-2" style="${badgeStyle}">${player.teamData.abbr}</span>
+                            <strong>${player.name}</strong> 
+                            <span class="text-muted small">
+                                (vs ${player.opponent || 'TBD'})
+                            </span>
+                        </span>
+                        <i class="fas fa-medal text-success"></i>
+                    `;
+                    pickedPlayersList.appendChild(listItem);
+                });
+            }
+        }
+
+        /**
+         * Initialization function called when the page loads.
+         */
+        window.onload = function() {
+            parsePlayers(csvContent);
+            initializeGameData();
+            
+            // Set initial header titles 
+            document.querySelector('#game-0-view .grid-category-header').textContent = GAME_TITLES[0];
+            document.querySelector('#game-1-view .grid-category-header').textContent = GAME_TITLES[1];
+            document.querySelector('#game-2-view .grid-category-header').textContent = GAME_TITLES[2];
+
+            // Start the view at Game 1 (DEFENDERS)
+            showGame(0); 
+        };
+
     </script>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>
 </html>
