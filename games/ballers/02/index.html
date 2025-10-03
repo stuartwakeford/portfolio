@@ -11,29 +11,36 @@
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
+        /* --- STYLES (Light Theme Restoration) --- */
         :root {
-            --primary-color: #2c7be5;
-            --tile-bg-color: #fff;
-            --tile-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            /* Define primary colors */
+            --def-color: #17A2B8; /* Defender color (Cyan/Info) */
+            --mid-color: #6F42C1; /* Midfielder color (Indigo/Purple) */
+            --att-color: #28A745; /* Attacker color (Success/Green) */
+            --primary-color: #007bff; /* Standard Bootstrap Primary */
             --header-height: 65px;
         }
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #e9ecef;
+            background-color: #f8f9fa; /* Light gray background */
+            color: #333; /* Dark text color */
             padding-top: var(--header-height);
             padding-bottom: 20px;
         }
+        
         /* Fixed Header Bar Styling */
         .app-header {
             height: var(--header-height);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background-color: #fff; 
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
         }
         .header-title {
             font-size: 1.8rem; 
             font-weight: 900; 
-            color: #0d6efd;
+            color: var(--primary-color);
             flex-shrink: 0;
             margin-right: 1rem;
         }
@@ -42,6 +49,7 @@
             font-weight: 700; 
             text-align: center;
             flex-grow: 1; 
+            color: #6c757d; 
         }
         .header-section {
             padding: 10px 0;
@@ -51,37 +59,59 @@
             max-width: 900px;
             margin: 0 auto;
         }
-        /* --- Tile Styling --- */
+        
+        /* Grid Headers and Messages */
+        .grid-category-header {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            letter-spacing: normal;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+        .pick-limit-msg {
+            color: #6c757d; /* Muted text */
+        }
+
+        /* --- Tile Styling (Light Theme) --- */
         .player-tile {
-            height: 140px; 
+            height: 200px; 
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: space-around; 
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             padding: 10px;
-            background-color: var(--tile-bg-color);
-            border-radius: 12px;
-            box-shadow: var(--tile-shadow);
+            background-color: #fff; /* White tile background */
+            color: #333;
+            border-radius: 8px;
+            border: 1px solid #ddd; 
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
             text-align: center;
             font-weight: 700;
-            transition: all 0.5s ease-out;
+            transition: all 0.3s ease;
             overflow: hidden;
-            border: 1px solid #dee2e6; /* subtle grey border */
-            
-            /* Enable 3D transforms and perspective for the flip effect */
             transform-style: preserve-3d;
             transform: perspective(1000px); 
         }
-        .player-tile.is-picked {
-            border-color: #198754; 
-            background-color: #d1e7dd;
+        .player-tile:hover {
+            cursor: pointer;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
         }
+        
+        /* Picked State */
+        .player-tile.is-picked {
+            border-color: var(--att-color); 
+            background-color: #E6F7ED; /* Light green tint */
+            box-shadow: 0 0 10px rgba(40, 167, 69, 0.5); /* Subtle green shadow */
+            transform: none;
+        }
+
         .player-tile .player-info {
             opacity: 0;
             transform: translateY(100%);
             transition: opacity 0.5s, transform 0.5s;
-            height: 60px;
+            height: 80px; 
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -93,9 +123,11 @@
             transform: translateY(0);
         }
         .player-name-main {
-            font-size: 1.1rem;
+            font-size: 1.4rem; 
             line-height: 1.1;
             margin-bottom: 5px;
+            font-weight: 900;
+            text-shadow: none;
         }
         .player-team-badge-container {
             height: 20px;
@@ -114,12 +146,12 @@
             font-weight: 900;
             line-height: 1;
             border: 1px solid rgba(0, 0, 0, 0.1);
-            text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+            text-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
         }
         /* Opponent Text */
         .opponent-hint {
-            font-size: 0.75rem;
-            color: #6c757d;
+            font-size: 0.9rem;
+            color: #888; 
             font-weight: 400;
             margin-bottom: 5px;
             height: 18px;
@@ -127,10 +159,10 @@
         
         /* --- SPINNING EFFECT (X-Axis Flip) --- */
         .player-tile.spinning {
-            /* Change the animation name and properties */
+            background: #e9ecef; /* Light gray during spin */
             animation: card-flip-animation 0.1s infinite linear;
-            background: #e9ecef; 
-            border-color: var(--primary-color);
+            border-color: #adb5bd;
+            box-shadow: none;
         }
         .player-tile.spinning .player-info,
         .player-tile.spinning .opponent-hint,
@@ -145,28 +177,68 @@
         }
         /* --- END SPINNING EFFECT --- */
 
-        /* Button Styling */
+        /* --- Button Styling --- */
         .btn-shuffle {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+            font-weight: 700;
+            transition: all 0.2s;
+            box-shadow: none; 
             font-size: 1rem;
             padding: 8px 18px;
             border-radius: 50px;
-            font-weight: 700;
-            transition: transform 0.2s, box-shadow 0.2s;
         }
         .btn-tile-pick {
-            width: 80%; 
+            width: 90%; 
+            padding: 8px 15px;
             border-radius: 8px;
+            font-weight: 700;
             transition: background-color 0.3s, transform 0.1s;
+            
+            /* Standard Button Style */
+            background: transparent;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            box-shadow: none;
         }
-        /* Full Width Save Button */
+        .btn-tile-pick:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+        .btn-tile-pick.btn-success {
+            /* Picked Button state */
+            background-color: var(--att-color);
+            border-color: var(--att-color);
+            color: white;
+        }
+
+        /* Next Stage Button */
         .btn-next-stage, .btn-save-picks {
             width: 100%;
             margin-top: 30px;
             padding: 15px;
             font-size: 1.3rem;
-            border-radius: 12px;
+            border-radius: 8px;
             font-weight: 700;
+            background: var(--primary-color);
+            border: none;
+            color: white;
+            box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+            transition: all 0.3s;
         }
+        .btn-next-stage:hover, .btn-save-picks:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 123, 255, 0.5);
+        }
+        .btn-next-stage:disabled, .btn-save-picks:disabled {
+            background: #6c757d !important;
+            box-shadow: none !important;
+            transform: none !important;
+            opacity: 0.7;
+        }
+
         /* Summary View Styling */
         #summary-view {
             display: none;
@@ -176,23 +248,58 @@
             font-weight: 600;
             border-radius: 8px;
             margin-bottom: 10px;
-            background-color: #fff;
+            background-color: #fff; /* White background */
+            color: #333;
+            border: 1px solid #ddd;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
-        .grid-category-header {
-            font-family: 'Inter', sans-serif;
-            font-weight: 900;
-            text-align: center;
-            color: #0d6efd;
-            margin-top: 15px;
-            margin-bottom: 10px;
-            font-size: 1.5rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
+        .summary-list .list-group-item strong {
+            color: #333;
         }
-        .pick-limit-msg {
-            font-size: 0.9rem;
-            font-weight: 600;
+        
+        /* --- NEW POSITION BADGE STYLING (Kept the colors) --- */
+        .badge-position {
+            display: inline-block;
+            padding: .35em .65em;
+            font-size: 0.85rem;
+            font-weight: 700;
+            line-height: 1;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            border-radius: .35rem;
+            color: #fff;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Subtle shadow on light theme */
+            min-width: 45px; 
+            text-align: center;
+        }
+        .badge-def {
+            background-color: var(--def-color) !important;
+        }
+        .badge-mid {
+            background-color: var(--mid-color) !important;
+        }
+        .badge-att {
+            background-color: var(--att-color) !important;
+        }
+        /* End New Position Badge Styling */
+
+        .text-primary {
+            color: var(--primary-color) !important;
+        }
+        .text-success-points { /* Custom class for high points */
+            color: var(--att-color) !important;
+        }
+        .text-default-points { /* Custom class for low/normal points */
+            color: var(--primary-color) !important;
+        }
+        .text-muted {
+            color: #6c757d !important;
+        }
+        .alert-warning {
+            background-color: #fff3cd;
+            border-color: #ffeeba;
+            color: #856404;
         }
     </style>
 </head>
@@ -375,7 +482,7 @@ Jérémy Doku,80,ATT,Man City
 Dominic Solanke,80,ATT,Bournemouth
 João Pedro,79,ATT,Brighton
 Brennan Johnson,79,ATT,Tottenham
-Richarlison,78,ATT,Tottenham
+Richarlsson,78,ATT,Tottenham
 Amine Adli,78,ATT,Liverpool
 Danny Welbeck,78,ATT,Brighton
 Liam Delap,78,ATT,Chelsea
@@ -486,8 +593,15 @@ Manuel Benson,77,DEF,Fulham
             "Pick Attackers",  
             "Save picks"       
         ];
+        
+        // Position mapping for summary display
+        const POSITION_MAP = {
+            "DEFENDERS": { abbr: "DEF", class: "badge-def" },
+            "MIDFIELDERS": { abbr: "MID", class: "badge-mid" },
+            "ATTACKERS": { abbr: "ATT", class: "badge-att" }
+        };
 
-        // NEW: Global state for spins
+        // Global state for spins
         let globalSpinsRemaining = 3; 
 
         let defendersPool = [];
@@ -645,7 +759,7 @@ Manuel Benson,77,DEF,Fulham
                     
                     if (currentGameIndex < NUM_GAMES - 1) {
                         if(currentGameIndex === 0) {
-                            nextText += '...';
+                            nextText += '';
                         }
                         icon = ' <i class="fas fa-arrow-right"></i>';
                     } else {
@@ -685,7 +799,10 @@ Manuel Benson,77,DEF,Fulham
                     console.log(`Cannot pick more than ${MAX_PICKS_PER_GAME} players in this stage.`);
                     tile.style.transition = 'border-color 0.1s ease-in-out';
                     tile.style.borderColor = '#dc3545'; // Red flash
-                    setTimeout(() => { tile.style.borderColor = '#dee2e6'; }, 300);
+                    setTimeout(() => { 
+                        // Reset border color to its original light theme non-picked state
+                        tile.style.borderColor = '#ddd'; 
+                    }, 300);
                     return; 
                 }
 
@@ -783,6 +900,8 @@ Manuel Benson,77,DEF,Fulham
                 const tile = playerGrid.querySelector(`#tile-g${gameId}-t${i}`);
                 const newPlayer = newRandomPlayers[i];
                 newPlayer.opponent = getRandomOpponent();
+                // Attach the full position string from GAME_TITLES
+                newPlayer.position = GAME_TITLES[gameId]; 
                 currentData.tiles[i] = newPlayer;
 
                 // Ensure no previous state is lingering
@@ -875,6 +994,7 @@ Manuel Benson,77,DEF,Fulham
             unpickedTiles.forEach((tileData, index) => {
                 const newPlayer = newRandomPlayers[index];
                 newPlayer.opponent = opponentList[index];
+                newPlayer.position = GAME_TITLES[gameId]; // Ensure position is attached
                 currentData.tiles[tileData.id] = newPlayer;
             });
 
@@ -982,17 +1102,15 @@ Manuel Benson,77,DEF,Fulham
                 game.tiles.forEach((player, tileIndex) => {
                     const tile = document.getElementById(`tile-g${gameIndex}-t${tileIndex}`);
                     if (tile && tile.classList.contains('is-picked') && player) {
-                        // Attach the position title to the player object for the summary
                         allPickedPlayers.push({ 
                             ...player, 
-                            position: GAME_TITLES[gameIndex],
                             game: gameIndex + 1 
                         });
                     }
                 });
             });
             
-            // 2. Render list
+            // 2. Render list with new style
             if (allPickedPlayers.length !== NUM_GAMES * MAX_PICKS_PER_GAME) {
                 pickedPlayersList.innerHTML = `
                     <div class="alert alert-warning text-center" role="alert">
@@ -1002,24 +1120,40 @@ Manuel Benson,77,DEF,Fulham
             } else {
                 allPickedPlayers.forEach((player, index) => {
                     const listItem = document.createElement('li');
+                    // Use d-flex to align content and points
                     listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
                     
+                    // Map full position name to abbreviation and class
+                    const positionInfo = POSITION_MAP[player.position] || { abbr: 'POS', class: 'badge-secondary' };
+                    
+                    // Generate random points between 20 and 200
+                    const randomPoints = Math.floor(Math.random() * (200 - 20 + 1)) + 20; 
+
                     let badgeStyle = `background-color: ${player.teamData.color};`;
                     if (player.teamData.border) {
                         badgeStyle += `border: 1px solid #383838; color: #383838; text-shadow: none;`; 
                     }
 
+                    // Determine points color based on score (Using custom classes defined in CSS)
+                    const pointsColorClass = randomPoints >= 100 ? 'text-success-points' : 'text-default-points';
+
                     listItem.innerHTML = `
-                        <span>
-                            ${index + 1}. 
-                            <span class="badge bg-primary me-2">${player.position}</span>
-                            <span class="team-color-badge me-2" style="${badgeStyle}">${player.teamData.abbr}</span>
-                            <strong>${player.name}</strong> 
+                        <span class="d-flex align-items-center">
+                            <span class="text-muted me-3">${index + 1}.</span> 
+                            <!-- Position Badge (3-letter, color coded) -->
+                            <span class="badge-position ${positionInfo.class} me-3">${positionInfo.abbr}</span>
+                            <!-- Team Badge -->
+                            <span class="team-color-badge me-3" style="${badgeStyle}">${player.teamData.abbr}</span>
+                            <!-- Player Name and Opponent -->
+                            <strong class="me-2">${player.name}</strong> 
                             <span class="text-muted small">
                                 (vs ${player.opponent || 'TBD'})
                             </span>
                         </span>
-                        <i class="fas fa-medal text-success"></i>
+                        <!-- Points -->
+                        <span class="${pointsColorClass} fw-bolder fs-5">
+                            ${randomPoints} <span class="text-muted small">pts</span>
+                        </span>
                     `;
                     pickedPlayersList.appendChild(listItem);
                 });
