@@ -68,6 +68,10 @@
             transition: all 0.5s ease-out;
             overflow: hidden;
             border: 1px solid #dee2e6; /* subtle grey border */
+            
+            /* Enable 3D transforms and perspective for the flip effect */
+            transform-style: preserve-3d;
+            transform: perspective(1000px); 
         }
         .player-tile.is-picked {
             border-color: #198754; 
@@ -120,12 +124,13 @@
             margin-bottom: 5px;
             height: 18px;
         }
-        /* Spinning Effect */
+        
+        /* --- SPINNING EFFECT (X-Axis Flip) --- */
         .player-tile.spinning {
-            animation: spin-animation 0.1s infinite alternate;
-            background: repeating-linear-gradient(
-                45deg, #fff, #fff 10px, #e9ecef 10px, #e9ecef 20px
-            );
+            /* Change the animation name and properties */
+            animation: card-flip-animation 0.1s infinite linear;
+            background: #e9ecef; 
+            border-color: var(--primary-color);
         }
         .player-tile.spinning .player-info,
         .player-tile.spinning .opponent-hint,
@@ -133,10 +138,13 @@
             opacity: 0;
             pointer-events: none;
         }
-        @keyframes spin-animation {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-5px); }
+        /* Keyframes for X-Axis Rotation */
+        @keyframes card-flip-animation {
+            from { transform: perspective(1000px) rotateX(0deg); }
+            to { transform: perspective(1000px) rotateX(360deg); }
         }
+        /* --- END SPINNING EFFECT --- */
+
         /* Button Styling */
         .btn-shuffle {
             font-size: 1rem;
@@ -216,9 +224,6 @@
                     <!-- Updated Header Title -->
                     <h2 class="grid-category-header">DEFENDERS</h2>
                     <p id="pick-limit-0" class="pick-limit-msg text-primary">0 / 3 Players Picked</p>
-                    <p id="loadingMessage-0" class="text-muted mt-2" style="display:none;">
-                        Shuffling... only unpicked tiles will spin.
-                    </p>
                 </div>
                 <div id="playerGrid-0" class="row mt-2">
                     <!-- Tiles for Game 1 (g0) -->
@@ -246,9 +251,6 @@
                     <!-- Updated Header Title -->
                     <h2 class="grid-category-header">MIDFIELDERS</h2>
                     <p id="pick-limit-1" class="pick-limit-msg text-primary">0 / 3 Players Picked</p>
-                    <p id="loadingMessage-1" class="text-muted mt-2" style="display:none;">
-                        Shuffling... only unpicked tiles will spin.
-                    </p>
                 </div>
                 <div id="playerGrid-1" class="row mt-2">
                     <!-- Tiles for Game 2 (g1) -->
@@ -276,9 +278,6 @@
                     <!-- Updated Header Title -->
                     <h2 class="grid-category-header">ATTACKERS</h2>
                     <p id="pick-limit-2" class="pick-limit-msg text-primary">0 / 3 Players Picked</p>
-                    <p id="loadingMessage-2" class="text-muted mt-2" style="display:none;">
-                        Shuffling... only unpicked tiles will spin.
-                    </p>
                 </div>
                 <div id="playerGrid-2" class="row mt-2">
                     <!-- Tiles for Game 3 (g2) -->
@@ -599,7 +598,8 @@ Manuel Benson,77,DEF,Fulham
                 for(let t = 0; t < NUM_TILES; t++) {
                     const tile = document.getElementById(`tile-g${g}-t${t}`);
                     if (tile) {
-                         tile.classList.remove('is-picked', 'revealed');
+                         // Clear classes/content
+                         tile.classList.remove('is-picked', 'revealed', 'spinning'); // Ensure spinning is off
                          const info = tile.querySelector('.player-info');
                          info.querySelector('.player-name-main').textContent = '';
                          info.querySelector('.player-team-badge-container').innerHTML = '';
@@ -623,7 +623,7 @@ Manuel Benson,77,DEF,Fulham
             const buttonTextSpan = document.getElementById('buttonText');
             const pickLimitMsg = document.getElementById(`pick-limit-${currentGameIndex}`);
 
-            // FIX: Update Spin Button based on GLOBAL state with correct text format
+            // Update Spin Button based on GLOBAL state with correct text format
             buttonTextSpan.textContent = `SPIN (${globalSpinsRemaining} left)`;
             shuffleButton.disabled = globalSpinsRemaining <= 0;
 
@@ -722,8 +722,7 @@ Manuel Benson,77,DEF,Fulham
             const availablePlayers = pool.filter(player => !allPickedNames.includes(player.name));
             
             if (availablePlayers.length < count) {
-                // Not enough unique players remaining in the specific pool, 
-                // fall back to shuffling unique players from the overall pool
+                // Fall back to shuffling unique players from the overall pool if necessary
                 console.warn(`Insufficient unique players in ${GAME_TITLES[gameId]} pool (${availablePlayers.length}). Recycling will occur.`);
                 
                 // If we absolutely must, we recycle from the current pool
@@ -770,8 +769,7 @@ Manuel Benson,77,DEF,Fulham
         }
 
         /**
-         * NEW: Loads all 9 tiles with fresh player data for a new stage without consuming a spin.
-         * Used only when transitioning to a stage for the first time.
+         * Loads all 9 tiles with fresh player data for a new stage and reveals them with a spin animation.
          */
         function loadInitialTiles(gameId) {
             const currentData = gameData[gameId];
@@ -780,17 +778,37 @@ Manuel Benson,77,DEF,Fulham
             // 1. Get the new players for all 9 tiles
             const newRandomPlayers = getRandomPlayers(gameId, NUM_TILES, []);
             
-            // 2. Store the new player data in gameData and render immediately
+            // 2. Prepare tiles for spinning and set content
             for (let i = 0; i < NUM_TILES; i++) {
                 const tile = playerGrid.querySelector(`#tile-g${gameId}-t${i}`);
                 const newPlayer = newRandomPlayers[i];
                 newPlayer.opponent = getRandomOpponent();
                 currentData.tiles[i] = newPlayer;
 
-                // Render immediately without waiting
+                // Ensure no previous state is lingering
+                tile.classList.remove('is-picked', 'revealed'); 
+
+                // Set the content (which is hidden due to lack of 'revealed' class)
                 setTileContent(tile, newPlayer, newPlayer.opponent);
-                tile.classList.add('revealed');
+                
+                // Add the spinning class to start the animation
+                tile.classList.add('spinning');
             }
+
+            // 3. Staggered reveal: Stop the spin and show content
+            // We use a small initial delay (e.g., 200ms) to ensure the spinning animation starts before removal
+            setTimeout(() => {
+                for (let i = 0; i < NUM_TILES; i++) {
+                    const tile = playerGrid.querySelector(`#tile-g${gameId}-t${i}`);
+                    
+                    // Stagger the reveal for a smooth effect
+                    setTimeout(() => {
+                        tile.classList.remove('spinning'); // Stop the infinite spin
+                        tile.classList.add('revealed'); // Show the content
+                    }, i * 100); // 100ms stagger
+                }
+            }, 200); 
+            
             updateShuffleButton();
         }
 
@@ -806,14 +824,12 @@ Manuel Benson,77,DEF,Fulham
 
             const currentData = gameData[gameId];
             const shuffleButton = document.getElementById('shuffleButton');
-            const loadingMessage = document.getElementById(`loadingMessage-${gameId}`);
             const playerGrid = document.getElementById(`playerGrid-${gameId}`);
             
             // GLOBAL SPIN DECREMENT - ONLY HAPPENS HERE
             globalSpinsRemaining--; 
 
             shuffleButton.disabled = true;
-            loadingMessage.style.display = 'block';
 
             const unpickedTiles = [];
             const pickedPlayerNames = []; // Players currently picked in this specific stage
@@ -842,20 +858,16 @@ Manuel Benson,77,DEF,Fulham
 
             const numToShuffle = unpickedTiles.length;
             if (numToShuffle === 0) {
-                loadingMessage.textContent = 'All tiles are picked. Cannot spin.';
                 globalSpinsRemaining++; // Refund the spin since no shuffle occurred
                 setTimeout(() => {
                     shuffleButton.disabled = false;
-                    loadingMessage.style.display = 'none';
-                    loadingMessage.textContent = 'Shuffling... only unpicked tiles will spin.'; 
-                }, 1000); 
+                }, 100); 
                 updateShuffleButton();
                 return;
             }
             
             
             // 2. Get new players from the correct position pool
-            // This ensures new players are unique across ALL picked players (not just the current stage)
             const newRandomPlayers = getRandomPlayers(gameId, numToShuffle, pickedPlayerNames);
             const opponentList = Array(numToShuffle).fill(0).map(() => getRandomOpponent());
             
@@ -882,11 +894,10 @@ Manuel Benson,77,DEF,Fulham
                 });
 
                 // 5. Update UI state
-                // Ensure the button is enabled after animation finishes
+                // Wait for all staggered reveals + a little extra before enabling button
                 setTimeout(() => {
                     shuffleButton.disabled = globalSpinsRemaining <= 0;
-                    loadingMessage.style.display = 'none';
-                }, numToShuffle * 100 + 100); // Wait for all staggered reveals + a little extra
+                }, numToShuffle * 100 + 100); 
                 
                 updateShuffleButton();
 
@@ -937,7 +948,13 @@ Manuel Benson,77,DEF,Fulham
             if (!gameData[gameId].tiles[0]) {
                 loadInitialTiles(gameId); // Call the non-deducting initial load function
             } else {
-                // Update button state immediately
+                // If already loaded (e.g., returning from a later stage), just show immediately
+                const playerGrid = document.getElementById(`playerGrid-${gameId}`);
+                for (let i = 0; i < NUM_TILES; i++) {
+                     const tile = playerGrid.querySelector(`#tile-g${gameId}-t${i}`);
+                     tile.classList.add('revealed');
+                     tile.classList.remove('spinning');
+                }
                 updateShuffleButton();
             }
 
