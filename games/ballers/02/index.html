@@ -51,25 +51,32 @@
             flex-grow: 1; 
             color: #6c757d; 
         }
+        
+        /* UPDATED: Header Section for Pick Screens (Flex layout) */
         .header-section {
             padding: 10px 0;
-            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         .grid-container {
             max-width: 900px;
             margin: 0 auto;
         }
         
-        /* Grid Headers and Messages */
+        /* UPDATED: Reduced Header Size for Pick Screens */
         .grid-category-header {
             color: var(--primary-color);
-            font-size: 1.8rem;
+            font-size: 1.5rem; /* Reduced size from 1.8rem */
             letter-spacing: normal;
             font-weight: 900;
             text-transform: uppercase;
+            margin-bottom: 0; /* Important for flex alignment */
         }
         .pick-limit-msg {
             color: #6c757d; /* Muted text */
+            font-weight: 700;
+            margin-bottom: 0; /* Important for flex alignment */
         }
 
         /* --- Tile Styling (Light Theme) --- */
@@ -172,8 +179,9 @@
         .player-tile.revealed .player-info {
             opacity: 1;
         }
+        /* UPDATED: Reduced Surname Font Size */
         .player-name-main {
-            font-size: 1.4rem; 
+            font-size: 1.2rem; /* Reduced size from 1.4rem */
             line-height: 1.1;
             margin-bottom: 5px;
             font-weight: 900;
@@ -233,11 +241,16 @@
             color: white;
             font-weight: 700;
             transition: all 0.2s;
-            box-shadow: none; 
+            box-shadow: none !important; /* REMOVED SHADOW */
             font-size: 1rem;
             padding: 8px 18px;
             border-radius: 50px;
         }
+        /* Style for the regular weight spin count text inside the button */
+        .btn-shuffle .fw-normal {
+            font-weight: 400 !important;
+        }
+
         .btn-tile-pick {
             width: 90%; 
             padding: 8px 15px;
@@ -351,8 +364,9 @@
         <div class="header-subtitle text-muted">EPL week 2</div>
 
         <!-- Right: SPIN Button (Now powered by globalSpinsRemaining) -->
-        <button id="shuffleButton" class="btn btn-primary btn-shuffle shadow" onclick="startShuffle(currentGameIndex)">
-            <span id="buttonText">SPIN (3 left)</span>
+        <!-- Updated: Removed shadow class and added required structure for font weight control -->
+        <button id="shuffleButton" class="btn btn-primary btn-shuffle" onclick="startShuffle(currentGameIndex)">
+            <span id="buttonText">SPIN <span class="fw-normal">(3 left)</span></span>
         </button>
     </header>
     <!-- END Fixed Header Bar -->
@@ -361,14 +375,15 @@
 
         <!-- ==================================== -->
         <!-- SCREEN 1: DEFENDERS VIEW -->
+        <!-- Updated: Added d-flex and justify-content-between to header-section -->
         <!-- ==================================== -->
         <div id="shuffler-container">
             
             <div id="game-0-view" class="game-view" data-game-index="0" style="display: none;">
+                <!-- UPDATED LAYOUT -->
                 <div class="header-section">
-                    <!-- Updated Header Title -->
                     <h2 class="grid-category-header">DEFENDERS</h2>
-                    <p id="pick-limit-0" class="pick-limit-msg text-primary">0 / 3 Players Picked</p>
+                    <p id="pick-limit-0" class="pick-limit-msg text-primary">0 / 3 picked</p>
                 </div>
                 <div id="playerGrid-0" class="row mt-2">
                     <!-- Tiles for Game 1 (g0) -->
@@ -390,12 +405,13 @@
             
             <!-- ==================================== -->
             <!-- SCREEN 2: MIDFIELDERS VIEW -->
+            <!-- Updated: Added d-flex and justify-content-between to header-section -->
             <!-- ==================================== -->
             <div id="game-1-view" class="game-view" data-game-index="1" style="display: none;">
+                <!-- UPDATED LAYOUT -->
                 <div class="header-section">
-                    <!-- Updated Header Title -->
                     <h2 class="grid-category-header">MIDFIELDERS</h2>
-                    <p id="pick-limit-1" class="pick-limit-msg text-primary">0 / 3 Players Picked</p>
+                    <p id="pick-limit-1" class="pick-limit-msg text-primary">0 / 3 picked</p>
                 </div>
                 <div id="playerGrid-1" class="row mt-2">
                     <!-- Tiles for Game 2 (g1) -->
@@ -417,12 +433,13 @@
             
             <!-- ==================================== -->
             <!-- SCREEN 3: ATTACKERS VIEW -->
+            <!-- Updated: Added d-flex and justify-content-between to header-section -->
             <!-- ==================================== -->
             <div id="game-2-view" class="game-view" data-game-index="2" style="display: none;">
+                <!-- UPDATED LAYOUT -->
                 <div class="header-section">
-                    <!-- Updated Header Title -->
                     <h2 class="grid-category-header">ATTACKERS</h2>
-                    <p id="pick-limit-2" class="pick-limit-msg text-primary">0 / 3 Players Picked</p>
+                    <p id="pick-limit-2" class="pick-limit-msg text-primary">0 / 3 picked</p>
                 </div>
                 <div id="playerGrid-2" class="row mt-2">
                     <!-- Tiles for Game 3 (g2) -->
@@ -789,12 +806,12 @@ Manuel Benson,77,DEF,Fulham
             const buttonTextSpan = document.getElementById('buttonText');
             const pickLimitMsg = document.getElementById(`pick-limit-${currentGameIndex}`);
 
-            // Update Spin Button based on GLOBAL state with correct text format
-            buttonTextSpan.textContent = `SPIN (${globalSpinsRemaining} left)`;
+            // UPDATED: Update Spin Button text structure for regular font weight
+            buttonTextSpan.innerHTML = `SPIN <span class="fw-normal">(${globalSpinsRemaining} left)</span>`;
             shuffleButton.disabled = globalSpinsRemaining <= 0;
 
-            // Update Pick Count Message
-            pickLimitMsg.textContent = `${currentData.picks} / ${MAX_PICKS_PER_GAME} Players Picked`;
+            // UPDATED: Update Pick Count Message (Simplified text)
+            pickLimitMsg.textContent = `${currentData.picks} / ${MAX_PICKS_PER_GAME} picked`;
             
             // --- Update Next Stage Button ---
             const nextButton = document.getElementById(`nextButton-${currentGameIndex}`);
