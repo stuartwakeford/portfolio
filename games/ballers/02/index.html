@@ -74,6 +74,7 @@
 
         /* --- Tile Styling (Light Theme) --- */
         .player-tile {
+            position: relative; /* CRITICAL: Allows absolute positioning of the badge */
             height: 200px; 
             display: flex;
             flex-direction: column;
@@ -93,11 +94,22 @@
             transform-style: preserve-3d;
             transform: perspective(1000px); 
         }
-        .player-tile:hover {
-            cursor: pointer;
-            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
-            transform: translateY(-2px);
+        
+        /* Summary State (Visually identical to .revealed, but non-interactive) */
+        .player-tile.is-summary {
+            pointer-events: none; /* Disable interaction */
+            border: 2px solid #ddd; /* Slightly bolder border */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); 
+            transform: none; /* Reset 3D transforms */
+            transition: none;
         }
+        .player-tile.is-summary .player-info {
+            opacity: 1;
+        }
+        .player-tile.is-summary .btn-tile-pick {
+            display: none; /* Hide the button */
+        }
+        /* End Summary State */
         
         /* Picked State */
         .player-tile.is-picked {
@@ -106,21 +118,59 @@
             box-shadow: 0 0 10px rgba(40, 167, 69, 0.5); /* Subtle green shadow */
             transform: none;
         }
+        
+        /* --- PLAYER IMAGE STYLING --- */
+        .player-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 5px; /* Space between image and name */
+            border: 3px solid #ced4da; /* Light border */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
 
+        /* --- TEAM BADGE IMAGE STYLING (Top Right) --- */
+        .team-badge-image {
+            position: absolute;
+            top: 8px; /* Offset from top */
+            right: 8px; /* Offset from right */
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #fff; /* White border for contrast */
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+        
+        /* --- POSITION BADGE STYLING (Top Left) --- */
+        .position-top-left-badge {
+            position: absolute;
+            top: 8px; /* Offset from top */
+            left: 8px; /* Offset from left */
+            font-size: 0.85rem;
+            font-weight: 900;
+            padding: .25em .5em;
+            border-radius: .25rem;
+            color: #fff;
+            z-index: 10;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        /* --- PLAYER INFO AND TEXT ALIGNMENT --- */
         .player-tile .player-info {
             opacity: 0;
-            transform: translateY(100%);
-            transition: opacity 0.5s, transform 0.5s;
-            height: 80px; 
+            transition: opacity 0.5s; /* Only transition opacity */
+            height: 140px; 
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: center; /* Ensures content is horizontally centered */
             justify-content: center;
             width: 100%;
         }
         .player-tile.revealed .player-info {
             opacity: 1;
-            transform: translateY(0);
         }
         .player-name-main {
             font-size: 1.4rem; 
@@ -128,33 +178,25 @@
             margin-bottom: 5px;
             font-weight: 900;
             text-shadow: none;
+            padding-right: 5px; 
+            text-align: center; /* Explicitly ensure name is centered */
         }
-        .player-team-badge-container {
-            height: 20px;
-            margin-top: 5px;
-        }
-        /* Team Color Badge */
-        .team-color-badge {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 35px;
-            height: 18px;
-            border-radius: 4px;
-            color: #fff;
-            font-size: 0.6rem;
-            font-weight: 900;
-            line-height: 1;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            text-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
-        }
+        
         /* Opponent Text */
         .opponent-hint {
             font-size: 0.9rem;
             color: #888; 
             font-weight: 400;
-            margin-bottom: 5px;
+            margin-bottom: 15px; 
             height: 18px;
+        }
+        /* Summary Points - Enforced black text */
+        .summary-points {
+            font-size: 1.8rem;
+            font-weight: 900;
+            line-height: 1;
+            margin-top: 5px;
+            color: #333; 
         }
         
         /* --- SPINNING EFFECT (X-Axis Flip) --- */
@@ -170,6 +212,13 @@
             opacity: 0;
             pointer-events: none;
         }
+        .player-tile.spinning .team-badge-image { /* Hide the team badge during spin */
+             opacity: 0;
+        }
+        .player-tile.spinning .position-top-left-badge { /* Hide new badge during spin */
+             opacity: 0;
+        }
+
         /* Keyframes for X-Axis Rotation */
         @keyframes card-flip-animation {
             from { transform: perspective(1000px) rotateX(0deg); }
@@ -243,36 +292,8 @@
         #summary-view {
             display: none;
         }
-        .summary-list .list-group-item {
-            font-size: 1.1rem;
-            font-weight: 600;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            background-color: #fff; /* White background */
-            color: #333;
-            border: 1px solid #ddd;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        .summary-list .list-group-item strong {
-            color: #333;
-        }
         
-        /* --- NEW POSITION BADGE STYLING (Kept the colors) --- */
-        .badge-position {
-            display: inline-block;
-            padding: .35em .65em;
-            font-size: 0.85rem;
-            font-weight: 700;
-            line-height: 1;
-            text-align: center;
-            white-space: nowrap;
-            vertical-align: middle;
-            border-radius: .35rem;
-            color: #fff;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Subtle shadow on light theme */
-            min-width: 45px; 
-            text-align: center;
-        }
+        /* --- POSITION BADGE COLORS --- */
         .badge-def {
             background-color: var(--def-color) !important;
         }
@@ -282,15 +303,9 @@
         .badge-att {
             background-color: var(--att-color) !important;
         }
-        /* End New Position Badge Styling */
+        /* End Position Badge Styling */
 
         .text-primary {
-            color: var(--primary-color) !important;
-        }
-        .text-success-points { /* Custom class for high points */
-            color: var(--att-color) !important;
-        }
-        .text-default-points { /* Custom class for low/normal points */
             color: var(--primary-color) !important;
         }
         .text-muted {
@@ -300,6 +315,29 @@
             background-color: #fff3cd;
             border-color: #ffeeba;
             color: #856404;
+        }
+        /* Summary Header Styling */
+        #summaryHeader {
+            font-weight: 900;
+            font-size: 2.5rem; /* Larger font size for emphasis */
+        }
+        
+        /* Leaderboard Styling */
+        .leaderboard-table th, .leaderboard-table td {
+            font-size: 1.05rem;
+            padding: 12px;
+            vertical-align: middle;
+        }
+        .leaderboard-table th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 700;
+        }
+        .leaderboard-table .table-info {
+            background-color: #CCE5FF !important; /* Lighter blue for user row */
+            color: var(--primary-color) !important;
+            font-weight: 900 !important;
+            border-top: 3px solid var(--primary-color);
         }
     </style>
 </head>
@@ -334,15 +372,15 @@
                 </div>
                 <div id="playerGrid-0" class="row mt-2">
                     <!-- Tiles for Game 1 (g0) -->
-                    <div class="col-4"><div id="tile-g0-t0" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(0, 0)">PICK</button></div></div>
-                    <div class="col-4"><div id="tile-g0-t1" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(0, 1)">PICK</button></div></div>
-                    <div class="col-4"><div id="tile-g0-t2" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(0, 2)">PICK</button></div></div>
-                    <div class="col-4"><div id="tile-g0-t3" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(0, 3)">PICK</button></div></div>
-                    <div class="col-4"><div id="tile-g0-t4" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(0, 4)">PICK</button></div></div>
-                    <div class="col-4"><div id="tile-g0-t5" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(0, 5)">PICK</button></div></div>
-                    <div class="col-4"><div id="tile-g0-t6" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(0, 6)">PICK</button></div></div>
-                    <div class="col-4"><div id="tile-g0-t7" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(0, 7)">PICK</button></div></div>
-                    <div class="col-4"><div id="tile-g0-t8" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(0, 8)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g0-t0" class="player-tile"><span class="player-info"><img class="player-image" src="" alt="Player Image Placeholder"><span class="player-name-main"></span></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(0, 0)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g0-t1" class="player-tile"><span class="player-info"><img class="player-image" src="" alt="Player Image Placeholder"><span class="player-name-main"></span></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(0, 1)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g0-t2" class="player-tile"><span class="player-info"><img class="player-image" src="" alt="Player Image Placeholder"><span class="player-name-main"></span></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(0, 2)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g0-t3" class="player-tile"><span class="player-info"><img class="player-image" src="" alt="Player Image Placeholder"><span class="player-name-main"></span></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(0, 3)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g0-t4" class="player-tile"><span class="player-info"><img class="player-image" src="" alt="Player Image Placeholder"><span class="player-name-main"></span></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(0, 4)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g0-t5" class="player-tile"><span class="player-info"><img class="player-image" src="" alt="Player Image Placeholder"><span class="player-name-main"></span></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(0, 5)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g0-t6" class="player-tile"><span class="player-info"><img class="player-image" src="" alt="Player Image Placeholder"><span class="player-name-main"></span></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(0, 6)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g0-t7" class="player-tile"><span class="player-info"><img class="player-image" src="" alt="Player Image Placeholder"><span class="player-name-main"></span></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(0, 7)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g0-t8" class="player-tile"><span class="player-info"><img class="player-image" src="" alt="Player Image Placeholder"><span class="player-name-main"></span></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(0, 8)">PICK</button></div></div>
                 </div>
                 <!-- Updated Button Text (Initial) -->
                 <button id="nextButton-0" class="btn btn-next-stage btn-success shadow-lg" onclick="handleNextStage()">
@@ -361,15 +399,15 @@
                 </div>
                 <div id="playerGrid-1" class="row mt-2">
                     <!-- Tiles for Game 2 (g1) -->
-                    <div class="col-4"><div id="tile-g1-t0" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(1, 0)">PICK</button></div></div>
-                    <div class="col-4"><div id="tile-g1-t1" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(1, 1)">PICK</button></div></div>
-                    <div class="col-4"><div id="tile-g1-t2" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(1, 2)">PICK</button></div></div>
-                    <div class="col-4"><div id="tile-g1-t3" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(1, 3)">PICK</button></div></div>
-                    <div class="col-4"><div id="tile-g1-t4" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(1, 4)">PICK</button></div></div>
-                    <div class="col-4"><div id="tile-g1-t5" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(1, 5)">PICK</button></div></div>
-                    <div class="col-4"><div id="tile-g1-t6" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(1, 6)">PICK</button></div></div>
-                    <div class="col-4"><div id="tile-g1-t7" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(1, 7)">PICK</button></div></div>
-                    <div class="col-4"><div id="tile-g1-t8" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(1, 8)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g1-t0" class="player-tile"><span class="player-info"><img class="player-image" src="" alt="Player Image Placeholder"><span class="player-name-main"></span></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(1, 0)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g1-t1" class="player-tile"><span class="player-info"><img class="player-image" src="" alt="Player Image Placeholder"><span class="player-name-main"></span></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(1, 1)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g1-t2" class="player-tile"><span class="player-info"><img class="player-image" src="" alt="Player Image Placeholder"><span class="player-name-main"></span></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(1, 2)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g1-t3" class="player-tile"><span class="player-info"><img class="player-image" src="" alt="Player Image Placeholder"><span class="player-name-main"></span></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(1, 3)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g1-t4" class="player-tile"><span class="player-info"><img class="player-image" src="" alt="Player Image Placeholder"><span class="player-name-main"></span></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(1, 4)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g1-t5" class="player-tile"><span class="player-info"><img class="player-image" src="" alt="Player Image Placeholder"><span class="player-name-main"></span></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(1, 5)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g1-t6" class="player-tile"><span class="player-info"><img class="player-image" src="" alt="Player Image Placeholder"><span class="player-name-main"></span></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(1, 6)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g1-t7" class="player-tile"><span class="player-info"><img class="player-image" src="" alt="Player Image Placeholder"><span class="player-name-main"></span></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(1, 7)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g1-t8" class="player-tile"><span class="player-info"><img class="player-image" src="" alt="Player Image Placeholder"><span class="player-name-main"></span></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(1, 8)">PICK</button></div></div>
                 </div>
                 <!-- Updated Button Text (Initial) -->
                 <button id="nextButton-1" class="btn btn-next-stage btn-success shadow-lg" onclick="handleNextStage()">
@@ -388,15 +426,15 @@
                 </div>
                 <div id="playerGrid-2" class="row mt-2">
                     <!-- Tiles for Game 3 (g2) -->
-                    <div class="col-4"><div id="tile-g2-t0" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(2, 0)">PICK</button></div></div>
-                    <div class="col-4"><div id="tile-g2-t1" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(2, 1)">PICK</button></div></div>
-                    <div class="col-4"><div id="tile-g2-t2" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(2, 2)">PICK</button></div></div>
-                    <div class="col-4"><div id="tile-g2-t3" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(2, 3)">PICK</button></div></div>
-                    <div class="col-4"><div id="tile-g2-t4" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(2, 4)">PICK</button></div></div>
-                    <div class="col-4"><div id="tile-g2-t5" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(2, 5)">PICK</button></div></div>
-                    <div class="col-4"><div id="tile-g2-t6" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(2, 6)">PICK</button></div></div>
-                    <div class="col-4"><div id="tile-g2-t7" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(2, 7)">PICK</button></div></div>
-                    <div class="col-4"><div id="tile-g2-t8" class="player-tile"><span class="player-info"><span class="player-name-main"></span><div class="player-team-badge-container"></div></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(2, 8)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g2-t0" class="player-tile"><span class="player-info"><img class="player-image" src="" alt="Player Image Placeholder"><span class="player-name-main"></span></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(2, 0)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g2-t1" class="player-tile"><span class="player-info"><img class="player-image" src="" alt="Player Image Placeholder"><span class="player-name-main"></span></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(2, 1)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g2-t2" class="player-tile"><span class="player-info"><img class="player-image" src="" alt="Player Image Placeholder"><span class="player-name-main"></span></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(2, 2)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g2-t3" class="player-tile"><span class="player-info"><img class="player-image" src="" alt="Player Image Placeholder"><span class="player-name-main"></span></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(2, 3)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g2-t4" class="player-tile"><span class="player-info"><img class="player-image" src="" alt="Player Image Placeholder"><span class="player-name-main"></span></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(2, 4)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g2-t5" class="player-tile"><span class="player-info"><img class="player-image" src="" alt="Player Image Placeholder"><span class="player-name-main"></span></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(2, 5)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g2-t6" class="player-tile"><span class="player-info"><img class="player-image" src="" alt="Player Image Placeholder"><span class="player-name-main"></span></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(2, 6)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g2-t7" class="player-tile"><span class="player-info"><img class="player-image" src="" alt="Player Image Placeholder"><span class="player-name-main"></span></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(2, 7)">PICK</button></div></div>
+                    <div class="col-4"><div id="tile-g2-t8" class="player-tile"><span class="player-info"><img class="player-image" src="" alt="Player Image Placeholder"><span class="player-name-main"></span></span><span class="opponent-hint"></span><button class="btn btn-tile-pick btn-outline-primary" onclick="pickPlayer(2, 8)">PICK</button></div></div>
                 </div>
                 <!-- Updated Button Text (Initial) -->
                 <button id="nextButton-2" class="btn btn-save-picks btn-success shadow-lg" onclick="handleNextStage()">
@@ -407,13 +445,23 @@
         </div>
 
         <!-- ==================================== -->
-        <!-- SCREEN 4: SUMMARY VIEW -->
+        <!-- SCREEN 4: SUMMARY VIEW (UPDATED) -->
         <!-- ==================================== -->
         <div id="summary-view" class="mt-5">
-            <h2 class="text-primary text-center mb-4">Your Final Team Selection (9 Players)</h2>
-            <div id="pickedPlayersList" class="list-group summary-list">
-                <!-- Picked players will be inserted here -->
+            <!-- Header now dynamically updated to show Total Points -->
+            <h2 id="summaryHeader" class="text-primary text-center mb-4">Team Selection Summary</h2> 
+
+            <!-- Player Grid Container (Now centered and contains only tiles) -->
+            <div id="summaryGrid" class="container row justify-content-center mx-auto">
+                <!-- Grid content inserted by JS -->
             </div>
+            
+            <!-- Leaderboard Container -->
+            <h3 class="text-center mt-5 mb-3 text-muted">Global Leaderboard</h3>
+            <div id="leaderboard" class="container">
+                <!-- Leaderboard inserted by JS -->
+            </div>
+
             <div class="text-center mt-5">
                 <button class="btn btn-secondary btn-lg" onclick="startNewGame()">
                     <i class="fas fa-undo"></i> Start New Team Selection
@@ -435,7 +483,7 @@
             "Aston Villa": { abbr: "AVL", color: "#490024" },
             "Notts Forest": { abbr: "FOR", color: "#DD0000" },
             "Crystal Palace": { abbr: "CRY", color: "#1B458F" },
-            "Fulham": { abbr: "FUL", color: "#FFFFFF", border: true },
+            "Fulham": { abbr: "FUL", color: "#FFFFFF", border: true, text: "#000000" }, /* Added text color for white badges */
             "West Ham": { abbr: "WHU", color: "#7A263A" },
             "Brentford": { abbr: "BRE", color: "#E30613" },
             "Bournemouth": { abbr: "BOU", color: "#DA291C" },
@@ -594,7 +642,7 @@ Manuel Benson,77,DEF,Fulham
             "Save picks"       
         ];
         
-        // Position mapping for summary display
+        // Position mapping for summary display (used for colors)
         const POSITION_MAP = {
             "DEFENDERS": { abbr: "DEF", class: "badge-def" },
             "MIDFIELDERS": { abbr: "MID", class: "badge-mid" },
@@ -613,13 +661,24 @@ Manuel Benson,77,DEF,Fulham
         const NUM_GAMES = 3;
         const NUM_TILES = 9;
         const MAX_PICKS_PER_GAME = 3;
-        const SPIN_DURATION_MS = 2500;
+        
+        // UPDATED: Reduced spin duration by 30% (2500ms * 0.70 = 1750ms)
+        const SPIN_DURATION_MS = 1750;
 
         // State management for all three games
         let gameData = [];
         let currentGameIndex = 0; // 0, 1, or 2
 
         // --- HELPER FUNCTIONS ---
+
+        /**
+         * Extracts the surname (last word) from a player's full name.
+         */
+        function getSurname(fullName) {
+            if (!fullName) return '';
+            const parts = fullName.split(' ').filter(p => p.trim() !== ''); // Filter out empty strings from multiple spaces
+            return parts[parts.length - 1] || '';
+        }
 
         /**
          * Normalizes team names from the CSV to match the simplified TEAM_DATA keys.
@@ -639,7 +698,6 @@ Manuel Benson,77,DEF,Fulham
             if (norm.includes('arsenal')) return 'Arsenal';
             if (norm.includes('chelsea')) return 'Chelsea';
             if (norm.includes('fulham')) return 'Fulham';
-            // Return trimmed name for other cases
             return teamName.trim(); 
         }
 
@@ -648,7 +706,6 @@ Manuel Benson,77,DEF,Fulham
          */
         function parsePlayers(csv) {
             const lines = csv.split('\n');
-            // Reset pools
             defendersPool = [];
             midfieldersPool = [];
             attackersPool = [];
@@ -656,18 +713,17 @@ Manuel Benson,77,DEF,Fulham
             for (let i = 1; i < lines.length; i++) {
                 const line = lines[i].trim();
                 if (line) {
-                    // Expects: PLAYER,RATING ,Position,Team
                     const columns = line.split(',').map(col => col.trim());
                     if (columns.length >= 4) {
                         const name = columns[0];
-                        const position = columns[2].toUpperCase().replace(/\s/g, ''); // Ensure 'DEF', 'MID', 'ATT'
+                        const position = columns[2].toUpperCase().replace(/\s/g, ''); 
                         const rawTeamName = columns[3]; 
                         
                         const teamKey = normalizeTeamName(rawTeamName);
                         const team = TEAM_DATA[teamKey] || TEAM_DATA['default'];
                         
                         if (name && teamKey && position) {
-                            const player = { name: name, teamName: teamKey, teamData: team, position: position };
+                            const player = { name: name, teamName: teamKey, teamData: team, position: position, points: null };
                             
                             if (position === 'DEF') {
                                 defendersPool.push(player);
@@ -680,7 +736,6 @@ Manuel Benson,77,DEF,Fulham
                     }
                 }
             }
-            // Update the global indexed array reference
             PLAYER_POOLS[0] = defendersPool;
             PLAYER_POOLS[1] = midfieldersPool;
             PLAYER_POOLS[2] = attackersPool;
@@ -712,12 +767,9 @@ Manuel Benson,77,DEF,Fulham
                 for(let t = 0; t < NUM_TILES; t++) {
                     const tile = document.getElementById(`tile-g${g}-t${t}`);
                     if (tile) {
-                         // Clear classes/content
-                         tile.classList.remove('is-picked', 'revealed', 'spinning'); // Ensure spinning is off
-                         const info = tile.querySelector('.player-info');
-                         info.querySelector('.player-name-main').textContent = '';
-                         info.querySelector('.player-team-badge-container').innerHTML = '';
-                         tile.querySelector('.opponent-hint').textContent = '';
+                         tile.classList.remove('is-picked', 'revealed', 'spinning'); 
+                         const teamImg = tile.querySelector('.team-badge-image');
+                         if (teamImg) teamImg.style.opacity = 0;
                          const button = tile.querySelector('.btn-tile-pick');
                          button.classList.remove('btn-success');
                          button.classList.add('btn-outline-primary');
@@ -758,9 +810,6 @@ Manuel Benson,77,DEF,Fulham
                     let icon = ''; 
                     
                     if (currentGameIndex < NUM_GAMES - 1) {
-                        if(currentGameIndex === 0) {
-                            nextText += '';
-                        }
                         icon = ' <i class="fas fa-arrow-right"></i>';
                     } else {
                         icon = ''; 
@@ -780,7 +829,6 @@ Manuel Benson,77,DEF,Fulham
             const currentData = gameData[gameId];
 
             if (!currentData.tiles[tileId]) {
-                 // Player data hasn't loaded yet (tile is empty)
                 console.warn("Attempted to pick an un-shuffled tile.");
                 return;
             }
@@ -800,7 +848,6 @@ Manuel Benson,77,DEF,Fulham
                     tile.style.transition = 'border-color 0.1s ease-in-out';
                     tile.style.borderColor = '#dc3545'; // Red flash
                     setTimeout(() => { 
-                        // Reset border color to its original light theme non-picked state
                         tile.style.borderColor = '#ddd'; 
                     }, 300);
                     return; 
@@ -820,14 +867,11 @@ Manuel Benson,77,DEF,Fulham
          * Selects random player objects from the pool specific to the gameId.
          */
         function getRandomPlayers(gameId, count, pickedPlayerNames) {
-            // Use the position-specific pool based on gameId
             const pool = PLAYER_POOLS[gameId]; 
             
-            // Get all player names already picked across ALL stages
             const allPickedNames = [];
             gameData.forEach(game => {
                 game.tiles.forEach(tile => {
-                    // Only count players that were actually picked in previous stages
                     const tileElement = document.getElementById(`tile-g${gameData.indexOf(game)}-t${game.tiles.indexOf(tile)}`);
                     if (tile && tileElement && tileElement.classList.contains('is-picked') && allPickedNames.indexOf(tile.name) === -1) {
                         allPickedNames.push(tile.name);
@@ -835,19 +879,15 @@ Manuel Benson,77,DEF,Fulham
                 });
             });
 
-            // Filter the current pool to ensure no duplicates from any stage
             const availablePlayers = pool.filter(player => !allPickedNames.includes(player.name));
             
             if (availablePlayers.length < count) {
-                // Fall back to shuffling unique players from the overall pool if necessary
                 console.warn(`Insufficient unique players in ${GAME_TITLES[gameId]} pool (${availablePlayers.length}). Recycling will occur.`);
-                
-                // If we absolutely must, we recycle from the current pool
                 if(pool.length >= count) {
                     const shuffled = [...pool].sort(() => 0.5 - Math.random());
                     return shuffled.slice(0, count);
                 } else {
-                    return pool; // return everything if pool is too small
+                    return pool;
                 }
             }
 
@@ -859,22 +899,34 @@ Manuel Benson,77,DEF,Fulham
          * Sets the player name, team badge, and opponent hint for a tile.
          */
         function setTileContent(tile, player, opponent) {
-            tile.querySelector('.player-name-main').textContent = player.name;
+            const initials = player.name.split(' ').map(n => n[0]).join('').toUpperCase();
+            const playerPlaceholderUrl = `https://placehold.co/50x50/007bff/ffffff?text=${initials}`; 
             
-            // Render Team Badge
-            const badgeContainer = tile.querySelector('.player-team-badge-container');
-            let badgeStyle = `background-color: ${player.teamData.color};`;
-            if (player.teamData.border) {
-                badgeStyle += `border: 1px solid #383838; color: #383838; text-shadow: none;`; 
+            const img = tile.querySelector('.player-image');
+            img.src = playerPlaceholderUrl; 
+            img.alt = `${player.name} image`;
+
+            const surname = getSurname(player.name); 
+            tile.querySelector('.player-name-main').textContent = surname;
+            
+            const teamAbbr = player.teamData.abbr;
+            const textColor = (player.teamData.text || '#FFFFFF').replace('#', '');
+            const teamColor = player.teamData.color.replace('#', '');
+            const teamPlaceholderUrl = `https://placehold.co/20x20/${teamColor}/${textColor}?text=${teamAbbr}`;
+            
+            let teamImg = tile.querySelector('.team-badge-image');
+            if (!teamImg) {
+                teamImg = document.createElement('img');
+                teamImg.className = 'team-badge-image';
+                teamImg.alt = `${player.teamName} Badge`;
+                tile.appendChild(teamImg); 
             }
-            badgeContainer.innerHTML = `
-                <div class="team-color-badge" style="${badgeStyle}">
-                    ${player.teamData.abbr}
-                </div>
-            `;
             
-            // Render Opponent Hint
+            teamImg.src = teamPlaceholderUrl;
+
             tile.querySelector('.opponent-hint').textContent = `vs ${opponent}`;
+            
+            teamImg.style.opacity = 1;
         }
 
         /**
@@ -892,39 +944,30 @@ Manuel Benson,77,DEF,Fulham
             const currentData = gameData[gameId];
             const playerGrid = document.getElementById(`playerGrid-${gameId}`);
             
-            // 1. Get the new players for all 9 tiles
             const newRandomPlayers = getRandomPlayers(gameId, NUM_TILES, []);
             
-            // 2. Prepare tiles for spinning and set content
             for (let i = 0; i < NUM_TILES; i++) {
                 const tile = playerGrid.querySelector(`#tile-g${gameId}-t${i}`);
                 const newPlayer = newRandomPlayers[i];
                 newPlayer.opponent = getRandomOpponent();
-                // Attach the full position string from GAME_TITLES
                 newPlayer.position = GAME_TITLES[gameId]; 
                 currentData.tiles[i] = newPlayer;
 
-                // Ensure no previous state is lingering
                 tile.classList.remove('is-picked', 'revealed'); 
 
-                // Set the content (which is hidden due to lack of 'revealed' class)
                 setTileContent(tile, newPlayer, newPlayer.opponent);
                 
-                // Add the spinning class to start the animation
                 tile.classList.add('spinning');
             }
 
-            // 3. Staggered reveal: Stop the spin and show content
-            // We use a small initial delay (e.g., 200ms) to ensure the spinning animation starts before removal
             setTimeout(() => {
                 for (let i = 0; i < NUM_TILES; i++) {
                     const tile = playerGrid.querySelector(`#tile-g${gameId}-t${i}`);
                     
-                    // Stagger the reveal for a smooth effect
                     setTimeout(() => {
-                        tile.classList.remove('spinning'); // Stop the infinite spin
-                        tile.classList.add('revealed'); // Show the content
-                    }, i * 100); // 100ms stagger
+                        tile.classList.remove('spinning');
+                        tile.classList.add('revealed');
+                    }, i * 100); 
                 }
             }, 200); 
             
@@ -933,7 +976,6 @@ Manuel Benson,77,DEF,Fulham
 
         /**
          * Initiates the shuffle and animation sequence for a specific game.
-         * This function IS CALLED BY THE BUTTON and decrements the GLOBAL spinsRemaining.
          */
         function startShuffle(gameId) {
             if (globalSpinsRemaining <= 0) {
@@ -945,39 +987,33 @@ Manuel Benson,77,DEF,Fulham
             const shuffleButton = document.getElementById('shuffleButton');
             const playerGrid = document.getElementById(`playerGrid-${gameId}`);
             
-            // GLOBAL SPIN DECREMENT - ONLY HAPPENS HERE
             globalSpinsRemaining--; 
 
             shuffleButton.disabled = true;
 
             const unpickedTiles = [];
-            const pickedPlayerNames = []; // Players currently picked in this specific stage
+            const pickedPlayerNames = [];
 
-            // 1. Identify picked/unpicked tiles and collect current picked player names
             for (let i = 0; i < NUM_TILES; i++) {
                 const tile = playerGrid.querySelector(`#tile-g${gameId}-t${i}`);
                 
-                // If a tile is picked, keep its player data and name, but don't spin it
                 if (tile.classList.contains('is-picked')) {
                     const player = currentData.tiles[i];
                     if (player) pickedPlayerNames.push(player.name);
                     tile.classList.remove('spinning'); 
                 } else {
-                    // This tile will be shuffled
                     unpickedTiles.push({ id: i, element: tile });
                     
-                    // Clear and hide content during spin
                     setTileContent(tile, { name: '...', teamData: TEAM_DATA['default'] }, '...');
                     tile.classList.remove('revealed');
                     
-                    // Start spin animation
                     tile.classList.add('spinning');
                 }
             }
 
             const numToShuffle = unpickedTiles.length;
             if (numToShuffle === 0) {
-                globalSpinsRemaining++; // Refund the spin since no shuffle occurred
+                globalSpinsRemaining++;
                 setTimeout(() => {
                     shuffleButton.disabled = false;
                 }, 100); 
@@ -985,20 +1021,17 @@ Manuel Benson,77,DEF,Fulham
                 return;
             }
             
-            
-            // 2. Get new players from the correct position pool
             const newRandomPlayers = getRandomPlayers(gameId, numToShuffle, pickedPlayerNames);
             const opponentList = Array(numToShuffle).fill(0).map(() => getRandomOpponent());
             
-            // 3. Store the new player data in gameData
             unpickedTiles.forEach((tileData, index) => {
                 const newPlayer = newRandomPlayers[index];
                 newPlayer.opponent = opponentList[index];
-                newPlayer.position = GAME_TITLES[gameId]; // Ensure position is attached
+                newPlayer.position = GAME_TITLES[gameId]; 
+                newPlayer.points = null; 
                 currentData.tiles[tileData.id] = newPlayer;
             });
 
-            // 4. Wait for the spin duration, then reveal
             setTimeout(() => {
                 unpickedTiles.forEach((tileData, index) => {
                     const tile = tileData.element;
@@ -1006,15 +1039,12 @@ Manuel Benson,77,DEF,Fulham
 
                     tile.classList.remove('spinning');
                     
-                    // Staggered reveal
                     setTimeout(() => {
                         setTileContent(tile, newPlayer, newPlayer.opponent);
                         tile.classList.add('revealed');
                     }, index * 100); 
                 });
 
-                // 5. Update UI state
-                // Wait for all staggered reveals + a little extra before enabling button
                 setTimeout(() => {
                     shuffleButton.disabled = globalSpinsRemaining <= 0;
                 }, numToShuffle * 100 + 100); 
@@ -1030,7 +1060,6 @@ Manuel Benson,77,DEF,Fulham
         function handleNextStage() {
             const currentData = gameData[currentGameIndex];
             
-            // 1. Check pick limit enforcement
             if (currentData.picks < MAX_PICKS_PER_GAME) {
                 console.error(`Must pick ${MAX_PICKS_PER_GAME} players before proceeding.`);
                 return;
@@ -1039,10 +1068,8 @@ Manuel Benson,77,DEF,Fulham
             currentGameIndex++;
             
             if (currentGameIndex < NUM_GAMES) {
-                // Move to the next game stage
                 showGame(currentGameIndex);
             } else {
-                // Move to Summary View (Game 3 -> Summary)
                 showSummaryView();
             }
         }
@@ -1061,103 +1088,207 @@ Manuel Benson,77,DEF,Fulham
                 view.style.display = (index === gameId) ? 'block' : 'none';
             });
             
-            // Update the header of the current game view
             document.querySelector(`#game-${gameId}-view .grid-category-header`).textContent = GAME_TITLES[gameId];
 
-            // Run initial load if not run before (i.e., tiles are empty)
             if (!gameData[gameId].tiles[0]) {
-                loadInitialTiles(gameId); // Call the non-deducting initial load function
+                loadInitialTiles(gameId);
             } else {
-                // If already loaded (e.g., returning from a later stage), just show immediately
                 const playerGrid = document.getElementById(`playerGrid-${gameId}`);
                 for (let i = 0; i < NUM_TILES; i++) {
                      const tile = playerGrid.querySelector(`#tile-g${gameId}-t${i}`);
                      tile.classList.add('revealed');
                      tile.classList.remove('spinning');
+                     const teamImg = tile.querySelector('.team-badge-image');
+                     if (teamImg) teamImg.style.opacity = 1;
                 }
                 updateShuffleButton();
             }
 
-            // Ensure the initial visibility is correct if returning from summary
             const shuffleButton = document.getElementById('shuffleButton');
             shuffleButton.style.display = 'inline-block';
         }
 
         /**
-         * Switches from the Shuffler view to the Summary view and populates the list.
+         * Switches from the Shuffler view to the Summary view and populates the list/grid.
          */
         function showSummaryView() {
             document.getElementById('shuffler-container').style.display = 'none';
             document.getElementById('summary-view').style.display = 'block';
-            document.getElementById('shuffleButton').style.display = 'none'; // Hide spin button
+            document.getElementById('shuffleButton').style.display = 'none';
             
-            const pickedPlayersList = document.getElementById('pickedPlayersList');
-            pickedPlayersList.innerHTML = ''; // Clear previous list
+            const summaryHeader = document.getElementById('summaryHeader');
+            const summaryGrid = document.getElementById('summaryGrid');
+            const leaderboardContainer = document.getElementById('leaderboard');
+            
+            summaryGrid.innerHTML = '';
+            leaderboardContainer.innerHTML = '';
             
             let allPickedPlayers = [];
+            let totalPoints = 0;
 
-            // 1. Iterate through all three games to collect all 9 picks
+            // 1. Collect all 9 picks and calculate/store points
             gameData.forEach((game, gameIndex) => {
-                // Filter the game's tile data to find only the picked ones
                 game.tiles.forEach((player, tileIndex) => {
                     const tile = document.getElementById(`tile-g${gameIndex}-t${tileIndex}`);
                     if (tile && tile.classList.contains('is-picked') && player) {
+                        
+                        let randomPoints = player.points;
+                        if (!randomPoints) {
+                            // Generate random points between 20 and 200 (inclusive)
+                            randomPoints = Math.floor(Math.random() * (200 - 20 + 1)) + 20; 
+                            player.points = randomPoints;
+                        }
+                        
+                        totalPoints += randomPoints;
+
                         allPickedPlayers.push({ 
                             ...player, 
-                            game: gameIndex + 1 
+                            game: gameIndex + 1,
+                            points: randomPoints 
                         });
                     }
                 });
             });
             
-            // 2. Render list with new style
+            // 2. Check for incomplete team
             if (allPickedPlayers.length !== NUM_GAMES * MAX_PICKS_PER_GAME) {
-                pickedPlayersList.innerHTML = `
+                summaryHeader.textContent = 'Team Selection Summary'; 
+                summaryGrid.innerHTML = `
                     <div class="alert alert-warning text-center" role="alert">
                         You have only picked ${allPickedPlayers.length} out of 9 players. Please complete your team selection.
                     </div>
                 `;
-            } else {
-                allPickedPlayers.forEach((player, index) => {
-                    const listItem = document.createElement('li');
-                    // Use d-flex to align content and points
-                    listItem.className = 'list-group-item d-flex justify-content-between align-items-center';
-                    
-                    // Map full position name to abbreviation and class
-                    const positionInfo = POSITION_MAP[player.position] || { abbr: 'POS', class: 'badge-secondary' };
-                    
-                    // Generate random points between 20 and 200
-                    const randomPoints = Math.floor(Math.random() * (200 - 20 + 1)) + 20; 
+                return;
+            }
 
-                    let badgeStyle = `background-color: ${player.teamData.color};`;
-                    if (player.teamData.border) {
-                        badgeStyle += `border: 1px solid #383838; color: #383838; text-shadow: none;`; 
-                    }
+            // 3. Update the header with the total points
+            summaryHeader.innerHTML = `Total Points: <span class="text-primary">${totalPoints}</span>`;
+            
+            // 4. Sort players by position (ATT, MID, DEF)
+            const positionOrder = { "ATTACKERS": 0, "MIDFIELDERS": 1, "DEFENDERS": 2 };
 
-                    // Determine points color based on score (Using custom classes defined in CSS)
-                    const pointsColorClass = randomPoints >= 100 ? 'text-success-points' : 'text-default-points';
+            allPickedPlayers.sort((a, b) => {
+                return positionOrder[a.position] - positionOrder[b.position];
+            });
 
-                    listItem.innerHTML = `
-                        <span class="d-flex align-items-center">
-                            <span class="text-muted me-3">${index + 1}.</span> 
-                            <!-- Position Badge (3-letter, color coded) -->
-                            <span class="badge-position ${positionInfo.class} me-3">${positionInfo.abbr}</span>
-                            <!-- Team Badge -->
-                            <span class="team-color-badge me-3" style="${badgeStyle}">${player.teamData.abbr}</span>
-                            <!-- Player Name and Opponent -->
-                            <strong class="me-2">${player.name}</strong> 
-                            <span class="text-muted small">
-                                (vs ${player.opponent || 'TBD'})
+            // 5. Render the Grid (3x3)
+            allPickedPlayers.forEach(player => {
+                const colDiv = document.createElement('div');
+                // col-md-4 for 3 tiles per row on medium screens and up, col-6 for 2 tiles per row on small screens
+                colDiv.className = 'col-md-4 col-6'; 
+
+                const surname = getSurname(player.name);
+                const initials = player.name.split(' ').map(n => n[0]).join('').toUpperCase();
+                const playerPlaceholderUrl = `https://placehold.co/50x50/007bff/ffffff?text=${initials}`; 
+
+                const teamAbbr = player.teamData.abbr;
+                const textColor = (player.teamData.text || '#FFFFFF').replace('#', '');
+                const teamColor = player.teamData.color.replace('#', '');
+                const teamPlaceholderUrl = `https://placehold.co/20x20/${teamColor}/${textColor}?text=${teamAbbr}`;
+                
+                // Determine position abbreviation and class for top-left badge
+                const positionAbbr = player.position.substring(0, 3).toUpperCase();
+                const positionClass = positionAbbr === 'DEF' ? 'badge-def' : 
+                                      positionAbbr === 'MID' ? 'badge-mid' : 
+                                      'badge-att';
+
+                // Use the player-tile structure, apply 'is-summary' and 'revealed' classes, and include points.
+                colDiv.innerHTML = `
+                    <div class="player-tile is-summary revealed">
+                        <!-- Top Left Position Badge -->
+                        <span class="position-top-left-badge ${positionClass}">
+                            ${positionAbbr}
+                        </span>
+
+                        <span class="player-info w-100">
+                            <img class="player-image" 
+                                 src="${playerPlaceholderUrl}" 
+                                 alt="${player.name} image">
+                            
+                            <img class="team-badge-image" 
+                                 src="${teamPlaceholderUrl}"
+                                 alt="${player.teamName} Badge"
+                                 style="opacity: 1;"> 
+                            
+                            <span class="player-name-main">
+                                ${surname}
+                            </span>
+                            
+                            <span class="opponent-hint">vs ${player.opponent}</span>
+                            
+                            <span class="summary-points">
+                                ${player.points} <span class="text-muted small">pts</span>
                             </span>
                         </span>
-                        <!-- Points -->
-                        <span class="${pointsColorClass} fw-bolder fs-5">
-                            ${randomPoints} <span class="text-muted small">pts</span>
-                        </span>
-                    `;
-                    pickedPlayersList.appendChild(listItem);
-                });
+                        <!-- Button is hidden by .is-summary CSS -->
+                        <button class="btn btn-tile-pick btn-outline-primary" style="display: none;">PICK</button>
+                    </div>
+                `;
+                summaryGrid.appendChild(colDiv);
+            });
+            
+            // 6. Render Leaderboard
+            const leaderboardData = [
+                { name: "Global Ballers", points: 650, rank: 0 },
+                { name: "Fantasy King", points: 621, rank: 0 },
+                { name: "Your Team", points: totalPoints, rank: -1 }, 
+                { name: "Dynamo FC", points: 585, rank: 0 },
+                { name: "The Predictors", points: 572, rank: 0 },
+                { name: "Midfield Maestro", points: 550, rank: 0 },
+                { name: "Dream Team 77", points: 531, rank: 0 },
+                { name: "Gaffer's XI", points: 512, rank: 0 },
+                { name: "Top Flight", points: 495, rank: 0 },
+                { name: "Winger Wizards", points: 488, rank: 0 },
+                { name: "The Scorers", points: 470, rank: 0 },
+            ];
+
+            // Sort all data points together
+            leaderboardData.sort((a, b) => b.points - a.points);
+
+            // Assign ranks and ensure only 10 rows are shown
+            let finalLeaderboard = [];
+            for (let i = 0; i < leaderboardData.length; i++) {
+                if (finalLeaderboard.length >= 10) break;
+                
+                const entry = leaderboardData[i];
+                entry.rank = i + 1; // Assign rank based on current sorted position
+                finalLeaderboard.push(entry);
             }
+            
+            let tableHTML = `
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover rounded overflow-hidden shadow leaderboard-table">
+                        <thead class="bg-primary text-white">
+                            <tr>
+                                <th scope="col" class="text-center">#</th>
+                                <th scope="col">Team Name</th>
+                                <th scope="col" class="text-end">Total Points</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+
+            finalLeaderboard.forEach(entry => {
+                const isUser = entry.name === "Your Team";
+                const rowClass = isUser ? 'table-info fw-bold' : '';
+                const name = isUser ? `Your Team <span class="badge bg-primary">YOU</span>` : entry.name;
+                // No specific points class needed, relies on default dark text
+                
+                tableHTML += `
+                    <tr class="${rowClass}">
+                        <td class="text-center">${entry.rank}</td>
+                        <td>${name}</td>
+                        <td class="text-end">${entry.points}</td>
+                    </tr>
+                `;
+            });
+
+            tableHTML += `
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            leaderboardContainer.innerHTML = tableHTML;
         }
 
         /**
@@ -1167,12 +1298,10 @@ Manuel Benson,77,DEF,Fulham
             parsePlayers(csvContent);
             initializeGameData();
             
-            // Set initial header titles 
             document.querySelector('#game-0-view .grid-category-header').textContent = GAME_TITLES[0];
             document.querySelector('#game-1-view .grid-category-header').textContent = GAME_TITLES[1];
             document.querySelector('#game-2-view .grid-category-header').textContent = GAME_TITLES[2];
 
-            // Start the view at Game 1 (DEFENDERS)
             showGame(0); 
         };
 
