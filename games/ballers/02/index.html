@@ -383,6 +383,7 @@
                 <!-- UPDATED LAYOUT -->
                 <div class="header-section">
                     <h2 class="grid-category-header">DEFENDERS</h2>
+                    <!-- Changed '0/3 players picked' to '0/3 picked' -->
                     <p id="pick-limit-0" class="pick-limit-msg text-primary">0 / 3 picked</p>
                 </div>
                 <div id="playerGrid-0" class="row mt-2">
@@ -411,6 +412,7 @@
                 <!-- UPDATED LAYOUT -->
                 <div class="header-section">
                     <h2 class="grid-category-header">MIDFIELDERS</h2>
+                    <!-- Changed '0/3 players picked' to '0/3 picked' -->
                     <p id="pick-limit-1" class="pick-limit-msg text-primary">0 / 3 picked</p>
                 </div>
                 <div id="playerGrid-1" class="row mt-2">
@@ -439,6 +441,7 @@
                 <!-- UPDATED LAYOUT -->
                 <div class="header-section">
                     <h2 class="grid-category-header">ATTACKERS</h2>
+                    <!-- Changed '0/3 players picked' to '0/3 picked' -->
                     <p id="pick-limit-2" class="pick-limit-msg text-primary">0 / 3 picked</p>
                 </div>
                 <div id="playerGrid-2" class="row mt-2">
@@ -1191,8 +1194,8 @@ Manuel Benson,77,DEF,Fulham
             // 5. Render the Grid (3x3)
             allPickedPlayers.forEach(player => {
                 const colDiv = document.createElement('div');
-                // col-md-4 for 3 tiles per row on medium screens and up, col-6 for 2 tiles per row on small screens
-                colDiv.className = 'col-md-4 col-6'; 
+                // UPDATED: Changed to col-4 to enforce 3 tiles per row on all screen sizes (including mobile)
+                colDiv.className = 'col-4'; 
 
                 const surname = getSurname(player.name);
                 const initials = player.name.split(' ').map(n => n[0]).join('').toUpperCase();
