@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Account System</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Use Inter font -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <!-- Main Container -->
+    <div id="app-container" class="w-full max-w-6xl">
+
+        <!-- Login Screen (State 1) -->
+        <div id="login-screen" class="max-w-sm mx-auto bg-white p-8 rounded-xl shadow-2xl transition-opacity duration-500">
+            <h1 class="text-3xl font-extrabold text-indigo-700 mb-6 text-center">User Login</h1>
+            
+            <form id="login-form">
+                
+                <!-- Email Input -->
+                <div class="mb-5">
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                    <input type="email" id="email" 
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150"
+                           placeholder="Enter email..." required>
+                </div>
+
+                <!-- Password Input -->
+                <div class="mb-6">
+                    <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                    <input type="password" id="password" 
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150"
+                           placeholder="Enter password..." required>
+                </div>
+
+                <!-- Error Message Display -->
+                <div id="error-message" class="text-red-600 bg-red-100 p-3 rounded-lg mb-4 hidden transition duration-300 text-sm font-semibold">
+                    user details incorrect
+                </div>
+
+                <!-- Login Button -->
+                <button type="submit" id="login-button"
+                        class="w-full bg-indigo-600 text-white py-2.5 rounded-lg font-semibold hover:bg-indigo-700 transition duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Login
+                </button>
+            </form>
+        </div>
+
+        <!-- Dashboard Screen (State 2) -->
+        <div id="logged-in-screen" class="hidden bg-white p-8 rounded-xl shadow-2xl text-center transition-opacity duration-500">
+            <h2 class="text-3xl font-extrabold text-indigo-700 mb-6">NFL Teamz Week 6</h2>
+            
+            <!-- Pick Teams Button -->
+            <button id="pick-teams-btn" onclick="goToPickScreen()"
+                    class="bg-green-500 text-white py-2 px-8 rounded-lg font-bold hover:bg-green-600 transition duration-200 shadow-md mb-8">
+                Pick my teams
+            </button>
+
+            <div id="user-table-container">
+                <!-- Table will be rendered here by JavaScript -->
+            </div>
+            <button onclick="window.location.reload()" 
+                    class="mt-8 bg-gray-500 text-white py-2 px-6 rounded-lg font-semibold hover:bg-gray-600 transition duration-200 shadow-md">
+                Logout
+            </button>
+        </div>
+
+        <!-- Pick Teams Screen (State 3) -->
+        <div id="pick-teams-screen" class="hidden bg-white p-8 rounded-xl shadow-2xl text-center transition-opacity duration-500">
+            <h2 class="text-3xl font-extrabold text-indigo-700 mb-4">Make Your Picks</h2>
+            <p class="text-lg text-gray-600 mb-4">You have selected <span id="pick-count" class="font-bold text-red-500">0</span> out of 6 teams.</p>
+            <div id="pick-limit-message" class="text-red-600 bg-red-100 p-2 rounded-lg mb-4 hidden transition duration-300 text-sm font-semibold max-w-sm mx-auto">
+                Maximum 6 teams picked. Please unpick a team first.
+            </div>
+
+            <!-- Layout is now full width and stacked (space-y-4) -->
+            <div id="fixtures-container" class="space-y-4 mt-6">
+                <!-- Fixtures will be rendered here by JavaScript -->
+            </div>
+            
+            <div class="flex justify-center mt-8">
+                <button onclick="goToSummaryScreen()" 
+                        class="w-full max-w-xs bg-green-600 text-white py-2 px-6 rounded-lg font-semibold hover:bg-green-700 transition duration-200 shadow-md">
+                    DONE
+                </button>
+            </div>
+        </div>
+        
+        <!-- Summary Screen (State 4) -->
+        <div id="summary-screen" class="hidden bg-white p-8 rounded-xl shadow-2xl text-center transition-opacity duration-500">
+            <h2 class="text-3xl font-extrabold text-indigo-700 mb-4">Your Final Picks</h2>
+            
+            <div class="text-lg font-bold text-red-600 bg-red-50 p-3 rounded-lg mb-8 max-w-sm mx-auto">
+                Take a screenshot and send to Stu!
+            </div>
+
+            <div id="summary-container" class="mb-8">
+                <!-- Pick summary will be rendered here -->
+            </div>
+            
+            <div class="flex justify-center space-x-4">
+                <button onclick="goToDashboardScreen()" id="summary-back-btn"
+                        class="bg-indigo-600 text-white py-2 px-6 rounded-lg font-semibold hover:bg-indigo-700 transition duration-200 shadow-md">
+                    Back to Dashboard
+                </button>
+                <button onclick="window.location.reload()" 
+                        class="bg-gray-500 text-white py-2 px-6 rounded-lg font-semibold hover:bg-gray-600 transition duration-200 shadow-md">
+                    Logout
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // --- 1. Simulated User Database (CSV) ---
+        // Headers: name,email,password,Teamz1,Teamz2,Teamz3,Teamz4,Teamz5,Teamz6
+        const CSV_DATA = 
+            `name,email,password,Teamz1,Teamz2,Teamz3,Teamz4,Teamz5,Teamz6
+Stu,stu@email.com,1234,true,true,true,true,true,true
+Admin,admin@example.com,password123,true,true,true,true,true,true
+Tester,tester@test.com,test,true,true,true,true,true,true
+Dave,dave@email.com,1234,true,true,true,true,true,true
+Kat,kat@email.com,1234,true,true,true,true,true,true
+Rich,rich@email.com,1234,true,true,true,true,true,true
+Fernando,fernando@email.com,1234,true,true,true,true,true,true`;
+
+        // --- 2. Simulated Teams Database (CSV) ---
+        // Headers: team,abbr,opponent,points,record (32 NFL teams with guaranteed reciprocal pairings)
+        const TEAMS_CSV_DATA = 
+            `team,abbr,opponent,points,record
+Arizona Cardinals,ARI,Los Angeles Rams,18,2-4
+Atlanta Falcons,ATL,Houston Texans,25,2-4
+Baltimore Ravens,BAL,Kansas City Chiefs,31,2-4
+Buffalo Bills,BUF,Miami Dolphins,22,2-4
+Carolina Panthers,CAR,Tampa Bay Buccaneers,10,2-4
+Chicago Bears,CHI,Minnesota Vikings,15,2-4
+Cincinnati Bengals,CIN,Cleveland Browns,24,2-4
+Cleveland Browns,CLE,Cincinnati Bengals,12,2-4
+Dallas Cowboys,DAL,Philadelphia Eagles,30,2-4
+Denver Broncos,DEN,New York Jets,16,2-4
+Detroit Lions,DET,Green Bay Packers,28,2-4
+Green Bay Packers,GB,Detroit Lions,20,2-4
+Houston Texans,HOU,Atlanta Falcons,27,2-4
+Indianapolis Colts,IND,Jacksonville Jaguars,19,2-4
+Jacksonville Jaguars,JAX,Indianapolis Colts,21,2-4
+Kansas City Chiefs,KC,Baltimore Ravens,35,2-4
+Las Vegas Raiders,LV,Washington Commanders,14,2-4
+Los Angeles Chargers,LAC,New England Patriots,23,2-4
+Los Angeles Rams,LAR,Arizona Cardinals,29,2-4
+Miami Dolphins,MIA,Buffalo Bills,33,2-4
+Minnesota Vikings,MIN,Chicago Bears,17,2-4
+New England Patriots,NE,Los Angeles Chargers,13,2-4
+New Orleans Saints,NO,Pittsburgh Steelers,26,2-4
+New York Giants,NYG,San Francisco 49ers,11,2-4
+New York Jets,NYJ,Denver Broncos,10,2-4
+Philadelphia Eagles,PHI,Dallas Cowboys,34,2-4
+Pittsburgh Steelers,PIT,New Orleans Saints,18,2-4
+San Francisco 49ers,SF,New York Giants,32,2-4
+Seattle Seahawks,SEA,Tennessee Titans,25,2-4
+Tampa Bay Buccaneers,TB,Carolina Panthers,19,2-4
+Tennessee Titans,TEN,Seattle Seahawks,15,2-4
+Washington Commanders,WAS,Las Vegas Raiders,12,2-4`;
+
+
+        // --- 3. Configuration & State ---
+        
+        // These are the 6 NFL teams associated with Teamz1-Teamz6 keys on the dashboard
+        const SELECTED_NFL_TEAMS = [
+            "New England Patriots", "Dallas Cowboys", "Kansas City Chiefs", 
+            "San Francisco 49ers", "Green Bay Packers", "Miami Dolphins"
+        ];
+        
+        const GENERIC_TEAM_HEADERS = [
+            "Team 1", "Team 2", "Team 3", "Team 4", "Team 5", "Team 6"
+        ];
+        
+        const TEAM_KEYS = ["Teamz1", "Teamz2", "Teamz3", "Teamz4", "Teamz5", "Teamz6"];
+        const MAX_PICKS = 6;
+        
+        let userDatabase = [];
+        let teamsDatabase = {}; // Stores team data for quick lookup { 'Team Name': {team: '...', abbr: '...', ...}, ... }
+        let currentUserPicks = []; // Stores abbreviations of teams picked by the current user
+
+        // --- 4. DOM Elements ---
+        const loginForm = document.getElementById('login-form');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const errorMessage = document.getElementById('error-message');
+        const loginScreen = document.getElementById('login-screen');
+        const loggedInScreen = document.getElementById('logged-in-screen');
+        const pickTeamsScreen = document.getElementById('pick-teams-screen');
+        const summaryScreen = document.getElementById('summary-screen'); // New
+        const tableContainer = document.getElementById('user-table-container');
+        const fixturesContainer = document.getElementById('fixtures-container');
+        const pickCountDisplay = document.getElementById('pick-count');
+        const pickLimitMessage = document.getElementById('pick-limit-message');
+        const summaryContainer = document.getElementById('summary-container'); // New
+
+        // --- 5. Data Handling Functions ---
+
+        function csvToArray(csv) {
+            const lines = csv.split('\n');
+            if (lines.length <= 1) return [];
+
+            const headers = lines[0].trim().split(',');
+            const data = [];
+
+            for (let i = 1; i < lines.length; i++) {
+                const currentLine = lines[i].trim();
+                if (!currentLine) continue;
+
+                // Handle values including the new record column
+                const values = currentLine.split(','); 
+                const row = {};
+                
+                for (let j = 0; j < headers.length; j++) {
+                    row[headers[j].trim()] = values[j] ? values[j].trim() : '';
+                }
+                data.push(row);
+            }
+            return data;
+        }
+
+        function csvToMap(csv, keyField) {
+            const arrayData = csvToArray(csv);
+            const map = {};
+            arrayData.forEach(item => {
+                // Ensure points is stored as an integer
+                if (item.points) {
+                    item.points = parseInt(item.points, 10);
+                }
+                if (item[keyField]) {
+                    map[item[keyField]] = item;
+                }
+            });
+            return map;
+        }
+
+        // --- 6. Screen Transition Functions ---
+        
+        function hideAllScreens() {
+            loginScreen.classList.add('hidden');
+            loggedInScreen.classList.add('hidden');
+            pickTeamsScreen.classList.add('hidden');
+            summaryScreen.classList.add('hidden'); // New screen added
+            // Remove full width class if it exists
+            document.getElementById('app-container').classList.remove('max-w-6xl');
+            document.getElementById('app-container').classList.add('max-w-sm');
+        }
+
+        function showScreen(screenElement) {
+            hideAllScreens();
+            // Allow dashboard and picking screen to use wider container
+            if (screenElement === loggedInScreen || screenElement === pickTeamsScreen || screenElement === summaryScreen) {
+                document.getElementById('app-container').classList.remove('max-w-sm'); 
+                document.getElementById('app-container').classList.add('max-w-6xl'); 
+            }
+            screenElement.classList.remove('hidden');
+        }
+        
+        function goToDashboardScreen() {
+            renderUserTable();
+            showScreen(loggedInScreen);
+        }
+
+        function goToPickScreen() {
+            renderPickScreen();
+            showScreen(pickTeamsScreen);
+        }
+        
+        function goToSummaryScreen() {
+            // Check if user has made at least one pick before moving to summary
+            if (currentUserPicks.length === 0) {
+                 // For now, allow empty picks, but in a real app, validation would happen here.
+            }
+            renderSummaryScreen();
+            showScreen(summaryScreen);
+        }
+
+
+        // --- 7. Dashboard/Table Rendering ---
+
+        function renderUserTable() {
+            let tableHtml = `
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg">
+                        <thead class="bg-indigo-600 text-white shadow-lg">
+                            <tr>
+                                <th class="sticky left-0 px-4 py-3 text-left text-sm font-bold uppercase tracking-wider bg-indigo-700 rounded-tl-lg">Name</th>
+                                ${GENERIC_TEAM_HEADERS.map(h => `<th class="px-4 py-3 text-center text-sm font-bold uppercase tracking-wider">${h}</th>`).join('')}
+                                <th class="px-4 py-3 text-center text-sm font-bold uppercase tracking-wider bg-indigo-700 rounded-tr-lg">Total Points</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-100">
+            `;
+
+            userDatabase.forEach((user, index) => {
+                let totalPoints = 0; 
+                const rowClass = index % 2 === 0 ? 'bg-white' : 'bg-gray-50';
+                tableHtml += `<tr class="hover:bg-indigo-100 transition duration-150 ${rowClass}">`;
+                
+                tableHtml += `<td class="sticky left-0 px-4 py-3 whitespace-nowrap font-medium text-gray-900 text-left bg-inherit">${user.name}</td>`;
+                
+                // Team Columns
+                TEAM_KEYS.forEach((key, j) => {
+                    const isMember = user[key].toLowerCase() === 'true'; 
+                    let cellContent = `<span class="text-red-500 italic text-sm">Error</span>`; // Default error
+
+                    if (isMember) {
+                        const teamName = SELECTED_NFL_TEAMS[j]; 
+                        const teamData = teamsDatabase[teamName];
+
+                        if (teamData) {
+                            totalPoints += teamData.points;
+                            
+                            // Display Team Abbreviation and Points
+                            cellContent = `
+                                <div class="flex flex-col items-center">
+                                    <span class="text-indigo-700 font-extrabold text-lg">${teamData.abbr}</span>
+                                    <span class="text-xs text-gray-600 font-bold mt-0.5">${teamData.points} Pts</span>
+                                </div>
+                            `;
+                        }
+                    } 
+                    
+                    tableHtml += `<td class="px-4 py-3 whitespace-nowrap text-center">${cellContent}</td>`;
+                });
+                
+                // Total Points Column
+                tableHtml += `
+                    <td class="px-4 py-3 whitespace-nowrap text-center bg-indigo-50 font-extrabold text-lg">
+                        <span class="text-green-600">${totalPoints}</span>
+                    </td>
+                `;
+
+                tableHtml += `</tr>`;
+            });
+
+            tableHtml += `
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            
+            tableContainer.innerHTML = tableHtml;
+        }
+
+        // --- 8. Pick Screen Logic and Rendering ---
+
+        function getFixtures() {
+            const fixtures = [];
+            // Use a Set to track unique match-ups (e.g., ARI vs LAR is the same as LAR vs ARI)
+            const processedMatchups = new Set(); 
+
+            // Iterate over the teamsDatabase entries
+            for (const teamName in teamsDatabase) {
+                const homeTeamData = teamsDatabase[teamName];
+                const opponentName = homeTeamData.opponent;
+
+                // Create a canonical match key by sorting the names alphabetically
+                const matchKey = [teamName, opponentName].sort().join(' vs ');
+
+                if (!processedMatchups.has(matchKey)) {
+                    // Get the opponent's full data
+                    const awayTeamData = teamsDatabase[opponentName];
+
+                    if (awayTeamData) {
+                        // The team listed first in the canonical key doesn't matter, 
+                        // but we need to ensure we consistently use the data provided by homeTeamData
+                        // as the base for the matchup display.
+                        fixtures.push({
+                            home: homeTeamData,
+                            away: awayTeamData
+                        });
+                        processedMatchups.add(matchKey);
+                    }
+                }
+            }
+            return fixtures; // Returns 16 unique fixtures
+        }
+
+        function updatePickCountDisplay() {
+            pickCountDisplay.textContent = currentUserPicks.length;
+        }
+
+        function showPickLimitMessage() {
+            pickLimitMessage.classList.remove('hidden');
+            setTimeout(() => {
+                pickLimitMessage.classList.add('hidden');
+            }, 3000);
+        }
+
+        function handlePick(teamAbbr, buttonElement) {
+            const index = currentUserPicks.indexOf(teamAbbr);
+
+            if (index > -1) {
+                // Unpick (already picked)
+                currentUserPicks.splice(index, 1);
+                // Reset button style
+                buttonElement.classList.remove('bg-green-600', 'hover:bg-green-700', 'shadow-inner');
+                buttonElement.classList.add('bg-indigo-600', 'hover:bg-indigo-700');
+                buttonElement.innerHTML = 'Pick';
+            } else {
+                // Attempt to pick
+                if (currentUserPicks.length < MAX_PICKS) {
+                    currentUserPicks.push(teamAbbr);
+                    // Update button style
+                    buttonElement.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
+                    buttonElement.classList.add('bg-green-600', 'hover:bg-green-700', 'shadow-inner');
+                    // Use Unicode checkmark
+                    buttonElement.innerHTML = 'Picked &nbsp;&#10003;';
+                } else {
+                    showPickLimitMessage();
+                    return; // Prevent state change if limit reached
+                }
+            }
+            updatePickCountDisplay();
+        }
+
+        function createTeamTile(teamData, isHomeTeam) {
+            const abbr = teamData.abbr;
+            const isPicked = currentUserPicks.includes(abbr);
+            
+            // Neutral styling for both home and away teams
+            const tileClasses = 'border-2 border-gray-300 bg-white hover:bg-gray-50'; 
+            
+            const buttonClasses = isPicked 
+                ? 'bg-green-600 hover:bg-green-700 shadow-inner'
+                : 'bg-indigo-600 hover:bg-indigo-700';
+            const buttonText = isPicked 
+                ? 'Picked &nbsp;&#10003;' 
+                : 'Pick';
+            
+            // Now using teamData.record instead of hardcoded '2-4'
+            return `
+                <div class="w-full sm:flex-1 flex flex-col items-center p-4 rounded-xl shadow-lg transition duration-200 ${tileClasses}">
+                    <span class="text-2xl font-extrabold text-gray-800">${abbr}</span>
+                    <span class="text-xs text-gray-500 mb-3">${teamData.record}</span>
+                    <button onclick="handlePick('${abbr}', this)"
+                            class="w-full text-white py-1.5 rounded-lg font-semibold transition duration-150 ${buttonClasses}">
+                        ${buttonText}
+                    </button>
+                </div>
+            `;
+        }
+
+        function renderPickScreen() {
+            const fixtures = getFixtures();
+            let fixturesHtml = '';
+
+            fixtures.forEach(fixture => {
+                // Fixture container is now full width
+                fixturesHtml += `
+                    <div class="bg-white p-4 rounded-xl shadow-xl flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4 items-center justify-center border border-gray-200 w-full">
+                        <!-- Home Team Tile - sm:flex-1 handles equal sizing -->
+                        ${createTeamTile(fixture.home, true)}
+
+                        <span class="text-xl font-bold text-gray-700 mx-4">vs</span>
+                        
+                        <!-- Away Team Tile - sm:flex-1 handles equal sizing -->
+                        ${createTeamTile(fixture.away, false)}
+                    </div>
+                `;
+            });
+
+            fixturesContainer.innerHTML = fixturesHtml;
+            updatePickCountDisplay();
+        }
+        
+        // --- 9. Summary Screen Rendering ---
+        
+        function renderSummaryScreen() {
+            // Find details for all picked teams
+            const pickedTeamDetails = currentUserPicks.map(abbr => {
+                // Iterate through the teamsDatabase (map of full names to data)
+                for (const teamName in teamsDatabase) {
+                    if (teamsDatabase[teamName].abbr === abbr) {
+                        return teamsDatabase[teamName];
+                    }
+                }
+                return null;
+            }).filter(detail => detail !== null);
+            
+            if (pickedTeamDetails.length === 0) {
+                summaryContainer.innerHTML = `<p class="text-xl text-gray-500">You haven't made any picks yet!</p>`;
+                return;
+            }
+            
+            // MODIFIED: Removed the points span (was a second <span> inside the <li>)
+            let listHtml = pickedTeamDetails.map(team => `
+                <li class="flex justify-start items-center py-3 px-4 bg-gray-100 rounded-lg shadow-sm border-l-4 border-indigo-500">
+                    <span class="text-xl font-semibold text-gray-800">${team.team} (${team.abbr})</span>
+                </li>
+            `).join('');
+
+            summaryContainer.innerHTML = `
+                <p class="text-xl text-gray-600 mb-4 font-medium">You selected ${pickedTeamDetails.length} out of ${MAX_PICKS} teams:</p>
+                <ul class="space-y-3 max-w-sm mx-auto mb-4">
+                    ${listHtml}
+                </ul>
+            `;
+        }
+
+
+        // --- 10. Initialization & Event Handlers ---
+
+        function displayError() {
+            errorMessage.classList.remove('hidden');
+            emailInput.focus(); 
+            
+            setTimeout(() => {
+                errorMessage.classList.add('hidden');
+            }, 3000);
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+
+            errorMessage.classList.add('hidden');
+
+            const email = emailInput.value.trim();
+            const password = passwordInput.value.trim();
+
+            if (!email || !password) {
+                displayError();
+                return;
+            }
+
+            const foundUser = userDatabase.find(user => 
+                user.email === email && user.password === password
+            );
+
+            if (foundUser) {
+                console.log('Login successful for:', email);
+                // Clear any previous picks for the new login session (in a real app, these would be loaded)
+                currentUserPicks = []; 
+                goToDashboardScreen(); 
+            } else {
+                console.log('Login failed for:', email);
+                displayError();
+            }
+        }
+
+        window.onload = function() {
+            // Populate the in-memory databases
+            userDatabase = csvToArray(CSV_DATA);
+            teamsDatabase = csvToMap(TEAMS_CSV_DATA, 'team');
+            
+            // Attach the event listener to the form
+            loginForm.addEventListener('submit', handleLogin);
+        };
+    </script>
+</body>
+</html>
