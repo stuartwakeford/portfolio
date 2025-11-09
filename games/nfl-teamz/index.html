@@ -15,7 +15,23 @@
         }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-4">
+<body class="min-h-screen flex items-center justify-center p-2">
+
+    <!-- Team Details Modal (NEW) -->
+    <div id="team-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
+        <div class="bg-white p-6 rounded-xl shadow-2xl w-full max-w-sm relative transform transition-all duration-300 scale-100 opacity-100">
+            <!-- Close Button -->
+            <button onclick="closeTeamModal()" class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 transition focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+
+            <!-- Modal Content -->
+            <div id="modal-content" class="text-center space-y-4">
+                <!-- Content will be populated by JS -->
+            </div>
+        </div>
+    </div>
+    <!-- End Team Details Modal -->
 
     <!-- Main Container -->
     <div id="app-container" class="w-full max-w-6xl">
@@ -75,29 +91,30 @@
         </div>
 
         <!-- Pick Teams Screen (State 3) -->
-        <div id="pick-teams-screen" class="hidden bg-white p-8 rounded-xl shadow-2xl text-center transition-opacity duration-500">
-            <h2 class="text-3xl font-extrabold text-indigo-700 mb-4">Make Your Picks</h2>
-            <p class="text-lg text-gray-600 mb-4">You have selected <span id="pick-count" class="font-bold text-red-500">0</span> out of 6 teams.</p>
-            <div id="pick-limit-message" class="text-red-600 bg-red-100 p-2 rounded-lg mb-4 hidden transition duration-300 text-sm font-semibold max-w-sm mx-auto">
+        <div id="pick-teams-screen" class="hidden bg-white p-4 rounded-xl shadow-2xl text-center transition-opacity duration-500">
+            <!-- Header Text -->
+            <h2 class="text-3xl font-extrabold text-indigo-700 mb-4">Pick your 6 teams</h2>
+            
+            <!-- Notification Message (for max picks or budget exceeded) -->
+            <div id="notification-message" class="text-red-600 bg-red-100 p-2 rounded-lg mb-4 hidden transition duration-300 text-sm font-semibold max-w-sm mx-auto">
                 Maximum 6 teams picked. Please unpick a team first.
             </div>
 
-            <!-- Layout is now full width and stacked (space-y-4) -->
-            <div id="fixtures-container" class="space-y-4 mt-6">
+            <!-- Fixtures Container (Content) - pb-32 adds space for the sticky bar -->
+            <div id="fixtures-container" class="space-y-4 mt-6 pb-32">
                 <!-- Fixtures will be rendered here by JavaScript -->
             </div>
             
-            <div class="flex justify-center mt-8">
-                <button onclick="goToSummaryScreen()" 
-                        class="w-full max-w-xs bg-green-600 text-white py-2 px-6 rounded-lg font-semibold hover:bg-green-700 transition duration-200 shadow-md">
-                    DONE
-                </button>
+            <!-- STICKY BOTTOM BAR CONTAINER -->
+            <div id="picked-teams-bar" class="fixed bottom-0 left-0 right-0 bg-gray-900 text-white p-3 shadow-2xl z-10 border-t-4 border-indigo-600">
+                <!-- Content added via JS -->
             </div>
+
         </div>
         
         <!-- Summary Screen (State 4) -->
         <div id="summary-screen" class="hidden bg-white p-8 rounded-xl shadow-2xl text-center transition-opacity duration-500">
-            <h2 class="text-3xl font-extrabold text-indigo-700 mb-4">Your Final Picks</h2>
+            <h2 class="text-3xl font-extrabold text-indigo-700 mb-4">Your picks</h2>
             
             <div class="text-lg font-bold text-red-600 bg-red-50 p-3 rounded-lg mb-8 max-w-sm mx-auto">
                 Take a screenshot and send to Stu!
@@ -135,41 +152,41 @@ Rich,rich@email.com,1234,true,true,true,true,true,true
 Fernando,fernando@email.com,1234,true,true,true,true,true,true`;
 
         // --- 2. Simulated Teams Database (CSV) ---
-        // Headers: team,abbr,opponent,points,record (32 NFL teams with guaranteed reciprocal pairings)
+        // Headers: team,abbr,opponent,points,record,image,rating (32 NFL teams with guaranteed reciprocal pairings)
         const TEAMS_CSV_DATA = 
-            `team,abbr,opponent,points,record
-Arizona Cardinals,ARI,Los Angeles Rams,18,2-4
-Atlanta Falcons,ATL,Houston Texans,25,2-4
-Baltimore Ravens,BAL,Kansas City Chiefs,31,2-4
-Buffalo Bills,BUF,Miami Dolphins,22,2-4
-Carolina Panthers,CAR,Tampa Bay Buccaneers,10,2-4
-Chicago Bears,CHI,Minnesota Vikings,15,2-4
-Cincinnati Bengals,CIN,Cleveland Browns,24,2-4
-Cleveland Browns,CLE,Cincinnati Bengals,12,2-4
-Dallas Cowboys,DAL,Philadelphia Eagles,30,2-4
-Denver Broncos,DEN,New York Jets,16,2-4
-Detroit Lions,DET,Green Bay Packers,28,2-4
-Green Bay Packers,GB,Detroit Lions,20,2-4
-Houston Texans,HOU,Atlanta Falcons,27,2-4
-Indianapolis Colts,IND,Jacksonville Jaguars,19,2-4
-Jacksonville Jaguars,JAX,Indianapolis Colts,21,2-4
-Kansas City Chiefs,KC,Baltimore Ravens,35,2-4
-Las Vegas Raiders,LV,Washington Commanders,14,2-4
-Los Angeles Chargers,LAC,New England Patriots,23,2-4
-Los Angeles Rams,LAR,Arizona Cardinals,29,2-4
-Miami Dolphins,MIA,Buffalo Bills,33,2-4
-Minnesota Vikings,MIN,Chicago Bears,17,2-4
-New England Patriots,NE,Los Angeles Chargers,13,2-4
-New Orleans Saints,NO,Pittsburgh Steelers,26,2-4
-New York Giants,NYG,San Francisco 49ers,11,2-4
-New York Jets,NYJ,Denver Broncos,10,2-4
-Philadelphia Eagles,PHI,Dallas Cowboys,34,2-4
-Pittsburgh Steelers,PIT,New Orleans Saints,18,2-4
-San Francisco 49ers,SF,New York Giants,32,2-4
-Seattle Seahawks,SEA,Tennessee Titans,25,2-4
-Tampa Bay Buccaneers,TB,Carolina Panthers,19,2-4
-Tennessee Titans,TEN,Seattle Seahawks,15,2-4
-Washington Commanders,WAS,Las Vegas Raiders,12,2-4`;
+            `team,abbr,opponent,points,record,image,rating
+Arizona Cardinals,ARI,Los Angeles Rams,18,2-4,https://stuartwakeford.com/images/sw-b+w.png,2
+Atlanta Falcons,ATL,Houston Texans,25,2-4,https://stuartwakeford.com/images/sw-b+w.png,3
+Baltimore Ravens,BAL,Kansas City Chiefs,31,2-4,https://stuartwakeford.com/images/sw-b+w.png,4
+Buffalo Bills,BUF,Miami Dolphins,22,2-4,https://stuartwakeford.com/images/sw-b+w.png,4
+Carolina Panthers,CAR,Tampa Bay Buccaneers,10,2-4,https://stuartwakeford.com/images/sw-b+w.png,1
+Chicago Bears,CHI,Minnesota Vikings,15,2-4,https://stuartwakeford.com/images/sw-b+w.png,2
+Cincinnati Bengals,CIN,Cleveland Browns,24,2-4,https://stuartwakeford.com/images/SW-badge.svg,3
+Cleveland Browns,CLE,Cincinnati Bengals,12,2-4,https://stuartwakeford.com/images/SW-badge.svg,2
+Dallas Cowboys,DAL,Philadelphia Eagles,30,2-4,https://stuartwakeford.com/images/sw-b+w.png,5
+Denver Broncos,DEN,New York Jets,16,2-4,https://stuartwakeford.com/images/sw-b+w.png,2
+Detroit Lions,DET,Green Bay Packers,28,2-4,https://stuartwakeford.com/images/sw-b+w.png,4
+Green Bay Packers,GB,Detroit Lions,20,2-4,https://stuartwakeford.com/images/sw-b+w.png,3
+Houston Texans,HOU,Atlanta Falcons,27,2-4,https://stuartwakeford.com/images/sw-b+w.png,3
+Indianapolis Colts,IND,Jacksonville Jaguars,19,2-4,https://stuartwakeford.com/images/sw-b+w.png,3
+Jacksonville Jaguars,JAX,Indianapolis Colts,21,2-4,https://stuartwakeford.com/images/sw-b+w.png,4
+Kansas City Chiefs,KC,Baltimore Ravens,35,2-4,https://stuartwakeford.com/images/sw-b+w.png,5
+Las Vegas Raiders,LV,Washington Commanders,14,2-4,https://stuartwakeford.com/images/sw-b+w.png,2
+Los Angeles Chargers,LAC,New England Patriots,23,2-4,https://stuartwakeford.com/images/sw-b+w.png,3
+Los Angeles Rams,LAR,Arizona Cardinals,29,2-4,https://stuartwakeford.com/images/sw-b+w.png,4
+Miami Dolphins,MIA,Buffalo Bills,33,2-4,https://stuartwakeford.com/images/sw-b+w.png,5
+Minnesota Vikings,MIN,Chicago Bears,17,2-4,https://stuartwakeford.com/images/sw-b+w.png,2
+New England Patriots,NE,Los Angeles Chargers,13,2-4,https://stuartwakeford.com/images/sw-b+w.png,1
+New Orleans Saints,NO,Pittsburgh Steelers,26,2-4,https://stuartwakeford.com/images/sw-b+w.png,3
+New York Giants,NYG,San Francisco 49ers,11,2-4,https://stuartwakeford.com/images/sw-b+w.png,1
+New York Jets,NYJ,Denver Broncos,10,2-4,https://stuartwakeford.com/images/sw-b+w.png,1
+Philadelphia Eagles,PHI,Dallas Cowboys,34,2-4,https://stuartwakeford.com/images/sw-b+w.png,5
+Pittsburgh Steelers,PIT,New Orleans Saints,18,2-4,https://stuartwakeford.com/images/sw-b+w.png,2
+San Francisco 49ers,SF,New York Giants,32,2-4,https://stuartwakeford.com/images/sw-b+w.png,5
+Seattle Seahawks,SEA,Tennessee Titans,25,2-4,https://stuartwakeford.com/images/sw-b+w.png,3
+Tampa Bay Buccaneers,TB,Carolina Panthers,19,2-4,https://stuartwakeford.com/images/sw-b+w.png,3
+Tennessee Titans,TEN,Seattle Seahawks,15,2-4,https://stuartwakeford.com/images/sw-b+w.png,2
+Washington Commanders,WAS,Las Vegas Raiders,12,2-4,https://stuartwakeford.com/images/sw-b+w.png,1`;
 
 
         // --- 3. Configuration & State ---
@@ -186,10 +203,12 @@ Washington Commanders,WAS,Las Vegas Raiders,12,2-4`;
         
         const TEAM_KEYS = ["Teamz1", "Teamz2", "Teamz3", "Teamz4", "Teamz5", "Teamz6"];
         const MAX_PICKS = 6;
-        
+        const INITIAL_BUDGET = 20;
+
         let userDatabase = [];
         let teamsDatabase = {}; // Stores team data for quick lookup { 'Team Name': {team: '...', abbr: '...', ...}, ... }
         let currentUserPicks = []; // Stores abbreviations of teams picked by the current user
+        let budgetRemaining = INITIAL_BUDGET; 
 
         // --- 4. DOM Elements ---
         const loginForm = document.getElementById('login-form');
@@ -199,12 +218,16 @@ Washington Commanders,WAS,Las Vegas Raiders,12,2-4`;
         const loginScreen = document.getElementById('login-screen');
         const loggedInScreen = document.getElementById('logged-in-screen');
         const pickTeamsScreen = document.getElementById('pick-teams-screen');
-        const summaryScreen = document.getElementById('summary-screen'); // New
+        const summaryScreen = document.getElementById('summary-screen'); 
         const tableContainer = document.getElementById('user-table-container');
         const fixturesContainer = document.getElementById('fixtures-container');
-        const pickCountDisplay = document.getElementById('pick-count');
-        const pickLimitMessage = document.getElementById('pick-limit-message');
-        const summaryContainer = document.getElementById('summary-container'); // New
+        const notificationMessage = document.getElementById('notification-message'); 
+        const summaryContainer = document.getElementById('summary-container');
+        const pickedTeamsBar = document.getElementById('picked-teams-bar'); 
+        // Modal elements (NEW)
+        const teamModal = document.getElementById('team-modal');
+        const modalContent = document.getElementById('modal-content');
+
 
         // --- 5. Data Handling Functions ---
 
@@ -239,11 +262,24 @@ Washington Commanders,WAS,Las Vegas Raiders,12,2-4`;
                 if (item.points) {
                     item.points = parseInt(item.points, 10);
                 }
+                // Ensure rating is stored as an integer
+                if (item.rating) {
+                    item.rating = parseInt(item.rating, 10);
+                }
                 if (item[keyField]) {
                     map[item[keyField]] = item;
                 }
             });
             return map;
+        }
+
+        function getTeamDataByAbbr(abbr) {
+            for (const teamName in teamsDatabase) {
+                if (teamsDatabase[teamName].abbr === abbr) {
+                    return teamsDatabase[teamName];
+                }
+            }
+            return null;
         }
 
         // --- 6. Screen Transition Functions ---
@@ -252,7 +288,7 @@ Washington Commanders,WAS,Las Vegas Raiders,12,2-4`;
             loginScreen.classList.add('hidden');
             loggedInScreen.classList.add('hidden');
             pickTeamsScreen.classList.add('hidden');
-            summaryScreen.classList.add('hidden'); // New screen added
+            summaryScreen.classList.add('hidden'); 
             // Remove full width class if it exists
             document.getElementById('app-container').classList.remove('max-w-6xl');
             document.getElementById('app-container').classList.add('max-w-sm');
@@ -274,7 +310,15 @@ Washington Commanders,WAS,Las Vegas Raiders,12,2-4`;
         }
 
         function goToPickScreen() {
+            // Recalculate budget based on current picks (if they were loaded from storage, which is not implemented here)
+            budgetRemaining = INITIAL_BUDGET;
+            currentUserPicks.forEach(abbr => {
+                const teamData = getTeamDataByAbbr(abbr);
+                if(teamData) budgetRemaining -= teamData.rating;
+            });
+
             renderPickScreen();
+            renderPickedTeamsBar(); // NEW CALL to show the sticky bar immediately
             showScreen(pickTeamsScreen);
         }
         
@@ -319,16 +363,25 @@ Washington Commanders,WAS,Las Vegas Raiders,12,2-4`;
                     if (isMember) {
                         const teamName = SELECTED_NFL_TEAMS[j]; 
                         const teamData = teamsDatabase[teamName];
+                        const abbr = teamData.abbr; // Get abbreviation for modal function
 
                         if (teamData) {
                             totalPoints += teamData.points;
                             
-                            // Display Team Abbreviation and Points
+                            // Make the team display clickable
                             cellContent = `
-                                <div class="flex flex-col items-center">
-                                    <span class="text-indigo-700 font-extrabold text-lg">${teamData.abbr}</span>
-                                    <span class="text-xs text-gray-600 font-bold mt-0.5">${teamData.points} Pts</span>
-                                </div>
+                                <button onclick="showTeamModal('${abbr}')" 
+                                        class="group focus:outline-none p-1 rounded-lg transition duration-150 hover:bg-indigo-100">
+                                    <div class="flex flex-col items-center">
+                                        <img src="${teamData.image}" 
+                                                alt="${teamData.team} logo" 
+                                                class="w-8 h-8 rounded-full object-cover mb-1 border border-gray-200 group-hover:shadow-md"
+                                                onerror="this.onerror=null; this.src='https://placehold.co/32x32/374151/ffffff?text=${teamData.abbr}';"
+                                        >
+                                        <span class="text-indigo-700 font-extrabold text-lg">${teamData.abbr}</span>
+                                        <span class="text-xs text-gray-600 font-bold mt-0.5">${teamData.points} Pts</span>
+                                    </div>
+                                </button>
                             `;
                         }
                     } 
@@ -388,43 +441,101 @@ Washington Commanders,WAS,Las Vegas Raiders,12,2-4`;
             }
             return fixtures; // Returns 16 unique fixtures
         }
-
-        function updatePickCountDisplay() {
-            pickCountDisplay.textContent = currentUserPicks.length;
-        }
-
-        function showPickLimitMessage() {
-            pickLimitMessage.classList.remove('hidden');
+        
+        function showNotification(message) {
+            notificationMessage.textContent = message;
+            notificationMessage.classList.remove('hidden');
             setTimeout(() => {
-                pickLimitMessage.classList.add('hidden');
+                notificationMessage.classList.add('hidden');
             }, 3000);
         }
 
         function handlePick(teamAbbr, buttonElement) {
+            const teamData = getTeamDataByAbbr(teamAbbr);
+            if (!teamData) return;
+
+            const cost = teamData.rating;
             const index = currentUserPicks.indexOf(teamAbbr);
 
             if (index > -1) {
                 // Unpick (already picked)
                 currentUserPicks.splice(index, 1);
+                budgetRemaining += cost; // Add cost back
+                
                 // Reset button style
                 buttonElement.classList.remove('bg-green-600', 'hover:bg-green-700', 'shadow-inner');
                 buttonElement.classList.add('bg-indigo-600', 'hover:bg-indigo-700');
                 buttonElement.innerHTML = 'Pick';
             } else {
                 // Attempt to pick
-                if (currentUserPicks.length < MAX_PICKS) {
-                    currentUserPicks.push(teamAbbr);
-                    // Update button style
-                    buttonElement.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
-                    buttonElement.classList.add('bg-green-600', 'hover:bg-green-700', 'shadow-inner');
-                    // Use Unicode checkmark
-                    buttonElement.innerHTML = 'Picked &nbsp;&#10003;';
-                } else {
-                    showPickLimitMessage();
-                    return; // Prevent state change if limit reached
+                if (currentUserPicks.length >= MAX_PICKS) {
+                    showNotification("Maximum 6 teams picked. Please unpick a team first.");
+                    return; 
+                } else if (budgetRemaining < cost) {
+                    showNotification(`Insufficient budget. This team costs ⭐${cost}, but you only have ⭐${budgetRemaining} remaining.`);
+                    return;
                 }
+                
+                currentUserPicks.push(teamAbbr);
+                budgetRemaining -= cost; // Deduct cost
+                
+                // Update button style
+                buttonElement.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
+                buttonElement.classList.add('bg-green-600', 'hover:bg-green-700', 'shadow-inner');
+                // Use Unicode checkmark
+                buttonElement.innerHTML = 'Picked &nbsp;&#10003;';
             }
-            updatePickCountDisplay();
+            
+            renderPickedTeamsBar(); // Update sticky bar on every pick/unpick
+        }
+        
+        function renderPickedTeamsBar() {
+            if (!pickedTeamsBar) return;
+
+            // 1. Get details for all picked teams
+            const pickedTeamDetails = currentUserPicks.map(abbr => getTeamDataByAbbr(abbr)).filter(detail => detail !== null);
+            
+            // 2. Build the image display area
+            const imageTiles = pickedTeamDetails.map(team => `
+                <div class="relative group" title="${team.team} (${team.rating} Stars)">
+                    <img src="${team.image}" 
+                         alt="${team.abbr} logo" 
+                         class="w-10 h-10 rounded-full object-cover border-2 border-white transition duration-200 group-hover:scale-105"
+                         onerror="this.onerror=null; this.src='https://placehold.co/40x40/f3f4f6/374151?text=${team.abbr}';"
+                    >
+                    <!-- Hover text for rating -->
+                    <span class="absolute top-0 right-0 text-xs font-bold text-yellow-300 bg-gray-800 px-1 py-0.5 rounded-full opacity-0 group-hover:opacity-100 transition duration-150 transform -translate-y-1/2 translate-x-1/2">
+                        ⭐${team.rating}
+                    </span>
+                </div>
+            `).join('');
+
+            // 3. Construct the full bar content
+            const barContent = `
+                <div class="flex items-center justify-between max-w-6xl mx-auto px-2 sm:px-4">
+                    
+                    <!-- Left Side: Picked Teams and Pick Count -->
+                    <div class="flex items-center space-x-4 w-2/3">
+                        <span class="text-sm font-semibold text-gray-400 hidden sm:inline flex-shrink-0">Picks (${currentUserPicks.length}/${MAX_PICKS}):</span>
+                        <div id="picked-images-container" class="flex space-x-2 overflow-x-auto py-1 w-full">
+                            ${imageTiles}
+                        </div>
+                    </div>
+
+                    <!-- Right Side: Budget and DONE Button -->
+                    <div class="flex items-center space-x-4 flex-shrink-0">
+                        <span class="text-base sm:text-lg font-bold">
+                            Budget: <span class="text-yellow-400">⭐${budgetRemaining}</span>
+                        </span>
+                        <button onclick="goToSummaryScreen()" 
+                                class="bg-green-600 text-white py-2 px-4 sm:px-6 rounded-lg font-bold hover:bg-green-700 transition duration-200 shadow-lg">
+                            DONE
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            pickedTeamsBar.innerHTML = barContent;
         }
 
         function createTeamTile(teamData, isHomeTeam) {
@@ -441,11 +552,18 @@ Washington Commanders,WAS,Las Vegas Raiders,12,2-4`;
                 ? 'Picked &nbsp;&#10003;' 
                 : 'Pick';
             
-            // Now using teamData.record instead of hardcoded '2-4'
+            // Added Star Rating and adjusted margin on record
             return `
-                <div class="w-full sm:flex-1 flex flex-col items-center p-4 rounded-xl shadow-lg transition duration-200 ${tileClasses}">
+                <div class="flex-1 flex flex-col items-center p-3 rounded-xl shadow-lg transition duration-200 ${tileClasses}">
+                    <!-- Added Team Image -->
+                    <img src="${teamData.image}" 
+                         alt="${teamData.team} logo" 
+                         class="w-16 h-16 rounded-full object-cover mb-2 border-2 border-gray-100"
+                         onerror="this.onerror=null; this.src='https://placehold.co/64x64/374151/ffffff?text=${abbr}';"
+                    >
                     <span class="text-2xl font-extrabold text-gray-800">${abbr}</span>
-                    <span class="text-xs text-gray-500 mb-3">${teamData.record}</span>
+                    <span class="text-sm font-semibold text-yellow-600">⭐${teamData.rating}</span>
+                    <span class="text-xs text-gray-500 mb-2">${teamData.record}</span>
                     <button onclick="handlePick('${abbr}', this)"
                             class="w-full text-white py-1.5 rounded-lg font-semibold transition duration-150 ${buttonClasses}">
                         ${buttonText}
@@ -459,22 +577,22 @@ Washington Commanders,WAS,Las Vegas Raiders,12,2-4`;
             let fixturesHtml = '';
 
             fixtures.forEach(fixture => {
-                // Fixture container is now full width
+                // Changed flex-col and sm:flex-row to flex-row immediately on mobile.
+                // Changed p-4 to p-3 and reduced space-x to 2.
                 fixturesHtml += `
-                    <div class="bg-white p-4 rounded-xl shadow-xl flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4 items-center justify-center border border-gray-200 w-full">
-                        <!-- Home Team Tile - sm:flex-1 handles equal sizing -->
+                    <div class="bg-white p-3 rounded-xl shadow-xl flex flex-row space-x-2 items-center justify-center border border-gray-200 w-full">
+                        <!-- Home Team Tile - flex-1 forces equal width on mobile/desktop -->
                         ${createTeamTile(fixture.home, true)}
 
-                        <span class="text-xl font-bold text-gray-700 mx-4">vs</span>
+                        <span class="text-xl font-bold text-gray-700 mx-2">vs</span>
                         
-                        <!-- Away Team Tile - sm:flex-1 handles equal sizing -->
+                        <!-- Away Team Tile - flex-1 forces equal width on mobile/desktop -->
                         ${createTeamTile(fixture.away, false)}
                     </div>
                 `;
             });
 
             fixturesContainer.innerHTML = fixturesHtml;
-            updatePickCountDisplay();
         }
         
         // --- 9. Summary Screen Rendering ---
@@ -496,23 +614,98 @@ Washington Commanders,WAS,Las Vegas Raiders,12,2-4`;
                 return;
             }
             
-            // MODIFIED: Removed the points span (was a second <span> inside the <li>)
+            // Renders team name with image asset, now including rating
             let listHtml = pickedTeamDetails.map(team => `
-                <li class="flex justify-start items-center py-3 px-4 bg-gray-100 rounded-lg shadow-sm border-l-4 border-indigo-500">
-                    <span class="text-xl font-semibold text-gray-800">${team.team} (${team.abbr})</span>
+                <li class="flex justify-between items-center space-x-4 py-3 px-4 bg-gray-100 rounded-lg shadow-sm">
+                    <div class="flex items-center space-x-4">
+                        <img src="${team.image}" 
+                             alt="${team.team} logo" 
+                             class="w-10 h-10 rounded-full object-cover border-2 border-white"
+                             onerror="this.onerror=null; this.src='https://placehold.co/40x40/374151/ffffff?text=${team.abbr}';"
+                        >
+                        <span class="text-xl font-semibold text-gray-800">${team.team}</span>
+                    </div>
+                    <!-- STAR RATING -->
+                    <span class="text-xl font-bold text-yellow-600">⭐${team.rating}</span>
                 </li>
             `).join('');
 
             summaryContainer.innerHTML = `
-                <p class="text-xl text-gray-600 mb-4 font-medium">You selected ${pickedTeamDetails.length} out of ${MAX_PICKS} teams:</p>
                 <ul class="space-y-3 max-w-sm mx-auto mb-4">
                     ${listHtml}
                 </ul>
             `;
         }
+        
+        // --- 10. Modal Functions (NEW) ---
+        
+        function showTeamModal(abbr) {
+            const teamData = getTeamDataByAbbr(abbr);
+            if (!teamData) return;
+
+            // --- Get Opponent Data ---
+            const opponentName = teamData.opponent;
+            const opponentData = teamsDatabase[opponentName];
+            
+            let opponentHtml = '';
+            if (opponentData) {
+                opponentHtml = `
+                    <div class="flex flex-col items-center">
+                        <img src="${opponentData.image}" 
+                             alt="${opponentData.team} logo" 
+                             class="w-12 h-12 rounded-full object-cover border-2 border-gray-200"
+                             onerror="this.onerror=null; this.src='https://placehold.co/48x48/d1d5db/374151?text=${opponentData.abbr}';"
+                        >
+                        <span class="text-sm font-medium text-gray-700 mt-1">${opponentData.team}</span>
+                    </div>
+                `;
+            }
 
 
-        // --- 10. Initialization & Event Handlers ---
+            // Populate Modal Content
+            modalContent.innerHTML = `
+                <h3 class="text-2xl font-extrabold text-indigo-700 pt-2 mb-4">${teamData.team}</h3>
+                
+                <!-- Team Image -->
+                <div class="mb-6 flex justify-center">
+                    <img src="${teamData.image}" 
+                         alt="${teamData.team} logo" 
+                         class="w-24 h-24 rounded-full object-cover border-4 border-gray-200 shadow-xl"
+                         onerror="this.onerror=null; this.src='https://placehold.co/96x96/374151/ffffff?text=${teamData.abbr}';"
+                    >
+                </div>
+                
+                <!-- Opponent Info -->
+                <div class="bg-gray-100 p-3 rounded-lg flex flex-col items-center mb-6 border border-gray-200">
+                    <label class="text-sm font-semibold text-gray-600 mb-2">Played Against:</label>
+                    ${opponentHtml}
+                </div>
+                
+                <!-- Total Points Field -->
+                <div class="bg-indigo-50 p-4 rounded-lg flex justify-between items-center border border-indigo-200">
+                    <label class="text-lg font-semibold text-gray-700">Total points:</label>
+                    <div class="text-2xl font-bold text-green-600">${teamData.points}</div>
+                </div>
+                
+                <!-- Other Data -->
+                <div class="pt-4 text-sm text-gray-500 font-medium">
+                    Record: <span class="text-gray-800 font-semibold">${teamData.record}</span>
+                    | Rating: <span class="text-yellow-600 font-semibold">⭐${teamData.rating}</span>
+                </div>
+            `;
+
+            // Display Modal
+            teamModal.classList.remove('hidden');
+            teamModal.classList.add('flex');
+        }
+
+        function closeTeamModal() {
+            teamModal.classList.add('hidden');
+            teamModal.classList.remove('flex');
+        }
+
+
+        // --- 11. Initialization & Event Handlers ---
 
         function displayError() {
             errorMessage.classList.remove('hidden');
