@@ -17,7 +17,7 @@
 </head>
 <body class="min-h-screen flex items-center justify-center p-2">
 
-    <!-- Team Details Modal (NEW) -->
+    <!-- Team Details Modal -->
     <div id="team-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
         <div class="bg-white p-6 rounded-xl shadow-2xl w-full max-w-sm relative transform transition-all duration-300 scale-100 opacity-100">
             <!-- Close Button -->
@@ -105,8 +105,8 @@
                 <!-- Fixtures will be rendered here by JavaScript -->
             </div>
             
-            <!-- STICKY BOTTOM BAR CONTAINER -->
-            <div id="picked-teams-bar" class="fixed bottom-0 left-0 right-0 bg-gray-900 text-white p-3 shadow-2xl z-10 border-t-4 border-indigo-600">
+            <!-- STICKY BOTTOM BAR CONTAINER (Reduced padding from p-3 to py-3 px-2) -->
+            <div id="picked-teams-bar" class="fixed bottom-0 left-0 right-0 bg-gray-900 text-white py-3 px-2 shadow-2xl z-10 border-t-4 border-indigo-600">
                 <!-- Content added via JS -->
             </div>
 
@@ -224,7 +224,7 @@ Washington Commanders,WAS,Las Vegas Raiders,12,2-4,https://stuartwakeford.com/im
         const notificationMessage = document.getElementById('notification-message'); 
         const summaryContainer = document.getElementById('summary-container');
         const pickedTeamsBar = document.getElementById('picked-teams-bar'); 
-        // Modal elements (NEW)
+        // Modal elements
         const teamModal = document.getElementById('team-modal');
         const modalContent = document.getElementById('modal-content');
 
@@ -497,7 +497,7 @@ Washington Commanders,WAS,Las Vegas Raiders,12,2-4,https://stuartwakeford.com/im
             
             // 2. Build the image display area
             const imageTiles = pickedTeamDetails.map(team => `
-                <div class="relative group" title="${team.team} (${team.rating} Stars)">
+                <div class="relative group flex-shrink-0" title="${team.team} (${team.rating} Stars)">
                     <img src="${team.image}" 
                          alt="${team.abbr} logo" 
                          class="w-10 h-10 rounded-full object-cover border-2 border-white transition duration-200 group-hover:scale-105"
@@ -510,25 +510,35 @@ Washington Commanders,WAS,Las Vegas Raiders,12,2-4,https://stuartwakeford.com/im
                 </div>
             `).join('');
 
-            // 3. Construct the full bar content
+            // 3. Construct the full bar content (Revised for space)
             const barContent = `
-                <div class="flex items-center justify-between max-w-6xl mx-auto px-2 sm:px-4">
+                <!-- Reduced horizontal padding from sm:px-4 to just px-2 -->
+                <div class="flex items-center justify-between max-w-6xl mx-auto px-2">
                     
-                    <!-- Left Side: Picked Teams and Pick Count -->
-                    <div class="flex items-center space-x-4 w-2/3">
-                        <span class="text-sm font-semibold text-gray-400 hidden sm:inline flex-shrink-0">Picks (${currentUserPicks.length}/${MAX_PICKS}):</span>
-                        <div id="picked-images-container" class="flex space-x-2 overflow-x-auto py-1 w-full">
+                    <!-- Left Side: Picked Teams (flex-1 ensures it takes max space) -->
+                    <div class="flex items-center space-x-2 flex-1 min-w-0"> 
+                        <div id="picked-images-container" class="flex space-x-2 overflow-x-auto py-1 w-full flex-1">
                             ${imageTiles}
+                            <!-- Placeholder to ensure minimum of 6 spots are visible -->
+                            ${[...Array(MAX_PICKS - pickedTeamDetails.length)].map((_, i) => `
+                                <div key=${i} class="w-10 h-10 rounded-full border-2 border-gray-700 bg-gray-800 flex items-center justify-center text-gray-500 text-xs font-semibold flex-shrink-0">
+                                    ${i + pickedTeamDetails.length + 1}
+                                </div>
+                            `).join('')}
                         </div>
                     </div>
 
-                    <!-- Right Side: Budget and DONE Button -->
-                    <div class="flex items-center space-x-4 flex-shrink-0">
-                        <span class="text-base sm:text-lg font-bold">
-                            Budget: <span class="text-yellow-400">⭐${budgetRemaining}</span>
-                        </span>
+                    <!-- Right Side: Budget and DONE Button (flex-shrink-0 prevents squashing) -->
+                    <div class="flex items-center space-x-3 flex-shrink-0 ml-3"> 
+                        <!-- STACKED BUDGET DISPLAY (Budget text is small and above the value) -->
+                        <div class="flex flex-col items-center">
+                            <span class="text-xs font-medium text-gray-400 -mb-0.5">BUDGET</span>
+                            <span class="text-lg font-bold text-yellow-400 leading-tight">⭐${budgetRemaining}</span>
+                        </div>
+                        
+                        <!-- Reduced padding on DONE button (px-3 vs original px-4/px-6) -->
                         <button onclick="goToSummaryScreen()" 
-                                class="bg-green-600 text-white py-2 px-4 sm:px-6 rounded-lg font-bold hover:bg-green-700 transition duration-200 shadow-lg">
+                                class="bg-green-600 text-white py-2 px-3 rounded-lg font-bold text-sm hover:bg-green-700 transition duration-200 shadow-lg">
                             DONE
                         </button>
                     </div>
@@ -637,7 +647,7 @@ Washington Commanders,WAS,Las Vegas Raiders,12,2-4,https://stuartwakeford.com/im
             `;
         }
         
-        // --- 10. Modal Functions (NEW) ---
+        // --- 10. Modal Functions ---
         
         function showTeamModal(abbr) {
             const teamData = getTeamDataByAbbr(abbr);
