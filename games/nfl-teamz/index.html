@@ -13,12 +13,28 @@
             font-family: 'Inter', sans-serif;
             background-color: #f3f4f6;
         }
+        /* Custom scrollbar for better aesthetics on modals */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1; /* Slate-300 */
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; /* Slate-400 */
+        }
     </style>
 </head>
 <body class="min-h-screen flex items-center justify-center p-2">
 
     <!-- Team Details Modal -->
-    <div id="team-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50">
+    <div id="team-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4 z-50 transition-opacity duration-300"
+        onclick="if(event.target.id === 'team-modal') closeTeamModal()">
         <div class="bg-white p-6 rounded-xl shadow-2xl w-full max-w-sm relative transform transition-all duration-300 scale-100 opacity-100">
             <!-- Close Button -->
             <button onclick="closeTeamModal()" class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 transition focus:outline-none">
@@ -26,7 +42,7 @@
             </button>
 
             <!-- Modal Content -->
-            <div id="modal-content" class="text-center space-y-4">
+            <div id="modal-content" class="text-center space-y-4 pt-4 custom-scrollbar max-h-[80vh] overflow-y-auto">
                 <!-- Content will be populated by JS -->
             </div>
         </div>
@@ -152,41 +168,42 @@ Rich,rich@email.com,1234,true,true,true,true,true,true
 Fernando,fernando@email.com,1234,true,true,true,true,true,true`;
 
         // --- 2. Simulated Teams Database (CSV) ---
-        // Headers: team,abbr,opponent,points,record,image,rating (32 NFL teams with guaranteed reciprocal pairings)
+        // Headers: team,abbr,opponent,points,record,image,rating,details
+        // DETAILS format: Outcome=X;Touchdowns=Y;...
         const TEAMS_CSV_DATA = 
-            `team,abbr,opponent,points,record,image,rating
-Arizona Cardinals,ARI,Los Angeles Rams,18,2-4,https://stuartwakeford.com/images/sw-b+w.png,2
-Atlanta Falcons,ATL,Houston Texans,25,2-4,https://stuartwakeford.com/images/sw-b+w.png,3
-Baltimore Ravens,BAL,Kansas City Chiefs,31,2-4,https://stuartwakeford.com/images/sw-b+w.png,4
-Buffalo Bills,BUF,Miami Dolphins,22,2-4,https://stuartwakeford.com/images/sw-b+w.png,4
-Carolina Panthers,CAR,Tampa Bay Buccaneers,10,2-4,https://stuartwakeford.com/images/sw-b+w.png,1
-Chicago Bears,CHI,Minnesota Vikings,15,2-4,https://stuartwakeford.com/images/sw-b+w.png,2
-Cincinnati Bengals,CIN,Cleveland Browns,24,2-4,https://stuartwakeford.com/images/SW-badge.svg,3
-Cleveland Browns,CLE,Cincinnati Bengals,12,2-4,https://stuartwakeford.com/images/SW-badge.svg,2
-Dallas Cowboys,DAL,Philadelphia Eagles,30,2-4,https://stuartwakeford.com/images/sw-b+w.png,5
-Denver Broncos,DEN,New York Jets,16,2-4,https://stuartwakeford.com/images/sw-b+w.png,2
-Detroit Lions,DET,Green Bay Packers,28,2-4,https://stuartwakeford.com/images/sw-b+w.png,4
-Green Bay Packers,GB,Detroit Lions,20,2-4,https://stuartwakeford.com/images/sw-b+w.png,3
-Houston Texans,HOU,Atlanta Falcons,27,2-4,https://stuartwakeford.com/images/sw-b+w.png,3
-Indianapolis Colts,IND,Jacksonville Jaguars,19,2-4,https://stuartwakeford.com/images/sw-b+w.png,3
-Jacksonville Jaguars,JAX,Indianapolis Colts,21,2-4,https://stuartwakeford.com/images/sw-b+w.png,4
-Kansas City Chiefs,KC,Baltimore Ravens,35,2-4,https://stuartwakeford.com/images/sw-b+w.png,5
-Las Vegas Raiders,LV,Washington Commanders,14,2-4,https://stuartwakeford.com/images/sw-b+w.png,2
-Los Angeles Chargers,LAC,New England Patriots,23,2-4,https://stuartwakeford.com/images/sw-b+w.png,3
-Los Angeles Rams,LAR,Arizona Cardinals,29,2-4,https://stuartwakeford.com/images/sw-b+w.png,4
-Miami Dolphins,MIA,Buffalo Bills,33,2-4,https://stuartwakeford.com/images/sw-b+w.png,5
-Minnesota Vikings,MIN,Chicago Bears,17,2-4,https://stuartwakeford.com/images/sw-b+w.png,2
-New England Patriots,NE,Los Angeles Chargers,13,2-4,https://stuartwakeford.com/images/sw-b+w.png,1
-New Orleans Saints,NO,Pittsburgh Steelers,26,2-4,https://stuartwakeford.com/images/sw-b+w.png,3
-New York Giants,NYG,San Francisco 49ers,11,2-4,https://stuartwakeford.com/images/sw-b+w.png,1
-New York Jets,NYJ,Denver Broncos,10,2-4,https://stuartwakeford.com/images/sw-b+w.png,1
-Philadelphia Eagles,PHI,Dallas Cowboys,34,2-4,https://stuartwakeford.com/images/sw-b+w.png,5
-Pittsburgh Steelers,PIT,New Orleans Saints,18,2-4,https://stuartwakeford.com/images/sw-b+w.png,2
-San Francisco 49ers,SF,New York Giants,32,2-4,https://stuartwakeford.com/images/sw-b+w.png,5
-Seattle Seahawks,SEA,Tennessee Titans,25,2-4,https://stuartwakeford.com/images/sw-b+w.png,3
-Tampa Bay Buccaneers,TB,Carolina Panthers,19,2-4,https://stuartwakeford.com/images/sw-b+w.png,3
-Tennessee Titans,TEN,Seattle Seahawks,15,2-4,https://stuartwakeford.com/images/sw-b+w.png,2
-Washington Commanders,WAS,Las Vegas Raiders,12,2-4,https://stuartwakeford.com/images/sw-b+w.png,1`;
+            `team,abbr,opponent,points,record,image,rating,details
+Arizona Cardinals,ARI,Los Angeles Rams,18,2-4,https://stuartwakeford.com/images/sw-b+w.png,2,Outcome=win;Touchdowns=3;Receiving=323 yards;Rushing=110 yards;Turnovers=1;Touchdowns conceded=2;FGs over 45y=1
+Atlanta Falcons,ATL,Houston Texans,25,2-4,https://stuartwakeford.com/images/sw-b+w.png,3,Outcome=loss;Touchdowns=2;Receiving=288 yards;Rushing=134 yards;Turnovers=2;Touchdowns conceded=3;FGs over 45y=0
+Baltimore Ravens,BAL,Kansas City Chiefs,31,2-4,https://stuartwakeford.com/images/sw-b+w.png,4,Outcome=win;Touchdowns=5;Receiving=350 yards;Rushing=150 yards;Turnovers=0;Touchdowns conceded=4;FGs over 45y=2
+Buffalo Bills,BUF,Miami Dolphins,22,2-4,https://stuartwakeford.com/images/sw-b+w.png,4,Outcome=tie;Touchdowns=3;Receiving=305 yards;Rushing=100 yards;Turnovers=1;Touchdowns conceded=3;FGs over 45y=1
+Carolina Panthers,CAR,Tampa Bay Buccaneers,10,2-4,https://stuartwakeford.com/images/sw-b+w.png,1,Outcome=loss;Touchdowns=1;Receiving=200 yards;Rushing=80 yards;Turnovers=3;Touchdowns conceded=5;FGs over 45y=0
+Chicago Bears,CHI,Minnesota Vikings,15,2-4,https://stuartwakeford.com/images/sw-b+w.png,2,Outcome=win;Touchdowns=4;Receiving=260 yards;Rushing=120 yards;Turnovers=1;Touchdowns conceded=3;FGs over 45y=1
+Cincinnati Bengals,CIN,Cleveland Browns,24,2-4,https://stuartwakeford.com/images/SW-badge.svg,3,Outcome=win;Touchdowns=4;Receiving=330 yards;Rushing=95 yards;Turnovers=0;Touchdowns conceded=3;FGs over 45y=2
+Cleveland Browns,CLE,Cincinnati Bengals,12,2-4,https://stuartwakeford.com/images/SW-badge.svg,2,Outcome=win;Touchdowns=2;Receiving=210 yards;Rushing=145 yards;Turnovers=1;Touchdowns conceded=1;FGs over 45y=1
+Dallas Cowboys,DAL,Philadelphia Eagles,30,2-4,https://stuartwakeford.com/images/sw-b+w.png,5,Outcome=win;Touchdowns=5;Receiving=400 yards;Rushing=160 yards;Turnovers=0;Touchdowns conceded=1;FGs over 45y=1
+Denver Broncos,DEN,New York Jets,16,2-4,https://stuartwakeford.com/images/sw-b+w.png,2,Outcome=loss;Touchdowns=1;Receiving=180 yards;Rushing=75 yards;Turnovers=2;Touchdowns conceded=3;FGs over 45y=0
+Detroit Lions,DET,Green Bay Packers,28,2-4,https://stuartwakeford.com/images/sw-b+w.png,4,Outcome=win;Touchdowns=3;Receiving=315 yards;Rushing=130 yards;Turnovers=1;Touchdowns conceded=3;FGs over 45y=1
+Green Bay Packers,GB,Detroit Lions,20,2-4,https://stuartwakeford.com/images/sw-b+w.png,3,Outcome=loss;Touchdowns=3;Receiving=290 yards;Rushing=115 yards;Turnovers=2;Touchdowns conceded=4;FGs over 45y=0
+Houston Texans,HOU,Atlanta Falcons,27,2-4,https://stuartwakeford.com/images/sw-b+w.png,3,Outcome=win;Touchdowns=4;Receiving=340 yards;Rushing=105 yards;Turnovers=1;Touchdowns conceded=3;FGs over 45y=1
+Indianapolis Colts,IND,Jacksonville Jaguars,19,2-4,https://stuartwakeford.com/images/sw-b+w.png,3,Outcome=tie;Touchdowns=3;Receiving=250 yards;Rushing=140 yards;Turnovers=1;Touchdowns conceded=3;FGs over 45y=2
+Jacksonville Jaguars,JAX,Indianapolis Colts,21,2-4,https://stuartwakeford.com/images/sw-b+w.png,4,Outcome=loss;Touchdowns=2;Receiving=275 yards;Rushing=85 yards;Turnovers=3;Touchdowns conceded=3;FGs over 45y=0
+Kansas City Chiefs,KC,Baltimore Ravens,35,2-4,https://stuartwakeford.com/images/sw-b+w.png,5,Outcome=win;Touchdowns=5;Receiving=380 yards;Rushing=170 yards;Turnovers=0;Touchdowns conceded=2;FGs over 45y=1
+Las Vegas Raiders,LV,Washington Commanders,14,2-4,https://stuartwakeford.com/images/sw-b+w.png,2,Outcome=win;Touchdowns=2;Receiving=245 yards;Rushing=125 yards;Turnovers=1;Touchdowns conceded=1;FGs over 45y=2
+Los Angeles Chargers,LAC,New England Patriots,23,2-4,https://stuartwakeford.com/images/sw-b+w.png,3,Outcome=loss;Touchdowns=2;Receiving=310 yards;Rushing=90 yards;Turnovers=2;Touchdowns conceded=3;FGs over 45y=1
+Los Angeles Rams,LAR,Arizona Cardinals,29,2-4,https://stuartwakeford.com/images/sw-b+w.png,4,Outcome=win;Touchdowns=3;Receiving=300 yards;Rushing=115 yards;Turnovers=1;Touchdowns conceded=3;FGs over 45y=1
+Miami Dolphins,MIA,Buffalo Bills,33,2-4,https://stuartwakeford.com/images/sw-b+w.png,5,Outcome=win;Touchdowns=6;Receiving=450 yards;Rushing=180 yards;Turnovers=0;Touchdowns conceded=2;FGs over 45y=0
+Minnesota Vikings,MIN,Chicago Bears,17,2-4,https://stuartwakeford.com/images/sw-b+w.png,2,Outcome=tie;Touchdowns=3;Receiving=290 yards;Rushing=100 yards;Turnovers=1;Touchdowns conceded=3;FGs over 45y=1
+New England Patriots,NE,Los Angeles Chargers,13,2-4,https://stuartwakeford.com/images/sw-b+w.png,1,Outcome=loss;Touchdowns=1;Receiving=150 yards;Rushing=60 yards;Turnovers=3;Touchdowns conceded=4;FGs over 45y=0
+New Orleans Saints,NO,Pittsburgh Steelers,26,2-4,https://stuartwakeford.com/images/sw-b+w.png,3,Outcome=win;Touchdowns=3;Receiving=280 yards;Rushing=105 yards;Turnovers=1;Touchdowns conceded=2;FGs over 45y=1
+New York Giants,NYG,San Francisco 49ers,11,2-4,https://stuartwakeford.com/images/sw-b+w.png,1,Outcome=loss;Touchdowns=2;Receiving=220 yards;Rushing=70 yards;Turnovers=3;Touchdowns conceded=4;FGs over 45y=0
+New York Jets,NYJ,Denver Broncos,10,2-4,https://stuartwakeford.com/images/sw-b+w.png,1,Outcome=loss;Touchdowns=1;Receiving=205 yards;Rushing=95 yards;Turnovers=2;Touchdowns conceded=2;FGs over 45y=1
+Philadelphia Eagles,PHI,Dallas Cowboys,34,2-4,https://stuartwakeford.com/images/sw-b+w.png,5,Outcome=win;Touchdowns=4;Receiving=370 yards;Rushing=155 yards;Turnovers=0;Touchdowns conceded=4;FGs over 45y=1
+Pittsburgh Steelers,PIT,New Orleans Saints,18,2-4,https://stuartwakeford.com/images/sw-b+w.png,2,Outcome=win;Touchdowns=3;Receiving=255 yards;Rushing=135 yards;Turnovers=1;Touchdowns conceded=1;FGs over 45y=2
+San Francisco 49ers,SF,New York Giants,32,2-4,https://stuartwakeford.com/images/sw-b+w.png,5,Outcome=win;Touchdowns=4;Receiving=360 yards;Rushing=140 yards;Turnovers=0;Touchdowns conceded=2;FGs over 45y=1
+Seattle Seahawks,SEA,Tennessee Titans,25,2-4,https://stuartwakeford.com/images/sw-b+w.png,3,Outcome=win;Touchdowns=3;Receiving=270 yards;Rushing=120 yards;Turnovers=1;Touchdowns conceded=2;FGs over 45y=1
+Tampa Bay Buccaneers,TB,Carolina Panthers,19,2-4,https://stuartwakeford.com/images/sw-b+w.png,3,Outcome=loss;Touchdowns=2;Receiving=295 yards;Rushing=80 yards;Turnovers=2;Touchdowns conceded=3;FGs over 45y=1
+Tennessee Titans,TEN,Seattle Seahawks,15,2-4,https://stuartwakeford.com/images/sw-b+w.png,2,Outcome=loss;Touchdowns=2;Receiving=230 yards;Rushing=90 yards;Turnovers=2;Touchdowns conceded=2;FGs over 45y=0
+Washington Commanders,WAS,Las Vegas Raiders,12,2-4,https://stuartwakeford.com/images/sw-b+w.png,1,Outcome=loss;Touchdowns=3;Receiving=310 yards;Rushing=95 yards;Turnovers=3;Touchdowns conceded=5;FGs over 45y=0`;
 
 
         // --- 3. Configuration & State ---
@@ -266,6 +283,7 @@ Washington Commanders,WAS,Las Vegas Raiders,12,2-4,https://stuartwakeford.com/im
                 if (item.rating) {
                     item.rating = parseInt(item.rating, 10);
                 }
+                // The new 'details' field is already a string and remains so.
                 if (item[keyField]) {
                     map[item[keyField]] = item;
                 }
@@ -281,6 +299,25 @@ Washington Commanders,WAS,Las Vegas Raiders,12,2-4,https://stuartwakeford.com/im
             }
             return null;
         }
+        
+        /**
+         * Parses the match breakdown string into a usable object.
+         * @param {string} matchDetailsString - The semicolon-separated string of match details.
+         * @returns {Object} An object mapping stat keys to values.
+         */
+        function parseMatchDetails(matchDetailsString) {
+            const breakdown = {};
+            if (!matchDetailsString) return breakdown;
+
+            matchDetailsString.split(';').forEach(item => {
+                const [key, value] = item.split('=');
+                if (key && value) {
+                    breakdown[key.trim()] = value.trim();
+                }
+            });
+            return breakdown;
+        }
+
 
         // --- 6. Screen Transition Functions ---
         
@@ -647,13 +684,13 @@ Washington Commanders,WAS,Las Vegas Raiders,12,2-4,https://stuartwakeford.com/im
             `;
         }
         
-        // --- 10. Modal Functions ---
+        // --- 10. Modal Functions (Updated to include Match Breakdown Table) ---
         
         function showTeamModal(abbr) {
             const teamData = getTeamDataByAbbr(abbr);
             if (!teamData) return;
 
-            // --- Get Opponent Data ---
+            // --- 1. Get Opponent Data ---
             const opponentName = teamData.opponent;
             const opponentData = teamsDatabase[opponentName];
             
@@ -670,11 +707,43 @@ Washington Commanders,WAS,Las Vegas Raiders,12,2-4,https://stuartwakeford.com/im
                     </div>
                 `;
             }
+            
+            // --- 2. Parse Match Breakdown Data ---
+            const breakdown = parseMatchDetails(teamData.details);
+
+            const breakdownDataLabels = [
+                { label: 'Outcome', key: 'Outcome' },
+                { label: 'Touchdowns', key: 'Touchdowns' },
+                { label: 'Receiving', key: 'Receiving' },
+                { label: 'Rushing', key: 'Rushing' },
+                { label: 'Turnovers', key: 'Turnovers' },
+                { label: 'Touchdowns conceded', key: 'Touchdowns conceded' },
+                { label: 'FGs over 45y', key: 'FGs over 45y' },
+            ];
+            
+            // --- 3. Generate Match Breakdown Table HTML ---
+            const breakdownTableHTML = `
+                <div class="mt-8 pt-4 border-t border-gray-200">
+                    <h3 class="text-lg font-bold text-gray-800 mb-3 text-left">Match Breakdown</h3>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200 shadow-md rounded-lg overflow-hidden border border-gray-100">
+                            <tbody class="bg-white divide-y divide-gray-100 text-left">
+                                ${breakdownDataLabels.map(item => `
+                                    <tr class="hover:bg-indigo-50 transition duration-100">
+                                        <td class="px-4 py-2.5 whitespace-nowrap text-sm font-medium text-gray-700">${item.label}</td>
+                                        <td class="px-4 py-2.5 whitespace-nowrap text-sm text-gray-900 font-semibold">${breakdown[item.key] || 'N/A'}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
 
 
-            // Populate Modal Content
+            // --- 4. Populate Modal Content ---
             modalContent.innerHTML = `
-                <h3 class="text-2xl font-extrabold text-indigo-700 pt-2 mb-4">${teamData.team}</h3>
+                <h3 class="text-2xl font-extrabold text-indigo-700 pt-2 mb-4">${teamData.team} (${teamData.abbr})</h3>
                 
                 <!-- Team Image -->
                 <div class="mb-6 flex justify-center">
@@ -692,13 +761,15 @@ Washington Commanders,WAS,Las Vegas Raiders,12,2-4,https://stuartwakeford.com/im
                 </div>
                 
                 <!-- Total Points Field -->
-                <div class="bg-indigo-50 p-4 rounded-lg flex justify-between items-center border border-indigo-200">
+                <div class="bg-indigo-50 p-4 rounded-lg flex justify-between items-center border border-indigo-200 shadow-md">
                     <label class="text-lg font-semibold text-gray-700">Total points:</label>
                     <div class="text-2xl font-bold text-green-600">${teamData.points}</div>
                 </div>
                 
+                ${breakdownTableHTML} <!-- INJECTED NEW TABLE HERE -->
+                
                 <!-- Other Data -->
-                <div class="pt-4 text-sm text-gray-500 font-medium">
+                <div class="pt-6 text-sm text-gray-500 font-medium border-t mt-8">
                     Record: <span class="text-gray-800 font-semibold">${teamData.record}</span>
                     | Rating: <span class="text-yellow-600 font-semibold">⭐${teamData.rating}</span>
                 </div>
