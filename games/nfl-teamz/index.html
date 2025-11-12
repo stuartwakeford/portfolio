@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Account System</title>
+    <title>NFL Teamz Dashboard</title>
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Use Inter font -->
@@ -52,42 +52,7 @@
     <!-- Main Container -->
     <div id="app-container" class="w-full max-w-6xl">
 
-        <!-- Login Screen (State 1) -->
-        <div id="login-screen" class="max-w-sm mx-auto bg-white p-8 rounded-xl shadow-2xl transition-opacity duration-500">
-            <h1 class="text-3xl font-extrabold text-indigo-700 mb-6 text-center">User Login</h1>
-            
-            <form id="login-form">
-                
-                <!-- Email Input -->
-                <div class="mb-5">
-                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-                    <input type="email" id="email" 
-                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150"
-                           placeholder="Enter email..." required>
-                </div>
-
-                <!-- Password Input -->
-                <div class="mb-6">
-                    <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                    <input type="password" id="password" 
-                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 transition duration-150"
-                           placeholder="Enter password..." required>
-                </div>
-
-                <!-- Error Message Display -->
-                <div id="error-message" class="text-red-600 bg-red-100 p-3 rounded-lg mb-4 hidden transition duration-300 text-sm font-semibold">
-                    user details incorrect
-                </div>
-
-                <!-- Login Button -->
-                <button type="submit" id="login-button"
-                        class="w-full bg-indigo-600 text-white py-2.5 rounded-lg font-semibold hover:bg-indigo-700 transition duration-200 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    Login
-                </button>
-            </form>
-        </div>
-
-        <!-- Dashboard Screen (State 2) -->
+        <!-- Dashboard Screen (State 1 - Now Default) -->
         <div id="logged-in-screen" class="hidden bg-white p-8 rounded-xl shadow-2xl text-center transition-opacity duration-500">
             <h2 class="text-3xl font-extrabold text-indigo-700 mb-6">NFL Teamz Week 6</h2>
             
@@ -100,13 +65,9 @@
             <div id="user-table-container">
                 <!-- Table will be rendered here by JavaScript -->
             </div>
-            <button onclick="window.location.reload()" 
-                    class="mt-8 bg-gray-500 text-white py-2 px-6 rounded-lg font-semibold hover:bg-gray-600 transition duration-200 shadow-md">
-                Logout
-            </button>
         </div>
 
-        <!-- Pick Teams Screen (State 3) -->
+        <!-- Pick Teams Screen (State 2) -->
         <div id="pick-teams-screen" class="hidden bg-white p-4 rounded-xl shadow-2xl text-center transition-opacity duration-500">
             <!-- Header Text -->
             <h2 class="text-3xl font-extrabold text-indigo-700 mb-4">Pick your 6 teams</h2>
@@ -121,14 +82,14 @@
                 <!-- Fixtures will be rendered here by JavaScript -->
             </div>
             
-            <!-- STICKY BOTTOM BAR CONTAINER (Reduced padding from p-3 to py-3 px-2) -->
+            <!-- STICKY BOTTOM BAR CONTAINER -->
             <div id="picked-teams-bar" class="fixed bottom-0 left-0 right-0 bg-gray-900 text-white py-3 px-2 shadow-2xl z-10 border-t-4 border-indigo-600">
                 <!-- Content added via JS -->
             </div>
 
         </div>
         
-        <!-- Summary Screen (State 4) -->
+        <!-- Summary Screen (State 3) -->
         <div id="summary-screen" class="hidden bg-white p-8 rounded-xl shadow-2xl text-center transition-opacity duration-500">
             <h2 class="text-3xl font-extrabold text-indigo-700 mb-4">Your picks</h2>
             
@@ -147,7 +108,7 @@
                 </button>
                 <button onclick="window.location.reload()" 
                         class="bg-gray-500 text-white py-2 px-6 rounded-lg font-semibold hover:bg-gray-600 transition duration-200 shadow-md">
-                    Logout
+                    Reset Picks
                 </button>
             </div>
         </div>
@@ -155,55 +116,54 @@
     </div>
 
     <script>
-        // --- 1. Simulated User Database (CSV) ---
-        // Headers: name,email,password,Teamz1,Teamz2,Teamz3,Teamz4,Teamz5,Teamz6
+        // --- 1. User Database (CSV) - Simplified to just Name and Picks ---
+        // Headers: name,Teamz1,Teamz2,Teamz3,Teamz4,Teamz5,Teamz6
         const CSV_DATA = 
-            `name,email,password,Teamz1,Teamz2,Teamz3,Teamz4,Teamz5,Teamz6
-Stu,stu@email.com,1234,true,true,true,true,true,true
-Admin,admin@example.com,password123,true,true,true,true,true,true
-Tester,tester@test.com,test,true,true,true,true,true,true
-Dave,dave@email.com,1234,true,true,true,true,true,true
-Kat,kat@email.com,1234,true,true,true,true,true,true
-Rich,rich@email.com,1234,true,true,true,true,true,true
-Fernando,fernando@email.com,1234,true,true,true,true,true,true`;
+            `name,Teamz1,Teamz2,Teamz3,Teamz4,Teamz5,Teamz6
+Stu,true,true,true,true,true,true
+Admin,true,true,true,true,true,true
+Tester,true,true,true,true,true,true
+Dave,true,true,true,true,true,true
+Kat,true,true,true,true,true,true
+Rich,true,true,true,true,true,true
+Fernando,true,true,true,true,true,true`;
 
         // --- 2. Simulated Teams Database (CSV) ---
+        // Dallas (5.5) and Miami (4.5) updated for decimal testing
         // Headers: team,abbr,opponent,points,record,image,rating,details
         // DETAILS format: Outcome=X;Touchdowns=Y;...
         const TEAMS_CSV_DATA = 
             `team,abbr,opponent,points,record,image,rating,details
-Arizona Cardinals,ARI,Los Angeles Rams,18,2-4,https://stuartwakeford.com/images/sw-b+w.png,2,Outcome=win;Touchdowns=3;Receiving=323 yards;Rushing=110 yards;Turnovers=1;Touchdowns conceded=2;FGs over 45y=1
-Atlanta Falcons,ATL,Houston Texans,25,2-4,https://stuartwakeford.com/images/sw-b+w.png,3,Outcome=loss;Touchdowns=2;Receiving=288 yards;Rushing=134 yards;Turnovers=2;Touchdowns conceded=3;FGs over 45y=0
-Baltimore Ravens,BAL,Kansas City Chiefs,31,2-4,https://stuartwakeford.com/images/sw-b+w.png,4,Outcome=win;Touchdowns=5;Receiving=350 yards;Rushing=150 yards;Turnovers=0;Touchdowns conceded=4;FGs over 45y=2
-Buffalo Bills,BUF,Miami Dolphins,22,2-4,https://stuartwakeford.com/images/sw-b+w.png,4,Outcome=tie;Touchdowns=3;Receiving=305 yards;Rushing=100 yards;Turnovers=1;Touchdowns conceded=3;FGs over 45y=1
-Carolina Panthers,CAR,Tampa Bay Buccaneers,10,2-4,https://stuartwakeford.com/images/sw-b+w.png,1,Outcome=loss;Touchdowns=1;Receiving=200 yards;Rushing=80 yards;Turnovers=3;Touchdowns conceded=5;FGs over 45y=0
-Chicago Bears,CHI,Minnesota Vikings,15,2-4,https://stuartwakeford.com/images/sw-b+w.png,2,Outcome=win;Touchdowns=4;Receiving=260 yards;Rushing=120 yards;Turnovers=1;Touchdowns conceded=3;FGs over 45y=1
-Cincinnati Bengals,CIN,Cleveland Browns,24,2-4,https://stuartwakeford.com/images/SW-badge.svg,3,Outcome=win;Touchdowns=4;Receiving=330 yards;Rushing=95 yards;Turnovers=0;Touchdowns conceded=3;FGs over 45y=2
-Cleveland Browns,CLE,Cincinnati Bengals,12,2-4,https://stuartwakeford.com/images/SW-badge.svg,2,Outcome=win;Touchdowns=2;Receiving=210 yards;Rushing=145 yards;Turnovers=1;Touchdowns conceded=1;FGs over 45y=1
-Dallas Cowboys,DAL,Philadelphia Eagles,30,2-4,https://stuartwakeford.com/images/sw-b+w.png,5,Outcome=win;Touchdowns=5;Receiving=400 yards;Rushing=160 yards;Turnovers=0;Touchdowns conceded=1;FGs over 45y=1
-Denver Broncos,DEN,New York Jets,16,2-4,https://stuartwakeford.com/images/sw-b+w.png,2,Outcome=loss;Touchdowns=1;Receiving=180 yards;Rushing=75 yards;Turnovers=2;Touchdowns conceded=3;FGs over 45y=0
-Detroit Lions,DET,Green Bay Packers,28,2-4,https://stuartwakeford.com/images/sw-b+w.png,4,Outcome=win;Touchdowns=3;Receiving=315 yards;Rushing=130 yards;Turnovers=1;Touchdowns conceded=3;FGs over 45y=1
-Green Bay Packers,GB,Detroit Lions,20,2-4,https://stuartwakeford.com/images/sw-b+w.png,3,Outcome=loss;Touchdowns=3;Receiving=290 yards;Rushing=115 yards;Turnovers=2;Touchdowns conceded=4;FGs over 45y=0
-Houston Texans,HOU,Atlanta Falcons,27,2-4,https://stuartwakeford.com/images/sw-b+w.png,3,Outcome=win;Touchdowns=4;Receiving=340 yards;Rushing=105 yards;Turnovers=1;Touchdowns conceded=3;FGs over 45y=1
-Indianapolis Colts,IND,Jacksonville Jaguars,19,2-4,https://stuartwakeford.com/images/sw-b+w.png,3,Outcome=tie;Touchdowns=3;Receiving=250 yards;Rushing=140 yards;Turnovers=1;Touchdowns conceded=3;FGs over 45y=2
-Jacksonville Jaguars,JAX,Indianapolis Colts,21,2-4,https://stuartwakeford.com/images/sw-b+w.png,4,Outcome=loss;Touchdowns=2;Receiving=275 yards;Rushing=85 yards;Turnovers=3;Touchdowns conceded=3;FGs over 45y=0
-Kansas City Chiefs,KC,Baltimore Ravens,35,2-4,https://stuartwakeford.com/images/sw-b+w.png,5,Outcome=win;Touchdowns=5;Receiving=380 yards;Rushing=170 yards;Turnovers=0;Touchdowns conceded=2;FGs over 45y=1
-Las Vegas Raiders,LV,Washington Commanders,14,2-4,https://stuartwakeford.com/images/sw-b+w.png,2,Outcome=win;Touchdowns=2;Receiving=245 yards;Rushing=125 yards;Turnovers=1;Touchdowns conceded=1;FGs over 45y=2
-Los Angeles Chargers,LAC,New England Patriots,23,2-4,https://stuartwakeford.com/images/sw-b+w.png,3,Outcome=loss;Touchdowns=2;Receiving=310 yards;Rushing=90 yards;Turnovers=2;Touchdowns conceded=3;FGs over 45y=1
-Los Angeles Rams,LAR,Arizona Cardinals,29,2-4,https://stuartwakeford.com/images/sw-b+w.png,4,Outcome=win;Touchdowns=3;Receiving=300 yards;Rushing=115 yards;Turnovers=1;Touchdowns conceded=3;FGs over 45y=1
-Miami Dolphins,MIA,Buffalo Bills,33,2-4,https://stuartwakeford.com/images/sw-b+w.png,5,Outcome=win;Touchdowns=6;Receiving=450 yards;Rushing=180 yards;Turnovers=0;Touchdowns conceded=2;FGs over 45y=0
-Minnesota Vikings,MIN,Chicago Bears,17,2-4,https://stuartwakeford.com/images/sw-b+w.png,2,Outcome=tie;Touchdowns=3;Receiving=290 yards;Rushing=100 yards;Turnovers=1;Touchdowns conceded=3;FGs over 45y=1
-New England Patriots,NE,Los Angeles Chargers,13,2-4,https://stuartwakeford.com/images/sw-b+w.png,1,Outcome=loss;Touchdowns=1;Receiving=150 yards;Rushing=60 yards;Turnovers=3;Touchdowns conceded=4;FGs over 45y=0
-New Orleans Saints,NO,Pittsburgh Steelers,26,2-4,https://stuartwakeford.com/images/sw-b+w.png,3,Outcome=win;Touchdowns=3;Receiving=280 yards;Rushing=105 yards;Turnovers=1;Touchdowns conceded=2;FGs over 45y=1
-New York Giants,NYG,San Francisco 49ers,11,2-4,https://stuartwakeford.com/images/sw-b+w.png,1,Outcome=loss;Touchdowns=2;Receiving=220 yards;Rushing=70 yards;Turnovers=3;Touchdowns conceded=4;FGs over 45y=0
-New York Jets,NYJ,Denver Broncos,10,2-4,https://stuartwakeford.com/images/sw-b+w.png,1,Outcome=loss;Touchdowns=1;Receiving=205 yards;Rushing=95 yards;Turnovers=2;Touchdowns conceded=2;FGs over 45y=1
-Philadelphia Eagles,PHI,Dallas Cowboys,34,2-4,https://stuartwakeford.com/images/sw-b+w.png,5,Outcome=win;Touchdowns=4;Receiving=370 yards;Rushing=155 yards;Turnovers=0;Touchdowns conceded=4;FGs over 45y=1
-Pittsburgh Steelers,PIT,New Orleans Saints,18,2-4,https://stuartwakeford.com/images/sw-b+w.png,2,Outcome=win;Touchdowns=3;Receiving=255 yards;Rushing=135 yards;Turnovers=1;Touchdowns conceded=1;FGs over 45y=2
-San Francisco 49ers,SF,New York Giants,32,2-4,https://stuartwakeford.com/images/sw-b+w.png,5,Outcome=win;Touchdowns=4;Receiving=360 yards;Rushing=140 yards;Turnovers=0;Touchdowns conceded=2;FGs over 45y=1
-Seattle Seahawks,SEA,Tennessee Titans,25,2-4,https://stuartwakeford.com/images/sw-b+w.png,3,Outcome=win;Touchdowns=3;Receiving=270 yards;Rushing=120 yards;Turnovers=1;Touchdowns conceded=2;FGs over 45y=1
-Tampa Bay Buccaneers,TB,Carolina Panthers,19,2-4,https://stuartwakeford.com/images/sw-b+w.png,3,Outcome=loss;Touchdowns=2;Receiving=295 yards;Rushing=80 yards;Turnovers=2;Touchdowns conceded=3;FGs over 45y=1
-Tennessee Titans,TEN,Seattle Seahawks,15,2-4,https://stuartwakeford.com/images/sw-b+w.png,2,Outcome=loss;Touchdowns=2;Receiving=230 yards;Rushing=90 yards;Turnovers=2;Touchdowns conceded=2;FGs over 45y=0
-Washington Commanders,WAS,Las Vegas Raiders,12,2-4,https://stuartwakeford.com/images/sw-b+w.png,1,Outcome=loss;Touchdowns=3;Receiving=310 yards;Rushing=95 yards;Turnovers=3;Touchdowns conceded=5;FGs over 45y=0`;
+Arizona Cardinals,ARI,San Francisco 49ers,18,3-6,images/ARI.png,2,Outcome=win;Touchdowns=3;Receiving=323 yards;Rushing=110 yards;Turnovers=1;Touchdowns conceded=2;FGs over 45y=1
+Atlanta Falcons,ATL,Carolina Panthers,25,3-6,images/ATL.png,1.5,Outcome=loss;Touchdowns=2;Receiving=288 yards;Rushing=134 yards;Turnovers=2;Touchdowns conceded=3;FGs over 45y=0
+Baltimore Ravens,BAL,Cleveland Browns,31,5-4,images/BAL.png,3,Outcome=win;Touchdowns=5;Receiving=350 yards;Rushing=150 yards;Turnovers=0;Touchdowns conceded=4;FGs over 45y=2
+Buffalo Bills,BUF,Tampa Bay Buccaneers,22,6-3,images/BUF.png,4,Outcome=tie;Touchdowns=3;Receiving=305 yards;Rushing=100 yards;Turnovers=1;Touchdowns conceded=3;FGs over 45y=1
+Carolina Panthers,CAR,Atlanta Falcons,10,6-3,images/CAR.png,1.5,Outcome=loss;Touchdowns=1;Receiving=200 yards;Rushing=80 yards;Turnovers=3;Touchdowns conceded=5;FGs over 45y=0
+Chicago Bears,CHI,Minnesota Vikings,15,6-3,images/CHI.png,2.5,Outcome=win;Touchdowns=4;Receiving=260 yards;Rushing=120 yards;Turnovers=1;Touchdowns conceded=3;FGs over 45y=1
+Cincinnati Bengals,CIN,Pittsburgh Steelers,24,3-6,images/CIN.png,0.5,Outcome=win;Touchdowns=4;Receiving=330 yards;Rushing=95 yards;Turnovers=0;Touchdowns conceded=3;FGs over 45y=2
+Cleveland Browns,CLE,Baltimore Ravens,12,2-7,images/CLE.png,0.5,Outcome=win;Touchdowns=2;Receiving=210 yards;Rushing=145 yards;Turnovers=1;Touchdowns conceded=1;FGs over 45y=1
+Dallas Cowboys,DAL,Las Vegas Raiders,30,3-5,images/DAL.png,2,Outcome=win;Touchdowns=5;Receiving=400 yards;Rushing=160 yards;Turnovers=0;Touchdowns conceded=1;FGs over 45y=1
+Denver Broncos,DEN,Kansas City Chiefs,16,8-2,images/DEN.png,4,Outcome=loss;Touchdowns=1;Receiving=180 yards;Rushing=75 yards;Turnovers=2;Touchdowns conceded=3;FGs over 45y=0
+Detroit Lions,DET,Philadelphia Eagles,28,6-3,images/DET.png,4.5,Outcome=win;Touchdowns=3;Receiving=315 yards;Rushing=130 yards;Turnovers=1;Touchdowns conceded=3;FGs over 45y=1
+Green Bay Packers,GB,New York Giants,20,5-3,images/GB.png,3.5,Outcome=loss;Touchdowns=3;Receiving=290 yards;Rushing=115 yards;Turnovers=2;Touchdowns conceded=4;FGs over 45y=0
+Houston Texans,HOU,Tennessee Titans,27,4-5,images/HOU.png,4,Outcome=win;Touchdowns=4;Receiving=340 yards;Rushing=105 yards;Turnovers=1;Touchdowns conceded=3;FGs over 45y=1
+Jacksonville Jaguars,JAX,Los Angeles Chargers,21,5-4,images/JAC.png,2,Outcome=loss;Touchdowns=2;Receiving=275 yards;Rushing=85 yards;Turnovers=3;Touchdowns conceded=3;FGs over 45y=0
+Kansas City Chiefs,KC,Denver Broncos,35,5-4,images/KC.png,4.5,Outcome=win;Touchdowns=5;Receiving=380 yards;Rushing=170 yards;Turnovers=0;Touchdowns conceded=2;FGs over 45y=1
+Las Vegas Raiders,LV,Dallas Cowboys,14,2-7,images/LV.png,0.5,Outcome=win;Touchdowns=2;Receiving=245 yards;Rushing=125 yards;Turnovers=1;Touchdowns conceded=1;FGs over 45y=2
+Los Angeles Chargers,LAC,Jacksonville Jaguars,23,7-3,images/LAC.png,3.5,Outcome=loss;Touchdowns=2;Receiving=310 yards;Rushing=90 yards;Turnovers=2;Touchdowns conceded=3;FGs over 45y=1
+Los Angeles Rams,LAR,Seattle Seahawks,29,7-2,images/LAR.png,5,Outcome=win;Touchdowns=3;Receiving=300 yards;Rushing=115 yards;Turnovers=1;Touchdowns conceded=3;FGs over 45y=1
+Miami Dolphins,MIA,Washington Commanders,33,3-7,images/MIA.png,1,Outcome=win;Touchdowns=6;Receiving=450 yards;Rushing=180 yards;Turnovers=0;Touchdowns conceded=2;FGs over 45y=0
+Minnesota Vikings,MIN,Chicago Bears,17,4-5,images/MIN.png,2.5,Outcome=tie;Touchdowns=3;Receiving=290 yards;Rushing=100 yards;Turnovers=1;Touchdowns conceded=3;FGs over 45y=1
+New England Patriots,NE,New York Jets,13,8-2,images/NE.png,4.5,Outcome=loss;Touchdowns=1;Receiving=150 yards;Rushing=60 yards;Turnovers=3;Touchdowns conceded=4;FGs over 45y=0
+New York Giants,NYG,Green Bay Packers,11,2-8,images/NYG.png,1,Outcome=loss;Touchdowns=2;Receiving=220 yards;Rushing=70 yards;Turnovers=3;Touchdowns conceded=4;FGs over 45y=0
+New York Jets,NYJ,New England Patriots,10,2-7,images/NYJ.png,1.5,Outcome=loss;Touchdowns=1;Receiving=205 yards;Rushing=95 yards;Turnovers=2;Touchdowns conceded=2;FGs over 45y=1
+Philadelphia Eagles,PHI,Detroit Lions,34,7-2,images/PHI.png,3.5,Outcome=win;Touchdowns=4;Receiving=370 yards;Rushing=155 yards;Turnovers=0;Touchdowns conceded=4;FGs over 45y=1
+Pittsburgh Steelers,PIT,Cincinnati Bengals,18,5-4,images/PIT.png,3,Outcome=win;Touchdowns=3;Receiving=255 yards;Rushing=135 yards;Turnovers=1;Touchdowns conceded=1;FGs over 45y=2
+San Francisco 49ers,SF,Arizona Cardinals,32,6-4,images/SF.png,2.5,Outcome=win;Touchdowns=4;Receiving=360 yards;Rushing=140 yards;Turnovers=0;Touchdowns conceded=2;FGs over 45y=1
+Seattle Seahawks,SEA,Los Angeles Rams,25,7-2,images/SEA.png,5,Outcome=win;Touchdowns=3;Receiving=270 yards;Rushing=120 yards;Turnovers=1;Touchdowns conceded=2;FGs over 45y=1
+Tampa Bay Buccaneers,TB,Buffalo Bills,19,6-3,images/TB.png,3,Outcome=loss;Touchdowns=2;Receiving=295 yards;Rushing=80 yards;Turnovers=2;Touchdowns conceded=3;FGs over 45y=1
+Tennessee Titans,TEN,Houston Texans,15,1-8,images/TEN.png,0.5,Outcome=loss;Touchdowns=2;Receiving=230 yards;Rushing=90 yards;Turnovers=2;Touchdowns conceded=2;FGs over 45y=0
+Washington Commanders,WAS,Miami Dolphins,12,3-7,images/WAS.png,1,Outcome=loss;Touchdowns=3;Receiving=310 yards;Rushing=95 yards;Turnovers=3;Touchdowns conceded=5;FGs over 45y=0`;
 
 
         // --- 3. Configuration & State ---
@@ -228,11 +188,6 @@ Washington Commanders,WAS,Las Vegas Raiders,12,2-4,https://stuartwakeford.com/im
         let budgetRemaining = INITIAL_BUDGET; 
 
         // --- 4. DOM Elements ---
-        const loginForm = document.getElementById('login-form');
-        const emailInput = document.getElementById('email');
-        const passwordInput = document.getElementById('password');
-        const errorMessage = document.getElementById('error-message');
-        const loginScreen = document.getElementById('login-screen');
         const loggedInScreen = document.getElementById('logged-in-screen');
         const pickTeamsScreen = document.getElementById('pick-teams-screen');
         const summaryScreen = document.getElementById('summary-screen'); 
@@ -247,6 +202,17 @@ Washington Commanders,WAS,Las Vegas Raiders,12,2-4,https://stuartwakeford.com/im
 
 
         // --- 5. Data Handling Functions ---
+
+        /**
+         * Helper function to format ratings/budget, limiting to one decimal place.
+         */
+        function formatRating(value) {
+            if (typeof value === 'number') {
+                // Returns a string representation, showing one decimal place only if necessary (e.g., 20.5, 20)
+                return value.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 1 });
+            }
+            return value; // Return as is if not a number
+        }
 
         function csvToArray(csv) {
             const lines = csv.split('\n');
@@ -279,11 +245,10 @@ Washington Commanders,WAS,Las Vegas Raiders,12,2-4,https://stuartwakeford.com/im
                 if (item.points) {
                     item.points = parseInt(item.points, 10);
                 }
-                // Ensure rating is stored as an integer
+                // Ensure rating is stored as a float (Update for decimal support)
                 if (item.rating) {
-                    item.rating = parseInt(item.rating, 10);
+                    item.rating = parseFloat(item.rating);
                 }
-                // The new 'details' field is already a string and remains so.
                 if (item[keyField]) {
                     map[item[keyField]] = item;
                 }
@@ -322,7 +287,6 @@ Washington Commanders,WAS,Las Vegas Raiders,12,2-4,https://stuartwakeford.com/im
         // --- 6. Screen Transition Functions ---
         
         function hideAllScreens() {
-            loginScreen.classList.add('hidden');
             loggedInScreen.classList.add('hidden');
             pickTeamsScreen.classList.add('hidden');
             summaryScreen.classList.add('hidden'); 
@@ -347,23 +311,20 @@ Washington Commanders,WAS,Las Vegas Raiders,12,2-4,https://stuartwakeford.com/im
         }
 
         function goToPickScreen() {
-            // Recalculate budget based on current picks (if they were loaded from storage, which is not implemented here)
+            // Recalculate budget based on current picks (simulate a fresh pick session)
             budgetRemaining = INITIAL_BUDGET;
             currentUserPicks.forEach(abbr => {
                 const teamData = getTeamDataByAbbr(abbr);
+                // budgetRemaining is updated using the float rating value
                 if(teamData) budgetRemaining -= teamData.rating;
             });
 
             renderPickScreen();
-            renderPickedTeamsBar(); // NEW CALL to show the sticky bar immediately
+            renderPickedTeamsBar();
             showScreen(pickTeamsScreen);
         }
         
         function goToSummaryScreen() {
-            // Check if user has made at least one pick before moving to summary
-            if (currentUserPicks.length === 0) {
-                 // For now, allow empty picks, but in a real app, validation would happen here.
-            }
             renderSummaryScreen();
             showScreen(summaryScreen);
         }
@@ -395,16 +356,16 @@ Washington Commanders,WAS,Las Vegas Raiders,12,2-4,https://stuartwakeford.com/im
                 // Team Columns
                 TEAM_KEYS.forEach((key, j) => {
                     const isMember = user[key].toLowerCase() === 'true'; 
-                    let cellContent = `<span class="text-red-500 italic text-sm">Error</span>`; // Default error
+                    let cellContent = `<span class="text-red-500 italic text-sm">N/A</span>`; // Default if not picked
 
                     if (isMember) {
                         const teamName = SELECTED_NFL_TEAMS[j]; 
                         const teamData = teamsDatabase[teamName];
-                        const abbr = teamData.abbr; // Get abbreviation for modal function
-
+                        
                         if (teamData) {
                             totalPoints += teamData.points;
-                            
+                            const abbr = teamData.abbr;
+
                             // Make the team display clickable
                             cellContent = `
                                 <button onclick="showTeamModal('${abbr}')" 
@@ -449,25 +410,18 @@ Washington Commanders,WAS,Las Vegas Raiders,12,2-4,https://stuartwakeford.com/im
 
         function getFixtures() {
             const fixtures = [];
-            // Use a Set to track unique match-ups (e.g., ARI vs LAR is the same as LAR vs ARI)
             const processedMatchups = new Set(); 
 
-            // Iterate over the teamsDatabase entries
             for (const teamName in teamsDatabase) {
                 const homeTeamData = teamsDatabase[teamName];
                 const opponentName = homeTeamData.opponent;
 
-                // Create a canonical match key by sorting the names alphabetically
                 const matchKey = [teamName, opponentName].sort().join(' vs ');
 
                 if (!processedMatchups.has(matchKey)) {
-                    // Get the opponent's full data
                     const awayTeamData = teamsDatabase[opponentName];
 
                     if (awayTeamData) {
-                        // The team listed first in the canonical key doesn't matter, 
-                        // but we need to ensure we consistently use the data provided by homeTeamData
-                        // as the base for the matchup display.
                         fixtures.push({
                             home: homeTeamData,
                             away: awayTeamData
@@ -476,7 +430,7 @@ Washington Commanders,WAS,Las Vegas Raiders,12,2-4,https://stuartwakeford.com/im
                     }
                 }
             }
-            return fixtures; // Returns 16 unique fixtures
+            return fixtures;
         }
         
         function showNotification(message) {
@@ -491,15 +445,16 @@ Washington Commanders,WAS,Las Vegas Raiders,12,2-4,https://stuartwakeford.com/im
             const teamData = getTeamDataByAbbr(teamAbbr);
             if (!teamData) return;
 
-            const cost = teamData.rating;
+            // cost is now a float
+            const cost = teamData.rating; 
             const index = currentUserPicks.indexOf(teamAbbr);
 
             if (index > -1) {
-                // Unpick (already picked)
+                // Unpick
                 currentUserPicks.splice(index, 1);
-                budgetRemaining += cost; // Add cost back
+                // Uses floating point arithmetic
+                budgetRemaining += cost;
                 
-                // Reset button style
                 buttonElement.classList.remove('bg-green-600', 'hover:bg-green-700', 'shadow-inner');
                 buttonElement.classList.add('bg-indigo-600', 'hover:bg-indigo-700');
                 buttonElement.innerHTML = 'Pick';
@@ -509,50 +464,48 @@ Washington Commanders,WAS,Las Vegas Raiders,12,2-4,https://stuartwakeford.com/im
                     showNotification("Maximum 6 teams picked. Please unpick a team first.");
                     return; 
                 } else if (budgetRemaining < cost) {
-                    showNotification(`Insufficient budget. This team costs ⭐${cost}, but you only have ⭐${budgetRemaining} remaining.`);
+                    // This block should ideally not be hit if the button is disabled, but serves as a final check
+                    showNotification(`Insufficient budget. This team costs ⭐${formatRating(cost)}, but you only have ⭐${formatRating(budgetRemaining)} remaining.`);
                     return;
                 }
                 
                 currentUserPicks.push(teamAbbr);
-                budgetRemaining -= cost; // Deduct cost
+                // Uses floating point arithmetic
+                budgetRemaining -= cost;
                 
-                // Update button style
                 buttonElement.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
                 buttonElement.classList.add('bg-green-600', 'hover:bg-green-700', 'shadow-inner');
-                // Use Unicode checkmark
                 buttonElement.innerHTML = 'Picked &nbsp;&#10003;';
             }
             
-            renderPickedTeamsBar(); // Update sticky bar on every pick/unpick
+            // Re-render the pick screen to update grayed-out states based on new budget
+            renderPickScreen();
+            renderPickedTeamsBar();
         }
         
         function renderPickedTeamsBar() {
             if (!pickedTeamsBar) return;
 
-            // 1. Get details for all picked teams
             const pickedTeamDetails = currentUserPicks.map(abbr => getTeamDataByAbbr(abbr)).filter(detail => detail !== null);
             
-            // 2. Build the image display area
             const imageTiles = pickedTeamDetails.map(team => `
-                <div class="relative group flex-shrink-0" title="${team.team} (${team.rating} Stars)">
+                <div class="relative group flex-shrink-0" title="${team.team} (${formatRating(team.rating)} Stars)">
                     <img src="${team.image}" 
                          alt="${team.abbr} logo" 
                          class="w-10 h-10 rounded-full object-cover border-2 border-white transition duration-200 group-hover:scale-105"
                          onerror="this.onerror=null; this.src='https://placehold.co/40x40/f3f4f6/374151?text=${team.abbr}';"
                     >
-                    <!-- Hover text for rating -->
+                    <!-- Hover text for rating, using formatRating -->
                     <span class="absolute top-0 right-0 text-xs font-bold text-yellow-300 bg-gray-800 px-1 py-0.5 rounded-full opacity-0 group-hover:opacity-100 transition duration-150 transform -translate-y-1/2 translate-x-1/2">
-                        ⭐${team.rating}
+                        ⭐${formatRating(team.rating)}
                     </span>
                 </div>
             `).join('');
 
-            // 3. Construct the full bar content (Revised for space)
             const barContent = `
-                <!-- Reduced horizontal padding from sm:px-4 to just px-2 -->
                 <div class="flex items-center justify-between max-w-6xl mx-auto px-2">
                     
-                    <!-- Left Side: Picked Teams (flex-1 ensures it takes max space) -->
+                    <!-- Left Side: Picked Teams -->
                     <div class="flex items-center space-x-2 flex-1 min-w-0"> 
                         <div id="picked-images-container" class="flex space-x-2 overflow-x-auto py-1 w-full flex-1">
                             ${imageTiles}
@@ -565,15 +518,14 @@ Washington Commanders,WAS,Las Vegas Raiders,12,2-4,https://stuartwakeford.com/im
                         </div>
                     </div>
 
-                    <!-- Right Side: Budget and DONE Button (flex-shrink-0 prevents squashing) -->
+                    <!-- Right Side: Budget and DONE Button -->
                     <div class="flex items-center space-x-3 flex-shrink-0 ml-3"> 
-                        <!-- STACKED BUDGET DISPLAY (Budget text is small and above the value) -->
+                        <!-- STACKED BUDGET DISPLAY, using formatRating -->
                         <div class="flex flex-col items-center">
                             <span class="text-xs font-medium text-gray-400 -mb-0.5">BUDGET</span>
-                            <span class="text-lg font-bold text-yellow-400 leading-tight">⭐${budgetRemaining}</span>
+                            <span class="text-lg font-bold text-yellow-400 leading-tight">⭐${formatRating(budgetRemaining)}</span>
                         </div>
                         
-                        <!-- Reduced padding on DONE button (px-3 vs original px-4/px-6) -->
                         <button onclick="goToSummaryScreen()" 
                                 class="bg-green-600 text-white py-2 px-3 rounded-lg font-bold text-sm hover:bg-green-700 transition duration-200 shadow-lg">
                             DONE
@@ -588,31 +540,54 @@ Washington Commanders,WAS,Las Vegas Raiders,12,2-4,https://stuartwakeford.com/im
         function createTeamTile(teamData, isHomeTeam) {
             const abbr = teamData.abbr;
             const isPicked = currentUserPicks.includes(abbr);
+            const cost = teamData.rating; // Cost is a float
+
+            // Check if the team is affordable (Request 1)
+            const isAffordable = cost <= budgetRemaining;
             
-            // Neutral styling for both home and away teams
-            const tileClasses = 'border-2 border-gray-300 bg-white hover:bg-gray-50'; 
+            // Define base classes
+            let tileClasses = 'border-2 border-gray-300 bg-white shadow-lg flex-shrink-0 transition duration-200';
+            let buttonClasses = 'w-full text-white py-1.5 rounded-lg font-semibold transition duration-150';
+            let buttonText = '';
+            let disabledAttribute = '';
+
+            if (isPicked) {
+                // Picked state (always allowed to unpick)
+                buttonClasses += ' bg-green-600 hover:bg-green-700 shadow-inner';
+                buttonText = 'Picked &nbsp;&#10003;';
+                tileClasses += ' border-green-400';
+            } else if (!isAffordable) {
+                // Unaffordable state: Grey out and disable
+                tileClasses += ' bg-gray-100 opacity-60 cursor-not-allowed';
+                buttonClasses += ' bg-red-400 cursor-not-allowed';
+                buttonText = 'Unaffordable';
+                disabledAttribute = 'disabled';
+            } else {
+                // Available to pick state
+                tileClasses += ' hover:bg-gray-50';
+                buttonClasses += ' bg-indigo-600 hover:bg-indigo-700';
+                buttonText = 'Pick';
+            }
             
-            const buttonClasses = isPicked 
-                ? 'bg-green-600 hover:bg-green-700 shadow-inner'
-                : 'bg-indigo-600 hover:bg-indigo-700';
-            const buttonText = isPicked 
-                ? 'Picked &nbsp;&#10003;' 
-                : 'Pick';
-            
-            // Added Star Rating and adjusted margin on record
+            // CORRECTED: Ensure all requested elements (Image, Abbr, Rating, Record) are displayed.
             return `
-                <div class="flex-1 flex flex-col items-center p-3 rounded-xl shadow-lg transition duration-200 ${tileClasses}">
-                    <!-- Added Team Image -->
+                <div class="flex-1 flex flex-col items-center p-3 rounded-xl ${tileClasses}">
+                    <!-- Team Image -->
                     <img src="${teamData.image}" 
                          alt="${teamData.team} logo" 
                          class="w-16 h-16 rounded-full object-cover mb-2 border-2 border-gray-100"
                          onerror="this.onerror=null; this.src='https://placehold.co/64x64/374151/ffffff?text=${abbr}';"
                     >
-                    <span class="text-2xl font-extrabold text-gray-800">${abbr}</span>
-                    <span class="text-sm font-semibold text-yellow-600">⭐${teamData.rating}</span>
-                    <span class="text-xs text-gray-500 mb-2">${teamData.record}</span>
+                    <!-- 2/3 letter abbreviation (Abbr) -->
+                    <span class="text-3xl font-extrabold text-indigo-700 leading-none mb-1">${abbr}</span>
+                    <!-- Star-value (Rating) -->
+                    <span class="text-lg font-bold text-yellow-600">⭐${formatRating(teamData.rating)}</span>
+                    <!-- Team's form/record (Record) -->
+                    <span class="text-xs text-gray-500 mb-3">${teamData.record}</span>
+                    <!-- Pick/Picked Button -->
                     <button onclick="handlePick('${abbr}', this)"
-                            class="w-full text-white py-1.5 rounded-lg font-semibold transition duration-150 ${buttonClasses}">
+                            ${disabledAttribute}
+                            class="${buttonClasses}">
                         ${buttonText}
                     </button>
                 </div>
@@ -624,16 +599,10 @@ Washington Commanders,WAS,Las Vegas Raiders,12,2-4,https://stuartwakeford.com/im
             let fixturesHtml = '';
 
             fixtures.forEach(fixture => {
-                // Changed flex-col and sm:flex-row to flex-row immediately on mobile.
-                // Changed p-4 to p-3 and reduced space-x to 2.
                 fixturesHtml += `
                     <div class="bg-white p-3 rounded-xl shadow-xl flex flex-row space-x-2 items-center justify-center border border-gray-200 w-full">
-                        <!-- Home Team Tile - flex-1 forces equal width on mobile/desktop -->
                         ${createTeamTile(fixture.home, true)}
-
                         <span class="text-xl font-bold text-gray-700 mx-2">vs</span>
-                        
-                        <!-- Away Team Tile - flex-1 forces equal width on mobile/desktop -->
                         ${createTeamTile(fixture.away, false)}
                     </div>
                 `;
@@ -645,9 +614,7 @@ Washington Commanders,WAS,Las Vegas Raiders,12,2-4,https://stuartwakeford.com/im
         // --- 9. Summary Screen Rendering ---
         
         function renderSummaryScreen() {
-            // Find details for all picked teams
             const pickedTeamDetails = currentUserPicks.map(abbr => {
-                // Iterate through the teamsDatabase (map of full names to data)
                 for (const teamName in teamsDatabase) {
                     if (teamsDatabase[teamName].abbr === abbr) {
                         return teamsDatabase[teamName];
@@ -661,7 +628,6 @@ Washington Commanders,WAS,Las Vegas Raiders,12,2-4,https://stuartwakeford.com/im
                 return;
             }
             
-            // Renders team name with image asset, now including rating
             let listHtml = pickedTeamDetails.map(team => `
                 <li class="flex justify-between items-center space-x-4 py-3 px-4 bg-gray-100 rounded-lg shadow-sm">
                     <div class="flex items-center space-x-4">
@@ -672,8 +638,8 @@ Washington Commanders,WAS,Las Vegas Raiders,12,2-4,https://stuartwakeford.com/im
                         >
                         <span class="text-xl font-semibold text-gray-800">${team.team}</span>
                     </div>
-                    <!-- STAR RATING -->
-                    <span class="text-xl font-bold text-yellow-600">⭐${team.rating}</span>
+                    <!-- Display rating using formatRating -->
+                    <span class="text-xl font-bold text-yellow-600">⭐${formatRating(team.rating)}</span>
                 </li>
             `).join('');
 
@@ -696,14 +662,15 @@ Washington Commanders,WAS,Las Vegas Raiders,12,2-4,https://stuartwakeford.com/im
             
             let opponentHtml = '';
             if (opponentData) {
+                // Request 2: Opponent name alongside image
                 opponentHtml = `
-                    <div class="flex flex-col items-center">
+                    <div class="flex items-center space-x-3">
                         <img src="${opponentData.image}" 
                              alt="${opponentData.team} logo" 
-                             class="w-12 h-12 rounded-full object-cover border-2 border-gray-200"
-                             onerror="this.onerror=null; this.src='https://placehold.co/48x48/d1d5db/374151?text=${opponentData.abbr}';"
+                             class="w-10 h-10 rounded-full object-cover border-2 border-gray-300"
+                             onerror="this.onerror=null; this.src='https://placehold.co/40x40/d1d5db/374151?text=${opponentData.abbr}';"
                         >
-                        <span class="text-sm font-medium text-gray-700 mt-1">${opponentData.team}</span>
+                        <span class="text-lg font-medium text-gray-800">${opponentData.team}</span>
                     </div>
                 `;
             }
@@ -723,15 +690,16 @@ Washington Commanders,WAS,Las Vegas Raiders,12,2-4,https://stuartwakeford.com/im
             
             // --- 3. Generate Match Breakdown Table HTML ---
             const breakdownTableHTML = `
-                <div class="mt-8 pt-4 border-t border-gray-200">
+                <div class="mt-6 pt-4 border-t border-gray-200">
                     <h3 class="text-lg font-bold text-gray-800 mb-3 text-left">Match Breakdown</h3>
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200 shadow-md rounded-lg overflow-hidden border border-gray-100">
                             <tbody class="bg-white divide-y divide-gray-100 text-left">
                                 ${breakdownDataLabels.map(item => `
                                     <tr class="hover:bg-indigo-50 transition duration-100">
-                                        <td class="px-4 py-2.5 whitespace-nowrap text-sm font-medium text-gray-700">${item.label}</td>
-                                        <td class="px-4 py-2.5 whitespace-nowrap text-sm text-gray-900 font-semibold">${breakdown[item.key] || 'N/A'}</td>
+                                        <!-- px-2 used instead of px-4 to reduce horizontal padding -->
+                                        <td class="px-2 py-2.5 whitespace-nowrap text-sm font-medium text-gray-700">${item.label}</td>
+                                        <td class="px-2 py-2.5 whitespace-nowrap text-sm text-gray-900 font-semibold">${breakdown[item.key] || 'N/A'}</td>
                                     </tr>
                                 `).join('')}
                             </tbody>
@@ -739,14 +707,40 @@ Washington Commanders,WAS,Las Vegas Raiders,12,2-4,https://stuartwakeford.com/im
                     </div>
                 </div>
             `;
+            
+            // --- 4. Record and Rating block ---
+            const recordRatingHtml = `
+                <div class="flex justify-center space-x-6 mb-6 text-base font-medium text-gray-500">
+                    <div>Record: <span class="text-gray-800 font-semibold">${teamData.record}</span></div>
+                    <!-- Display rating using formatRating -->
+                    <div>Rating: <span class="text-yellow-600 font-semibold">⭐${formatRating(teamData.rating)}</span></div>
+                </div>
+            `;
+            
+            // --- 5. Opponent and Points block ---
+            const summaryBoxesHtml = `
+                <div class="flex flex-col space-y-3 mb-6">
+                    <!-- Opponent Info -->
+                    <div class="bg-gray-100 p-3 rounded-lg flex justify-between items-center border border-gray-200 shadow-sm">
+                        <!-- Updated label (Request 2) -->
+                        <label class="text-base font-semibold text-gray-600">Vs:</label> 
+                        ${opponentHtml}
+                    </div>
+                    <!-- Total Points Field -->
+                    <div class="bg-indigo-50 p-4 rounded-lg flex justify-between items-center border border-indigo-200 shadow-md">
+                        <label class="text-lg font-semibold text-gray-700">Total points:</label>
+                        <div class="text-2xl font-bold text-green-600">${teamData.points}</div>
+                    </div>
+                </div>
+            `;
 
 
-            // --- 4. Populate Modal Content ---
+            // --- 6. Populate Modal Content ---
             modalContent.innerHTML = `
-                <h3 class="text-2xl font-extrabold text-indigo-700 pt-2 mb-4">${teamData.team} (${teamData.abbr})</h3>
+                <h3 class="text-2xl font-extrabold text-indigo-700 pt-2 mb-4">${teamData.team}</h3>
                 
                 <!-- Team Image -->
-                <div class="mb-6 flex justify-center">
+                <div class="mb-3 flex justify-center">
                     <img src="${teamData.image}" 
                          alt="${teamData.team} logo" 
                          class="w-24 h-24 rounded-full object-cover border-4 border-gray-200 shadow-xl"
@@ -754,25 +748,11 @@ Washington Commanders,WAS,Las Vegas Raiders,12,2-4,https://stuartwakeford.com/im
                     >
                 </div>
                 
-                <!-- Opponent Info -->
-                <div class="bg-gray-100 p-3 rounded-lg flex flex-col items-center mb-6 border border-gray-200">
-                    <label class="text-sm font-semibold text-gray-600 mb-2">Played Against:</label>
-                    ${opponentHtml}
-                </div>
+                ${recordRatingHtml} 
                 
-                <!-- Total Points Field -->
-                <div class="bg-indigo-50 p-4 rounded-lg flex justify-between items-center border border-indigo-200 shadow-md">
-                    <label class="text-lg font-semibold text-gray-700">Total points:</label>
-                    <div class="text-2xl font-bold text-green-600">${teamData.points}</div>
-                </div>
+                ${summaryBoxesHtml} 
                 
-                ${breakdownTableHTML} <!-- INJECTED NEW TABLE HERE -->
-                
-                <!-- Other Data -->
-                <div class="pt-6 text-sm text-gray-500 font-medium border-t mt-8">
-                    Record: <span class="text-gray-800 font-semibold">${teamData.record}</span>
-                    | Rating: <span class="text-yellow-600 font-semibold">⭐${teamData.rating}</span>
-                </div>
+                ${breakdownTableHTML} 
             `;
 
             // Display Modal
@@ -786,52 +766,15 @@ Washington Commanders,WAS,Las Vegas Raiders,12,2-4,https://stuartwakeford.com/im
         }
 
 
-        // --- 11. Initialization & Event Handlers ---
-
-        function displayError() {
-            errorMessage.classList.remove('hidden');
-            emailInput.focus(); 
-            
-            setTimeout(() => {
-                errorMessage.classList.add('hidden');
-            }, 3000);
-        }
-
-        function handleLogin(event) {
-            event.preventDefault();
-
-            errorMessage.classList.add('hidden');
-
-            const email = emailInput.value.trim();
-            const password = passwordInput.value.trim();
-
-            if (!email || !password) {
-                displayError();
-                return;
-            }
-
-            const foundUser = userDatabase.find(user => 
-                user.email === email && user.password === password
-            );
-
-            if (foundUser) {
-                console.log('Login successful for:', email);
-                // Clear any previous picks for the new login session (in a real app, these would be loaded)
-                currentUserPicks = []; 
-                goToDashboardScreen(); 
-            } else {
-                console.log('Login failed for:', email);
-                displayError();
-            }
-        }
+        // --- 11. Initialization ---
 
         window.onload = function() {
             // Populate the in-memory databases
             userDatabase = csvToArray(CSV_DATA);
             teamsDatabase = csvToMap(TEAMS_CSV_DATA, 'team');
             
-            // Attach the event listener to the form
-            loginForm.addEventListener('submit', handleLogin);
+            // Start directly on the dashboard screen
+            goToDashboardScreen();
         };
     </script>
 </body>
