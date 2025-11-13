@@ -54,7 +54,7 @@
 
         <!-- Dashboard Screen (State 1 - Now Default) -->
         <div id="logged-in-screen" class="hidden bg-white p-8 rounded-xl shadow-2xl text-center transition-opacity duration-500">
-            <h2 class="text-3xl font-extrabold text-indigo-700 mb-6">NFL Teamz Week 6</h2>
+            <h2 class="text-3xl font-extrabold text-indigo-700 mb-6">NFL Teamz Week 11</h2>
             
             <!-- Pick Teams Button -->
             <button id="pick-teams-btn" onclick="goToPickScreen()"
@@ -68,17 +68,22 @@
         </div>
 
         <!-- Pick Teams Screen (State 2) -->
-        <div id="pick-teams-screen" class="hidden bg-white p-4 rounded-xl shadow-2xl text-center transition-opacity duration-500">
-            <!-- Header Text -->
-            <h2 class="text-3xl font-extrabold text-indigo-700 mb-4">Pick your 6 teams</h2>
+        <!-- Removed p-4 and text-center classes. Added flex-col to enable scrolling for content area only -->
+        <div id="pick-teams-screen" class="hidden bg-white rounded-xl shadow-2xl transition-opacity duration-500">
+            
+            <!-- New Sticky Top Bar for Title and Budget -->
+            <div id="picking-header-bar" class="sticky top-0 bg-white p-4 z-20 shadow-md border-b border-gray-200 flex justify-between items-center">
+                <!-- Content will be injected by JS -->
+            </div>
             
             <!-- Notification Message (for max picks or budget exceeded) -->
-            <div id="notification-message" class="text-red-600 bg-red-100 p-2 rounded-lg mb-4 hidden transition duration-300 text-sm font-semibold max-w-sm mx-auto">
+            <!-- Adjusted layout to scroll with content -->
+            <div id="notification-message" class="text-red-600 bg-red-100 p-2 rounded-lg mt-4 mb-4 hidden transition duration-300 text-sm font-semibold max-w-sm mx-auto">
                 Maximum 6 teams picked. Please unpick a team first.
             </div>
 
-            <!-- Fixtures Container (Content) - pb-32 adds space for the sticky bar -->
-            <div id="fixtures-container" class="space-y-4 mt-6 pb-32">
+            <!-- Fixtures Container (Content) - Added p-4 padding here. pb-32 adds space for the bottom sticky bar -->
+            <div id="fixtures-container" class="p-4 space-y-4 pb-32">
                 <!-- Fixtures will be rendered here by JavaScript -->
             </div>
             
@@ -183,7 +188,7 @@ Washington Commanders,WAS,Miami Dolphins,12,3-7,images/WAS.png,1,Outcome=loss;To
         const INITIAL_BUDGET = 20;
 
         let userDatabase = [];
-        let teamsDatabase = {}; // Stores team data for quick lookup { 'Team Name': {team: '...', abbr: '...', ...}, ... }
+        let teamsDatabase = {}; // Stores team data for quick lookup { 'Team Name': {team: '...', abbr: '...', ...} }
         let currentUserPicks = []; // Stores abbreviations of teams picked by the current user
         let budgetRemaining = INITIAL_BUDGET; 
 
@@ -196,6 +201,8 @@ Washington Commanders,WAS,Miami Dolphins,12,3-7,images/WAS.png,1,Outcome=loss;To
         const notificationMessage = document.getElementById('notification-message'); 
         const summaryContainer = document.getElementById('summary-container');
         const pickedTeamsBar = document.getElementById('picked-teams-bar'); 
+        // New element for the sticky header
+        const pickingHeaderBar = document.getElementById('picking-header-bar');
         // Modal elements
         const teamModal = document.getElementById('team-modal');
         const modalContent = document.getElementById('modal-content');
@@ -319,8 +326,7 @@ Washington Commanders,WAS,Miami Dolphins,12,3-7,images/WAS.png,1,Outcome=loss;To
                 if(teamData) budgetRemaining -= teamData.rating;
             });
 
-            renderPickScreen();
-            renderPickedTeamsBar();
+            updatePickScreenUI(); // Use the new consolidated update function
             showScreen(pickTeamsScreen);
         }
         
@@ -407,6 +413,31 @@ Washington Commanders,WAS,Miami Dolphins,12,3-7,images/WAS.png,1,Outcome=loss;To
         }
 
         // --- 8. Pick Screen Logic and Rendering ---
+        
+        // New function to render the sticky top bar
+        function renderPickingHeader() {
+            if (!pickingHeaderBar) return;
+
+            // Structure to place title left and budget right, ensuring no wrap
+            const headerContent = `
+                <h2 class="text-xl font-extrabold text-indigo-700 whitespace-nowrap">Pick your 6 teams</h2>
+                
+                <!-- STACKED BUDGET DISPLAY -->
+                <div class="flex flex-col items-center ml-4 flex-shrink-0">
+                    <span class="text-xs font-medium text-gray-400 -mb-0.5">BUDGET REMAINING</span>
+                    <span class="text-lg font-bold text-yellow-600 leading-tight">⭐${formatRating(budgetRemaining)}</span>
+                </div>
+            `;
+            
+            pickingHeaderBar.innerHTML = headerContent;
+        }
+
+        // Consolidated function to update all dynamic UI elements on the picking screen
+        function updatePickScreenUI() {
+            renderPickingHeader();
+            renderPickScreen();
+            renderPickedTeamsBar();
+        }
 
         function getFixtures() {
             const fixtures = [];
@@ -478,9 +509,8 @@ Washington Commanders,WAS,Miami Dolphins,12,3-7,images/WAS.png,1,Outcome=loss;To
                 buttonElement.innerHTML = 'Picked &nbsp;&#10003;';
             }
             
-            // Re-render the pick screen to update grayed-out states based on new budget
-            renderPickScreen();
-            renderPickedTeamsBar();
+            // Update all UI elements
+            updatePickScreenUI();
         }
         
         function renderPickedTeamsBar() {
@@ -518,14 +548,8 @@ Washington Commanders,WAS,Miami Dolphins,12,3-7,images/WAS.png,1,Outcome=loss;To
                         </div>
                     </div>
 
-                    <!-- Right Side: Budget and DONE Button -->
+                    <!-- Right Side: DONE Button (Budget removed from here) -->
                     <div class="flex items-center space-x-3 flex-shrink-0 ml-3"> 
-                        <!-- STACKED BUDGET DISPLAY, using formatRating -->
-                        <div class="flex flex-col items-center">
-                            <span class="text-xs font-medium text-gray-400 -mb-0.5">BUDGET</span>
-                            <span class="text-lg font-bold text-yellow-400 leading-tight">⭐${formatRating(budgetRemaining)}</span>
-                        </div>
-                        
                         <button onclick="goToSummaryScreen()" 
                                 class="bg-green-600 text-white py-2 px-3 rounded-lg font-bold text-sm hover:bg-green-700 transition duration-200 shadow-lg">
                             DONE
