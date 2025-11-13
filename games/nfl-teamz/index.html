@@ -125,67 +125,66 @@
 
     <script>
         // --- 1. User Database (CSV) - SIMULATED UNIQUE SCORES BY VARYING PICKS ---
-        // Scores (Descending): 163, 150, 143, 133, 131, 130, 128
+        // Scores are now calculated based on the team name in each column (team1, team2, etc.)
         const CSV_DATA = 
-            `name,Teamz1,Teamz2,Teamz3,Teamz4,Teamz5,Teamz6
-Stu,true,true,true,true,true,true
-Admin,false,true,true,true,true,true
-Tester,true,true,true,true,false,true
-Dave,true,false,true,true,true,true
-Kat,true,true,true,false,true,true
-Rich,true,true,true,true,true,false
-Fernando,true,true,false,true,true,true`;
+            `name,team1,team2,team3,team4,team5,team6
+Stu,Baltimore Ravens,Dallas Cowboys,Los Angeles Chargers,Los Angeles Rams,New England Patriots,Carolina Panthers
+Dave,Cincinnati Bengals,New England Patriots,Dallas Cowboys,Baltimore Ravens,Kansas City Chiefs,Buffalo Bills
+Kat,1,2,3,4,5,6
+Rich,Green Bay Packers,New England Patriots, Houston Texans,Dallas Cowboys,Pittsburgh Steelers,Baltimore Ravens,
+`;
 
         // --- 2. Simulated Teams Database (CSV) ---
         // Headers: team,abbr,opponent,points,record,image,rating,details
         // DETAILS format: Outcome=X;Touchdowns=Y;...;match-points=Z (NEW)
         const TEAMS_CSV_DATA = 
             `team,abbr,opponent,points,record,image,rating,details
-Arizona Cardinals,ARI,San Francisco 49ers,18,3-6,images/ARI.png,2,Outcome=win;Touchdowns=3;Receiving=323 yards;Rushing=110 yards;Turnovers=1;Touchdowns conceded=2;match-points=4
-Atlanta Falcons,ATL,Carolina Panthers,25,3-6,images/ATL.png,1.5,Outcome=loss;Touchdowns=2;Receiving=288 yards;Rushing=134 yards;Turnovers=2;Touchdowns conceded=3;match-points=1
-Baltimore Ravens,BAL,Cleveland Browns,31,5-4,images/BAL.png,3,Outcome=win;Touchdowns=5;Receiving=350 yards;Rushing=150 yards;Turnovers=0;Touchdowns conceded=4;match-points=5
-Buffalo Bills,BUF,Tampa Bay Buccaneers,22,6-3,images/BUF.png,4,Outcome=tie;Touchdowns=3;Receiving=305 yards;Rushing=100 yards;Turnovers=1;Touchdowns conceded=3;match-points=2
-Carolina Panthers,CAR,Atlanta Falcons,10,6-3,images/CAR.png,1.5,Outcome=loss;Touchdowns=1;Receiving=200 yards;Rushing=80 yards;Turnovers=3;Touchdowns conceded=5;match-points=1
-Chicago Bears,CHI,Minnesota Vikings,15,6-3,images/CHI.png,2.5,Outcome=win;Touchdowns=4;Receiving=260 yards;Rushing=120 yards;Turnovers=1;Touchdowns conceded=3;match-points=3
-Cincinnati Bengals,CIN,Pittsburgh Steelers,24,3-6,images/CIN.png,0.5,Outcome=win;Touchdowns=4;Receiving=330 yards;Rushing=95 yards;Turnovers=0;Touchdowns conceded=3;match-points=4
-Cleveland Browns,CLE,Baltimore Ravens,12,2-7,images/CLE.png,0.5,Outcome=win;Touchdowns=2;Receiving=210 yards;Rushing=145 yards;Turnovers=1;Touchdowns conceded=1;match-points=2
-Dallas Cowboys,DAL,Las Vegas Raiders,30,3-5,images/DAL.png,2,Outcome=win;Touchdowns=5;Receiving=400 yards;Rushing=160 yards;Turnovers=0;Touchdowns conceded=1;match-points=5
-Denver Broncos,DEN,Kansas City Chiefs,16,8-2,images/DEN.png,4,Outcome=loss;Touchdowns=1;Receiving=180 yards;Rushing=75 yards;Turnovers=2;Touchdowns conceded=3;match-points=1
-Detroit Lions,DET,Philadelphia Eagles,28,6-3,images/DET.png,4.5,Outcome=win;Touchdowns=3;Receiving=315 yards;Rushing=130 yards;Turnovers=1;Touchdowns conceded=3;match-points=4
-Green Bay Packers,GB,New York Giants,20,5-3,images/GB.png,3.5,Outcome=loss;Touchdowns=3;Receiving=290 yards;Rushing=115 yards;Turnovers=2;Touchdowns conceded=4;match-points=2
-Houston Texans,HOU,Tennessee Titans,27,4-5,images/HOU.png,4,Outcome=win;Touchdowns=4;Receiving=340 yards;Rushing=105 yards;Turnovers=1;Touchdowns conceded=3;match-points=3
-Jacksonville Jaguars,JAX,Los Angeles Chargers,21,5-4,images/JAC.png,2,Outcome=loss;Touchdowns=2;Receiving=275 yards;Rushing=85 yards;Turnovers=3;Touchdowns conceded=3;match-points=1
-Kansas City Chiefs,KC,Denver Broncos,35,5-4,images/KC.png,4.5,Outcome=win;Touchdowns=5;Receiving=380 yards;Rushing=170 yards;Turnovers=0;Touchdowns conceded=2;match-points=5
-Las Vegas Raiders,LV,Dallas Cowboys,14,2-7,images/LV.png,0.5,Outcome=win;Touchdowns=2;Receiving=245 yards;Rushing=125 yards;Turnovers=1;Touchdowns conceded=1;match-points=3
-Los Angeles Chargers,LAC,Jacksonville Jaguars,23,7-3,images/LAC.png,3.5,Outcome=loss;Touchdowns=2;Receiving=310 yards;Rushing=90 yards;Turnovers=2;Touchdowns conceded=3;match-points=4
-Los Angeles Rams,LAR,Seattle Seahawks,29,7-2,images/LAR.png,5,Outcome=win;Touchdowns=3;Receiving=300 yards;Rushing=115 yards;Turnovers=1;Touchdowns conceded=3;match-points=5
-Miami Dolphins,MIA,Washington Commanders,33,3-7,images/MIA.png,1,Outcome=win;Touchdowns=6;Receiving=450 yards;Rushing=180 yards;Turnovers=0;Touchdowns conceded=2;match-points=1
-Minnesota Vikings,MIN,Chicago Bears,17,4-5,images/MIN.png,2.5,Outcome=tie;Touchdowns=3;Receiving=290 yards;Rushing=100 yards;Turnovers=1;Touchdowns conceded=3;match-points=3
-New England Patriots,NE,New York Jets,13,8-2,images/NE.png,4.5,Outcome=loss;Touchdowns=1;Receiving=150 yards;Rushing=60 yards;Turnovers=3;Touchdowns conceded=4;match-points=2
-New York Giants,NYG,Green Bay Packers,11,2-8,images/NYG.png,1,Outcome=loss;Touchdowns=2;Receiving=220 yards;Rushing=70 yards;Turnovers=3;Touchdowns conceded=4;match-points=1
-New York Jets,NYJ,New England Patriots,10,2-7,images/NYJ.png,1.5,Outcome=loss;Touchdowns=1;Receiving=205 yards;Rushing=95 yards;Turnovers=2;Touchdowns conceded=2;match-points=2
-Philadelphia Eagles,PHI,Detroit Lions,34,7-2,images/PHI.png,3.5,Outcome=win;Touchdowns=4;Receiving=370 yards;Rushing=155 yards;Turnovers=0;Touchdowns conceded=4;match-points=4
-Pittsburgh Steelers,PIT,Cincinnati Bengals,18,5-4,images/PIT.png,3,Outcome=win;Touchdowns=3;Receiving=255 yards;Rushing=135 yards;Turnovers=1;Touchdowns conceded=1;match-points=5
-San Francisco 49ers,SF,Arizona Cardinals,32,6-4,images/SF.png,2.5,Outcome=win;Touchdowns=4;Receiving=360 yards;Rushing=140 yards;Turnovers=0;Touchdowns conceded=2;match-points=3
-Seattle Seahawks,SEA,Los Angeles Rams,25,7-2,images/SEA.png,5,Outcome=win;Touchdowns=3;Receiving=270 yards;Rushing=120 yards;Turnovers=1;Touchdowns conceded=2;match-points=4
-Tampa Bay Buccaneers,TB,Buffalo Bills,19,6-3,images/TB.png,3,Outcome=loss;Touchdowns=2;Receiving=295 yards;Rushing=80 yards;Turnovers=2;Touchdowns conceded=3;match-points=2
-Tennessee Titans,TEN,Houston Texans,15,1-8,images/TEN.png,0.5,Outcome=loss;Touchdowns=2;Receiving=230 yards;Rushing=90 yards;Turnovers=2;Touchdowns conceded=2;match-points=1
-Washington Commanders,WAS,Miami Dolphins,12,3-7,images/WAS.png,1,Outcome=loss;Touchdowns=3;Receiving=310 yards;Rushing=95 yards;Turnovers=3;Touchdowns conceded=5;match-points=2`;
+Arizona Cardinals,ARI,San Francisco 49ers,0,3-6,images/ARI.png,2,Outcome=?;Touchdowns=0;Receiving=0;Rushing=0;Turnovers=0;Touchdowns conceded=0;match-points=0
+Atlanta Falcons,ATL,Carolina Panthers,0,3-6,images/ATL.png,1.5,Outcome=?;Touchdowns=0;Receiving=0;Rushing=0;Turnovers=0;Touchdowns conceded=0;match-points=0
+Baltimore Ravens,BAL,Cleveland Browns,0,5-4,images/BAL.png,3,Outcome=?;Touchdowns=0;Receiving=0;Rushing=0;Turnovers=0;Touchdowns conceded=0;match-points=0
+Buffalo Bills,BUF,Tampa Bay Buccaneers,0,6-3,images/BUF.png,4,Outcome=?;Touchdowns=0;Receiving=0;Rushing=0;Turnovers=0;Touchdowns conceded=0;match-points=0
+Carolina Panthers,CAR,Atlanta Falcons,0,6-3,images/CAR.png,1.5,Outcome=?;Touchdowns=0;Receiving=0;Rushing=0;Turnovers=0;Touchdowns conceded=0;match-points=0
+Chicago Bears,CHI,Minnesota Vikings,0,6-3,images/CHI.png,2.5,Outcome=?;Touchdowns=0;Receiving=0;Rushing=0;Turnovers=0;Touchdowns conceded=0;match-points=0
+Cincinnati Bengals,CIN,Pittsburgh Steelers,0,3-6,images/CIN.png,0.5,Outcome=?;Touchdowns=0;Receiving=100;Rushing=0;Turnovers=0;Touchdowns conceded=0;match-points=100
+Cleveland Browns,CLE,Baltimore Ravens,0,2-7,images/CLE.png,0.5,Outcome=?;Touchdowns=0;Receiving=0;Rushing=0;Turnovers=0;Touchdowns conceded=0;match-points=0
+Dallas Cowboys,DAL,Las Vegas Raiders,0,3-5,images/DAL.png,2,Outcome=?;Touchdowns=0;Receiving=0;Rushing=0;Turnovers=0;Touchdowns conceded=0;match-points=0
+Denver Broncos,DEN,Kansas City Chiefs,0,8-2,images/DEN.png,4,Outcome=?;Touchdowns=0;Receiving=0;Rushing=0;Turnovers=0;Touchdowns conceded=0;match-points=0
+Detroit Lions,DET,Philadelphia Eagles,0,6-3,images/DET.png,4.5,Outcome=?;Touchdowns=0;Receiving=0;Rushing=0;Turnovers=0;Touchdowns conceded=0;match-points=0
+Green Bay Packers,GB,New York Giants,0,5-3,images/GB.png,3.5,Outcome=?;Touchdowns=0;Receiving=0;Rushing=0;Turnovers=0;Touchdowns conceded=0;match-points=0
+Houston Texans,HOU,Tennessee Titans,0,4-5,images/HOU.png,4,Outcome=?;Touchdowns=0;Receiving=0;Rushing=0;Turnovers=0;Touchdowns conceded=0;match-points=0
+Jacksonville Jaguars,JAX,Los Angeles Chargers,0,5-4,images/JAC.png,2,Outcome=?;Touchdowns=0;Receiving=0;Rushing=0;Turnovers=0;Touchdowns conceded=0;match-points=0
+Kansas City Chiefs,KC,Denver Broncos,0,5-4,images/KC.png,4.5,Outcome=?;Touchdowns=0;Receiving=0;Rushing=0;Turnovers=0;Touchdowns conceded=0;match-points=0
+Las Vegas Raiders,LV,Dallas Cowboys,0,2-7,images/LV.png,0.5,Outcome=?;Touchdowns=0;Receiving=0;Rushing=0;Turnovers=0;Touchdowns conceded=0;match-points=0
+Los Angeles Chargers,LAC,Jacksonville Jaguars,0,7-3,images/LAC.png,3.5,Outcome=?;Touchdowns=0;Receiving=0;Rushing=0;Turnovers=0;Touchdowns conceded=0;match-points=0
+Los Angeles Rams,LAR,Seattle Seahawks,0,7-2,images/LAR.png,5,Outcome=?;Touchdowns=0;Receiving=0;Rushing=0;Turnovers=0;Touchdowns conceded=0;match-points=0
+Miami Dolphins,MIA,Washington Commanders,0,3-7,images/MIA.png,1,Outcome=?;Touchdowns=0;Receiving=0;Rushing=0;Turnovers=0;Touchdowns conceded=0;match-points=0
+Minnesota Vikings,MIN,Chicago Bears,0,4-5,images/MIN.png,2.5,Outcome=?;Touchdowns=0;Receiving=0;Rushing=0;Turnovers=0;Touchdowns conceded=0;match-points=0
+New England Patriots,NE,New York Jets,0,8-2,images/NE.png,4.5,Outcome=?;Touchdowns=0;Receiving=0;Rushing=0;Turnovers=0;Touchdowns conceded=0;match-points=0
+New York Giants,NYG,Green Bay Packers,0,2-8,images/NYG.png,1,Outcome=?;Touchdowns=0;Receiving=0;Rushing=0;Turnovers=0;Touchdowns conceded=0;match-points=0
+New York Jets,NYJ,New England Patriots,0,2-7,images/NYJ.png,1.5,Outcome=?;Touchdowns=0;Receiving=0;Rushing=0;Turnovers=0;Touchdowns conceded=0;match-points=0
+Philadelphia Eagles,PHI,Detroit Lions,0,7-2,images/PHI.png,3.5,Outcome=?;Touchdowns=0;Receiving=0;Rushing=0;Turnovers=0;Touchdowns conceded=0;match-points=0
+Pittsburgh Steelers,PIT,Cincinnati Bengals,0,5-4,images/PIT.png,3,Outcome=?;Touchdowns=0;Receiving=0;Rushing=0;Turnovers=0;Touchdowns conceded=0;match-points=0
+San Francisco 49ers,SF,Arizona Cardinals,0,6-4,images/SF.png,2.5,Outcome=?;Touchdowns=0;Receiving=0;Rushing=0;Turnovers=0;Touchdowns conceded=0;match-points=0
+Seattle Seahawks,SEA,Los Angeles Rams,0,7-2,images/SEA.png,5,Outcome=?;Touchdowns=0;Receiving=0;Rushing=0;Turnovers=0;Touchdowns conceded=0;match-points=0
+Tampa Bay Buccaneers,TB,Buffalo Bills,0,6-3,images/TB.png,3,Outcome=?;Touchdowns=0;Receiving=0;Rushing=0;Turnovers=0;Touchdowns conceded=0;match-points=0
+Tennessee Titans,TEN,Houston Texans,0,1-8,images/TEN.png,0.5,Outcome=?;Touchdowns=0;Receiving=0;Rushing=0;Turnovers=0;Touchdowns conceded=0;match-points=0
+Washington Commanders,WAS,Miami Dolphins,0,3-7,images/WAS.png,1,Outcome=?;Touchdowns=0;Receiving=0;Rushing=0;Turnovers=0;Touchdowns conceded=0;match-points=0`;
 
 
         // --- 3. Configuration & State ---
         
-        // These are the 6 NFL teams associated with Teamz1-Teamz6 keys on the dashboard
-        const SELECTED_NFL_TEAMS = [
-            "New England Patriots", "Dallas Cowboys", "Kansas City Chiefs", 
-            "San Francisco 49ers", "Green Bay Packers", "Miami Dolphins"
-        ];
+        // This constant is no longer needed as picks are user-specific in the CSV.
+        // const SELECTED_NFL_TEAMS = [
+        //     "New England Patriots", "Dallas Cowboys", "Kansas City Chiefs", 
+        //     "San Francisco 49ers", "Green Bay Packers", "Miami Dolphins"
+        // ];
         
         const GENERIC_TEAM_HEADERS = [
             "Team 1", "Team 2", "Team 3", "Team 4", "Team 5", "Team 6"
         ];
         
-        const TEAM_KEYS = ["Teamz1", "Teamz2", "Teamz3", "Teamz4", "Teamz5", "Teamz6"];
+        // Team keys now match the new CSV headers: team1, team2, etc.
+        const TEAM_KEYS = ["team1", "team2", "team3", "team4", "team5", "team6"];
         const MAX_PICKS = 6;
         const INITIAL_BUDGET = 20;
 
@@ -315,7 +314,7 @@ Washington Commanders,WAS,Miami Dolphins,12,3-7,images/WAS.png,1,Outcome=loss;To
         }
         
         function goToDashboardScreen() {
-            
+            renderUserTable();
             showScreen(loggedInScreen);
         }
 
@@ -345,13 +344,16 @@ Washington Commanders,WAS,Miami Dolphins,12,3-7,images/WAS.png,1,Outcome=loss;To
             // 1. Calculate total points and prepare a sortable list of users
             const usersWithCalculatedPoints = userDatabase.map(user => {
                 let totalPoints = 0;
-                // Calculate points based on the hardcoded picks and the teamsDatabase
-                TEAM_KEYS.forEach((key, j) => {
-                    // Check if the CSV value is 'true' (case-insensitive)
-                    const isMember = user[key].toLowerCase() === 'true'; 
-                    if (isMember) {
-                        const teamName = SELECTED_NFL_TEAMS[j]; 
-                        const teamData = teamsDatabase[teamName];
+                // Calculate points based on the user's specific team picks
+                TEAM_KEYS.forEach((key) => {
+                    // Get the team name directly from the user data (e.g., user.team1)
+                    const teamName = user[key]; 
+                    
+                    // Check if a team name exists in the column (i.e., it was picked)
+                    const isPicked = !!teamName && teamName.trim() !== ''; 
+                    
+                    if (isPicked) {
+                        const teamData = teamsDatabase[teamName]; // Look up data by name
                         if (teamData) {
                             totalPoints += teamData.points;
                         }
@@ -387,12 +389,13 @@ Washington Commanders,WAS,Miami Dolphins,12,3-7,images/WAS.png,1,Outcome=loss;To
                 tableHtml += `<td class="sticky left-0 px-4 py-3 whitespace-nowrap font-medium text-gray-900 text-left bg-inherit">${user.name}</td>`;
                 
                 // Team Columns
-                TEAM_KEYS.forEach((key, j) => {
-                    const isMember = user[key].toLowerCase() === 'true'; 
-                    let cellContent = `<span class="text-red-500 italic text-sm">N/A</span>`; // Default if not picked
+                TEAM_KEYS.forEach((key) => {
+                    // Get the team name specified in the user's data for this slot
+                    const teamName = user[key];
+                    const isPicked = !!teamName && teamName.trim() !== ''; 
+                    let cellContent = `<span class="text-red-500 italic text-sm">–</span>`; // Default if not picked
 
-                    if (isMember) {
-                        const teamName = SELECTED_NFL_TEAMS[j]; 
+                    if (isPicked) {
                         const teamData = teamsDatabase[teamName];
                         
                         if (teamData) {
