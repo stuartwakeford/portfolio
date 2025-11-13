@@ -54,6 +54,7 @@
 
         <!-- Dashboard Screen (State 1 - Now Default) -->
         <div id="logged-in-screen" class="hidden bg-white p-8 rounded-xl shadow-2xl text-center transition-opacity duration-500">
+            <!-- UPDATED HEADER TEXT -->
             <h2 class="text-3xl font-extrabold text-indigo-700 mb-6">NFL Teamz Week 11</h2>
             
             <!-- Pick Teams Button -->
@@ -121,54 +122,53 @@
     </div>
 
     <script>
-        // --- 1. User Database (CSV) - Simplified to just Name and Picks ---
-        // Headers: name,Teamz1,Teamz2,Teamz3,Teamz4,Teamz5,Teamz6
+        // --- 1. User Database (CSV) - SIMULATED UNIQUE SCORES BY VARYING PICKS ---
+        // Scores (Descending): 163, 150, 143, 133, 131, 130, 128
         const CSV_DATA = 
             `name,Teamz1,Teamz2,Teamz3,Teamz4,Teamz5,Teamz6
 Stu,true,true,true,true,true,true
-Admin,true,true,true,true,true,true
-Tester,true,true,true,true,true,true
-Dave,true,true,true,true,true,true
-Kat,true,true,true,true,true,true
-Rich,true,true,true,true,true,true
-Fernando,true,true,true,true,true,true`;
+Admin,false,true,true,true,true,true
+Tester,true,true,true,true,false,true
+Dave,true,false,true,true,true,true
+Kat,true,true,true,false,true,true
+Rich,true,true,true,true,true,false
+Fernando,true,true,false,true,true,true`;
 
         // --- 2. Simulated Teams Database (CSV) ---
-        // Dallas (5.5) and Miami (4.5) updated for decimal testing
         // Headers: team,abbr,opponent,points,record,image,rating,details
-        // DETAILS format: Outcome=X;Touchdowns=Y;...
+        // DETAILS format: Outcome=X;Touchdowns=Y;...;match-points=Z (NEW)
         const TEAMS_CSV_DATA = 
             `team,abbr,opponent,points,record,image,rating,details
-Arizona Cardinals,ARI,San Francisco 49ers,18,3-6,images/ARI.png,2,Outcome=win;Touchdowns=3;Receiving=323 yards;Rushing=110 yards;Turnovers=1;Touchdowns conceded=2;FGs over 45y=1
-Atlanta Falcons,ATL,Carolina Panthers,25,3-6,images/ATL.png,1.5,Outcome=loss;Touchdowns=2;Receiving=288 yards;Rushing=134 yards;Turnovers=2;Touchdowns conceded=3;FGs over 45y=0
-Baltimore Ravens,BAL,Cleveland Browns,31,5-4,images/BAL.png,3,Outcome=win;Touchdowns=5;Receiving=350 yards;Rushing=150 yards;Turnovers=0;Touchdowns conceded=4;FGs over 45y=2
-Buffalo Bills,BUF,Tampa Bay Buccaneers,22,6-3,images/BUF.png,4,Outcome=tie;Touchdowns=3;Receiving=305 yards;Rushing=100 yards;Turnovers=1;Touchdowns conceded=3;FGs over 45y=1
-Carolina Panthers,CAR,Atlanta Falcons,10,6-3,images/CAR.png,1.5,Outcome=loss;Touchdowns=1;Receiving=200 yards;Rushing=80 yards;Turnovers=3;Touchdowns conceded=5;FGs over 45y=0
-Chicago Bears,CHI,Minnesota Vikings,15,6-3,images/CHI.png,2.5,Outcome=win;Touchdowns=4;Receiving=260 yards;Rushing=120 yards;Turnovers=1;Touchdowns conceded=3;FGs over 45y=1
-Cincinnati Bengals,CIN,Pittsburgh Steelers,24,3-6,images/CIN.png,0.5,Outcome=win;Touchdowns=4;Receiving=330 yards;Rushing=95 yards;Turnovers=0;Touchdowns conceded=3;FGs over 45y=2
-Cleveland Browns,CLE,Baltimore Ravens,12,2-7,images/CLE.png,0.5,Outcome=win;Touchdowns=2;Receiving=210 yards;Rushing=145 yards;Turnovers=1;Touchdowns conceded=1;FGs over 45y=1
-Dallas Cowboys,DAL,Las Vegas Raiders,30,3-5,images/DAL.png,2,Outcome=win;Touchdowns=5;Receiving=400 yards;Rushing=160 yards;Turnovers=0;Touchdowns conceded=1;FGs over 45y=1
-Denver Broncos,DEN,Kansas City Chiefs,16,8-2,images/DEN.png,4,Outcome=loss;Touchdowns=1;Receiving=180 yards;Rushing=75 yards;Turnovers=2;Touchdowns conceded=3;FGs over 45y=0
-Detroit Lions,DET,Philadelphia Eagles,28,6-3,images/DET.png,4.5,Outcome=win;Touchdowns=3;Receiving=315 yards;Rushing=130 yards;Turnovers=1;Touchdowns conceded=3;FGs over 45y=1
-Green Bay Packers,GB,New York Giants,20,5-3,images/GB.png,3.5,Outcome=loss;Touchdowns=3;Receiving=290 yards;Rushing=115 yards;Turnovers=2;Touchdowns conceded=4;FGs over 45y=0
-Houston Texans,HOU,Tennessee Titans,27,4-5,images/HOU.png,4,Outcome=win;Touchdowns=4;Receiving=340 yards;Rushing=105 yards;Turnovers=1;Touchdowns conceded=3;FGs over 45y=1
-Jacksonville Jaguars,JAX,Los Angeles Chargers,21,5-4,images/JAC.png,2,Outcome=loss;Touchdowns=2;Receiving=275 yards;Rushing=85 yards;Turnovers=3;Touchdowns conceded=3;FGs over 45y=0
-Kansas City Chiefs,KC,Denver Broncos,35,5-4,images/KC.png,4.5,Outcome=win;Touchdowns=5;Receiving=380 yards;Rushing=170 yards;Turnovers=0;Touchdowns conceded=2;FGs over 45y=1
-Las Vegas Raiders,LV,Dallas Cowboys,14,2-7,images/LV.png,0.5,Outcome=win;Touchdowns=2;Receiving=245 yards;Rushing=125 yards;Turnovers=1;Touchdowns conceded=1;FGs over 45y=2
-Los Angeles Chargers,LAC,Jacksonville Jaguars,23,7-3,images/LAC.png,3.5,Outcome=loss;Touchdowns=2;Receiving=310 yards;Rushing=90 yards;Turnovers=2;Touchdowns conceded=3;FGs over 45y=1
-Los Angeles Rams,LAR,Seattle Seahawks,29,7-2,images/LAR.png,5,Outcome=win;Touchdowns=3;Receiving=300 yards;Rushing=115 yards;Turnovers=1;Touchdowns conceded=3;FGs over 45y=1
-Miami Dolphins,MIA,Washington Commanders,33,3-7,images/MIA.png,1,Outcome=win;Touchdowns=6;Receiving=450 yards;Rushing=180 yards;Turnovers=0;Touchdowns conceded=2;FGs over 45y=0
-Minnesota Vikings,MIN,Chicago Bears,17,4-5,images/MIN.png,2.5,Outcome=tie;Touchdowns=3;Receiving=290 yards;Rushing=100 yards;Turnovers=1;Touchdowns conceded=3;FGs over 45y=1
-New England Patriots,NE,New York Jets,13,8-2,images/NE.png,4.5,Outcome=loss;Touchdowns=1;Receiving=150 yards;Rushing=60 yards;Turnovers=3;Touchdowns conceded=4;FGs over 45y=0
-New York Giants,NYG,Green Bay Packers,11,2-8,images/NYG.png,1,Outcome=loss;Touchdowns=2;Receiving=220 yards;Rushing=70 yards;Turnovers=3;Touchdowns conceded=4;FGs over 45y=0
-New York Jets,NYJ,New England Patriots,10,2-7,images/NYJ.png,1.5,Outcome=loss;Touchdowns=1;Receiving=205 yards;Rushing=95 yards;Turnovers=2;Touchdowns conceded=2;FGs over 45y=1
-Philadelphia Eagles,PHI,Detroit Lions,34,7-2,images/PHI.png,3.5,Outcome=win;Touchdowns=4;Receiving=370 yards;Rushing=155 yards;Turnovers=0;Touchdowns conceded=4;FGs over 45y=1
-Pittsburgh Steelers,PIT,Cincinnati Bengals,18,5-4,images/PIT.png,3,Outcome=win;Touchdowns=3;Receiving=255 yards;Rushing=135 yards;Turnovers=1;Touchdowns conceded=1;FGs over 45y=2
-San Francisco 49ers,SF,Arizona Cardinals,32,6-4,images/SF.png,2.5,Outcome=win;Touchdowns=4;Receiving=360 yards;Rushing=140 yards;Turnovers=0;Touchdowns conceded=2;FGs over 45y=1
-Seattle Seahawks,SEA,Los Angeles Rams,25,7-2,images/SEA.png,5,Outcome=win;Touchdowns=3;Receiving=270 yards;Rushing=120 yards;Turnovers=1;Touchdowns conceded=2;FGs over 45y=1
-Tampa Bay Buccaneers,TB,Buffalo Bills,19,6-3,images/TB.png,3,Outcome=loss;Touchdowns=2;Receiving=295 yards;Rushing=80 yards;Turnovers=2;Touchdowns conceded=3;FGs over 45y=1
-Tennessee Titans,TEN,Houston Texans,15,1-8,images/TEN.png,0.5,Outcome=loss;Touchdowns=2;Receiving=230 yards;Rushing=90 yards;Turnovers=2;Touchdowns conceded=2;FGs over 45y=0
-Washington Commanders,WAS,Miami Dolphins,12,3-7,images/WAS.png,1,Outcome=loss;Touchdowns=3;Receiving=310 yards;Rushing=95 yards;Turnovers=3;Touchdowns conceded=5;FGs over 45y=0`;
+Arizona Cardinals,ARI,San Francisco 49ers,18,3-6,images/ARI.png,2,Outcome=win;Touchdowns=3;Receiving=323 yards;Rushing=110 yards;Turnovers=1;Touchdowns conceded=2;match-points=4
+Atlanta Falcons,ATL,Carolina Panthers,25,3-6,images/ATL.png,1.5,Outcome=loss;Touchdowns=2;Receiving=288 yards;Rushing=134 yards;Turnovers=2;Touchdowns conceded=3;match-points=1
+Baltimore Ravens,BAL,Cleveland Browns,31,5-4,images/BAL.png,3,Outcome=win;Touchdowns=5;Receiving=350 yards;Rushing=150 yards;Turnovers=0;Touchdowns conceded=4;match-points=5
+Buffalo Bills,BUF,Tampa Bay Buccaneers,22,6-3,images/BUF.png,4,Outcome=tie;Touchdowns=3;Receiving=305 yards;Rushing=100 yards;Turnovers=1;Touchdowns conceded=3;match-points=2
+Carolina Panthers,CAR,Atlanta Falcons,10,6-3,images/CAR.png,1.5,Outcome=loss;Touchdowns=1;Receiving=200 yards;Rushing=80 yards;Turnovers=3;Touchdowns conceded=5;match-points=1
+Chicago Bears,CHI,Minnesota Vikings,15,6-3,images/CHI.png,2.5,Outcome=win;Touchdowns=4;Receiving=260 yards;Rushing=120 yards;Turnovers=1;Touchdowns conceded=3;match-points=3
+Cincinnati Bengals,CIN,Pittsburgh Steelers,24,3-6,images/CIN.png,0.5,Outcome=win;Touchdowns=4;Receiving=330 yards;Rushing=95 yards;Turnovers=0;Touchdowns conceded=3;match-points=4
+Cleveland Browns,CLE,Baltimore Ravens,12,2-7,images/CLE.png,0.5,Outcome=win;Touchdowns=2;Receiving=210 yards;Rushing=145 yards;Turnovers=1;Touchdowns conceded=1;match-points=2
+Dallas Cowboys,DAL,Las Vegas Raiders,30,3-5,images/DAL.png,2,Outcome=win;Touchdowns=5;Receiving=400 yards;Rushing=160 yards;Turnovers=0;Touchdowns conceded=1;match-points=5
+Denver Broncos,DEN,Kansas City Chiefs,16,8-2,images/DEN.png,4,Outcome=loss;Touchdowns=1;Receiving=180 yards;Rushing=75 yards;Turnovers=2;Touchdowns conceded=3;match-points=1
+Detroit Lions,DET,Philadelphia Eagles,28,6-3,images/DET.png,4.5,Outcome=win;Touchdowns=3;Receiving=315 yards;Rushing=130 yards;Turnovers=1;Touchdowns conceded=3;match-points=4
+Green Bay Packers,GB,New York Giants,20,5-3,images/GB.png,3.5,Outcome=loss;Touchdowns=3;Receiving=290 yards;Rushing=115 yards;Turnovers=2;Touchdowns conceded=4;match-points=2
+Houston Texans,HOU,Tennessee Titans,27,4-5,images/HOU.png,4,Outcome=win;Touchdowns=4;Receiving=340 yards;Rushing=105 yards;Turnovers=1;Touchdowns conceded=3;match-points=3
+Jacksonville Jaguars,JAX,Los Angeles Chargers,21,5-4,images/JAC.png,2,Outcome=loss;Touchdowns=2;Receiving=275 yards;Rushing=85 yards;Turnovers=3;Touchdowns conceded=3;match-points=1
+Kansas City Chiefs,KC,Denver Broncos,35,5-4,images/KC.png,4.5,Outcome=win;Touchdowns=5;Receiving=380 yards;Rushing=170 yards;Turnovers=0;Touchdowns conceded=2;match-points=5
+Las Vegas Raiders,LV,Dallas Cowboys,14,2-7,images/LV.png,0.5,Outcome=win;Touchdowns=2;Receiving=245 yards;Rushing=125 yards;Turnovers=1;Touchdowns conceded=1;match-points=3
+Los Angeles Chargers,LAC,Jacksonville Jaguars,23,7-3,images/LAC.png,3.5,Outcome=loss;Touchdowns=2;Receiving=310 yards;Rushing=90 yards;Turnovers=2;Touchdowns conceded=3;match-points=4
+Los Angeles Rams,LAR,Seattle Seahawks,29,7-2,images/LAR.png,5,Outcome=win;Touchdowns=3;Receiving=300 yards;Rushing=115 yards;Turnovers=1;Touchdowns conceded=3;match-points=5
+Miami Dolphins,MIA,Washington Commanders,33,3-7,images/MIA.png,1,Outcome=win;Touchdowns=6;Receiving=450 yards;Rushing=180 yards;Turnovers=0;Touchdowns conceded=2;match-points=1
+Minnesota Vikings,MIN,Chicago Bears,17,4-5,images/MIN.png,2.5,Outcome=tie;Touchdowns=3;Receiving=290 yards;Rushing=100 yards;Turnovers=1;Touchdowns conceded=3;match-points=3
+New England Patriots,NE,New York Jets,13,8-2,images/NE.png,4.5,Outcome=loss;Touchdowns=1;Receiving=150 yards;Rushing=60 yards;Turnovers=3;Touchdowns conceded=4;match-points=2
+New York Giants,NYG,Green Bay Packers,11,2-8,images/NYG.png,1,Outcome=loss;Touchdowns=2;Receiving=220 yards;Rushing=70 yards;Turnovers=3;Touchdowns conceded=4;match-points=1
+New York Jets,NYJ,New England Patriots,10,2-7,images/NYJ.png,1.5,Outcome=loss;Touchdowns=1;Receiving=205 yards;Rushing=95 yards;Turnovers=2;Touchdowns conceded=2;match-points=2
+Philadelphia Eagles,PHI,Detroit Lions,34,7-2,images/PHI.png,3.5,Outcome=win;Touchdowns=4;Receiving=370 yards;Rushing=155 yards;Turnovers=0;Touchdowns conceded=4;match-points=4
+Pittsburgh Steelers,PIT,Cincinnati Bengals,18,5-4,images/PIT.png,3,Outcome=win;Touchdowns=3;Receiving=255 yards;Rushing=135 yards;Turnovers=1;Touchdowns conceded=1;match-points=5
+San Francisco 49ers,SF,Arizona Cardinals,32,6-4,images/SF.png,2.5,Outcome=win;Touchdowns=4;Receiving=360 yards;Rushing=140 yards;Turnovers=0;Touchdowns conceded=2;match-points=3
+Seattle Seahawks,SEA,Los Angeles Rams,25,7-2,images/SEA.png,5,Outcome=win;Touchdowns=3;Receiving=270 yards;Rushing=120 yards;Turnovers=1;Touchdowns conceded=2;match-points=4
+Tampa Bay Buccaneers,TB,Buffalo Bills,19,6-3,images/TB.png,3,Outcome=loss;Touchdowns=2;Receiving=295 yards;Rushing=80 yards;Turnovers=2;Touchdowns conceded=3;match-points=2
+Tennessee Titans,TEN,Houston Texans,15,1-8,images/TEN.png,0.5,Outcome=loss;Touchdowns=2;Receiving=230 yards;Rushing=90 yards;Turnovers=2;Touchdowns conceded=2;match-points=1
+Washington Commanders,WAS,Miami Dolphins,12,3-7,images/WAS.png,1,Outcome=loss;Touchdowns=3;Receiving=310 yards;Rushing=95 yards;Turnovers=3;Touchdowns conceded=5;match-points=2`;
 
 
         // --- 3. Configuration & State ---
@@ -339,6 +339,28 @@ Washington Commanders,WAS,Miami Dolphins,12,3-7,images/WAS.png,1,Outcome=loss;To
         // --- 7. Dashboard/Table Rendering ---
 
         function renderUserTable() {
+            
+            // 1. Calculate total points and prepare a sortable list of users
+            const usersWithCalculatedPoints = userDatabase.map(user => {
+                let totalPoints = 0;
+                // Calculate points based on the hardcoded picks and the teamsDatabase
+                TEAM_KEYS.forEach((key, j) => {
+                    // Check if the CSV value is 'true' (case-insensitive)
+                    const isMember = user[key].toLowerCase() === 'true'; 
+                    if (isMember) {
+                        const teamName = SELECTED_NFL_TEAMS[j]; 
+                        const teamData = teamsDatabase[teamName];
+                        if (teamData) {
+                            totalPoints += teamData.points;
+                        }
+                    }
+                });
+                return { ...user, totalPoints };
+            });
+
+            // 2. Sort the users based on totalPoints (highest score first)
+            usersWithCalculatedPoints.sort((a, b) => b.totalPoints - a.totalPoints);
+            
             let tableHtml = `
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg">
@@ -352,8 +374,9 @@ Washington Commanders,WAS,Miami Dolphins,12,3-7,images/WAS.png,1,Outcome=loss;To
                         <tbody class="bg-white divide-y divide-gray-100">
             `;
 
-            userDatabase.forEach((user, index) => {
-                let totalPoints = 0; 
+            // 3. Iterate over the sorted list for rendering
+            usersWithCalculatedPoints.forEach((user, index) => {
+                const totalPoints = user.totalPoints; // Use the pre-calculated points
                 const rowClass = index % 2 === 0 ? 'bg-white' : 'bg-gray-50';
                 tableHtml += `<tr class="hover:bg-indigo-100 transition duration-150 ${rowClass}">`;
                 
@@ -369,7 +392,6 @@ Washington Commanders,WAS,Miami Dolphins,12,3-7,images/WAS.png,1,Outcome=loss;To
                         const teamData = teamsDatabase[teamName];
                         
                         if (teamData) {
-                            totalPoints += teamData.points;
                             const abbr = teamData.abbr;
 
                             // Make the team display clickable
@@ -570,7 +592,8 @@ Washington Commanders,WAS,Miami Dolphins,12,3-7,images/WAS.png,1,Outcome=loss;To
             const isAffordable = cost <= budgetRemaining;
             
             // Define base classes
-            let tileClasses = 'border-2 border-gray-300 bg-white shadow-lg flex-shrink-0 transition duration-200';
+            // NOTE: Added 'relative' to the tileClasses for absolute positioning of the record
+            let tileClasses = 'border-2 border-gray-300 bg-white shadow-lg flex-shrink-0 transition duration-200 relative';
             let buttonClasses = 'w-full text-white py-1.5 rounded-lg font-semibold transition duration-150';
             let buttonText = '';
             let disabledAttribute = '';
@@ -596,6 +619,12 @@ Washington Commanders,WAS,Miami Dolphins,12,3-7,images/WAS.png,1,Outcome=loss;To
             // CORRECTED: Ensure all requested elements (Image, Abbr, Rating, Record) are displayed.
             return `
                 <div class="flex-1 flex flex-col items-center p-3 rounded-xl ${tileClasses}">
+                    
+                    <!-- Team's form/record (Record) - NEW ABSOLUTE POSITION TOP RIGHT -->
+                    <span class="absolute top-3 right-3 text-xs text-gray-600 font-semibold bg-gray-50 px-2 py-0.5 rounded-full border border-gray-200">
+                        ${teamData.record}
+                    </span>
+
                     <!-- Team Image -->
                     <img src="${teamData.image}" 
                          alt="${teamData.team} logo" 
@@ -604,10 +633,9 @@ Washington Commanders,WAS,Miami Dolphins,12,3-7,images/WAS.png,1,Outcome=loss;To
                     >
                     <!-- 2/3 letter abbreviation (Abbr) -->
                     <span class="text-3xl font-extrabold text-indigo-700 leading-none mb-1">${abbr}</span>
-                    <!-- Star-value (Rating) -->
-                    <span class="text-lg font-bold text-yellow-600">⭐${formatRating(teamData.rating)}</span>
-                    <!-- Team's form/record (Record) -->
-                    <span class="text-xs text-gray-500 mb-3">${teamData.record}</span>
+                    <!-- Star-value (Rating) - Added mb-3 for spacing above button -->
+                    <span class="text-lg font-bold text-yellow-600 mb-3">⭐${formatRating(teamData.rating)}</span>
+                    
                     <!-- Pick/Picked Button -->
                     <button onclick="handlePick('${abbr}', this)"
                             ${disabledAttribute}
@@ -676,6 +704,49 @@ Washington Commanders,WAS,Miami Dolphins,12,3-7,images/WAS.png,1,Outcome=loss;To
         
         // --- 10. Modal Functions (Updated to include Match Breakdown Table) ---
         
+        /**
+         * Helper function to render the team image, abbreviation, and match points 
+         * for the modal's matchup display (Columns 1 and 3).
+         * @param {Object} data - Team data object.
+         * @param {boolean} isClickedTeam - True if this is the team the user clicked on (align left).
+         */
+        const renderAbbrDisplay = (data, isClickedTeam) => {
+            if (!data) return `<div class="text-center"><span class="text-gray-400">N/A</span></div>`;
+            
+            const borderColor = isClickedTeam ? 'border-indigo-500' : 'border-gray-400';
+            
+            // Outer container alignment: align the entire block left or right in the grid column
+            const outerAlign = isClickedTeam ? 'items-start' : 'items-end';
+
+            // Inner container structure: Image and text side-by-side
+            const innerFlex = isClickedTeam ? 'flex-row' : 'flex-row-reverse';
+            
+            // Extract match-points from parsed details
+            const breakdown = parseMatchDetails(data.details);
+            // Use the new match-points key
+            const matchPoints = breakdown['match-points'] || 0; 
+
+            return `
+                <div class="flex flex-col ${outerAlign} space-y-2">
+                    
+                    <!-- Row 1: Image and Abbreviation -->
+                    <div class="flex items-center space-x-2 ${innerFlex} w-full">
+                        <img src="${data.image}" 
+                             alt="${data.abbr} logo" 
+                             class="w-12 h-12 rounded-full object-cover border-2 ${borderColor} flex-shrink-0"
+                             onerror="this.onerror=null; this.src='https://placehold.co/48x48/6366f1/ffffff?text=${data.abbr}';"
+                        >
+                        <span class="text-2xl font-extrabold text-gray-900 leading-none">${data.abbr}</span>
+                    </div>
+
+                    <!-- Row 2: Match Points (Updated styling) -->
+                    <div class="text-sm font-normal text-gray-600">
+                        <span class="text-lg font-normal text-gray-900">${matchPoints}</span>
+                    </div>
+                </div>
+            `;
+        };
+
         function showTeamModal(abbr) {
             const teamData = getTeamDataByAbbr(abbr);
             if (!teamData) return;
@@ -684,24 +755,28 @@ Washington Commanders,WAS,Miami Dolphins,12,3-7,images/WAS.png,1,Outcome=loss;To
             const opponentName = teamData.opponent;
             const opponentData = teamsDatabase[opponentName];
             
-            let opponentHtml = '';
-            if (opponentData) {
-                // Request 2: Opponent name alongside image
-                opponentHtml = `
-                    <div class="flex items-center space-x-3">
-                        <img src="${opponentData.image}" 
-                             alt="${opponentData.team} logo" 
-                             class="w-10 h-10 rounded-full object-cover border-2 border-gray-300"
-                             onerror="this.onerror=null; this.src='https://placehold.co/40x40/d1d5db/374151?text=${opponentData.abbr}';"
-                        >
-                        <span class="text-lg font-medium text-gray-800">${opponentData.team}</span>
+            // --- 2. New 3-Column Matchup Display (Uses the updated renderAbbrDisplay) ---
+            const matchupHtml = `
+                <div class="grid grid-cols-[1fr,auto,1fr] items-center p-3 rounded-xl bg-indigo-100 border border-indigo-300 shadow-lg mb-3">
+                    
+                    <!-- Column 1: Clicked Team (Left, isClickedTeam=true) -->
+                    ${renderAbbrDisplay(teamData, true)}
+
+                    <!-- Column 2: VS (Center, smallest column) -->
+                    <div class="text-2xl font-extrabold text-indigo-700 mx-2 text-center flex-shrink-0">
+                        vs
                     </div>
-                `;
-            }
-            
-            // --- 2. Parse Match Breakdown Data ---
+
+                    <!-- Column 3: Opponent Team (Right, isClickedTeam=false) -->
+                    ${renderAbbrDisplay(opponentData, false)}
+                </div>
+            `;
+
+
+            // --- 3. Parse Match Breakdown Data ---
             const breakdown = parseMatchDetails(teamData.details);
 
+            // Updated breakdown labels: removed 'Match points (Bonus)' row
             const breakdownDataLabels = [
                 { label: 'Outcome', key: 'Outcome' },
                 { label: 'Touchdowns', key: 'Touchdowns' },
@@ -709,13 +784,13 @@ Washington Commanders,WAS,Miami Dolphins,12,3-7,images/WAS.png,1,Outcome=loss;To
                 { label: 'Rushing', key: 'Rushing' },
                 { label: 'Turnovers', key: 'Turnovers' },
                 { label: 'Touchdowns conceded', key: 'Touchdowns conceded' },
-                { label: 'FGs over 45y', key: 'FGs over 45y' },
             ];
             
-            // --- 3. Generate Match Breakdown Table HTML ---
+            // --- 4. Generate Match Breakdown Table HTML ---
             const breakdownTableHTML = `
                 <div class="mt-6 pt-4 border-t border-gray-200">
-                    <h3 class="text-lg font-bold text-gray-800 mb-3 text-left">Match Breakdown</h3>
+                    <!-- Updated header to 'Match stats' -->
+                    <h3 class="text-lg font-bold text-gray-800 mb-3 text-left">Match stats</h3> 
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200 shadow-md rounded-lg overflow-hidden border border-gray-100">
                             <tbody class="bg-white divide-y divide-gray-100 text-left">
@@ -732,7 +807,7 @@ Washington Commanders,WAS,Miami Dolphins,12,3-7,images/WAS.png,1,Outcome=loss;To
                 </div>
             `;
             
-            // --- 4. Record and Rating block ---
+            // --- 5. Record and Rating block ---
             const recordRatingHtml = `
                 <div class="flex justify-center space-x-6 mb-6 text-base font-medium text-gray-500">
                     <div>Record: <span class="text-gray-800 font-semibold">${teamData.record}</span></div>
@@ -741,29 +816,26 @@ Washington Commanders,WAS,Miami Dolphins,12,3-7,images/WAS.png,1,Outcome=loss;To
                 </div>
             `;
             
-            // --- 5. Opponent and Points block ---
+            // --- 6. Opponent and Points block (using new matchupHtml) ---
             const summaryBoxesHtml = `
                 <div class="flex flex-col space-y-3 mb-6">
-                    <!-- Opponent Info -->
-                    <div class="bg-gray-100 p-3 rounded-lg flex justify-between items-center border border-gray-200 shadow-sm">
-                        <!-- Updated label (Request 2) -->
-                        <label class="text-base font-semibold text-gray-600">Vs:</label> 
-                        ${opponentHtml}
-                    </div>
-                    <!-- Total Points Field -->
-                    <div class="bg-indigo-50 p-4 rounded-lg flex justify-between items-center border border-indigo-200 shadow-md">
-                        <label class="text-lg font-semibold text-gray-700">Total points:</label>
+                    <!-- New 3-Column Matchup Info -->
+                    ${matchupHtml}
+
+                    <!-- Total Points Field - Using a neutral background -->
+                    <div class="bg-gray-100 p-4 rounded-lg flex justify-between items-center border border-gray-200 shadow-md">
+                        <label class="text-lg font-semibold text-gray-700">Total points scored:</label>
                         <div class="text-2xl font-bold text-green-600">${teamData.points}</div>
                     </div>
                 </div>
             `;
 
 
-            // --- 6. Populate Modal Content ---
+            // --- 7. Populate Modal Content ---
             modalContent.innerHTML = `
                 <h3 class="text-2xl font-extrabold text-indigo-700 pt-2 mb-4">${teamData.team}</h3>
                 
-                <!-- Team Image -->
+                <!-- Team Image (Large) -->
                 <div class="mb-3 flex justify-center">
                     <img src="${teamData.image}" 
                          alt="${teamData.team} logo" 
