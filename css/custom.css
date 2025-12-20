@@ -305,8 +305,8 @@ h3 {
     width: auto;
     margin-right: 8px;
     margin-bottom: 8px;
-    padding: 6px 16px 6px 16px;
-    font-size: 16px;
+    padding: 6px 14px 6px 14px;
+    font-size: 14px;
     font-weight: 500;
     text-transform: uppercase;
 }
@@ -334,8 +334,8 @@ h3 {
 /* XS */    
 @media (max-width: 575.98px) {
     .display-1 {
-        font-size: 38px !important;
-        line-height: 36px !important;
+        font-size: 50px !important;
+        line-height: 48px !important;
         -color: red;
     }
     h1 {
@@ -470,8 +470,8 @@ h3 {
 /* XL */    
 @media (min-width: 1199.98px) {
     .display-1 {
-        font-size: 140px !important;
-        line-height: 126px !important;
+        font-size: 130px !important;
+        line-height: 122px !important;
         -color: orange !important;
     }
 }
@@ -479,8 +479,8 @@ h3 {
 /* XXL */    
 @media (min-width: 1400px) {
     .display-1 {
-        font-size: 160px !important;
-        line-height: 144px !important;
+        font-size: 140px !important;
+        line-height: 134px !important;
         -color: blue !important;
     }
 }
