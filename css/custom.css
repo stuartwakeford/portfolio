@@ -51,10 +51,10 @@ code::selection {
 }
 
 .branding {
-    font-size: 26px;
-    font-weight: 500;
-    line-height: 30px;
-    padding-top: 5px !important;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 24px;
+    padding-top: 9px !important;
 }
 
 .brand-sub {
