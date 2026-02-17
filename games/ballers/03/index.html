@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Football Player Grid</title>
+    <!-- Load Tailwind CSS classes for aesthetics/utility -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Bootstrap 5 CSS from CDN for structure/components -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKzyjpPEjISv5WaRU9OFeRpok6RctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        /* Custom styles for aesthetic improvements */
+        body {
+            background-color: #f8f9fa; /* Light background */
+            font-family: 'Inter', sans-serif;
+            padding-top: 5rem; /* Pushes content down to clear the sticky header */
+            padding-bottom: 2rem;
+        }
+
+        /* Sticky Top Header Bar Styling (Always visible and separate) */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #0d6efd; /* Primary blue background */
+            color: white;
+            padding: 1rem 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            height: 5rem; /* Explicit height for calculation */
+        }
+        
+        /* Standard Player Card Styling */
+        .player-card {
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+            border-radius: 12px;
+            overflow: hidden;
+            border: none;
+            background-color: white;
+        }
+
+        .player-card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Keyframes for the Spin Reveal Animation (Quicker 1.5s duration) */
+        @keyframes spin-reveal {
+            0% {
+                transform: perspective(1000px) rotateY(-720deg); 
+                opacity: 0;
+                filter: blur(10px); 
+            }
+            90% {
+                filter: blur(0px); 
+            }
+            100% {
+                transform: perspective(1000px) rotateY(0deg);
+                opacity: 1;
+                filter: blur(0px); 
+            }
+        }
+
+        /* Apply Animation with Staggered Delay */
+        .card-animated {
+            opacity: 0; 
+            animation: spin-reveal 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; 
+            animation-delay: calc(0.1s * var(--i, 0)); 
+        }
+
+        .image-wrapper {
+            display: flex;
+            justify-content: center;
+            padding: 1rem 0 0.5rem 0; 
+            position: relative; 
+        }
+        
+        .player-image {
+            width: 80px; 
+            height: 80px;
+            object-fit: cover;
+            border-radius: 50%; 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-body h5 {
+            font-weight: 700;
+            color: #212529;
+            margin-top: 0.5rem; 
+        }
+
+        .card-title-surname {
+            font-size: 1.5rem;
+        }
+
+        .info-icon-btn {
+            z-index: 10;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            line-height: 1;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        .club-logo {
+            height: 30px; 
+            width: auto;
+            max-width: 100px; 
+            object-fit: contain;
+            z-index: 10; 
+        }
+
+        .position-tag {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: #ffc107; 
+            color: #212529; 
+            padding: 0.25rem 0.5rem;
+            border-bottom-right-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            z-index: 15; 
+            border-top-left-radius: 12px; 
+        }
+
+        /* Adjusting column padding for tight 3x3 layout on small screens */
+        .row > .col-4 {
+            padding: 4px; 
+        }
+        
+        @media (max-width: 576px) {
+            .container {
+                padding-left: 5px !important;
+                padding-right: 5px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- Sticky Top Header Bar (Always visible) -->
+    <div class="sticky-header">
+        <div class="container">
+            <h2 class="mb-0 fw-bold">Ballers Squad Builder</h2>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- MAIN CONTENT WRAPPER (Now the default and initial screen) -->
+        <div id="main-content-wrapper" class="py-4">
+            <!-- GRID VIEW SECTION -->
+            <div id="player-grid-view">
+                
+                <!-- CONSOLIDATED HEADER ROW: Header | Indicator | Button -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <!-- Position Header (Left) -->
+                    <h3 class="text-primary mb-0" id="position-header"></h3>
+
+                    <!-- Pick Count Indicator (Center) -->
+                    <span id="pick-count-indicator" class="fw-bold text-primary text-center" style="font-size: 1.1rem;">0/3 picked</span>
+
+                    <!-- Spin Button (Right) -->
+                    <button class="btn btn-warning fw-bold" id="spin-unpicked-btn">SPIN (3)</button>
+                </div>
+
+
+                <div id="player-grid" class="row g-0">
+                    <!-- Player cards will be injected here by JavaScript -->
+                </div>
+                
+                <!-- Navigation Buttons -->
+                <div class="d-flex justify-content-between mt-5">
+                    <button class="btn btn-secondary fw-bold" id="prev-btn" onclick="changePosition(-1)">PREV</button>
+                    <button class="btn btn-primary fw-bold" id="next-btn" onclick="changePosition(1)">NEXT</button>
+                </div>
+            </div>
+
+            <!-- DETAIL VIEW SECTION (Initially Hidden) -->
+            <div id="player-detail-view" style="display: none;">
+                <!-- Content populated by JavaScript -->
+            </div>
+            
+            <!-- FINAL SUMMARY VIEW SECTION (Initially Hidden) -->
+            <div id="final-summary-view" style="display: none;">
+                <!-- Content populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- GLOBAL STATE ---
+        const GRID_SIZE = 9;
+        const POSITIONS = ['DEF', 'MID', 'ATT'];
+        const POSITION_TITLES = { 'DEF': 'DEFENDERS', 'MID': 'MIDFIELDERS', 'ATT': 'ATTACKERS' };
+        
+        let currentPositionIndex = 0; 
+        let spinCount = 3; 
+        let gridDataByPosition = {}; 
+
+        // --- MOCK LEADERBOARD DATA ---
+        const mockLeaderboard = [
+            { username: "UltimateManager", points: 1542, isCurrent: false },
+            { username: "ScoutMaster", points: 1488, isCurrent: false },
+            { username: "Gargamel", points: 1390, isCurrent: false },
+            { username: "GoalGetter99", points: 1320, isCurrent: false },
+            { username: "FlexTeam", points: 1215, isCurrent: false },
+            { username: "TheBenchWarmer", points: 1104, isCurrent: false },
+            { username: "FantasyKing", points: 1080, isCurrent: false },
+            { username: "MidfieldMaestro", points: 950, isCurrent: false },
+            { username: "ZidaneFan", points: 888, isCurrent: false },
+            { username: "LastPlaceLarry", points: 750, isCurrent: false },
+        ];
+
+
+        // --- PLAYER DATA GENERATION (Separated by Position with Unique Image IDs) ---
+        
+        // 1. Define the single static image path for all players as requested
+        const STATIC_PLAYER_IMAGE = 'https://www.pickteamz.com/static/images/club-artwork/ENG/Newcastle.png';
+        
+        // 2. Define players, strictly separated by position, with embedded image URLs
+        const defenders = [
+            { name: "Virgil Van Dijk", surname: "Van Dijk", club: "Liverpool", position: "DEF", image: 'https://www.pickteamz.com/static/images/club-artwork/ENG/Chelsea.png' },
+            { name: "Rúben Dias", surname: "Dias", club: "Man City", position: "DEF", image: STATIC_PLAYER_IMAGE },
+            { name: "William Saliba", surname: "Saliba", club: "Arsenal", position: "DEF", image: STATIC_PLAYER_IMAGE },
+            { name: "Trent Alexander-Arnold", surname: "TAA", club: "Liverpool", position: "DEF", image: STATIC_PLAYER_IMAGE },
+            { name: "Reece James", surname: "James", club: "Chelsea", position: "DEF", image: STATIC_PLAYER_IMAGE },
+            { name: "Kieran Trippier", surname: "Trippier", club: "Newcastle", position: "DEF", image: STATIC_PLAYER_IMAGE },
+            { name: "Josko Gvardiol", surname: "Gvardiol", club: "Man City", position: "DEF", image: STATIC_PLAYER_IMAGE },
+            { name: "Reece Si", surname: "Si", club: "Chelsea", position: "DEF", image: STATIC_PLAYER_IMAGE },
+            { name: "Kieran Dave", surname: "Dave", club: "Newcastle", position: "DEF", image: STATIC_PLAYER_IMAGE },
+            { name: "Josko Stu", surname: "Stu", club: "Man City", position: "DEF", image: STATIC_PLAYER_IMAGE },
+        ];
+        
+        const midfielders = [
+            { name: "Kevin De Bruyne", surname: "De Bruyne", club: "Man City", position: "MID", image: STATIC_PLAYER_IMAGE },
+            { name: "Bruno Fernandes", surname: "Fernandes", club: "Man United", position: "MID", image: STATIC_PLAYER_IMAGE },
+            { name: "Declan Rice", surname: "Rice", club: "Arsenal", position: "MID", image: STATIC_PLAYER_IMAGE },
+            { name: "Phil Foden", surname: "Foden", club: "Man City", position: "MID", image: STATIC_PLAYER_IMAGE },
+            { name: "Moises Caicedo", surname: "Caicedo", club: "Chelsea", position: "MID", image: STATIC_PLAYER_IMAGE },
+            { name: "James Maddison", surname: "Maddison", club: "Spurs", position: "MID", image: STATIC_PLAYER_IMAGE },
+            { name: "Eberechi Eze", surname: "Eze", club: "Crystal Palace", position: "MID", image: STATIC_PLAYER_IMAGE },
+            { name: "Martin Ødegaard", surname: "Ødegaard", club: "Arsenal", position: "MID", image: STATIC_PLAYER_IMAGE },
+            { name: "James Bub", surname: "Bub", club: "Spurs", position: "MID", image: STATIC_PLAYER_IMAGE },
+            { name: "Eberechi Dub", surname: "Dub", club: "Crystal Palace", position: "MID", image: STATIC_PLAYER_IMAGE },
+            { name: "Martin Mub", surname: "Mub", club: "Arsenal", position: "MID", image: STATIC_PLAYER_IMAGE },
+        ];
+
+        const attackers = [
+            { name: "Erling Haaland", surname: "Haaland", club: "Man City", position: "ATT", image: STATIC_PLAYER_IMAGE },
+            { name: "Mohamed Salah", surname: "Salah", club: "Liverpool", position: "ATT", image: STATIC_PLAYER_IMAGE },
+            { name: "Bukayo Saka", surname: "Saka", club: "Arsenal", position: "ATT", image: STATIC_PLAYER_IMAGE },
+            { name: "Son Heung-min", surname: "Son", club: "Spurs", position: "ATT", image: STATIC_PLAYER_IMAGE },
+            { name: "Ollie Watkins", surname: "Watkins", club: "Aston Villa", position: "ATT", image: STATIC_PLAYER_IMAGE },
+            { name: "Julian Alvarez", surname: "Alvarez", club: "Man City", position: "ATT", image: STATIC_PLAYER_IMAGE },
+            { name: "Darwin Nuñez", surname: "Nuñez", club: "Liverpool", position: "ATT", image: STATIC_PLAYER_IMAGE },
+            { name: "Ollie chin", surname: "chin", club: "Aston Villa", position: "ATT", image: STATIC_PLAYER_IMAGE },
+            { name: "Julian lin", surname: "lin", club: "Man City", position: "ATT", image: STATIC_PLAYER_IMAGE },
+            { name: "Darwin tin", surname: "Tin", club: "Liverpool", position: "ATT", image: STATIC_PLAYER_IMAGE },
+        ];
+        
+        let allPlayers = [
+            ...defenders,
+            ...midfielders,
+            ...attackers
+        ];
+
+        const clubSlugMap = {
+            "Man City": "Man-City",
+            "Liverpool": "Liverpool",
+            "Arsenal": "Arsenal",
+            "Man United": "Man-United",
+            "Aston Villa": "Aston-Villa",
+            "Newcastle": "Newcastle",
+            "Crystal Palace": "Crystal-Palace",
+            "Chelsea": "Chelsea", 
+            "Spurs": "Tottenham-Hotspur", 
+        };
+
+        function getCurrentPosition() {
+            return POSITIONS[currentPositionIndex];
+        }
+
+        function getClubSlug(clubName) {
+            return clubSlugMap[clubName] || clubName.replace(/\s+/g, '-');
+        }
+
+        function getRandomInt(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function getRandomPlayers(list, count) {
+            if (list.length < count) {
+                return list;
+            }
+
+            const shuffled = [...list];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled.slice(0, count);
+        }
+        
+        function checkPickCount(position) {
+            if (!gridDataByPosition[position]) return 0;
+            return gridDataByPosition[position].filter(p => p.picked).length;
+        }
+
+
+        function togglePick(button, index) {
+            const currentPosition = getCurrentPosition();
+            const playerState = gridDataByPosition[currentPosition][index];
+            const currentPicks = checkPickCount(currentPosition);
+
+            if (button.classList.contains('picked')) {
+                button.classList.remove('btn-success', 'picked');
+                button.classList.add('btn-danger'); 
+                button.innerHTML = 'PICK';
+                playerState.picked = false;
+            } else if (currentPicks < 3) {
+                button.classList.remove('btn-danger'); 
+                button.classList.add('btn-success', 'picked');
+                playerState.picked = true;
+                playerState.animate = false; 
+                button.innerHTML = 'PICKED <span style="margin-left: 5px;">&#x2713;</span>';
+            } else {
+                button.classList.add('btn-danger');
+                setTimeout(() => button.classList.remove('btn-danger'), 300);
+            }
+            
+            updateNavButtons();
+        }
+
+        function spinUnpicked() {
+            if (spinCount <= 0) {
+                return;
+            }
+
+            const currentPosition = getCurrentPosition();
+            const currentGrid = gridDataByPosition[currentPosition];
+            
+            const unpickedIndices = [];
+            currentGrid.forEach((player, index) => {
+                if (!player.picked) {
+                    unpickedIndices.push(index);
+                }
+            });
+
+            if (unpickedIndices.length === 0) {
+                 if (checkPickCount(currentPosition) === GRID_SIZE) {
+                     console.warn("All slots are filled. Cannot spin.");
+                     return;
+                }
+            }
+
+            spinCount--;
+            
+            const allPositionPlayers = allPlayers.filter(p => p.position === currentPosition);
+            
+            const pickedSurnames = new Set(currentGrid.filter(p => p.picked).map(p => p.surname));
+            
+            let spinPool = allPositionPlayers.filter(p => !pickedSurnames.has(p.surname));
+            
+            const newReplacementPlayers = getRandomPlayers(spinPool, unpickedIndices.length);
+
+            unpickedIndices.forEach((indexToReplace, replacementIndex) => {
+                const replacementPlayer = newReplacementPlayers[replacementIndex];
+                
+                if (replacementPlayer) {
+                    gridDataByPosition[currentPosition][indexToReplace] = { 
+                        ...replacementPlayer, 
+                        picked: false, 
+                        animate: true,
+                        points: undefined 
+                    };
+                }
+            });
+
+            renderGrid(gridDataByPosition[currentPosition]);
+        }
+
+        function updateSpinButton() {
+            const spinBtn = document.getElementById('spin-unpicked-btn');
+            spinBtn.textContent = `SPIN (${spinCount})`;
+            if (spinCount <= 0) {
+                spinBtn.disabled = true;
+                spinBtn.textContent = 'SPIN (0) - DONE';
+                spinBtn.classList.remove('btn-warning');
+                spinBtn.classList.add('btn-secondary');
+            } else {
+                spinBtn.disabled = false;
+                spinBtn.classList.add('btn-warning');
+                spinBtn.classList.remove('btn-secondary');
+            }
+        }
+
+        function updateNavButtons() {
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const indicator = document.getElementById('pick-count-indicator');
+            
+            const currentPosition = getCurrentPosition();
+            const pickedCount = checkPickCount(currentPosition);
+            const isValid = pickedCount === 3; 
+
+            indicator.textContent = `${pickedCount}/3 picked`;
+            
+            indicator.classList.remove('text-primary', 'text-success');
+            if (pickedCount === 3) {
+                indicator.classList.add('text-success');
+            } else {
+                indicator.classList.add('text-primary');
+            }
+
+            prevBtn.disabled = currentPositionIndex === 0;
+
+            if (currentPositionIndex === POSITIONS.length - 1) {
+                nextBtn.textContent = 'DONE';
+                nextBtn.classList.remove('btn-success', 'btn-primary');
+                nextBtn.classList.add('btn-success');
+            } else {
+                nextBtn.textContent = 'NEXT';
+                nextBtn.classList.remove('btn-success');
+                nextBtn.classList.add('btn-primary');
+            }
+            
+            nextBtn.disabled = !isValid;
+        }
+
+        function changePosition(direction) {
+            if (direction === 1) {
+                const currentPosition = getCurrentPosition();
+                if (checkPickCount(currentPosition) !== 3) {
+                    return; 
+                }
+            }
+            
+            if (direction === 1 && currentPositionIndex === POSITIONS.length - 1) {
+                showFinalSummary();
+                return;
+            }
+
+            const newIndex = currentPositionIndex + direction;
+            
+            if (newIndex >= 0 && newIndex < POSITIONS.length) {
+                currentPositionIndex = newIndex;
+                const currentPosition = getCurrentPosition();
+                
+                window.scrollTo(0, 0); 
+
+                document.getElementById('player-grid-view').style.display = 'block';
+                document.getElementById('player-detail-view').style.display = 'none';
+                document.getElementById('final-summary-view').style.display = 'none';
+
+                renderGrid(gridDataByPosition[currentPosition]);
+                
+                document.getElementById('position-header').textContent = POSITION_TITLES[currentPosition];
+                updateNavButtons();
+            }
+        }
+
+        function showPlayerDetails(playerData) {
+            const detailView = document.getElementById('player-detail-view');
+            const gridView = document.getElementById('player-grid-view');
+            const summaryView = document.getElementById('final-summary-view');
+
+            const clubSlug = getClubSlug(playerData.club);
+            const clubLogoUrl = `https://www.pickteamz.com/static/images/club-artwork/ENG/${clubSlug}.png`;
+            
+            detailView.innerHTML = `
+                <!-- Back Link -->
+                <a href="#" onclick="hidePlayerDetails(); return false;" class="text-decoration-none d-inline-flex align-items-center mb-5 text-secondary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+                    </svg>
+                    <span class="ms-2 fw-bold">BACK</span>
+                </a>
+
+                <div class="card p-4 shadow-lg text-center" style="max-width: 400px; margin: 0 auto;">
+                    <div class="d-flex justify-content-center mb-4">
+                        <img src="${playerData.image}"
+                             class="rounded-circle shadow-lg"
+                             style="width: 150px; height: 150px; object-fit: cover; border: 5px solid #0d6efd;"
+                             alt="${playerData.name}"
+                             onerror="this.onerror=null; this.style.border='5px solid #cccccc'; this.src='https://placehold.co/150x150/f0f0f0/333333?text=N/A';"
+                        >
+                    </div>
+                    <h2 class="display-6 fw-bold mb-1">${playerData.surname}</h2>
+                    <p class="text-muted mb-4">${playerData.name}</p>
+                    <span class="badge bg-primary text-white mb-4">${playerData.position}</span> 
+
+                    <div class="d-flex justify-content-center align-items-center">
+                        <img src="${clubLogoUrl}"
+                             class="club-logo me-3"
+                             style="height: 50px; max-width: none;"
+                             alt="${playerData.club} logo"
+                             onerror="this.onerror=null; this.src='https://placehold.co/100x50/cccccc/333333?text=${playerData.club}';"
+                        >
+                    </div>
+                </div>
+            `;
+
+            gridView.style.display = 'none';
+            summaryView.style.display = 'none';
+            detailView.style.display = 'block';
+            window.scrollTo(0, 0); 
+        }
+
+        function hidePlayerDetails() {
+            document.getElementById('player-detail-view').style.display = 'none';
+            
+            const isFinished = currentPositionIndex === POSITIONS.length;
+            if (isFinished) {
+                 document.getElementById('final-summary-view').style.display = 'block';
+            } else {
+                 document.getElementById('player-grid-view').style.display = 'block';
+                 renderGrid(gridDataByPosition[getCurrentPosition()]);
+            }
+            window.scrollTo(0, 0); 
+        }
+        
+        function renderLeaderboard(currentPoints) {
+            let leaderboardData = [...mockLeaderboard, { username: "Your Squad", points: currentPoints, isCurrent: true }];
+            
+            leaderboardData.sort((a, b) => b.points - a.points);
+            
+            const topTen = leaderboardData.slice(0, 10);
+
+            let tableRows = '';
+            
+            topTen.forEach((user, index) => {
+                const position = index + 1;
+                const rowClass = user.isCurrent ? 'table-primary fw-bold' : '';
+                
+                tableRows += `
+                    <tr class="${rowClass}">
+                        <td>${position}</td>
+                        <td>${user.username}</td>
+                        <td class="text-end">${user.points}</td>
+                    </tr>
+                `;
+            });
+            
+            return `
+                <div class="card shadow-lg mx-auto mt-5" style="max-width: 600px;">
+                    <div class="card-header bg-dark text-white fw-bold">
+                        <h4 class="mb-0">Mock User Leaderboard</h4>
+                    </div>
+                    <table class="table table-striped table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th style="width: 15%;">Pos</th>
+                                <th style="width: 55%;">Username</th>
+                                <th class="text-end" style="width: 30%;">Points</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${tableRows}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        }
+
+
+        function showFinalSummary() {
+            const gridView = document.getElementById('player-grid-view');
+            const summaryView = document.getElementById('final-summary-view');
+            
+            let allPickedPlayers = [];
+            let totalPoints = 0;
+
+            POSITIONS.forEach(pos => {
+                gridDataByPosition[pos].forEach(player => {
+                    if (player.picked) {
+                        if (typeof player.points === 'undefined') {
+                            player.points = getRandomInt(0, 200); 
+                        }
+                        totalPoints += player.points;
+                        allPickedPlayers.push(player);
+                    }
+                });
+            });
+            
+            allPickedPlayers.sort((a, b) => {
+                const posOrder = { 'DEF': 1, 'MID': 2, 'ATT': 3 };
+                if (posOrder[a.position] !== posOrder[b.position]) {
+                    return posOrder[a.position] - posOrder[b.position];
+                }
+                return a.surname.localeCompare(b.surname);
+            });
+
+            
+            let gridCards = '';
+            const totalPicked = allPickedPlayers.length;
+
+            if (totalPicked === 9) { 
+                allPickedPlayers.forEach(player => {
+                    const clubSlug = getClubSlug(player.club);
+                    const clubLogoUrl = `https://www.pickteamz.com/static/images/club-artwork/ENG/${clubSlug}.png`;
+                    
+                    gridCards += `
+                        <div class="col-4 d-flex p-1">
+                            <div class="card player-card w-100 mb-4 position-relative">
+                                
+                                <div class="position-tag">${player.position}</div>
+
+                                <div class="d-flex justify-content-end position-absolute w-100 p-3" style="z-index: 10;">
+                                    <img src="${clubLogoUrl}"
+                                         class="club-logo"
+                                         alt="${player.club} logo"
+                                         onerror="this.onerror=null; this.src='https://placehold.co/100x30/cccccc/333333?text=${player.club.replace(/\s/g, '+')}'; this.alt='${player.club} club logo';"
+                                    >
+                                </div>
+                                
+                                <div class="image-wrapper">
+                                    <img src="${player.image}"
+                                        class="player-image"
+                                        alt="Image of ${player.name}"
+                                        onerror="this.onerror=null; this.src='https://placehold.co/80x80/f0f0f0/333333?text=N/A';"
+                                    >
+                                </div>
+
+                                <div class="card-body text-center pt-0">
+                                    <h5 class="card-title card-title-surname mb-2">${player.surname}</h5>
+
+                                    <div class="w-100 p-2 text-white fw-bold rounded-pill shadow" style="background-color: #0d6efd;">
+                                        <span class="d-block" style="font-size: 0.9rem;">${player.points} PTS</span>
+                                        <span class="badge bg-white text-dark mt-1" style="font-size: 0.6rem;">${player.position}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+            } else {
+                 gridCards = `
+                    <div class="col-12 text-center text-muted py-5 summary-message">
+                        <p class="lead fw-bold">Squad Incomplete!</p>
+                        <p>You need to select exactly 3 players in each position (9 total) to finalize your squad.</p>
+                    </div>
+                 `;
+            }
+
+            summaryView.innerHTML = `
+                <h2 class="text-center text-primary mb-2 fw-bold">Your Final Squad</h2>
+                
+                <div class="text-center mb-5">
+                    <span class="badge bg-success text-white p-3 shadow" style="font-size: 1.25rem;">
+                        TOTAL SQUAD POINTS: ${totalPoints}
+                    </span>
+                </div>
+
+                <div class="card shadow-lg mx-auto p-3" style="max-width: 650px;"> 
+                    <h5 class="text-center text-secondary mb-3">9-Player Lineup</h5>
+                    <div class="row g-0"> 
+                        ${gridCards}
+                    </div>
+                </div>
+                
+                ${renderLeaderboard(totalPoints)}
+
+                <div class="text-center mt-5">
+                    <button class="btn btn-secondary fw-bold" onclick="changePosition(0)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left me-2" viewBox="0 0 16 16">
+                          <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+                        </svg>
+                        GO BACK TO DEFENDERS
+                    </button>
+                </div>
+            `;
+            
+            currentPositionIndex = POSITIONS.length; 
+            gridView.style.display = 'none';
+            document.getElementById('player-detail-view').style.display = 'none';
+            summaryView.style.display = 'block';
+            window.scrollTo(0, 0); 
+        }
+
+
+        function renderGrid(playersToRender) {
+            const gridContainer = document.getElementById('player-grid');
+            let html = '';
+
+            playersToRender.forEach((player, index) => {
+                const clubSlug = getClubSlug(player.club);
+                const clubLogoUrl = `https://www.pickteamz.com/static/images/club-artwork/ENG/${clubSlug}.png`;
+                
+                const isPicked = player.picked || false;
+                const buttonClass = isPicked ? 'btn-success picked' : 'btn-danger';
+                const buttonText = isPicked ? 'PICKED <span style="margin-left: 5px;">&#x2713;</span>' : 'PICK';
+                
+                const isAnimated = (player.animate !== false); 
+                const animationClass = isAnimated ? 'card-animated' : '';
+                
+                player.animate = false;
+
+                html += `
+                    <div class="col-4 d-flex p-1">
+                        <div class="card player-card w-100 mb-4 position-relative ${animationClass}" style="--i: ${index};">
+                            
+                            <div class="d-flex justify-content-between position-absolute w-100 p-3" style="z-index: 10;">
+                                <button class="btn btn-sm btn-outline-secondary info-icon-btn" 
+                                        onclick="showPlayerDetails(gridDataByPosition['${getCurrentPosition()}'][${index}]); return false;">
+                                    i
+                                </button>
+
+                                <img src="${clubLogoUrl}"
+                                     class="club-logo"
+                                     alt="${player.club} logo"
+                                     onerror="this.onerror=null; this.src='https://placehold.co/100x30/cccccc/333333?text=${player.club.replace(/\s/g, '+')}'; this.alt='${player.club} club logo';"
+                                >
+                            </div>
+                            
+                            <div class="image-wrapper">
+                                <img src="${player.image}"
+                                    class="player-image"
+                                    alt="Image of ${player.name}"
+                                    onerror="this.onerror=null; this.src='https://placehold.co/80x80/f0f0f0/333333?text=N/A';"
+                                >
+                            </div>
+
+                            <div class="card-body text-center pt-0">
+                                <h5 class="card-title card-title-surname">${player.surname}</h5>
+
+                                <button class="btn ${buttonClass} w-100 pick-button" 
+                                        onclick="togglePick(this, ${index})">
+                                    ${buttonText}
+                                </button>
+
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            gridContainer.innerHTML = html;
+            updateSpinButton(); 
+            updateNavButtons(); 
+        }
+        
+        /**
+         * Initializes the grids for all positions and renders the first one immediately.
+         */
+        function initializeGrid() {
+            // 1. Initialize grid data for all positions
+            POSITIONS.forEach(pos => {
+                let sourceList;
+                if (pos === 'DEF') sourceList = defenders;
+                else if (pos === 'MID') sourceList = midfielders;
+                else if (pos === 'ATT') sourceList = attackers;
+                else return; 
+                
+                const initialPlayers = getRandomPlayers(sourceList, GRID_SIZE);
+                
+                gridDataByPosition[pos] = initialPlayers.map(p => ({ ...p, picked: false, animate: true, points: undefined }));
+            });
+            
+            // 2. Attach event listener for the SPIN button
+            document.getElementById('spin-unpicked-btn').addEventListener('click', spinUnpicked);
+
+            // 3. IMMEDIATELY render the first screen (DEFENDERS)
+            const initialPosition = getCurrentPosition();
+            document.getElementById('position-header').textContent = POSITION_TITLES[initialPosition];
+            
+            // Ensure only the grid view is visible initially
+            document.getElementById('player-grid-view').style.display = 'block';
+            document.getElementById('player-detail-view').style.display = 'none';
+            document.getElementById('final-summary-view').style.display = 'none';
+
+            renderGrid(gridDataByPosition[initialPosition]);
+            window.scrollTo(0, 0); 
+        }
+
+        // Run the initialization function when the page loads
+        window.onload = initializeGrid;
+    </script>
+
+    <!-- Load Bootstrap JS bundle (optional, but good practice for full Bootstrap functionality) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>
