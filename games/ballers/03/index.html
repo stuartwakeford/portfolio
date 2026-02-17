@@ -60,7 +60,8 @@
         /* --- SPINNING EFFECT --- */
         .player-card.spinning {
             background: #e9ecef;
-            animation: card-flip-animation 0.12s infinite linear;
+            /* Slowed down from 0.12s to 0.4s for a smoother reveal */
+            animation: card-flip-animation 0.4s infinite linear;
             border-color: #adb5bd;
             box-shadow: none;
             pointer-events: none;
@@ -76,8 +77,8 @@
         }
 
         @keyframes card-flip-animation {
-            from { transform: perspective(1000px) rotateX(0deg); }
-            to { transform: perspective(1000px) rotateX(360deg); }
+            from { transform: perspective(1000px) rotateY(0deg); }
+            to { transform: perspective(1000px) rotateY(360deg); }
         }
 
         .card-container {
@@ -424,7 +425,7 @@
         function getClubSlug(clubName) { return clubSlugMap[clubName] || clubName.replace(/\s+/g, '-'); }
         function getRandomPlayers(list, count) { return [...list].sort(() => 0.5 - Math.random()).slice(0, count); }
 
-        function renderGrid() {
+        function renderGrid(animatingIndices = []) {
             const container = document.getElementById('player-grid');
             const pos = getCurrentPosition();
             const players = gridDataByPosition[pos];
@@ -436,10 +437,11 @@
             
             container.innerHTML = players.map((player, index) => {
                 const badge = `https://www.pickteamz.com/static/images/club-artwork/ENG/${getClubSlug(player.club)}.png`;
+                const isSpinning = animatingIndices.includes(index);
                 return `
                     <div class="col-4">
                         <div class="card-container">
-                            <div id="player-card-${index}" class="player-card ${player.picked ? 'is-picked' : ''}">
+                            <div id="player-card-${index}" class="player-card ${player.picked ? 'is-picked' : ''} ${isSpinning ? 'spinning' : ''}">
                                 <div class="stat-icon" onclick="openDetail(${index})"></div>
                                 <div class="pos-sidebar"><span>${player.position}</span></div>
                                 <img src="${badge}" class="club-badge-mini" onerror="this.style.display='none'">
@@ -534,6 +536,18 @@
             }).join('');
         }
 
+        function transitionPosition(newIndex) {
+            currentPositionIndex = newIndex;
+            // Reveal all cards with a spin when arriving at a new screen
+            const allIndices = Array.from({length: GRID_SIZE}, (_, i) => i);
+            renderGrid(allIndices);
+
+            // Wait 600ms for spin animation before revealing final state
+            setTimeout(() => {
+                renderGrid();
+            }, 600);
+        }
+
         function spinUnpicked() {
             if (spinCount <= 0) return;
             const pos = getCurrentPosition();
@@ -545,10 +559,8 @@
             const btn = document.getElementById('spin-unpicked-btn');
             btn.disabled = true;
 
-            unpickedIndices.forEach((idx, seq) => {
-                const card = document.getElementById(`player-card-${idx}`);
-                if(card) setTimeout(() => card.classList.add('spinning'), seq * 20);
-            });
+            // Trigger animation on unpicked cards only
+            renderGrid(unpickedIndices);
 
             setTimeout(() => {
                 const source = pos === 'DEF' ? defenders : pos === 'MID' ? midfielders : attackers;
@@ -589,10 +601,10 @@
                 gridDataByPosition[pos] = getRandomPlayers(source, GRID_SIZE).map(p => ({ ...p, picked: false }));
             });
             document.getElementById('spin-unpicked-btn').onclick = spinUnpicked;
-            document.getElementById('prev-btn').onclick = () => { if(currentPositionIndex > 0) { currentPositionIndex--; renderGrid(); } };
+            document.getElementById('prev-btn').onclick = () => { if(currentPositionIndex > 0) { transitionPosition(currentPositionIndex - 1); } };
             document.getElementById('next-btn').onclick = () => { 
                 if(currentPositionIndex < 2) { 
-                    currentPositionIndex++; renderGrid(); 
+                    transitionPosition(currentPositionIndex + 1);
                 } else {
                     showSummary();
                 }
