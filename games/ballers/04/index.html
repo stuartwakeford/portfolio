@@ -12,7 +12,7 @@
             --bg-dark: #1a0b5a;
             --bg-navy: #3C366B;
             --bg-card: #ffffff;
-            --accent-blue: #0084ff;
+            --accent-blue: #0065FF;
             --accent-green: #97ff3d;
             --text-main: #ffffff;
             --text-card: #000000;
@@ -56,7 +56,7 @@
             letter-spacing: 2px;
             display: block;
             font-weight: 700;
-            color: #a0a0ff;
+            color: #9D9AB5;
         }
 
         /* --- SPINNING EFFECT --- */
@@ -113,7 +113,7 @@
             align-items: center;
             color: #ccc;
             font-weight: 900;
-            font-size: 0.7rem;
+            font-size: 0.9rem;
             letter-spacing: 1px;
             z-index: 5;
         }
@@ -138,10 +138,10 @@
 
         .club-badge-mini {
             position: absolute;
-            top: 8px;
-            right: 8px;
-            width: 22px;
-            height: 22px;
+            top: 4px;
+            right: 4px;
+            width: 26px;
+            height: 26px;
             object-fit: contain;
         }
 
@@ -177,8 +177,8 @@
         .pick-btn {
             border-radius: 4px;
             font-weight: 900;
-            font-size: 0.8rem;
-            padding: 8px 0;
+            font-size: 0.9rem;
+            padding: 6px 0;
             width: 100%;
             text-transform: uppercase;
             border: 1px solid #ddd;
@@ -196,13 +196,20 @@
             color: white;
             border-radius: 6px;
             font-weight: 900;
-            font-size: 0.8rem;
+            font-size: 0.9rem;
             padding: 6px 12px;
             display: flex;
             align-items: center;
             gap: 8px;
             text-transform: uppercase;
             border: none;
+        }
+        
+        .shuffle-circle{
+            background-color: #FFF;
+            padding: 4px 10px;
+            font-size: 1rem;
+            color: #0B0446;
         }
 
         .bottom-nav {
@@ -223,6 +230,7 @@
             text-align: center;
             flex: 1;
             opacity: 0.5;
+            background-color: #494575;
         }
         .pos-tab.active { opacity: 1; }
         .pos-tab-label { font-weight: 900; font-size: 0.75rem; margin-bottom: 4px; }
@@ -252,9 +260,9 @@
 
         /* Detail Screen Specifics */
         .profile-header {
-            background: linear-gradient(135deg, #0084ff 0%, #0056b3 100%);
+            background: linear-gradient(135deg, #3B366B 0%, #241E59 100%);
             border-radius: 16px 16px 0 0;
-            padding: 2rem 1.5rem;
+            padding: 1.5rem 1.5rem;
             position: relative;
             overflow: hidden;
         }
@@ -262,8 +270,8 @@
             width: 120px;
             height: auto;
             position: absolute;
-            bottom: 0;
-            right: 10px;
+            top: 20px;
+            right: 20px;
             z-index: 1;
         }
         .stat-grid {
@@ -337,7 +345,7 @@
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h3 class="section-title mb-0">PICK <span>3</span> <span id="position-header">DEFENDERS</span>.</h3>
                     <button class="shuffle-btn" id="spin-unpicked-btn">
-                        SHUFFLE <div class="shuffle-circle" id="shuffle-count">3</div>
+                        SHUFFLE <div class="shuffle-circle rounded-4" id="shuffle-count">3</div>
                     </button>
                 </div>
                 <div id="player-grid" class="row g-2"></div>
@@ -349,7 +357,6 @@
                     <button onclick="closeDetail()" class="text-white fw-bold d-flex align-items-center gap-2" style="background:none; border:none;">
                         <span style="font-size: 1.5rem;">&larr;</span> BACK
                     </button>
-                    <div class="text-uppercase fw-900" style="font-weight: 900; font-size: 0.9rem;">Player Profile</div>
                 </div>
                 
                 <div id="detail-content"></div>
@@ -371,21 +378,21 @@
     </div>
 
     <!-- Persistent Bottom Nav -->
-    <div class="bottom-nav" id="bottom-nav-bar">
+    <div class="bottom-nav px-3 py-2" id="bottom-nav-bar">
         <button class="nav-btn pl-2 pr-4" id="prev-btn">
             <img src="images/icons/chevron-left.svg" style="height: 20px; display: inline;">
             BACK
         </button>
-        <div class="d-flex gap-3 flex-grow-1 justify-content-center">
-            <div class="pos-tab" id="tab-DEF">
+        <div class="d-flex gap-2 flex-grow-1 justify-content-center px-3">
+            <div class="pos-tab rounded p-2" id="tab-DEF">
                 <div class="pos-tab-label">DEF</div>
                 <div class="dot-container" id="dots-DEF"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
             </div>
-            <div class="pos-tab" id="tab-MID">
+            <div class="pos-tab rounded p-2" id="tab-MID">
                 <div class="pos-tab-label">MID</div>
                 <div class="dot-container" id="dots-MID"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
             </div>
-            <div class="pos-tab" id="tab-ATT">
+            <div class="pos-tab rounded p-2" id="tab-ATT">
                 <div class="pos-tab-label">ATT</div>
                 <div class="dot-container" id="dots-ATT"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
             </div>
@@ -512,14 +519,13 @@
 
             document.getElementById('detail-content').innerHTML = `
                 <div class="profile-header">
-                    <div style="font-weight: 900; color: #fff; font-size: 0.8rem; letter-spacing: 2px; opacity: 0.8;">${player.club.toUpperCase()}</div>
+                    <div style="margin-top: 0px; font-weight: 900; color: var(--accent-green);">${player.position}</div>
                     <div style="font-family: 'Archivo Black', sans-serif; font-size: 2.2rem; line-height: 1; color: #fff;">${player.surname.toUpperCase()}</div>
-                    <div style="margin-top: 10px; font-weight: 900; color: var(--accent-green);">${player.position}</div>
                     <img src="${badge}" style="width: 40px; margin-top: 15px;">
-                    <img src="${player.image}" class="profile-header-image">
+                    <img src="${player.image}" class="profile-header-image rounded-2">
                 </div>
                 <div class="stat-grid">
-                    <div style="font-weight: 900; color: #1a0b5a; font-size: 0.9rem; margin-bottom: 10px; border-bottom: 2px solid #1a0b5a; display: inline-block;">MATCH STATS</div>
+                    <div style="font-weight: 900; color: #1a0b5a; font-size: 0.9rem; margin-bottom: 10px; display: inline-block;">MATCH STATS</div>
                     ${statsHtml}
                 </div>
             `;
