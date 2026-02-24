@@ -466,12 +466,12 @@
                         <div class="card-container">
                             <div id="player-card-${index}" class="player-card ${player.picked ? 'is-picked' : ''} ${isSpinning ? 'spinning' : ''}">
                                 <div class="stat-icon" onclick="openDetail(${index})"></div>
-                                <div class="pos-sidebar"><span>${player.position}</span></div>
+                                <div class="pos-sidebar pt-3"><span>${player.position}</span></div>
                                 <div class="image-wrapper">
-                                    <img src="${player.image}" class="player-image" alt="${player.surname}">
+                                    <img src="${player.image}" class="player-image p-1" alt="${player.surname}">
                                 </div>
                                 <img src="${badge}" class="club-badge-mini" onerror="this.style.display='none'">
-                                <div class="card-body">
+                                <div class="card-body" style="padding-top:5px!important;">
                                     <div class="player-surname">${player.surname}</div>
                                     <button class="pick-btn ${player.picked ? 'active' : ''}" onclick="togglePick(${index})">
                                         ${player.picked ? 'PICKED' : 'PICK'}
