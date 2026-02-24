@@ -10,6 +10,7 @@
     <style>
         :root {
             --bg-dark: #1a0b5a;
+            --bg-navy: #3C366B;
             --bg-card: #ffffff;
             --accent-blue: #0084ff;
             --accent-green: #97ff3d;
@@ -32,19 +33,20 @@
             top: 0;
             left: 0;
             width: 100%;
-            background-color: var(--bg-dark);
-            padding: 0.75rem 1rem;
+            background-color: var(--bg-navy);
+            padding: 0.5rem 0.5rem;
             z-index: 1000;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border-bottom: 1px solid #0B0446;
         }
 
         .header-logo {
             font-family: 'Archivo Black', sans-serif;
             font-style: italic;
             text-transform: uppercase;
-            font-size: 1.5rem;
+            font-size: 1.1rem;
             line-height: 1;
             text-align: center;
         }
@@ -229,8 +231,8 @@
         .dot.filled { background: var(--accent-green); }
 
         .nav-btn {
-            background: rgba(255,255,255,0.1);
-            color: white;
+            background: var(--accent-green);
+            color: #0B0446;
             border: none;
             border-radius: 6px;
             padding: 10px 15px;
@@ -238,7 +240,7 @@
             font-size: 0.8rem;
             text-transform: uppercase;
         }
-        .nav-btn-next { background-color: var(--accent-green); color: #000; }
+        .nav-btn-next { background-color: var(--accent-green); color: #0B0446; }
 
         .section-title {
             font-family: 'Archivo Black', sans-serif;
@@ -316,19 +318,23 @@
 <body>
     
     <div class="sticky-header">
-        <button class="nav-btn" style="background:none; font-size: 1.2rem;">&times; <span style="font-size:0.7rem; vertical-align: middle;">CANCEL</span></button>
-        <div class="header-logo">BALLERS <span class="header-sub">EPL</span></div>
-        <div class="d-flex gap-2">
-            <div class="bg-white text-dark rounded px-2 py-1 fw-bold">?</div>
-            <div class="bg-white text-dark rounded px-2 py-1 fw-bold">⚙</div>
+        <button class="nav-btn pl-1 pr-2" style="background:none; font-size: 1.2rem;"><img src="images/icons/x.svg" style="height:15px; display: inline;"> <span style="font-size:0.7rem; vertical-align: middle; color: #FFF">CANCEL</span></button>
+        <div class="header-logo">BALLERS <span class="header-sub pt-1">EPL</span></div>
+        <div class="d-flex gap-2 pr-1">
+            <div class="bg-white text-dark rounded px-1 py-1 fw-bold">
+                <img src="images/icons/question.svg" style="height: 28px;">
+            </div>
+            <div class="bg-white text-dark rounded px-1 py-1 fw-bold">
+                <img src="images/icons/gear.svg" style="height: 28px;">
+            </div>
         </div>
     </div>
 
-    <div class="container py-3">
+    <div class="container py-2">
         <div id="main-content-wrapper">
             <!-- Grid Selection View -->
             <div id="player-grid-view">
-                <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
                     <h3 class="section-title mb-0">PICK <span>3</span> <span id="position-header">DEFENDERS</span>.</h3>
                     <button class="shuffle-btn" id="spin-unpicked-btn">
                         SHUFFLE <div class="shuffle-circle" id="shuffle-count">3</div>
@@ -366,7 +372,10 @@
 
     <!-- Persistent Bottom Nav -->
     <div class="bottom-nav" id="bottom-nav-bar">
-        <button class="nav-btn" id="prev-btn">BACK</button>
+        <button class="nav-btn pl-2 pr-4" id="prev-btn">
+            <img src="images/icons/chevron-left.svg" style="height: 20px; display: inline;">
+            BACK
+        </button>
         <div class="d-flex gap-3 flex-grow-1 justify-content-center">
             <div class="pos-tab" id="tab-DEF">
                 <div class="pos-tab-label">DEF</div>
@@ -381,7 +390,8 @@
                 <div class="dot-container" id="dots-ATT"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
             </div>
         </div>
-        <button class="nav-btn nav-btn-next" id="next-btn">NEXT &gt;</button>
+        <button class="nav-btn nav-btn-next pl-4 pr-2" id="next-btn">NEXT <img src="images/icons/chevron-right.svg" style="height: 20px; display: inline;">
+        </button>
     </div>
 
     <script>
