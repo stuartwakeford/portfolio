@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ballers Squad Builder</title>
+    <title>Ballers</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
@@ -107,7 +107,7 @@
         .pos-sidebar {
             position: absolute;
             left: 4px;
-            top: 25px;
+            top: 8px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -310,13 +310,10 @@
 
         /* Points Tag */
         .points-tag {
-            position: absolute;
-            top: 8px;
-            left: 8px;
             background: var(--bg-dark);
             color: var(--accent-green);
             font-weight: 900;
-            font-size: 0.8rem;
+            font-size: 1rem;
             padding: 2px 6px;
             border-radius: 4px;
             z-index: 10;
@@ -364,7 +361,26 @@
             
             <!-- Final Summary View -->
             <div id="final-summary-view" style="display: none;">
-                <h3 class="section-title">YOUR <span>SQUAD</span>.</h3>
+                <div class="bg-dark rounded mb-3">
+                    <div class="row">
+                        <div class="col">
+                            ⭐⭐ World Class
+                        </div>
+                        <div class="col text-right">
+                            🏴‍☠️
+                        </div>
+                    </div>
+                    <div class="row w-100">
+                        <div class="col text-center">👻</div>
+                    </div>
+                    <div class="row text-center">
+                        <div class="col">Division <br> 1</div>
+                        <div class="col">Matchups <br> W2 L4</div>
+                        <div class="col">Trophies <br> 🥇1 🥇1</div>
+                    </div>
+                </div>
+                
+                
                 <div id="summary-grid" class="row g-2 mb-4"></div>
                 <h3 class="section-title">GLOBAL <span>LEADERBOARD</span></h3>
                 <div class="leaderboard-container">
@@ -447,7 +463,7 @@
         ];
 
         const attackers = [
-            { name: "Erling Haaland", surname: "Haaland", club: "Man City", position: "ATT", image: 'https://img.sofascore.com/api/v1/player/839956/image', stats: { goals: 27, xG: "24.5", shotAcc: "65%", conversion: "28%" } },
+            { name: "Erling Haaland", surname: "Haaland", club: "Man City", position: "ATT", image: 'images/players/haaland.png', stats: { goals: 27, xG: "24.5", shotAcc: "65%", conversion: "28%" } },
             { name: "Mohamed Salah", surname: "Salah", club: "Liverpool", position: "ATT", image: 'https://img.sofascore.com/api/v1/player/159665/image', stats: { goals: 18, xG: "19.2", shotAcc: "61%", conversion: "22%" } },
             { name: "Bukayo Saka", surname: "Saka", club: "Arsenal", position: "ATT", image: 'https://img.sofascore.com/api/v1/player/934235/image', stats: { goals: 16, xG: "14.8", shotAcc: "58%", conversion: "19%" } },
             { name: "Richarlison", surname: "Richarlison", club: "Spurs", position: "ATT", image: 'https://img.sofascore.com/api/v1/player/840217/image', stats: { goals: 17, xG: "13.5", shotAcc: "64%", conversion: "25%" } },
@@ -456,7 +472,7 @@
             { name: "Florian Wirtz", surname: "Wirtz", club: "Liverpool", position: "ATT", image: 'https://img.sofascore.com/api/v1/player/1019322/image', stats: { goals: 11, xG: "16.8", shotAcc: "45%", conversion: "14%" } },
             { name: "Antoine Semenyo", surname: "Semenyo", club: "Man City", position: "ATT", image: 'https://img.sofascore.com/api/v1/player/934354/image', stats: { goals: 11, xG: "10.2", shotAcc: "52%", conversion: "18%" } },
             { name: "Pedro Neto", surname: "Neto", club: "Chelsea", position: "ATT", image: 'https://img.sofascore.com/api/v1/player/879349/image', stats: { goals: 14, xG: "15.4", shotAcc: "48%", conversion: "16%" } },
-            { name: "Kai Havertz", surname: "Havertz", club: "Arsenal", position: "ATT", image: 'https://img.sofascore.com/api/v1/player/836705/image', stats: { goals: 13, xG: "11.1", shotAcc: "55%", conversion: "20%" } }
+            { name: "Kai Havertz", surname: "Havertz", club: "Arsenal", position: "ATT", image: 'images/players/havertz.png', stats: { goals: 13, xG: "11.1", shotAcc: "55%", conversion: "20%" } }
         ];
 
         const clubSlugMap = { "Man City": "Man-City", "Liverpool": "Liverpool", "Arsenal": "Arsenal", "Newcastle": "Newcastle", "Chelsea": "Chelsea", "Spurs": "Tottenham", "Aston Villa": "Aston-Villa", "Brighton": "Brighton" };
@@ -565,12 +581,12 @@
                 return `
                     <div class="col-4">
                         <div class="player-card is-picked">
-                            <div class="points-tag">${points} pts</div>
                             <div class="pos-sidebar"><span>${player.position}</span></div>
-                            <img src="${badge}" class="club-badge-mini" onerror="this.style.display='none'">
                             <div class="image-wrapper"><img src="${player.image}" class="player-image"></div>
+                            <img src="${badge}" class="club-badge-mini" onerror="this.style.display='none'">
                             <div class="card-body">
-                                <div class="player-surname" style="font-size:0.8rem">${player.surname}</div>
+                                <div class="player-surname mb-1">${player.surname}</div>
+                                <div class="points-tag">${points} pts</div>
                             </div>
                         </div>
                     </div>
