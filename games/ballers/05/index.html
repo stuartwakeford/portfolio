@@ -159,7 +159,7 @@
         }
 
         .card-body {
-            padding: 8px !important;
+            padding: 4px !important;
             text-align: center;
         }
 
@@ -266,10 +266,10 @@
             overflow: hidden;
         }
         .profile-header-image {
-            width: 120px;
+            width: 100px;
             height: auto;
             position: absolute;
-            top: 20px;
+            bottom: 20px;
             right: 20px;
             z-index: 1;
         }
@@ -305,20 +305,19 @@
             font-size: 0.9rem;
             gap: 8px;
         }
-        .lb-rank { width: 30px; font-weight: 900; color: var(--accent-green); }
+        .lb-rank { width: 20px; font-weight: 900; color: #FFF; }
         .lb-name { flex-grow: 1; }
         .lb-pts { font-weight: 900; }
 
         /* Points Tag */
         .points-tag {
-            background: #e8e8e8;
+            background: #F3F2F6;
             color: #1a0b5a;
             font-family: 'Archivo Black', sans-serif;
-            font-weight: 900;
-            font-size: 1.3rem;
+            font-weight: 800;
+            font-size: 1.0rem;
             padding: 4px 8px;
-            border-radius: 0;
-            border-top: 1px solid #ddd;
+            border-radius: 5px;
             display: block;
             width: 100%;
             text-align: center;
@@ -395,7 +394,7 @@
             </button>
             <div id="header-score-centre" style="display:none; align-items:center; gap:6px; cursor:pointer;">
                 <div style="background:var(--accent-green); border-radius:8px; width:36px; height:36px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="#0B0446"><path d="M13 2.05V4.07C16.94 4.56 20 7.92 20 12C20 14.58 18.82 16.89 16.97 18.44L18.38 19.85C20.57 17.94 22 15.13 22 12C22 6.82 18.05 2.55 13 2.05M11 2.05C5.95 2.55 2 6.82 2 12C2 15.13 3.43 17.94 5.62 19.85L7.03 18.44C5.18 16.89 4 14.58 4 12C4 7.92 7.06 4.56 11 4.07V2.05M12 6C8.69 6 6 8.69 6 12C6 15.31 8.69 18 12 18C15.31 18 18 15.31 18 12C18 8.69 15.31 6 12 6M12 8C14.21 8 16 9.79 16 12C16 14.21 14.21 16 12 16C9.79 16 8 14.21 8 12C8 9.79 9.79 8 12 8Z"/></svg>
+                    <img src="images/icons/bolt.svg">
                 </div>
                 <div style="line-height:1.1;">
                     <div style="font-family:'Archivo Black',sans-serif; font-size:0.55rem; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,0.7);">Score</div>
@@ -414,21 +413,21 @@
         </div>
     </div>
 
-    <div class="container py-2">
+    <div class="container pb-2">
         <div id="main-content-wrapper">
             <!-- Home Screen -->
             <div id="home-view">
-                <div class="mb-3 p-3" style="background:#2c2270; border-radius:16px;">
+                <div class="mb-3 p-2" style="background:#2c2270; border-radius:10px;">
                     <!-- Top row: rank badge + flag -->
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <div style="background:#0B0446; border-radius:8px; padding:6px 12px; font-weight:900; font-size:0.85rem; display:inline-flex; align-items:center; gap:6px;">
-                            ⭐⭐⭐ <span style="text-transform:uppercase; letter-spacing:1px;">World Class</span>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div style="background:#0B0446; border-radius:8px; padding:6px 12px; font-weight:900; font-size:0.75rem; display:inline-flex; align-items:center; gap:6px;">
+                            ⭐⭐⭐ <span style="text-transform:uppercase;">World Class</span>
                         </div>
                         <div style="font-size:1.6rem;">🇫🇷</div>
                     </div>
                     <!-- Avatar circle -->
-                    <div class="text-center mb-2">
-                        <div style="width:90px; height:90px; border-radius:50%; background:rgba(255,255,255,0.12); display:inline-flex; align-items:center; justify-content:center; font-size:2.8rem;">
+                    <div class="text-center mb-0">
+                        <div style="width:60px; height:60px; border-radius:50%; background:rgba(255,255,255,0.12); display:inline-flex; align-items:center; justify-content:center; font-size:2.0rem;">
                             👻
                         </div>
                     </div>
@@ -438,19 +437,19 @@
                     <div class="row text-center g-2 mb-3">
                         <div class="col">
                             <div style="background:rgba(255,255,255,0.1); border-radius:10px; padding:10px 4px;">
-                                <div style="font-size:0.7rem; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,0.6); margin-bottom:4px;">Division</div>
+                                <div style="font-size:0.7rem; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,0.6);">Division</div>
                                 <div style="font-size:1.3rem; font-weight:900;">2</div>
                             </div>
                         </div>
                         <div class="col">
                             <div style="background:rgba(255,255,255,0.1); border-radius:10px; padding:10px 4px;">
-                                <div style="font-size:0.7rem; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,0.6); margin-bottom:4px;">Matchups</div>
+                                <div style="font-size:0.7rem; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,0.6); ">Matchups</div>
                                 <div style="font-size:1.3rem; font-weight:900;">W12 L4</div>
                             </div>
                         </div>
                         <div class="col">
                             <div style="background:rgba(255,255,255,0.1); border-radius:10px; padding:10px 4px;">
-                                <div style="font-size:0.7rem; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,0.6); margin-bottom:4px;">Trophies</div>
+                                <div style="font-size:0.7rem; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,0.6);">Trophies</div>
                                 <div style="font-size:1.3rem; font-weight:900;">🏆1 🥇2</div>
                             </div>
                         </div>
@@ -458,7 +457,7 @@
                     <!-- Week dropdown -->
                     <div class="row">
                         <div class="col-12">
-                            <select class="form-select" style="background-color:#fff; color:#1a0b5a; border-color:#ccc; font-weight:700;">
+                            <select class="form-select text-center" style="background-color:#fff; color:#1a0b5a; border-color:#ccc; font-weight:700;">
                                 <option>March: Week 3</option>
                                 <option>March: Week 2</option>
                                 <option>March: Week 1</option>
@@ -469,7 +468,7 @@
                 <!-- Picking closes notice -->
                 <p style="text-align:center; color:rgba(255,255,255,0.6); font-size:0.9rem; margin-bottom:16px;">Picking closes at 19:00 on Fri 15 Mar</p>
                 <!-- Pick my players button -->
-                <button onclick="startPickingJourney()" style="display:block; width:100%; background:var(--accent-green); color:#0B0446; font-family:'Archivo Black',sans-serif; font-size:1.1rem; text-transform:uppercase; letter-spacing:2px; padding:16px; border:none; border-radius:10px; cursor:pointer; margin-bottom:16px;">Pick My Players</button>
+                <button onclick="startPickingJourney()" style="display:block; width:100%; background:var(--accent-green); color:#0B0446; font-family:'Archivo Black',sans-serif; font-size:1.1rem; text-transform:uppercase; padding:12px; border:none; border-radius:5px; cursor:pointer; margin-bottom:16px;">Pick My Players</button>
             </div>
 
             <!-- Grid Selection View -->
@@ -487,17 +486,17 @@
             
             <!-- Final Summary View -->
             <div id="final-summary-view" style="display: none;">
-                <div class="mb-3 p-3" style="background: #2c2270; border-radius: 16px;">
+                <div class="mb-3 p-2" style="background:#2c2270; border-radius:10px;">
                     <!-- Top row: rank badge + flag -->
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <div style="background:#0B0446; border-radius:8px; padding: 6px 12px; font-weight:900; font-size:0.85rem; display:inline-flex; align-items:center; gap:6px;">
-                            ⭐⭐⭐ <span style="text-transform:uppercase; letter-spacing:1px;">World Class</span>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div style="background:#0B0446; border-radius:8px; padding:6px 12px; font-weight:900; font-size:0.75rem; display:inline-flex; align-items:center; gap:6px;">
+                            ⭐⭐⭐ <span style="text-transform:uppercase;">World Class</span>
                         </div>
-                        <div style="font-size: 1.6rem;">🇫🇷</div>
+                        <div style="font-size:1.6rem;">🇫🇷</div>
                     </div>
                     <!-- Avatar circle -->
-                    <div class="text-center mb-2">
-                        <div style="width:90px; height:90px; border-radius:50%; background:rgba(255,255,255,0.12); display:inline-flex; align-items:center; justify-content:center; font-size:2.8rem;">
+                    <div class="text-center mb-0">
+                        <div style="width:60px; height:60px; border-radius:50%; background:rgba(255,255,255,0.12); display:inline-flex; align-items:center; justify-content:center; font-size:2.0rem;">
                             👻
                         </div>
                     </div>
@@ -507,19 +506,19 @@
                     <div class="row text-center g-2 mb-3">
                         <div class="col">
                             <div style="background:rgba(255,255,255,0.1); border-radius:10px; padding:10px 4px;">
-                                <div style="font-size:0.7rem; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,0.6); margin-bottom:4px;">Division</div>
+                                <div style="font-size:0.7rem; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,0.6);">Division</div>
                                 <div style="font-size:1.3rem; font-weight:900;">2</div>
                             </div>
                         </div>
                         <div class="col">
                             <div style="background:rgba(255,255,255,0.1); border-radius:10px; padding:10px 4px;">
-                                <div style="font-size:0.7rem; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,0.6); margin-bottom:4px;">Matchups</div>
+                                <div style="font-size:0.7rem; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,0.6); ">Matchups</div>
                                 <div style="font-size:1.3rem; font-weight:900;">W12 L4</div>
                             </div>
                         </div>
                         <div class="col">
                             <div style="background:rgba(255,255,255,0.1); border-radius:10px; padding:10px 4px;">
-                                <div style="font-size:0.7rem; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,0.6); margin-bottom:4px;">Trophies</div>
+                                <div style="font-size:0.7rem; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,0.6);">Trophies</div>
                                 <div style="font-size:1.3rem; font-weight:900;">🏆1 🥇2</div>
                             </div>
                         </div>
@@ -527,8 +526,10 @@
                     <!-- Week dropdown -->
                     <div class="row">
                         <div class="col-12">
-                            <select class="form-select" style="background-color:#fff; color:#1a0b5a; border-color:#ccc; font-weight:700;">
-                                <option>Week 6</option>
+                            <select class="form-select text-center" style="background-color:#fff; color:#1a0b5a; border-color:#ccc; font-weight:700;">
+                                <option>March: Week 3</option>
+                                <option>March: Week 2</option>
+                                <option>March: Week 1</option>
                             </select>
                         </div>
                     </div>
@@ -552,7 +553,7 @@
                 </div>
 
                 <div id="summary-grid" class="row g-2 mb-4"></div>
-                <h3 class="section-title text-center">GLOBAL <span>LEADERBOARD</span></h3>
+                <h3 class="section-title text-center"><span>GLOBAL LEADERBOARD</span></h3>
                 <div class="leaderboard-container" style="padding:0;">
                     <!-- Header -->
                     <div style="display:flex; justify-content:space-between; padding:10px 12px 6px; font-size:0.8rem; font-weight:700; color:rgba(255,255,255,0.5); border-bottom:1px solid rgba(255,255,255,0.1);">
@@ -560,26 +561,26 @@
                         <span style="margin-right:44px;">Pts</span>
                     </div>
                     <!-- Rows -->
-                    <div class="leaderboard-row" style="padding:12px;"><span class="lb-rank">1</span><span style="font-size:1.4rem; margin-right:10px;">🍩</span><span class="lb-name">Jenkins</span><span class="lb-pts">560</span><button style="background:var(--accent-green);border:none;border-radius:8px;width:36px;height:36px;font-weight:900;font-size:1rem;color:#0B0446;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="openUserProfile(1)">›</button></div>
-                    <div class="leaderboard-row" style="padding:12px;"><span class="lb-rank">2</span><span style="font-size:1.4rem; margin-right:10px;">🦊</span><span class="lb-name">Liam66</span><span class="lb-pts">450</span><button style="background:var(--accent-green);border:none;border-radius:8px;width:36px;height:36px;font-weight:900;font-size:1rem;color:#0B0446;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="openUserProfile(2)">›</button></div>
-                    <div class="leaderboard-row" style="padding:12px; background:#ffffff; border-radius:0; color:#0B0446;"><span class="lb-rank" style="color:#0B0446;">3</span><span style="font-size:1.4rem; margin-right:10px;">👻</span><span class="lb-name" style="font-weight:900; color:#0B0446;">Shanx</span><span class="lb-pts" style="color:#0B0446;">440</span><button style="background:var(--accent-green);border:none;border-radius:8px;width:36px;height:36px;font-weight:900;font-size:1rem;color:#0B0446;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="openUserProfile(3)">›</button></div>
-                    <div class="leaderboard-row" style="padding:12px;"><span class="lb-rank">4</span><span style="font-size:1.4rem; margin-right:10px;">🦜</span><span class="lb-name">Partridge</span><span class="lb-pts">410</span><button style="background:var(--accent-green);border:none;border-radius:8px;width:36px;height:36px;font-weight:900;font-size:1rem;color:#0B0446;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="openUserProfile(4)">›</button></div>
-                    <div class="leaderboard-row" style="padding:12px;"><span class="lb-rank">5</span><span style="font-size:1.4rem; margin-right:10px;">🍺</span><span class="lb-name">Hungarian</span><span class="lb-pts">340</span><button style="background:var(--accent-green);border:none;border-radius:8px;width:36px;height:36px;font-weight:900;font-size:1rem;color:#0B0446;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="openUserProfile(5)">›</button></div>
-                    <div class="leaderboard-row" style="padding:12px;"><span class="lb-rank">6</span><span style="font-size:1.4rem; margin-right:10px;">💀</span><span class="lb-name">TimLee</span><span class="lb-pts">320</span><button style="background:var(--accent-green);border:none;border-radius:8px;width:36px;height:36px;font-weight:900;font-size:1rem;color:#0B0446;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="openUserProfile(6)">›</button></div>
-                    <div class="leaderboard-row" style="padding:12px;"><span class="lb-rank">7</span><span style="font-size:1.4rem; margin-right:10px;">🔥</span><span class="lb-name">Mary</span><span class="lb-pts">310</span><button style="background:var(--accent-green);border:none;border-radius:8px;width:36px;height:36px;font-weight:900;font-size:1rem;color:#0B0446;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="openUserProfile(7)">›</button></div>
-                    <div class="leaderboard-row" style="padding:12px;"><span class="lb-rank">8</span><span style="font-size:1.4rem; margin-right:10px;">👻</span><span class="lb-name">Quaint</span><span class="lb-pts">300</span><button style="background:var(--accent-green);border:none;border-radius:8px;width:36px;height:36px;font-weight:900;font-size:1rem;color:#0B0446;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="openUserProfile(8)">›</button></div>
-                    <div class="leaderboard-row" style="padding:12px;"><span class="lb-rank">9</span><span style="font-size:1.4rem; margin-right:10px;">🍔</span><span class="lb-name">ChazzB</span><span class="lb-pts">290</span><button style="background:var(--accent-green);border:none;border-radius:8px;width:36px;height:36px;font-weight:900;font-size:1rem;color:#0B0446;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="openUserProfile(9)">›</button></div>
-                    <div class="leaderboard-row" style="padding:12px;"><span class="lb-rank">10</span><span style="font-size:1.4rem; margin-right:10px;">💎</span><span class="lb-name">Andy Wins</span><span class="lb-pts">270</span><button style="background:var(--accent-green);border:none;border-radius:8px;width:36px;height:36px;font-weight:900;font-size:1rem;color:#0B0446;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="openUserProfile(10)">›</button></div>
-                    <div class="leaderboard-row" style="padding:12px;"><span class="lb-rank">11</span><span style="font-size:1.4rem; margin-right:10px;">🐉</span><span class="lb-name">DragonFC</span><span class="lb-pts">255</span><button style="background:var(--accent-green);border:none;border-radius:8px;width:36px;height:36px;font-weight:900;font-size:1rem;color:#0B0446;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="openUserProfile(11)">›</button></div>
-                    <div class="leaderboard-row" style="padding:12px;"><span class="lb-rank">12</span><span style="font-size:1.4rem; margin-right:10px;">🦁</span><span class="lb-name">LionHeart</span><span class="lb-pts">240</span><button style="background:var(--accent-green);border:none;border-radius:8px;width:36px;height:36px;font-weight:900;font-size:1rem;color:#0B0446;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="openUserProfile(12)">›</button></div>
-                    <div class="leaderboard-row" style="padding:12px;"><span class="lb-rank">13</span><span style="font-size:1.4rem; margin-right:10px;">🌙</span><span class="lb-name">NightOwl</span><span class="lb-pts">225</span><button style="background:var(--accent-green);border:none;border-radius:8px;width:36px;height:36px;font-weight:900;font-size:1rem;color:#0B0446;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="openUserProfile(13)">›</button></div>
-                    <div class="leaderboard-row" style="padding:12px;"><span class="lb-rank">14</span><span style="font-size:1.4rem; margin-right:10px;">⚡</span><span class="lb-name">Volts</span><span class="lb-pts">210</span><button style="background:var(--accent-green);border:none;border-radius:8px;width:36px;height:36px;font-weight:900;font-size:1rem;color:#0B0446;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="openUserProfile(14)">›</button></div>
-                    <div class="leaderboard-row" style="padding:12px; border-bottom:none;"><span class="lb-rank">15</span><span style="font-size:1.4rem; margin-right:10px;">🎯</span><span class="lb-name">Bullseye</span><span class="lb-pts">195</span><button style="background:var(--accent-green);border:none;border-radius:8px;width:36px;height:36px;font-weight:900;font-size:1rem;color:#0B0446;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="openUserProfile(15)">›</button></div>
+                    <div class="leaderboard-row" style="padding:6px;"><span class="lb-rank">1</span><span style="font-size:1.4rem; margin-right:10px;">🍩</span><span class="lb-name">Jenkins</span><span class="lb-pts">560</span><button style="background:var(--accent-green);border:none;border-radius:8px;width:36px;height:36px;font-weight:900;font-size:1rem;color:#0B0446;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="openUserProfile(1)"><img src="images/icons/chevron-right.svg" style="width:20px"></button></div>
+                    <div class="leaderboard-row" style="padding:6px;"><span class="lb-rank">2</span><span style="font-size:1.4rem; margin-right:10px;">🦊</span><span class="lb-name">Liam66</span><span class="lb-pts">450</span><button style="background:var(--accent-green);border:none;border-radius:8px;width:36px;height:36px;font-weight:900;font-size:1rem;color:#0B0446;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="openUserProfile(2)"><img src="images/icons/chevron-right.svg" style="width:20px"></button></div>
+                    <div class="leaderboard-row" style="padding:6px; background:#ffffff; border-radius:0; color:#0B0446;"><span class="lb-rank" style="color:#0B0446;">3</span><span style="font-size:1.4rem; margin-right:10px;">👻</span><span class="lb-name" style="font-weight:900; color:#0B0446;">Shanx</span><span class="lb-pts" style="color:#0B0446;">440</span><button style="background:var(--accent-green);border:none;border-radius:8px;width:36px;height:36px;font-weight:900;font-size:1rem;color:#0B0446;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="openUserProfile(3)"><img src="images/icons/chevron-right.svg" style="width:20px"></button></div>
+                    <div class="leaderboard-row" style="padding:6px;"><span class="lb-rank">4</span><span style="font-size:1.4rem; margin-right:10px;">🦜</span><span class="lb-name">Partridge</span><span class="lb-pts">410</span><button style="background:var(--accent-green);border:none;border-radius:8px;width:36px;height:36px;font-weight:900;font-size:1rem;color:#0B0446;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="openUserProfile(4)"><img src="images/icons/chevron-right.svg" style="width:20px"></button></div>
+                    <div class="leaderboard-row" style="padding:6px;"><span class="lb-rank">5</span><span style="font-size:1.4rem; margin-right:10px;">🍺</span><span class="lb-name">Hungarian</span><span class="lb-pts">340</span><button style="background:var(--accent-green);border:none;border-radius:8px;width:36px;height:36px;font-weight:900;font-size:1rem;color:#0B0446;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="openUserProfile(5)"><img src="images/icons/chevron-right.svg" style="width:20px"></button></div>
+                    <div class="leaderboard-row" style="padding:6px;"><span class="lb-rank">6</span><span style="font-size:1.4rem; margin-right:10px;">💀</span><span class="lb-name">TimLee</span><span class="lb-pts">320</span><button style="background:var(--accent-green);border:none;border-radius:8px;width:36px;height:36px;font-weight:900;font-size:1rem;color:#0B0446;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="openUserProfile(6)"><img src="images/icons/chevron-right.svg" style="width:20px"></button></div>
+                    <div class="leaderboard-row" style="padding:6px;"><span class="lb-rank">7</span><span style="font-size:1.4rem; margin-right:10px;">🔥</span><span class="lb-name">Mary</span><span class="lb-pts">310</span><button style="background:var(--accent-green);border:none;border-radius:8px;width:36px;height:36px;font-weight:900;font-size:1rem;color:#0B0446;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="openUserProfile(7)"><img src="images/icons/chevron-right.svg" style="width:20px"></button></div>
+                    <div class="leaderboard-row" style="padding:6px;"><span class="lb-rank">8</span><span style="font-size:1.4rem; margin-right:10px;">👻</span><span class="lb-name">Quaint</span><span class="lb-pts">300</span><button style="background:var(--accent-green);border:none;border-radius:8px;width:36px;height:36px;font-weight:900;font-size:1rem;color:#0B0446;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="openUserProfile(8)"><img src="images/icons/chevron-right.svg" style="width:20px"></button></div>
+                    <div class="leaderboard-row" style="padding:6px;"><span class="lb-rank">9</span><span style="font-size:1.4rem; margin-right:10px;">🍔</span><span class="lb-name">ChazzB</span><span class="lb-pts">290</span><button style="background:var(--accent-green);border:none;border-radius:8px;width:36px;height:36px;font-weight:900;font-size:1rem;color:#0B0446;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="openUserProfile(9)"><img src="images/icons/chevron-right.svg" style="width:20px"></button></div>
+                    <div class="leaderboard-row" style="padding:6px;"><span class="lb-rank">10</span><span style="font-size:1.4rem; margin-right:10px;">💎</span><span class="lb-name">Andy Wins</span><span class="lb-pts">270</span><button style="background:var(--accent-green);border:none;border-radius:8px;width:36px;height:36px;font-weight:900;font-size:1rem;color:#0B0446;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="openUserProfile(10)"><img src="images/icons/chevron-right.svg" style="width:20px"></button></div>
+                    <div class="leaderboard-row" style="padding:6px;"><span class="lb-rank">11</span><span style="font-size:1.4rem; margin-right:10px;">🐉</span><span class="lb-name">DragonFC</span><span class="lb-pts">255</span><button style="background:var(--accent-green);border:none;border-radius:8px;width:36px;height:36px;font-weight:900;font-size:1rem;color:#0B0446;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="openUserProfile(11)"><img src="images/icons/chevron-right.svg" style="width:20px"></button></div>
+                    <div class="leaderboard-row" style="padding:6px;"><span class="lb-rank">12</span><span style="font-size:1.4rem; margin-right:10px;">🦁</span><span class="lb-name">LionHeart</span><span class="lb-pts">240</span><button style="background:var(--accent-green);border:none;border-radius:8px;width:36px;height:36px;font-weight:900;font-size:1rem;color:#0B0446;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="openUserProfile(12)"><img src="images/icons/chevron-right.svg" style="width:20px"></button></div>
+                    <div class="leaderboard-row" style="padding:6px;"><span class="lb-rank">13</span><span style="font-size:1.4rem; margin-right:10px;">🌙</span><span class="lb-name">NightOwl</span><span class="lb-pts">225</span><button style="background:var(--accent-green);border:none;border-radius:8px;width:36px;height:36px;font-weight:900;font-size:1rem;color:#0B0446;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="openUserProfile(13)"><img src="images/icons/chevron-right.svg" style="width:20px"></button></div>
+                    <div class="leaderboard-row" style="padding:6px;"><span class="lb-rank">14</span><span style="font-size:1.4rem; margin-right:10px;">⚡</span><span class="lb-name">Volts</span><span class="lb-pts">210</span><button style="background:var(--accent-green);border:none;border-radius:8px;width:36px;height:36px;font-weight:900;font-size:1rem;color:#0B0446;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="openUserProfile(14)"><img src="images/icons/chevron-right.svg" style="width:20px"></button></div>
+                    <div class="leaderboard-row" style="padding:6px; border-bottom:none;"><span class="lb-rank">15</span><span style="font-size:1.4rem; margin-right:10px;">🎯</span><span class="lb-name">Bullseye</span><span class="lb-pts">195</span><button style="background:var(--accent-green);border:none;border-radius:8px;width:36px;height:36px;font-weight:900;font-size:1rem;color:#0B0446;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="openUserProfile(15)"><img src="images/icons/chevron-right.svg" style="width:20px"></button></div>
                 </div>
             </div>
             <!-- Post-Pick Confirmation Screen -->
             <div id="post-pick-view" style="display:none;">
-                <div style="background:#fff; border-radius:16px; padding:16px 16px 20px; margin-bottom:16px;">
+                <div style="background:#fff; border-radius:10px; padding:16px 16px 20px; margin-bottom:16px;">
                     <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;margin-bottom:14px;">
                         <div style="width:36px;height:36px;border-radius:50%;background:var(--accent-green);display:flex;align-items:center;justify-content:center;">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0B0446" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
@@ -588,14 +589,14 @@
                     </div>
                     <div id="post-pick-avatars" style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center;"></div>
                 </div>
-                <div style="background:#2c2270;border-radius:16px;overflow:hidden;margin-bottom:24px;">
-                    <div style="background:var(--accent-green);padding:24px 20px 20px;text-align:center;position:relative;background-image:repeating-linear-gradient(-45deg,transparent,transparent 10px,rgba(255,255,255,0.06) 10px,rgba(255,255,255,0.06) 20px);">
-                        <div style="font-size:4rem;margin-bottom:8px;">🏆</div>
+                <div style="background:#2c2270;border-radius:10px;overflow:hidden;margin-bottom:24px;">
+                    <div style="background:var(--accent-green);padding:10px 20px 20px;text-align:center;position:relative;background-image:repeating-linear-gradient(-45deg,transparent,transparent 10px,rgba(255,255,255,0.06) 10px,rgba(255,255,255,0.06) 20px);">
+                        <div style="font-size:4rem;">🏆</div>
                         <div style="font-family:'Archivo Black',sans-serif;font-size:1.8rem;color:#0B0446;line-height:1.1;text-transform:uppercase;">Challenge<br>Friends &amp; Family</div>
                     </div>
                     <div style="padding:16px 20px;">
                         <p style="color:rgba(255,255,255,0.7);text-align:center;margin-bottom:16px;">Start a work, school or family league</p>
-                        <button onclick="showSummary()" style="display:block;width:100%;background:var(--accent-green);color:#0B0446;font-family:'Archivo Black',sans-serif;font-size:1rem;text-transform:uppercase;letter-spacing:2px;padding:14px;border:none;border-radius:8px;cursor:pointer;">Create a League</button>
+                        <button onclick="showSummary()" style="display:block;width:100%;background:var(--accent-green);color:#0B0446;font-family:'Archivo Black',sans-serif;font-size:1rem;text-transform:uppercase;padding:14px;border:none;border-radius:8px;cursor:pointer;">Create a League</button>
                     </div>
                 </div>
                 <div style="text-align:center;">
@@ -691,7 +692,18 @@
             { name: "Bernardo Silva", surname: "Bernardo", club: "Man City", position: "MID", image: 'https://img.sofascore.com/api/v1/player/331209/image', stats: { goals: 6, assists: 9, passAcc: "90%", keyPasses: 35 } },
             { name: "Bruno Guimaraes", surname: "Bruno G.", club: "Newcastle", position: "MID", image: 'https://img.sofascore.com/api/v1/player/866469/image', stats: { goals: 7, assists: 8, passAcc: "86%", keyPasses: 33 } },
             { name: "Douglas Luiz", surname: "Luiz", club: "Aston Villa", position: "MID", image: 'https://img.sofascore.com/api/v1/player/867887/image', stats: { goals: 9, assists: 5, passAcc: "88%", keyPasses: 30 } },
-            { name: "James Maddison", surname: "Maddison", club: "Spurs", position: "MID", image: 'https://img.sofascore.com/api/v1/player/356398/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } }
+            { name: "James Maddison", surname: "Maddison", club: "Spurs", position: "MID", image: 'https://img.sofascore.com/api/v1/player/356398/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } },
+            { name: "Xavi Simons", surname: "Simons", club: "Spurs", position: "MID", image: 'https://img.sofascore.com/api/v1/player/997183/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } },
+            { name: "Daniel Muñoz", surname: "Muñoz", club: "Palace", position: "MID", image: 'https://img.sofascore.com/api/v1/player/870360/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } },
+            { name: "Amad Diallo", surname: "Diallo", club: "Man United", position: "MID", image: 'https://img.sofascore.com/api/v1/player/971037/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } },
+            { name: "Benjamin Šeško", surname: "Šeško", club: "Man United", position: "MID", image: 'https://img.sofascore.com/api/v1/player/986397/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } },
+            { name: "Enzo Fernández", surname: "Fernández", club: "Chelsea", position: "MID", image: 'https://img.sofascore.com/api/v1/player/974505/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } },
+            { name: "Moisés Caicedo", surname: "Caicedo", club: "Chelsea", position: "MID", image: 'https://img.sofascore.com/api/v1/player/987650/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } },
+            { name: "Dominik Szoboszlai", surname: "Szoboszlai", club: "Liverpool", position: "MID", image: 'https://img.sofascore.com/api/v1/player/869856/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } },
+            { name: "Morgan Rogers", surname: "Rogers", club: "Aston Villa", position: "MID", image: 'https://img.sofascore.com/api/v1/player/948261/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } },
+            { name: "Youri Tielemans", surname: "Tielemans", club: "Aston Villa", position: "MID", image: 'https://img.sofascore.com/api/v1/player/331737/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } },
+            { name: "Justin Kluivert", surname: "Kluivert", club: "Bournemouth", position: "MID", image: 'https://img.sofascore.com/api/v1/player/851596/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } },
+            { name: "Marcus Tavernier", surname: "Tavernier", club: "Bournemouth", position: "MID", image: 'https://img.sofascore.com/api/v1/player/895576/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } }
         ];
 
         const attackers = [
@@ -704,7 +716,18 @@
             { name: "Florian Wirtz", surname: "Wirtz", club: "Liverpool", position: "ATT", image: 'https://img.sofascore.com/api/v1/player/1019322/image', stats: { goals: 11, xG: "16.8", shotAcc: "45%", conversion: "14%" } },
             { name: "Antoine Semenyo", surname: "Semenyo", club: "Man City", position: "ATT", image: 'https://img.sofascore.com/api/v1/player/934354/image', stats: { goals: 11, xG: "10.2", shotAcc: "52%", conversion: "18%" } },
             { name: "Pedro Neto", surname: "Neto", club: "Chelsea", position: "ATT", image: 'https://img.sofascore.com/api/v1/player/879349/image', stats: { goals: 14, xG: "15.4", shotAcc: "48%", conversion: "16%" } },
-            { name: "Kai Havertz", surname: "Havertz", club: "Arsenal", position: "ATT", image: 'images/players/havertz.png', stats: { goals: 13, xG: "11.1", shotAcc: "55%", conversion: "20%" } }
+            { name: "Kai Havertz", surname: "Havertz", club: "Arsenal", position: "ATT", image: 'images/players/havertz.png', stats: { goals: 13, xG: "11.1", shotAcc: "55%", conversion: "20%" } },
+            { name: "Dominic Solanke", surname: "Solanke", club: "Spurs", position: "ATT", image: 'https://img.sofascore.com/api/v1/player/361420/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } },
+            { name: "Brennan Johnson", surname: "Johnson", club: "Palace", position: "ATT", image: 'https://img.sofascore.com/api/v1/player/1085180/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } },
+            { name: "Bruno Fernandes", surname: "Fernandes", club: "Man United", position: "ATT", image: 'https://img.sofascore.com/api/v1/player/288205/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } },
+            { name: "Bryan Mbeumo", surname: "Mbeumo", club: "Man United", position: "ATT", image: 'https://img.sofascore.com/api/v1/player/927083/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } },
+            { name: "Alejandro Garnacho", surname: "Garnacho", club: "Chelsea", position: "ATT", image: 'https://img.sofascore.com/api/v1/player/1135873/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } },
+            { name: "João Pedro", surname: "Pedro", club: "Chelsea", position: "ATT", image: 'https://img.sofascore.com/api/v1/player/975079/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } },
+            { name: "Hugo Ekitiké", surname: "Ekitiké", club: "Liverpool", position: "ATT", image: 'https://img.sofascore.com/api/v1/player/1048422/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } },
+            { name: "Tammy Abraham", surname: "Abraham", club: "Aston Villa", position: "ATT", image: 'https://img.sofascore.com/api/v1/player/610766/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } },
+            { name: "Jadon Sancho", surname: "Sancho", club: "Aston Villa", position: "ATT", image: 'https://img.sofascore.com/api/v1/player/851100/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } },
+            { name: "Amine Adli", surname: "Adli", club: "Bournemouth", position: "ATT", image: 'https://img.sofascore.com/api/v1/player/991478/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } },
+            { name: "Evanilson", surname: "Evanilson", club: "Bournemouth", position: "ATT", image: 'https://img.sofascore.com/api/v1/player/998490/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } }
         ];
 
         const clubSlugMap = { "Man City": "Man-City", "Liverpool": "Liverpool", "Arsenal": "Arsenal", "Newcastle": "Newcastle", "Chelsea": "Chelsea", "Spurs": "Tottenham", "Aston Villa": "Aston-Villa", "Brighton": "Brighton" };
@@ -1086,35 +1109,35 @@
             }).join('');
 
             document.getElementById('user-profile-content').innerHTML = `
-                <div class="mb-3 p-3" style="background:#2c2270; border-radius:16px;">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <div style="background:#0B0446; border-radius:8px; padding:6px 12px; font-weight:900; font-size:0.85rem; display:inline-flex; align-items:center; gap:6px;">
+                <div class="p-2" style="background:#2c2270; border-radius:10px;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div style="background:#0B0446; border-radius:8px; padding:6px 12px; text-transform: uppercase; font-size:0.75rem; display:inline-flex; align-items:center; gap:6px;">
                             ${user.badge}
                         </div>
                         <div style="font-size:1.6rem;">${user.flag}</div>
                     </div>
-                    <div class="text-center mb-2">
-                        <div style="width:90px; height:90px; border-radius:50%; background:rgba(255,255,255,0.12); display:inline-flex; align-items:center; justify-content:center; font-size:2.8rem;">
+                    <div class="text-center">
+                        <div style="width:60px; height:60px; border-radius:50%; background:rgba(255,255,255,0.12); display:inline-flex; align-items:center; justify-content:center; font-size:2.0rem;">
                             ${user.emoji}
                         </div>
                     </div>
-                    <div class="text-center mb-3" style="font-size:1.6rem; font-weight:700; letter-spacing:1px;">${user.name}</div>
+                    <div class="text-center mb-2" style="font-size:1.6rem; font-weight:700; letter-spacing:1px;">${user.name}</div>
                     <div class="row text-center g-2">
                         <div class="col">
                             <div style="background:rgba(255,255,255,0.1); border-radius:10px; padding:10px 4px;">
-                                <div style="font-size:0.7rem; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,0.6); margin-bottom:4px;">Division</div>
+                                <div style="font-size:0.7rem; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,0.6);">Division</div>
                                 <div style="font-size:1.3rem; font-weight:900;">${user.div}</div>
                             </div>
                         </div>
                         <div class="col">
                             <div style="background:rgba(255,255,255,0.1); border-radius:10px; padding:10px 4px;">
-                                <div style="font-size:0.7rem; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,0.6); margin-bottom:4px;">Matchups</div>
+                                <div style="font-size:0.7rem; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,0.6);">Matchups</div>
                                 <div style="font-size:1.3rem; font-weight:900;">${user.matchups}</div>
                             </div>
                         </div>
                         <div class="col">
                             <div style="background:rgba(255,255,255,0.1); border-radius:10px; padding:10px 4px;">
-                                <div style="font-size:0.7rem; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,0.6); margin-bottom:4px;">Trophies</div>
+                                <div style="font-size:0.7rem; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,0.6);">Trophies</div>
                                 <div style="font-size:1.1rem; font-weight:900;">${user.trophies || '—'}</div>
                             </div>
                         </div>
@@ -1171,7 +1194,7 @@
             ).join('');
             document.getElementById('stats-modal-content').innerHTML = `
                 <div class="profile-header" style="border-radius:16px 16px 0 0; position:relative;">
-                    <button onclick="closeStatsModal()" style="position:absolute;top:10px;right:12px;background:none;border:none;color:#fff;font-size:1.5rem;font-weight:900;cursor:pointer;">✕</button>
+                    <button onclick="closeStatsModal()" style="position:absolute;top:10px;right:12px;background:none;border:none;color:#fff;font-size:1.2rem;font-weight:900;cursor:pointer;">✕</button>
                     <div style="font-weight:900; color:var(--accent-green);">${player.position}</div>
                     <div style="font-family:'Archivo Black',sans-serif; font-size:2.2rem; line-height:1; color:#fff;">${player.surname.toUpperCase()}</div>
                     <img src="${badge}" style="width:40px; margin-top:15px;">
