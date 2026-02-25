@@ -730,7 +730,7 @@
             { name: "Evanilson", surname: "Evanilson", club: "Bournemouth", position: "ATT", image: 'https://img.sofascore.com/api/v1/player/998490/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } }
         ];
 
-        const clubSlugMap = { "Man City": "Man-City", "Liverpool": "Liverpool", "Arsenal": "Arsenal", "Newcastle": "Newcastle", "Chelsea": "Chelsea", "Spurs": "Tottenham", "Aston Villa": "Aston-Villa", "Brighton": "Brighton" };
+        const clubSlugMap = { "Palace": "Crystal-Palace", "Man City": "Man-City", "Liverpool": "Liverpool", "Arsenal": "Arsenal", "Newcastle": "Newcastle", "Chelsea": "Chelsea", "Spurs": "Tottenham", "Aston Villa": "Aston-Villa", "Brighton": "Brighton" };
 
         function getCurrentPosition() { return POSITIONS[currentPositionIndex]; }
         function getClubSlug(clubName) { return clubSlugMap[clubName] || clubName.replace(/\s+/g, '-'); }
