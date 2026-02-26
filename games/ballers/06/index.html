@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ballers</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #1a0b5a;
+            --bg-navy: #3C366B;
+            --bg-card: #ffffff;
+            --accent-blue: #0065FF;
+            --accent-green: #97ff3d;
+            --text-main: #ffffff;
+            --text-card: #000000;
+        }
+        
+        @font-face {
+    font-family: 'MonumentExtendedUltrabold';
+    src: url('fonts/MonumentExtended-Ultrabold.woff2') format('woff2'),
+         url('fonts/MonumentExtended-Ultrabold.woff') format('woff');
+    font-weight:  900;
+    font-style:   normal;
+    font-stretch: normal;
+    }
+
+    @font-face {
+        font-family: 'MonumentExtendedBold';
+        src: url('fonts/Monument-Extended-Bold.woff2') format('woff2'),
+             url('fonts/Monument-Extended-Bold.woff') format('woff');
+        font-weight:  900;
+        font-style:   normal;
+        font-stretch: normal;
+    }
+
+        @font-face {
+            font-family: 'MonumentExtendedRegular';
+            src: url('fonts/Monument-Extended-Regular.woff2') format('woff2'),
+                 url('fonts/Monument-Extended-Regular.woff') format('woff');
+            font-weight:  400;
+            font-style:   normal;
+            font-stretch: normal;
+        }
+        
+        .brand-font-bold {
+          font-family: 'MonumentExtendedUltrabold', sans-serif !important;
+          font-weight: 900 !important;
+        }
+
+        .brand-font-regular {
+          font-family: 'MonumentExtendedRegular', sans-serif !important;
+          font-weight: 400 !important;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            font-family: 'Inter', sans-serif;
+            color: var(--text-main);
+            padding-top: 4.5rem;
+            padding-bottom: 7rem;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--bg-navy);
+            padding: 0.7rem 0.5rem;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #0B0446;
+        }
+
+        .header-logo {
+            font-family: 'Archivo Black', sans-serif;
+            font-style: italic;
+            text-transform: uppercase;
+            font-size: 1.1rem;
+            line-height: 1;
+            text-align: center;
+        }
+        
+        .header-sub {
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            display: block;
+            font-weight: 700;
+            color: #9D9AB5;
+        }
+
+        /* --- SHUFFLE ANIMATION --- */
+        .player-card.spinning {
+            background: #e9ecef;
+            animation: card-flip-animation 0.4s infinite linear;
+            border-color: #adb5bd;
+            box-shadow: none;
+            pointer-events: none;
+        }
+
+        .player-card.spinning .card-body,
+        .player-card.spinning .image-wrapper,
+        .player-card.spinning .club-badge-mini,
+        .player-card.spinning .stat-icon,
+        .player-card.spinning .pos-sidebar {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        @keyframes card-flip-animation {
+            from { transform: perspective(1000px) rotateY(0deg); }
+            to { transform: perspective(1000px) rotateY(360deg); }
+        }
+
+        .card-container {
+            perspective: 1200px;
+            height: 100%;
+        }
+
+        .player-card {
+            background-color: var(--bg-card);
+            border-radius: 8px;
+            border: 2px solid transparent;
+            overflow: hidden;
+            position: relative;
+            transition: border-color 0.2s;
+            height: 100%;
+            transform-style: preserve-3d;
+            backface-visibility: hidden;
+        }
+
+        .player-card.is-picked {
+            border-color: var(--accent-green);
+        }
+
+        .pos-sidebar {
+            position: absolute;
+            left: 4px;
+            top: 36px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #ccc;
+            font-weight: 900;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            z-index: 5;
+            font-family: 'MonumentExtendedRegular';
+        }
+        .pos-sidebar span {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            transform: rotate(180deg);
+        }
+
+        .stat-icon {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            width: 22px;
+            height: 22px;
+            background: var(--accent-blue);
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3 22h2V10H3v12zm7 0h2V2h-2v20zm7 0h2v-8h-2v8z'/%3E%3C/svg%3E") no-repeat center;
+            -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3 22h2V10H3v12zm7 0h2V2h-2v20zm7 0h2v-8h-2v8z'/%3E%3C/svg%3E") no-repeat center;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .club-badge-mini {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 26px;
+            height: 26px;
+            object-fit: contain;
+        }
+
+        .image-wrapper {
+            padding-top: 20px;
+            display: flex;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .player-image {
+            width: 80%;
+            height: auto;
+            max-height: 100px;
+            object-fit: contain;
+        }
+
+        .card-body {
+            padding: 4px !important;
+            text-align: center;
+        }
+
+        .player-surname {
+            font-family: 'MonumentExtendedRegular', sans-serif;
+            color: var(--bg-dark);
+            font-size: 0.8rem;
+            margin-top: 2px;
+            margin-bottom: 8px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .pick-btn {
+            border-radius: 4px;
+            font-weight: 900;
+            font-size: 0.8rem;
+            padding: 6px 0;
+            width: 100%;
+            text-transform: uppercase;
+            border: 1px solid #ddd;
+            background: white;
+            color: #000;
+            letter-spacing: 1px;
+            font-family: 'MonumentExtendedRegular';
+        }
+
+        .pick-btn.active {
+            background-color: var(--accent-green);
+            border-color: var(--accent-green);
+        }
+
+        .shuffle-btn {
+            background-color: var(--accent-blue);
+            color: white;
+            border-radius: 6px;
+            font-weight: 900;
+            font-size: 0.9rem;
+            padding: 6px 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-transform: uppercase;
+            border: none;
+        }
+        
+        .shuffle-circle{
+            background-color: #FFF;
+            padding: 4px 10px;
+            font-size: 1rem;
+            color: #0B0446;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #2c1a7a;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .pos-tab {
+            text-align: center;
+            flex: 1;
+            opacity: 0.5;
+            background-color: #494575;
+            letter-spacing: 1px;
+        }
+        .pos-tab.active { opacity: 1; }
+        .pos-tab-label { font-weight: 900; font-size: 0.6rem; margin-bottom: 4px; }
+        .dot-container { display: flex; justify-content: center; gap: 4px; }
+        .dot { width: 6px; height: 6px; background: rgba(255,255,255,0.3); border-radius: 50%; }
+        .dot.filled { background: var(--accent-green); }
+
+        .nav-btn {
+            background: var(--accent-green);
+            color: #0B0446;
+            border: none;
+            border-radius: 6px;
+            padding: 10px 15px;
+            font-weight: 900;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+        .nav-btn-next { background-color: var(--accent-green); color: #0B0446; }
+
+        .section-title {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+        .section-title span { color: var(--accent-green); }
+
+        /* Detail Screen Specifics */
+        .profile-header {
+            background: linear-gradient(135deg, #3B366B 0%, #241E59 100%);
+            border-radius: 16px 16px 0 0;
+            padding: 1.5rem 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .profile-header-image {
+            width: 100px;
+            height: auto;
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1;
+        }
+        .stat-grid {
+            background: #f8fafc;
+            border-radius: 0 0 16px 16px;
+            padding: 1.5rem;
+        }
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #e2e8f0;
+            color: #1a0b5a;
+        }
+        .stat-item:last-child { border-bottom: none; }
+        .stat-label { font-weight: 600; font-size: 0.85rem; text-transform: uppercase; color: #64748b; }
+        .stat-val { font-weight: 900; font-size: 1rem; }
+
+        /* Leaderboard */
+        .leaderboard-container {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-top: 2rem;
+        }
+        .leaderboard-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 0.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.9rem;
+            gap: 8px;
+        }
+        .lb-rank { width: 20px; font-weight: 900; color: #FFF; }
+        .lb-name { flex-grow: 1; }
+        .lb-pts { font-weight: 900; }
+
+        /* Points Tag */
+        .points-tag {
+            background: #F3F2F6;
+            color: #1a0b5a;
+            font-family: 'MonumentExtendedRegular', sans-serif;
+            font-weight: 800;
+            font-size: 1rem;
+            padding: 4px 8px;
+            border-radius: 5px;
+            display: block;
+            width: 100%;
+            text-align: center;
+            margin-top: 4px;
+            span {
+                font-size: 0.6rem;
+            }
+        }
+
+        /* Summary card – no green border */
+        .player-card.summary-card {
+            border-color: transparent;
+        }
+
+        /* Player Detail Modal (pick screens) */
+        #player-detail-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 5, 40, 0.75);
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
+            z-index: 1500;
+            overflow-y: auto;
+            padding: 1rem;
+        }
+        #player-detail-modal.active { display: block; }
+        #player-detail-modal-box {
+            background: #1e1260;
+            border-radius: 16px;
+            overflow: hidden;
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 16px;
+            position: relative;
+        }
+        #player-detail-modal-close {
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: 900;
+            cursor: pointer;
+            z-index: 10;
+            line-height: 1;
+        }
+
+        /* Stats Modal */
+        #stats-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 2000;
+            overflow-y: auto;
+            padding: 2rem 1rem;
+        }
+        #stats-modal-overlay.active { display: block; }
+        #stats-modal-box {
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="sticky-header">
+        <div style="width:80px; position:relative;">
+            <button id="header-back-btn" onclick="closeUserProfile()" style="display:none; background:none; border:none; color:#fff; font-weight:900; font-size:0.7rem; align-items:center; gap:6px; padding:0;">
+                <span style="font-size:1.3rem;">&#8592;</span> BACK
+            </button>
+            <div id="header-score-centre" style="display:none; align-items:center; gap:6px; cursor:pointer;">
+                <div style="background:var(--accent-green); border-radius:4px; width:36px; height:36px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                    <img src="images/icons/bolt.svg">
+                </div>
+                <div style="line-height:1.1;" class="brand-font-regular">
+                    <div style="font-size:0.55rem; text-transform:uppercase; letter-spacing:1px; color:#FFF;">Score</div>
+                    <div style="font-size:0.55rem; text-transform:uppercase; letter-spacing:1px; color:#FFF;">Centre</div>
+                </div>
+            </div>
+        </div>
+        <div class="header-logo">BALLERS <span class="header-sub pt-1">EPL</span></div>
+        <div class="d-flex gap-2 pr-1">
+            <div class="bg-white text-dark rounded px-1 py-1 fw-bold">
+                <img src="images/icons/question.svg" style="height: 28px;">
+            </div>
+            <div class="bg-white text-dark rounded px-1 py-1 fw-bold">
+                <img src="images/icons/gear.svg" style="height: 28px;">
+            </div>
+        </div>
+    </div>
+
+    <div class="container pb-2">
+        <div id="main-content-wrapper">
+            <!-- Home Screen -->
+            <div id="home-view">
+                <div class="mb-3 p-2" style="background:#2c2270; border-radius:10px;">
+                    <!-- Top row: rank badge + flag -->
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div style="background:#0B0446; border-radius:4px; padding:5px 8px; font-weight:900; font-size:0.5rem; display:inline-flex; align-items:center; gap:6px;">
+                            ⭐⭐⭐ <span class="brand-font-regular" style="text-transform:uppercase;">World Class</span>
+                        </div>
+                        <div style="font-size:1.6rem;">🇫🇷</div>
+                    </div>
+                    <!-- Avatar circle -->
+                    <div class="text-center mb-0">
+                        <div style="width:60px; height:60px; border-radius:50%; background:rgba(255,255,255,0.12); display:inline-flex; align-items:center; justify-content:center; font-size:2.0rem;">
+                            👻
+                        </div>
+                    </div>
+                    <!-- Username -->
+                    <div class="text-center brand-font-regular mb-3" style="font-size:1.4rem; font-weight:700; letter-spacing:1px;">Shanx</div>
+                    <!-- Stats row -->
+                    <div class="row text-center g-2 mb-3">
+                        <div class="col">
+                            <div style="background:rgba(255,255,255,0.1); border-radius:10px; padding:10px 4px;">
+                                <div style="font-size:0.7rem; font-weight:900; text-transform:uppercase; color:rgba(255,255,255,0.6);" class="brand-font-regular">Division</div>
+                                <div style="font-size:1rem; font-weight:900;" class="brand-font-regular">2</div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div style="background:rgba(255,255,255,0.1); border-radius:10px; padding:10px 4px;">
+                                <div style="font-size:0.7rem; font-weight:900; text-transform:uppercase; color:rgba(255,255,255,0.6);"class="brand-font-regular">Matchups</div>
+                                <div style="font-size:1rem; font-weight:900;" class="brand-font-regular">W12 L4</div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div style="background:rgba(255,255,255,0.1); border-radius:10px; padding:10px 4px;">
+                                <div style="font-size:0.7rem; font-weight:900; text-transform:uppercase; color:rgba(255,255,255,0.6);" class="brand-font-regular">Trophies</div>
+                                <div style="font-size:1rem; font-weight:900;" class="brand-font-regular">🏆1 🥇2</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Week dropdown -->
+                    <div class="row">
+                        <div class="col-12">
+                            <select class="form-select text-center" style="background-color:#fff; color:#1a0b5a; border-color:#ccc; font-weight:300;">
+                                <option>March: Week 3</option>
+                                <option>March: Week 2</option>
+                                <option>March: Week 1</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!-- Picking closes notice -->
+                <p style="text-align:center; color:rgba(255,255,255,0.6); font-size:0.9rem; margin-bottom:16px;">Picking closes at 19:00 on Fri 15 Mar</p>
+                <!-- Pick my players button -->
+                <button onclick="startPickingJourney()" style="display:block; width:100%; background:var(--accent-green); color:#0B0446; font-size:0.8rem; text-transform:uppercase; padding:12px; border:none; border-radius:5px; cursor:pointer; margin-bottom:16px;" class="brand-font-regular">Pick My Players</button>
+            </div>
+
+            <!-- Grid Selection View -->
+            <div id="player-grid-view" style="display:none;">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h3 class="section-title brand-font-regular mb-0">PICK <span>3</span> <span id="position-header">DEFENDERS</span>.</h3>
+                    <button class="shuffle-btn brand-font-regular" style="font-size: 0.7rem;" id="spin-unpicked-btn">
+                        SHUFFLE <div class="shuffle-circle rounded-4" id="shuffle-count">3</div>
+                    </button>
+                </div>
+                <div id="player-grid" class="row g-2"></div>
+            </div>
+            
+            <!-- Player Profile Detail View (now a modal - see #player-detail-modal below) -->
+            
+            <!-- Final Summary View -->
+            <div id="final-summary-view" style="display: none;">
+                <div class="mb-3 p-2" style="background:#2c2270; border-radius:10px;">
+                    <!-- Top row: rank badge + flag -->
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div style="background:#0B0446; border-radius:4px; padding:5px 8px; font-weight:900; font-size:0.5rem; display:inline-flex; align-items:center; gap:6px;" class="brand-font-regular">
+                            ⭐⭐⭐ <span style="text-transform:uppercase;">World Class</span>
+                        </div>
+                        <div style="font-size:1.6rem;">🇫🇷</div>
+                    </div>
+                    <!-- Avatar circle -->
+                    <div class="text-center mb-0">
+                        <div style="width:60px; height:60px; border-radius:50%; background:rgba(255,255,255,0.12); display:inline-flex; align-items:center; justify-content:center; font-size:2.0rem;">
+                            👻
+                        </div>
+                    </div>
+                    <!-- Username -->
+                    <div class="text-center brand-font-regular mb-3" style="font-size:1.4rem; font-weight:700;;">Shanx</div>
+                    <!-- Stats row -->
+                    <div class="row brand-font-regular text-center g-2 mb-3">
+                        <div class="col">
+                            <div style="background:rgba(255,255,255,0.1); border-radius:10px; padding:10px 4px;">
+                                <div style="font-size:0.5rem; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,0.6);">Division</div>
+                                <div style="font-size:1rem; font-weight:900;">2</div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div style="background:rgba(255,255,255,0.1); border-radius:10px; padding:10px 4px;">
+                                <div style="font-size:0.5rem; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,0.6); ">Matchups</div>
+                                <div style="font-size:1rem; font-weight:900;">W12 L4</div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div style="background:rgba(255,255,255,0.1); border-radius:10px; padding:10px 4px;">
+                                <div style="font-size:0.5rem; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,0.6);">Trophies</div>
+                                <div style="font-size:1rem; font-weight:900;">🏆1 🥇2</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Week dropdown -->
+                    <div class="row">
+                        <div class="col-12">
+                            <select class="form-select text-center" style="background-color:#fff; color:#1a0b5a; border-color:#ccc; font-weight:300;">
+                                <option>March: Week 3</option>
+                                <option>March: Week 2</option>
+                                <option>March: Week 1</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                <!-- Week stats row -->
+                <div class="row text-center brand-font-regular g-0 mb-3" style="background:rgba(255,255,255,0.05); border-radius:12px; overflow:hidden;">
+                    <div class="col" style="padding:12px 4px; border-right:1px solid rgba(255,255,255,0.1);">
+                        <div style="font-size:0.65rem; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,0.5);">Played</div>
+                        <div style="font-family:'MonumentExtendedRegular',sans-serif; font-size:1rem; font-weight:900;">8/9</div>
+                    </div>
+                    <div class="col" style="padding:12px 4px; border-right:1px solid rgba(255,255,255,0.1);">
+                        <div style="font-size:0.65rem; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,0.5);">Total</div>
+                        <div id="summary-total-pts" style="font-family:'MonumentExtendedRegular',sans-serif; font-size:1rem; font-weight:900;">—pts</div>
+                    </div>
+                    <div class="col" style="padding:12px 4px;">
+                        <div style="font-size:0.65rem; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:rgba(255,255,255,0.5);">Status</div>
+                        <div style="font-family:'MonumentExtendedRegular',sans-serif; font-size:1rem; font-weight:900; color:var(--accent-green);">In-play</div>
+                    </div>
+                </div>
+
+                <div id="summary-grid" class="row g-2 mb-4"></div>
+                <h3 class="section-title brand-font-regular text-center"><span>GLOBAL LEADERBOARD</span></h3>
+                <div class="leaderboard-container mt-2" style="padding:0;">
+                    <!-- Header -->
+                    <div style="display:flex; justify-content:space-between; padding:10px 12px 6px; font-size:0.8rem; font-weight:700; color:rgba(255,255,255,0.5); border-bottom:1px solid rgba(255,255,255,0.1);">
+                        <span>Player</span>
+                        <span style="margin-right:44px;">Pts</span>
+                    </div>
+                    <!-- Rows -->
+                    <div class="leaderboard-row" style="padding:6px;"><span class="lb-rank">1</span><span style="font-size:1.4rem; margin-right:10px;">🍩</span><span class="lb-name">Jenkins</span><span class="lb-pts">560</span><button style="background:var(--accent-green);border:none;border-radius:8px;width:36px;height:36px;font-weight:900;font-size:1rem;color:#0B0446;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="openUserProfile(1)"><img src="images/icons/chevron-right.svg" style="width:20px"></button></div>
+                    <div class="leaderboard-row" style="padding:6px;"><span class="lb-rank">2</span><span style="font-size:1.4rem; margin-right:10px;">🦊</span><span class="lb-name">Liam66</span><span class="lb-pts">450</span><button style="background:var(--accent-green);border:none;border-radius:8px;width:36px;height:36px;font-weight:900;font-size:1rem;color:#0B0446;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="openUserProfile(2)"><img src="images/icons/chevron-right.svg" style="width:20px"></button></div>
+                    <div class="leaderboard-row rounded" style="padding:6px; background:#ffffff; border-radius:0; color:#0B0446;"><span class="lb-rank" style="color:#0B0446;">3</span><span style="font-size:1.4rem; margin-right:10px;">👻</span><span class="lb-name" style="font-weight:900; color:#0B0446;">Shanx</span><span class="lb-pts" style="color:#0B0446;">440</span><button style="background:var(--accent-green);border:none;border-radius:8px;width:36px;height:36px;font-weight:900;font-size:1rem;color:#0B0446;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="openUserProfile(3)"><img src="images/icons/chevron-right.svg" style="width:20px"></button></div>
+                    <div class="leaderboard-row" style="padding:6px;"><span class="lb-rank">4</span><span style="font-size:1.4rem; margin-right:10px;">🦜</span><span class="lb-name">Partridge</span><span class="lb-pts">410</span><button style="background:var(--accent-green);border:none;border-radius:8px;width:36px;height:36px;font-weight:900;font-size:1rem;color:#0B0446;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="openUserProfile(4)"><img src="images/icons/chevron-right.svg" style="width:20px"></button></div>
+                    <div class="leaderboard-row" style="padding:6px;"><span class="lb-rank">5</span><span style="font-size:1.4rem; margin-right:10px;">🍺</span><span class="lb-name">Hungarian</span><span class="lb-pts">340</span><button style="background:var(--accent-green);border:none;border-radius:8px;width:36px;height:36px;font-weight:900;font-size:1rem;color:#0B0446;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="openUserProfile(5)"><img src="images/icons/chevron-right.svg" style="width:20px"></button></div>
+                    <div class="leaderboard-row" style="padding:6px;"><span class="lb-rank">6</span><span style="font-size:1.4rem; margin-right:10px;">💀</span><span class="lb-name">TimLee</span><span class="lb-pts">320</span><button style="background:var(--accent-green);border:none;border-radius:8px;width:36px;height:36px;font-weight:900;font-size:1rem;color:#0B0446;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="openUserProfile(6)"><img src="images/icons/chevron-right.svg" style="width:20px"></button></div>
+                    <div class="leaderboard-row" style="padding:6px;"><span class="lb-rank">7</span><span style="font-size:1.4rem; margin-right:10px;">🔥</span><span class="lb-name">Mary</span><span class="lb-pts">310</span><button style="background:var(--accent-green);border:none;border-radius:8px;width:36px;height:36px;font-weight:900;font-size:1rem;color:#0B0446;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="openUserProfile(7)"><img src="images/icons/chevron-right.svg" style="width:20px"></button></div>
+                    <div class="leaderboard-row" style="padding:6px;"><span class="lb-rank">8</span><span style="font-size:1.4rem; margin-right:10px;">👻</span><span class="lb-name">Quaint</span><span class="lb-pts">300</span><button style="background:var(--accent-green);border:none;border-radius:8px;width:36px;height:36px;font-weight:900;font-size:1rem;color:#0B0446;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="openUserProfile(8)"><img src="images/icons/chevron-right.svg" style="width:20px"></button></div>
+                    <div class="leaderboard-row" style="padding:6px;"><span class="lb-rank">9</span><span style="font-size:1.4rem; margin-right:10px;">🍔</span><span class="lb-name">ChazzB</span><span class="lb-pts">290</span><button style="background:var(--accent-green);border:none;border-radius:8px;width:36px;height:36px;font-weight:900;font-size:1rem;color:#0B0446;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="openUserProfile(9)"><img src="images/icons/chevron-right.svg" style="width:20px"></button></div>
+                    <div class="leaderboard-row" style="padding:6px;"><span class="lb-rank">10</span><span style="font-size:1.4rem; margin-right:10px;">💎</span><span class="lb-name">Andy Wins</span><span class="lb-pts">270</span><button style="background:var(--accent-green);border:none;border-radius:8px;width:36px;height:36px;font-weight:900;font-size:1rem;color:#0B0446;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="openUserProfile(10)"><img src="images/icons/chevron-right.svg" style="width:20px"></button></div>
+                    <div class="leaderboard-row" style="padding:6px;"><span class="lb-rank">11</span><span style="font-size:1.4rem; margin-right:10px;">🐉</span><span class="lb-name">DragonFC</span><span class="lb-pts">255</span><button style="background:var(--accent-green);border:none;border-radius:8px;width:36px;height:36px;font-weight:900;font-size:1rem;color:#0B0446;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="openUserProfile(11)"><img src="images/icons/chevron-right.svg" style="width:20px"></button></div>
+                    <div class="leaderboard-row" style="padding:6px;"><span class="lb-rank">12</span><span style="font-size:1.4rem; margin-right:10px;">🦁</span><span class="lb-name">LionHeart</span><span class="lb-pts">240</span><button style="background:var(--accent-green);border:none;border-radius:8px;width:36px;height:36px;font-weight:900;font-size:1rem;color:#0B0446;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="openUserProfile(12)"><img src="images/icons/chevron-right.svg" style="width:20px"></button></div>
+                    <div class="leaderboard-row" style="padding:6px;"><span class="lb-rank">13</span><span style="font-size:1.4rem; margin-right:10px;">🌙</span><span class="lb-name">NightOwl</span><span class="lb-pts">225</span><button style="background:var(--accent-green);border:none;border-radius:8px;width:36px;height:36px;font-weight:900;font-size:1rem;color:#0B0446;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="openUserProfile(13)"><img src="images/icons/chevron-right.svg" style="width:20px"></button></div>
+                    <div class="leaderboard-row" style="padding:6px;"><span class="lb-rank">14</span><span style="font-size:1.4rem; margin-right:10px;">⚡</span><span class="lb-name">Volts</span><span class="lb-pts">210</span><button style="background:var(--accent-green);border:none;border-radius:8px;width:36px;height:36px;font-weight:900;font-size:1rem;color:#0B0446;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="openUserProfile(14)"><img src="images/icons/chevron-right.svg" style="width:20px"></button></div>
+                    <div class="leaderboard-row" style="padding:6px; border-bottom:none;"><span class="lb-rank">15</span><span style="font-size:1.4rem; margin-right:10px;">🎯</span><span class="lb-name">Bullseye</span><span class="lb-pts">195</span><button style="background:var(--accent-green);border:none;border-radius:8px;width:36px;height:36px;font-weight:900;font-size:1rem;color:#0B0446;display:flex;align-items:center;justify-content:center;flex-shrink:0;" onclick="openUserProfile(15)"><img src="images/icons/chevron-right.svg" style="width:20px"></button></div>
+                </div>
+            </div>
+            <!-- Post-Pick Confirmation Screen -->
+            <div id="post-pick-view" style="display:none;">
+                <div style="background:#fff; border-radius:10px; padding:15px 10px 15px; margin-bottom:16px;">
+                    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;margin-bottom:10px;">
+                        <div style="width:36px;height:36px;border-radius:50%;background:var(--accent-green);display:flex;align-items:center;justify-content:center;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0B0446" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                        </div>
+                        <div style="font-family:'MonumentExtendedRegular',sans-serif;font-size:1rem;text-transform:uppercase;color:#1a0b5a;" class="mb-0">Picks Saved!</div>
+                    </div>
+                    <div id="post-pick-avatars" style="display:flex;gap:3px;flex-wrap:wrap;justify-content:center;"></div>
+                </div>
+                <div style="background:#2c2270;border-radius:10px;overflow:hidden;margin-bottom:24px;">
+                    <div style="background:var(--accent-green);padding:10px 20px 20px;text-align:center;position:relative;background-image:repeating-linear-gradient(-45deg,transparent,transparent 10px,rgba(255,255,255,0.06) 10px,rgba(255,255,255,0.06) 20px);">
+                        <div style="font-size:4rem;">🏆</div>
+                        <div style="font-family:'MonumentExtendedBold',sans-serif;font-size:1.3rem;color:#0B0446;line-height:1.1;text-transform:uppercase;">Challenge<br>Friends &amp; Family</div>
+                    </div>
+                    <div style="padding:16px 20px;">
+                        <p style="color:rgba(255,255,255,0.7);text-align:center;margin-bottom:16px;">Start a work, school or family league</p>
+                        <button onclick="showSummary()" style="display:block;width:100%;background:var(--accent-green);color:#0B0446;font-family:'MonumentExtendedRegular',sans-serif;font-size:0.8rem;text-transform:uppercase;padding:14px;border:none;border-radius:5px;cursor:pointer;">Create a League</button>
+                    </div>
+                </div>
+                <div style="text-align:center;">
+                    <a href="#" onclick="showSummary();return false;" style="color:var(--accent-green);font-size:1rem;">Home</a>
+                </div>
+            </div>
+
+            <!-- User Profile View -->
+            <div id="user-profile-view" style="display:none;">
+                <div id="user-profile-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Persistent Bottom Nav -->
+    <div class="bottom-nav brand-font-regular px-3 py-2" id="bottom-nav-bar">
+        <button class="nav-btn pl-2 pr-4" style="font-size: 0.7rem;" id="prev-btn">
+            <img src="images/icons/chevron-left.svg" style="height: 20px; display: inline;">
+            BACK
+        </button>
+        <div class="d-flex gap-2 flex-grow-1 justify-content-center px-3">
+            <div class="pos-tab rounded p-2" id="tab-DEF">
+                <div class="pos-tab-label">DEF</div>
+                <div class="dot-container" id="dots-DEF"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+            </div>
+            <div class="pos-tab rounded p-2" id="tab-MID">
+                <div class="pos-tab-label">MID</div>
+                <div class="dot-container" id="dots-MID"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+            </div>
+            <div class="pos-tab rounded p-2" id="tab-ATT">
+                <div class="pos-tab-label">ATT</div>
+                <div class="dot-container" id="dots-ATT"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+            </div>
+        </div>
+        <button class="nav-btn nav-btn-next brand-font-regular pl-4 pr-2" style="font-size: 0.7rem;" id="next-btn">NEXT <img src="images/icons/chevron-right.svg" style="height: 20px; display: inline;">
+        </button>
+    </div>
+
+    <!-- Player Detail Modal Overlay -->
+    <div id="player-detail-modal" onclick="handleDetailModalClick(event)">
+        <div id="player-detail-modal-box">
+            <button id="player-detail-modal-close" onclick="closeDetail()">✕</button>
+            <div id="detail-content"></div>
+        </div>
+    </div>
+
+    <!-- Stats Modal Overlay -->
+    <div id="stats-modal-overlay" onclick="closeStatsModal(event)">
+        <div id="stats-modal-box">
+            <div id="stats-modal-content"></div>
+        </div>
+    </div>
+
+    <script>
+        const GRID_SIZE = 9;
+        const POSITIONS = ['DEF', 'MID', 'ATT'];
+        const POSITION_TITLES = { 'DEF': 'DEFENDERS', 'MID': 'MIDFIELDERS', 'ATT': 'ATTACKERS' };
+        let currentPositionIndex = 0; 
+        let spinCount = 3; 
+        let gridDataByPosition = {}; 
+
+        const IMG_URL = 'https://www.pickteamz.com/static/images/club-artwork/ENG/Newcastle.png';
+
+        const defenders = [
+            { name: "Virgil Van Dijk", surname: "Van Dijk", club: "Liverpool", position: "DEF", image: 'https://img.sofascore.com/api/v1/player/151545/image', stats: { goals: 2, assists: 1, cleanSheets: 10, passAcc: "91%" } },
+            { name: "Ibrahima Konaté", surname: "Konaté", club: "Liverpool", position: "DEF", image: 'https://img.sofascore.com/api/v1/player/826215/image', stats: { goals: 2, assists: 1, cleanSheets: 10, passAcc: "91%" } },
+            { name: "Myles Lewis-Skelly", surname: "Lewis-Skelly", club: "Arsenal", position: "DEF", image: 'https://img.sofascore.com/api/v1/player/1423711/image', stats: { goals: 1, assists: 0, cleanSheets: 12, passAcc: "93%" } },
+            { name: "William Saliba", surname: "Saliba", club: "Arsenal", position: "DEF", image: 'https://img.sofascore.com/api/v1/player/941168/image', stats: { goals: 1, assists: 0, cleanSheets: 12, passAcc: "93%" } },
+            { name: "Kieran Trippier", surname: "Trippier", club: "Newcastle", position: "DEF", image: 'https://img.sofascore.com/api/v1/player/69256/image', stats: { goals: 1, assists: 10, cleanSheets: 8, passAcc: "82%" } },
+            { name: "Dan Burn", surname: "Burn", club: "Newcastle", position: "DEF", image: 'https://img.sofascore.com/api/v1/player/99090/image', stats: { goals: 1, assists: 10, cleanSheets: 8, passAcc: "82%" } },
+            { name: "Josko Gvardiol", surname: "Gvardiol", club: "Man City", position: "DEF", image: 'https://img.sofascore.com/api/v1/player/964994/image', stats: { goals: 0, assists: 2, cleanSheets: 9, passAcc: "90%" } },
+            { name: "Rúben Dias", surname: "Dias", club: "Man City", position: "DEF", image: 'https://img.sofascore.com/api/v1/player/318941/image', stats: { goals: 0, assists: 2, cleanSheets: 9, passAcc: "90%" } },
+            { name: "Ben White", surname: "White", club: "Arsenal", position: "DEF", image: 'https://img.sofascore.com/api/v1/player/846036/image', stats: { goals: 2, assists: 4, cleanSheets: 11, passAcc: "87%" } },
+            { name: "Riccardo Calafiori", surname: "Calafiori", club: "Arsenal", position: "DEF", image: 'https://img.sofascore.com/api/v1/player/957602/image', stats: { goals: 2, assists: 4, cleanSheets: 11, passAcc: "87%" } },
+            { name: "John Stones", surname: "Stones", club: "Man City", position: "DEF", image: 'https://img.sofascore.com/api/v1/player/152077/image', stats: { goals: 1, assists: 1, cleanSheets: 7, passAcc: "95%" } },
+            { name: "Rico Lewis", surname: "Lewis", club: "Man City", position: "DEF", image: 'https://img.sofascore.com/api/v1/player/1136731/image', stats: { goals: 1, assists: 1, cleanSheets: 7, passAcc: "95%" } },
+            { name: "Matheus Nunes", surname: "Nunes", club: "Man City", position: "DEF", image: 'https://img.sofascore.com/api/v1/player/945122/image', stats: { goals: 2, assists: 0, cleanSheets: 8, passAcc: "94%" } },
+            { name: "Destiny Udogie", surname: "Udogie", club: "Spurs", position: "DEF", image: 'https://img.sofascore.com/api/v1/player/983572/image', stats: { goals: 2, assists: 3, cleanSheets: 5, passAcc: "88%" } },
+            { name: "Micky van de Ven", surname: "van de Ven", club: "Spurs", position: "DEF", image: 'https://img.sofascore.com/api/v1/player/998247/image', stats: { goals: 2, assists: 3, cleanSheets: 5, passAcc: "88%" } },
+            { name: "Pau Torres", surname: "Torres", club: "Aston Villa", position: "DEF", image: 'https://img.sofascore.com/api/v1/player/864169/image', stats: { goals: 2, assists: 0, cleanSheets: 6, passAcc: "89%" } },
+            { name: "Matty Cash", surname: "Cash", club: "Aston Villa", position: "DEF", image: 'https://img.sofascore.com/api/v1/player/833956/image', stats: { goals: 2, assists: 0, cleanSheets: 6, passAcc: "89%" } },
+            { name: "Lewis Dunk", surname: "Dunk", club: "Brighton", position: "DEF", image: 'https://img.sofascore.com/api/v1/player/115365/image', stats: { goals: 3, assists: 0, cleanSheets: 5, passAcc: "92%" } },
+            { name: "Jan Paul van Hecke", surname: "van Hecke", club: "Brighton", position: "DEF", image: 'https://img.sofascore.com/api/v1/player/962012/image', stats: { goals: 3, assists: 0, cleanSheets: 5, passAcc: "92%" } }
+        ];
+
+        const midfielders = [
+            { name: "Kevin De Bruyne", surname: "De Bruyne", club: "Man City", position: "MID", image: 'https://img.sofascore.com/api/v1/player/70996/image', stats: { goals: 4, assists: 15, passAcc: "85%", keyPasses: 45 } },
+            { name: "Declan Rice", surname: "Rice", club: "Arsenal", position: "MID", image: 'https://img.sofascore.com/api/v1/player/856714/image', stats: { goals: 6, assists: 6, passAcc: "91%", keyPasses: 32 } },
+            { name: "Phil Foden", surname: "Foden", club: "Man City", position: "MID", image: 'https://img.sofascore.com/api/v1/player/859765/image', stats: { goals: 17, assists: 8, passAcc: "89%", keyPasses: 38 } },
+            { name: "Martin Ødegaard", surname: "Ødegaard", club: "Arsenal", position: "MID", image: 'https://img.sofascore.com/api/v1/player/547410/image', stats: { goals: 8, assists: 10, passAcc: "87%", keyPasses: 52 } },
+            { name: "Cole Palmer", surname: "Palmer", club: "Chelsea", position: "MID", image: 'https://img.sofascore.com/api/v1/player/982780/image', stats: { goals: 22, assists: 11, passAcc: "83%", keyPasses: 41 } },
+            { name: "Rodri", surname: "Rodri", club: "Man City", position: "MID", image: 'https://img.sofascore.com/api/v1/player/827606/image', stats: { goals: 7, assists: 7, passAcc: "93%", keyPasses: 29 } },
+            { name: "Bernardo Silva", surname: "Bernardo", club: "Man City", position: "MID", image: 'https://img.sofascore.com/api/v1/player/331209/image', stats: { goals: 6, assists: 9, passAcc: "90%", keyPasses: 35 } },
+            { name: "Bruno Guimaraes", surname: "Bruno G.", club: "Newcastle", position: "MID", image: 'https://img.sofascore.com/api/v1/player/866469/image', stats: { goals: 7, assists: 8, passAcc: "86%", keyPasses: 33 } },
+            { name: "Douglas Luiz", surname: "Luiz", club: "Aston Villa", position: "MID", image: 'https://img.sofascore.com/api/v1/player/867887/image', stats: { goals: 9, assists: 5, passAcc: "88%", keyPasses: 30 } },
+            { name: "James Maddison", surname: "Maddison", club: "Spurs", position: "MID", image: 'https://img.sofascore.com/api/v1/player/356398/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } },
+            { name: "Xavi Simons", surname: "Simons", club: "Spurs", position: "MID", image: 'https://img.sofascore.com/api/v1/player/997183/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } },
+            { name: "Daniel Muñoz", surname: "Muñoz", club: "Palace", position: "MID", image: 'https://img.sofascore.com/api/v1/player/870360/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } },
+            { name: "Amad Diallo", surname: "Diallo", club: "Man United", position: "MID", image: 'https://img.sofascore.com/api/v1/player/971037/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } },
+            { name: "Benjamin Šeško", surname: "Šeško", club: "Man United", position: "MID", image: 'https://img.sofascore.com/api/v1/player/986397/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } },
+            { name: "Enzo Fernández", surname: "Fernández", club: "Chelsea", position: "MID", image: 'https://img.sofascore.com/api/v1/player/974505/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } },
+            { name: "Moisés Caicedo", surname: "Caicedo", club: "Chelsea", position: "MID", image: 'https://img.sofascore.com/api/v1/player/987650/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } },
+            { name: "Dominik Szoboszlai", surname: "Szoboszlai", club: "Liverpool", position: "MID", image: 'https://img.sofascore.com/api/v1/player/869856/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } },
+            { name: "Morgan Rogers", surname: "Rogers", club: "Aston Villa", position: "MID", image: 'https://img.sofascore.com/api/v1/player/948261/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } },
+            { name: "Youri Tielemans", surname: "Tielemans", club: "Aston Villa", position: "MID", image: 'https://img.sofascore.com/api/v1/player/331737/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } },
+            { name: "Justin Kluivert", surname: "Kluivert", club: "Bournemouth", position: "MID", image: 'https://img.sofascore.com/api/v1/player/851596/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } },
+            { name: "Marcus Tavernier", surname: "Tavernier", club: "Bournemouth", position: "MID", image: 'https://img.sofascore.com/api/v1/player/895576/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } }
+        ];
+
+        const attackers = [
+            { name: "Erling Haaland", surname: "Haaland", club: "Man City", position: "ATT", image: 'images/players/haaland.png', stats: { goals: 27, xG: "24.5", shotAcc: "65%", conversion: "28%" } },
+            { name: "Mohamed Salah", surname: "Salah", club: "Liverpool", position: "ATT", image: 'https://img.sofascore.com/api/v1/player/159665/image', stats: { goals: 18, xG: "19.2", shotAcc: "61%", conversion: "22%" } },
+            { name: "Bukayo Saka", surname: "Saka", club: "Arsenal", position: "ATT", image: 'https://img.sofascore.com/api/v1/player/934235/image', stats: { goals: 16, xG: "14.8", shotAcc: "58%", conversion: "19%" } },
+            { name: "Richarlison", surname: "Richarlison", club: "Spurs", position: "ATT", image: 'https://img.sofascore.com/api/v1/player/840217/image', stats: { goals: 17, xG: "13.5", shotAcc: "64%", conversion: "25%" } },
+            { name: "Alexander Isak", surname: "Isak", club: "Liverpool", position: "ATT", image: 'https://img.sofascore.com/api/v1/player/823941/image', stats: { goals: 21, xG: "18.1", shotAcc: "68%", conversion: "31%" } },
+            { name: "Ollie Watkins", surname: "Watkins", club: "Aston Villa", position: "ATT", image: 'https://img.sofascore.com/api/v1/player/555386/image', stats: { goals: 19, xG: "17.4", shotAcc: "59%", conversion: "24%" } },
+            { name: "Florian Wirtz", surname: "Wirtz", club: "Liverpool", position: "ATT", image: 'https://img.sofascore.com/api/v1/player/1019322/image', stats: { goals: 11, xG: "16.8", shotAcc: "45%", conversion: "14%" } },
+            { name: "Antoine Semenyo", surname: "Semenyo", club: "Man City", position: "ATT", image: 'https://img.sofascore.com/api/v1/player/934354/image', stats: { goals: 11, xG: "10.2", shotAcc: "52%", conversion: "18%" } },
+            { name: "Pedro Neto", surname: "Neto", club: "Chelsea", position: "ATT", image: 'https://img.sofascore.com/api/v1/player/879349/image', stats: { goals: 14, xG: "15.4", shotAcc: "48%", conversion: "16%" } },
+            { name: "Kai Havertz", surname: "Havertz", club: "Arsenal", position: "ATT", image: 'images/players/havertz.png', stats: { goals: 13, xG: "11.1", shotAcc: "55%", conversion: "20%" } },
+            { name: "Dominic Solanke", surname: "Solanke", club: "Spurs", position: "ATT", image: 'https://img.sofascore.com/api/v1/player/361420/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } },
+            { name: "Brennan Johnson", surname: "Johnson", club: "Palace", position: "ATT", image: 'https://img.sofascore.com/api/v1/player/1085180/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } },
+            { name: "Bruno Fernandes", surname: "Fernandes", club: "Man United", position: "ATT", image: 'https://img.sofascore.com/api/v1/player/288205/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } },
+            { name: "Bryan Mbeumo", surname: "Mbeumo", club: "Man United", position: "ATT", image: 'https://img.sofascore.com/api/v1/player/927083/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } },
+            { name: "Alejandro Garnacho", surname: "Garnacho", club: "Chelsea", position: "ATT", image: 'https://img.sofascore.com/api/v1/player/1135873/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } },
+            { name: "João Pedro", surname: "Pedro", club: "Chelsea", position: "ATT", image: 'https://img.sofascore.com/api/v1/player/975079/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } },
+            { name: "Hugo Ekitiké", surname: "Ekitiké", club: "Liverpool", position: "ATT", image: 'https://img.sofascore.com/api/v1/player/1048422/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } },
+            { name: "Tammy Abraham", surname: "Abraham", club: "Aston Villa", position: "ATT", image: 'https://img.sofascore.com/api/v1/player/610766/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } },
+            { name: "Jadon Sancho", surname: "Sancho", club: "Aston Villa", position: "ATT", image: 'https://img.sofascore.com/api/v1/player/851100/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } },
+            { name: "Amine Adli", surname: "Adli", club: "Bournemouth", position: "ATT", image: 'https://img.sofascore.com/api/v1/player/991478/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } },
+            { name: "Evanilson", surname: "Evanilson", club: "Bournemouth", position: "ATT", image: 'https://img.sofascore.com/api/v1/player/998490/image', stats: { goals: 4, assists: 9, passAcc: "84%", keyPasses: 48 } }
+        ];
+
+        const clubSlugMap = { "Palace": "Crystal-Palace", "Man City": "Man-City", "Liverpool": "Liverpool", "Arsenal": "Arsenal", "Newcastle": "Newcastle", "Chelsea": "Chelsea", "Spurs": "Tottenham", "Aston Villa": "Aston-Villa", "Brighton": "Brighton" };
+
+        function getCurrentPosition() { return POSITIONS[currentPositionIndex]; }
+        function getClubSlug(clubName) { return clubSlugMap[clubName] || clubName.replace(/\s+/g, '-'); }
+        function getRandomPlayers(list, count) { return [...list].sort(() => 0.5 - Math.random()).slice(0, count); }
+
+        function renderGrid(animatingIndices = []) {
+            const container = document.getElementById('player-grid');
+            const pos = getCurrentPosition();
+            const players = gridDataByPosition[pos];
+            
+            document.getElementById('player-grid-view').style.display = 'block';
+            document.getElementById('post-pick-view').style.display = 'none';
+            document.getElementById('final-summary-view').style.display = 'none';
+            document.getElementById('position-header').textContent = POSITION_TITLES[pos];
+            
+            container.innerHTML = players.map((player, index) => {
+                const badge = `https://www.pickteamz.com/static/images/club-artwork/ENG/${getClubSlug(player.club)}.png`;
+                const isSpinning = animatingIndices.includes(index);
+                return `
+                    <div class="col-4">
+                        <div class="card-container">
+                            <div id="player-card-${index}" class="player-card ${player.picked ? 'is-picked' : ''} ${isSpinning ? 'spinning' : ''}" ${isSpinning ? `style="animation-delay:${index * 0.06}s"` : ''}>
+                                <div class="stat-icon" onclick="openDetail(${index})"></div>
+                                <div class="pos-sidebar"><span>${player.position}</span></div>
+                                <div class="image-wrapper">
+                                    <img src="${player.image}" class="player-image p-1" alt="${player.surname}">
+                                </div>
+                                <img src="${badge}" class="club-badge-mini" onerror="this.style.display='none'">
+                                <div class="card-body" style="padding-top:5px!important;">
+                                    <div class="player-surname brand-font-regular">${player.surname}</div>
+                                    <button class="pick-btn ${player.picked ? 'active' : ''}" onclick="togglePick(${index})">
+                                        ${player.picked ? 'PICKED' : 'PICK'}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            updateNavUI();
+        }
+
+        function openDetail(index) {
+            const player = gridDataByPosition[getCurrentPosition()][index];
+            const badge = `https://www.pickteamz.com/static/images/club-artwork/ENG/${getClubSlug(player.club)}.png`;
+
+            // Generate random season averages
+            const avPts   = Math.floor(Math.random() * 80) + 30;
+            const avGoals = (Math.random() * 1.5).toFixed(1);
+            const avAss   = (Math.random() * 1.2).toFixed(1);
+            const avShots = (Math.random() * 4 + 1).toFixed(1);
+
+            // Opponent slugs pool for badge display
+            const oppSlugs = ['Liverpool','Arsenal','Man-City','Newcastle','Chelsea','Tottenham','Aston-Villa','Brighton','Fulham','Wolves','Everton','Crystal-Palace'];
+            const oppNames  = ['Liverpool','Arsenal','Man City','Newcastle','Chelsea','Spurs','Aston Villa','Brighton','Fulham','Wolves','Everton','Palace'];
+
+            // Generate 10 weeks of history (last week is upcoming = dash), each opponent unique
+            const currentWeek = 10;
+            let weekRows = '';
+            // Shuffle opponents so no repeats
+            const shuffledOpps = oppSlugs.map((s,i)=>({s,n:oppNames[i]})).sort(()=>0.5-Math.random()).slice(0,currentWeek);
+            const cs = 'width:42px;text-align:center;padding:6px 2px;';
+            for (let w = 1; w <= currentWeek; w++) {
+                const opp = shuffledOpps[w-1];
+                const oppBadge = `https://www.pickteamz.com/static/images/club-artwork/ENG/${opp.s}.png`;
+                if (w < currentWeek) {
+                    const pts  = [0,30,50,80,100,110,120][Math.floor(Math.random()*7)];
+                    const mins = pts === 0 ? 0 : Math.floor(Math.random()*60)+30;
+                    const g    = pts >= 80 ? Math.floor(Math.random()*3) : Math.floor(Math.random()*2);
+                    const a    = Math.floor(Math.random()*3);
+                    const sot  = Math.floor(Math.random()*8);
+                    const kp   = Math.floor(Math.random()*7);
+                    // cell bg intensity based on value
+                    const bgMins = mins>75?'rgba(255,255,255,0.18)':mins>45?'rgba(255,255,255,0.12)':'rgba(255,255,255,0.07)';
+                    const bgG    = g>=2?'rgba(150,255,61,0.25)':g===1?'rgba(255,255,255,0.14)':'rgba(255,255,255,0.07)';
+                    const bgA    = a>=2?'rgba(150,255,61,0.2)':a===1?'rgba(255,255,255,0.14)':'rgba(255,255,255,0.07)';
+                    const bgSot  = sot>=5?'rgba(0,101,255,0.3)':sot>=3?'rgba(255,255,255,0.14)':'rgba(255,255,255,0.07)';
+                    const bgKp   = kp>=5?'rgba(0,101,255,0.25)':kp>=3?'rgba(255,255,255,0.12)':'rgba(255,255,255,0.07)';
+                    const ptsBg  = pts>=100?'#0065FF':pts>=50?'rgba(255,255,255,0.2)':'rgba(255,255,255,0.08)';
+                    weekRows += `<tr style="border-bottom:1px solid rgba(255,255,255,0.06);">
+                        <td style="padding:6px 4px;font-weight:900;color:rgba(255,255,255,0.6);width:28px;">${w}</td>
+                        <td style="padding:6px 2px;width:34px;"><img src="${oppBadge}" style="width:24px;height:24px;object-fit:contain;border-radius:3px;" onerror="this.style.display='none'"></td>
+                        <td style="${cs}"><span style="background:${ptsBg};color:#fff;font-weight:900;padding:3px 6px;border-radius:5px;font-size:0.85rem;display:inline-block;min-width:36px;text-align:center;">${pts}</span></td>
+                        <td style="${cs}background:${bgMins};border-radius:4px;color:#fff;">${mins}</td>
+                        <td style="${cs}background:${bgG};border-radius:4px;color:#fff;">${g}</td>
+                        <td style="${cs}background:${bgA};border-radius:4px;color:#fff;">${a}</td>
+                        <td style="${cs}background:${bgSot};border-radius:4px;color:#fff;">${sot}</td>
+                        <td style="${cs}background:${bgKp};border-radius:4px;color:#fff;">${kp}</td>
+                    </tr>`;
+                } else {
+                    weekRows += `<tr style="border-bottom:1px solid rgba(255,255,255,0.06);">
+                        <td style="padding:6px 4px;font-weight:900;color:rgba(255,255,255,0.6);width:28px;">${w}</td>
+                        <td style="padding:6px 2px;width:34px;"><img src="${oppBadge}" style="width:24px;height:24px;object-fit:contain;border-radius:3px;" onerror="this.style.display='none'"></td>
+                        <td style="${cs}"><span style="background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.35);font-weight:900;padding:3px 6px;border-radius:5px;font-size:0.85rem;display:inline-block;min-width:36px;text-align:center;">–</span></td>
+                        <td style="${cs}border-radius:4px;color:rgba(255,255,255,0.3);">–</td>
+                        <td style="${cs}border-radius:4px;color:rgba(255,255,255,0.3);">–</td>
+                        <td style="${cs}border-radius:4px;color:rgba(255,255,255,0.3);">–</td>
+                        <td style="${cs}border-radius:4px;color:rgba(255,255,255,0.3);">–</td>
+                        <td style="${cs}border-radius:4px;color:rgba(255,255,255,0.3);">–</td>
+                    </tr>`;
+                }
+            }
+
+            // Upcoming fixture for header
+            const nextOppIdx  = Math.floor(Math.random() * oppSlugs.length);
+            const nextOppSlug = oppSlugs[nextOppIdx];
+            const nextOppName = oppNames[nextOppIdx];
+            const playerClubBadge = badge;
+            const nextOppBadge = `https://www.pickteamz.com/static/images/club-artwork/ENG/${nextOppSlug}.png`;
+
+            document.getElementById('player-detail-modal').classList.add('active');
+            document.getElementById('detail-content').innerHTML = `
+                <!-- Profile header -->
+                <div style="background:linear-gradient(135deg,#3B366B 0%,#241E59 100%); border-radius:16px; padding:16px; margin-bottom:12px; position:relative;">
+                    <div style="display:flex; align-items:flex-start; gap:12px;">
+                        <img src="${badge}" style="width:40px;height:40px;object-fit:contain;border-radius:8px;flex-shrink:0;" onerror="this.style.display='none'">
+                        <div style="flex:1; text-align:center;">
+                            <img src="${player.image}" style="width:90px;height:90px;object-fit:cover;border-radius:10px;display:block;margin:0 auto 8px;">
+                            <div style="font-family:'MonumentExtendedRegular',sans-serif;font-size:1.2rem;color:#fff;">${player.surname}</div>
+                        </div>
+                        <div style="background:rgba(255,255,255,0.15);border-radius:4px;padding:6px 10px;font-weight:900;font-size:0.8rem;flex-shrink:0;" class="brand-font-regular">${player.position}</div>
+                    </div>
+                    <!-- Season averages -->
+                    <div style="display:flex;gap:6px;margin-top:12px;">
+                        <div style="flex:1;background:rgba(255,255,255,0.1);border-radius:8px;padding:8px 4px;text-align:center;">
+                            <div style="font-size:0.6rem;font-weight:900;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:2px;" class="brand-font-regular">Av. <br>Pts</div>
+                            <div style="font-family:'MonumentExtendedRegular',sans-serif;font-size:1.1rem;">${avPts}</div>
+                        </div>
+                        <div style="flex:1;background:rgba(255,255,255,0.1);border-radius:8px;padding:8px 4px;text-align:center;">
+                            <div style="font-size:0.6rem;font-weight:900;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:2px;" class="brand-font-regular">Av. <br>Goals</div>
+                            <div style="font-family:'MonumentExtendedRegular',sans-serif;font-size:1.1rem;">${avGoals}</div>
+                        </div>
+                        <div style="flex:1;background:rgba(255,255,255,0.1);border-radius:8px;padding:8px 4px;text-align:center;">
+                            <div style="font-size:0.6rem;font-weight:900;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:2px;" class="brand-font-regular">Av. Assists</div>
+                            <div style="font-family:'MonumentExtendedRegular',sans-serif;font-size:1.1rem;">${avAss}</div>
+                        </div>
+                        <div style="flex:1;background:rgba(255,255,255,0.1);border-radius:8px;padding:8px 4px;text-align:center;">
+                            <div style="font-size:0.6rem;font-weight:900;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:2px;" class="brand-font-regular">Av. Shots</div>
+                            <div style="font-family:'MonumentExtendedRegular',sans-serif;font-size:1.1rem;">${avShots}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Upcoming fixture -->
+                <div style="text-align:center;font-family:'MonumentExtendedRegular',sans-serif;font-size:0.85rem;text-transform:uppercase;margin-bottom:8px;color:rgba(255,255,255,0.7);">Week ${currentWeek} Match</div>
+                <div style="background:rgba(255,255,255,0.07);border-radius:12px;padding:16px;display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+                    <div style="text-align:center;">
+                        <img src="${playerClubBadge}" style="width:52px;height:52px;object-fit:contain;border-radius:8px;" onerror="this.style.display='none'">
+                    </div>
+                    <div style="background:var(--accent-green);color:#0B0446;font-weight:900;font-size:0.6rem;border-radius:6px;padding:6px 12px;" class="brand-font-regular">SUN 2PM</div>
+                    <div style="text-align:center;">
+                        <img src="${nextOppBadge}" style="width:52px;height:52px;object-fit:contain;border-radius:8px;" onerror="this.style.display='none'">
+                    </div>
+                </div>
+
+                <!-- EPL Stats table -->
+                <div style="text-align:center;font-family:'MonumentExtendedRegular',sans-serif;font-size:0.85rem;text-transform:uppercase;margin-bottom:10px;color:rgba(255,255,255,0.7);">Season Stats</div>
+                <div style="overflow-x:auto;">
+                    <table style="width:100%;border-collapse:collapse;font-size:0.8rem;color:#fff;min-width:340px;">
+                        <thead>
+                            <tr class="brand-font-regular">
+                                <th style="font-size:0.6rem; padding:8px 4px;font-weight:900;color:rgba(255,255,255,0.5);text-align:left;">WK</th>
+                                <th style="font-size:0.6rem; padding:8px 4px;font-weight:900;color:rgba(255,255,255,0.5);">VS</th>
+                                <th style="font-size:0.6rem; padding:8px 4px;font-weight:900;color:rgba(255,255,255,0.5);">PTS</th>
+                                <th style="font-size:0.6rem; padding:8px 4px;font-weight:900;color:rgba(255,255,255,0.5);">MINS</th>
+                                <th style="font-size:0.6rem; padding:8px 4px;font-weight:900;color:rgba(255,255,255,0.5);">GOAL</th>
+                                <th style="font-size:0.6rem; padding:8px 4px;font-weight:900;color:rgba(255,255,255,0.5);">ASS</th>
+                                <th style="font-size:0.6rem; padding:8px 4px;font-weight:900;color:rgba(255,255,255,0.5);">SOT</th>
+                                <th style="font-size:0.6rem; padding:8px 4px;font-weight:900;color:rgba(255,255,255,0.5);">KEY PASS</th>
+                            </tr>
+                        </thead>
+                        <tbody>${weekRows}</tbody>
+                    </table>
+                </div>
+            `;
+        }
+
+        function closeDetail() {
+            document.getElementById('player-detail-modal').classList.remove('active');
+        }
+
+        function handleDetailModalClick(e) {
+            if (e.target === document.getElementById('player-detail-modal')) closeDetail();
+        }
+
+        function togglePick(index) {
+            const pos = getCurrentPosition();
+            const player = gridDataByPosition[pos][index];
+            const currentPicks = gridDataByPosition[pos].filter(p => p.picked).length;
+            if (player.picked) player.picked = false;
+            else if (currentPicks < 3) player.picked = true;
+            renderGrid();
+        }
+
+        function showPostPick() {
+            document.getElementById('player-grid-view').style.display = 'none';
+            document.getElementById('post-pick-view').style.display = 'block';
+            document.getElementById('bottom-nav-bar').style.display = 'none';
+            document.getElementById('header-score-centre').style.display = 'flex';
+            window.scrollTo(0,0);
+            // Render picked player avatars
+            const allPicks = [
+                ...gridDataByPosition['DEF'].filter(p => p.picked),
+                ...gridDataByPosition['MID'].filter(p => p.picked),
+                ...gridDataByPosition['ATT'].filter(p => p.picked)
+            ];
+            document.getElementById('post-pick-avatars').innerHTML = allPicks.map(p =>
+                `<img src="${p.image}" style="width:48px;height:48px;object-fit:cover;border-radius:50%;border:2px solid #eee;" onerror="this.style.opacity=0.3">`
+            ).join('');
+        }
+
+        function showSummary() {
+            document.getElementById('player-grid-view').style.display = 'none';
+            document.getElementById('post-pick-view').style.display = 'none';
+            document.getElementById('final-summary-view').style.display = 'block';
+            document.getElementById('bottom-nav-bar').style.display = 'none';
+            document.getElementById('header-score-centre').style.display = 'flex';
+            
+            const summaryGrid = document.getElementById('summary-grid');
+            const allPicks = [
+                ...gridDataByPosition['DEF'].filter(p => p.picked),
+                ...gridDataByPosition['MID'].filter(p => p.picked),
+                ...gridDataByPosition['ATT'].filter(p => p.picked)
+            ];
+
+            window._summaryPlayers = allPicks;
+            // Assign random pts to each pick and compute total
+            allPicks.forEach(p => { if (!p._pts) p._pts = Math.floor(Math.random() * 101) + 10; });
+            const summaryTotal = allPicks.reduce((s, p) => s + p._pts, 0);
+            document.getElementById('summary-total-pts').textContent = summaryTotal + 'pts';
+
+            summaryGrid.innerHTML = allPicks.map((player, idx) => {
+                const badge = `https://www.pickteamz.com/static/images/club-artwork/ENG/${getClubSlug(player.club)}.png`;
+                const points = player._pts;
+                return `
+                    <div class="col-4">
+                        <div class="player-card summary-card">
+                            <div class="stat-icon" onclick="openPlayerStatsModal('summary', ${idx})"></div>
+                            <div class="pos-sidebar"><span>${player.position}</span></div>
+                            <div class="image-wrapper"><img src="${player.image}" class="player-image"></div>
+                            <img src="${badge}" class="club-badge-mini" onerror="this.style.display='none'">
+                            <div class="card-body">
+                                <div class="player-surname mb-1">${player.surname}</div>
+                                <div class="points-tag">${points}<span>pts</span></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function transitionPosition(newIndex) {
+            currentPositionIndex = newIndex;
+            // Reveal all cards with a spin when arriving at a new screen
+            const allIndices = Array.from({length: GRID_SIZE}, (_, i) => i);
+            renderGrid(allIndices);
+
+            // Wait 600ms for spin animation before revealing final state
+            setTimeout(() => {
+                renderGrid();
+            }, 600);
+        }
+
+        function spinUnpicked() {
+            if (spinCount <= 0) return;
+            const pos = getCurrentPosition();
+            const currentGrid = gridDataByPosition[pos];
+            const unpickedIndices = currentGrid.map((p, i) => !p.picked ? i : -1).filter(i => i !== -1);
+            if (unpickedIndices.length === 0) return;
+
+            spinCount--;
+            const btn = document.getElementById('spin-unpicked-btn');
+            btn.disabled = true;
+
+            // Trigger animation on unpicked cards only
+            renderGrid(unpickedIndices);
+
+            setTimeout(() => {
+                const source = pos === 'DEF' ? defenders : pos === 'MID' ? midfielders : attackers;
+                const namesOnGrid = new Set(currentGrid.map(p => p.name));
+                const availablePool = source.filter(p => !namesOnGrid.has(p.name));
+                const replacements = getRandomPlayers(availablePool, unpickedIndices.length);
+
+                unpickedIndices.forEach((gridIdx, i) => {
+                    if(replacements[i]) {
+                        gridDataByPosition[pos][gridIdx] = { ...replacements[i], picked: false };
+                    }
+                });
+                renderGrid();
+            }, 600);
+
+            setTimeout(() => {
+                btn.disabled = (spinCount === 0);
+            }, 1200);
+        }
+
+        function updateNavUI() {
+            POSITIONS.forEach(pos => {
+                const count = (gridDataByPosition[pos] || []).filter(p => p.picked).length;
+                const tab = document.getElementById(`tab-${pos}`);
+                const dots = document.getElementById(`dots-${pos}`).children;
+                tab.classList.toggle('active', pos === getCurrentPosition());
+                for (let i = 0; i < 3; i++) if(dots[i]) dots[i].classList.toggle('filled', i < count);
+            });
+            const currentCount = gridDataByPosition[getCurrentPosition()].filter(p => p.picked).length;
+            document.getElementById('next-btn').disabled = currentCount < 3;
+            document.getElementById('prev-btn').disabled = currentPositionIndex === 0;
+            document.getElementById('shuffle-count').textContent = spinCount;
+        }
+
+        const leaderboardUsers = [
+            { rank:1,  emoji:'🍩', name:'Jenkins',   pts:560, badge:'⭐⭐⭐⭐ Legend',    flag:'🇬🇧', div:1, matchups:'W18 L2' },
+            { rank:2,  emoji:'🦊', name:'Liam66',    pts:450, badge:'⭐⭐⭐ World Class', flag:'🇮🇪', div:1, matchups:'W15 L5' },
+            { rank:3,  emoji:'👻', name:'Shanx',     pts:440, badge:'⭐⭐⭐ World Class', flag:'🇫🇷', div:2, matchups:'W12 L4' },
+            { rank:4,  emoji:'🦜', name:'Partridge', pts:410, badge:'⭐⭐ Elite',          flag:'🇬🇧', div:2, matchups:'W14 L6' },
+            { rank:5,  emoji:'🍺', name:'Hungarian', pts:340, badge:'⭐⭐ Elite',          flag:'🇭🇺', div:2, matchups:'W11 L9' },
+            { rank:6,  emoji:'💀', name:'TimLee',    pts:320, badge:'⭐ Pro',              flag:'🇺🇸', div:3, matchups:'W10 L10' },
+            { rank:7,  emoji:'🔥', name:'Mary',      pts:310, badge:'⭐ Pro',              flag:'🇨🇦', div:3, matchups:'W9 L11' },
+            { rank:8,  emoji:'👻', name:'Quaint',    pts:300, badge:'⭐ Pro',              flag:'🇦🇺', div:3, matchups:'W8 L12' },
+            { rank:9,  emoji:'🍔', name:'ChazzB',    pts:290, badge:'⭐ Pro',              flag:'🇺🇸', div:3, matchups:'W7 L13' },
+            { rank:10, emoji:'💎', name:'Andy Wins', pts:270, badge:'Amateur',             flag:'🇬🇧', div:4, matchups:'W6 L14' },
+            { rank:11, emoji:'🐉', name:'DragonFC',  pts:255, badge:'Amateur',             flag:'🇨🇳', div:4, matchups:'W5 L15' },
+            { rank:12, emoji:'🦁', name:'LionHeart', pts:240, badge:'Amateur',             flag:'🇿🇦', div:4, matchups:'W5 L15' },
+            { rank:13, emoji:'🌙', name:'NightOwl',  pts:225, badge:'Amateur',             flag:'🇯🇵', div:4, matchups:'W4 L16' },
+            { rank:14, emoji:'⚡', name:'Volts',     pts:210, badge:'Amateur',             flag:'🇳🇱', div:4, matchups:'W3 L17' },
+            { rank:15, emoji:'🎯', name:'Bullseye',  pts:195, badge:'Amateur',             flag:'🇧🇷', div:5, matchups:'W2 L18' },
+        ].map(u => {
+            const t = Math.floor(Math.random() * 6); // 0–5 trophies
+            const c = Math.floor(Math.random() * 6); // 0–5 cups
+            u.trophies = (t > 0 || c > 0) ? `🏆${t} 🥇${c}` : '—';
+            return u;
+        });
+
+        function openUserProfile(rank) {
+            const user = leaderboardUsers.find(u => u.rank === rank);
+            if (!user) return;
+
+            // Show header back button
+            const backBtn = document.getElementById('header-back-btn');
+            backBtn.style.display = 'flex';
+
+            // Hide other views
+            document.getElementById('final-summary-view').style.display = 'none';
+            document.getElementById('user-profile-view').style.display = 'block';
+            document.getElementById('bottom-nav-bar').style.display = 'none';
+            document.getElementById('header-score-centre').style.display = 'none';
+            window.scrollTo(0,0);
+
+            // Pick 3 random players from each position with random pts
+            const pickedAtt = getRandomPlayers(attackers, 3).map(p => ({...p, pts: Math.floor(Math.random()*121)+10}));
+            const pickedMid = getRandomPlayers(midfielders, 3).map(p => ({...p, pts: Math.floor(Math.random()*101)+10}));
+            const pickedDef = getRandomPlayers(defenders, 3).map(p => ({...p, pts: Math.floor(Math.random()*81)+10}));
+            const allPicked = [...pickedAtt, ...pickedMid, ...pickedDef];
+
+            const totalPts = allPicked.reduce((sum, p) => sum + p.pts, 0);
+
+            window._profilePlayers = allPicked;
+            const playerCardsHtml = allPicked.map((player, idx) => {
+                const badge = `https://www.pickteamz.com/static/images/club-artwork/ENG/${getClubSlug(player.club)}.png`;
+                return `
+                    <div class="col-4">
+                        <div class="player-card summary-card">
+                            <div class="stat-icon" onclick="openPlayerStatsModal('profile', ${idx})"></div>
+                            <div class="pos-sidebar"><span>${player.position}</span></div>
+                            <div class="image-wrapper"><img src="${player.image}" class="player-image"></div>
+                            <img src="${badge}" class="club-badge-mini" onerror="this.style.display='none'">
+                            <div class="card-body">
+                                <div class="player-surname mb-1">${player.surname}</div>
+                                <div class="points-tag">${player.pts}<span>pts</span></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            document.getElementById('user-profile-content').innerHTML = `
+                <div class="pt-1 pb-2 px-2 mb-2" style="background:#2c2270; border-radius:5px;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div style="background:#0B0446; border-radius:4px; padding:5px 8px; text-transform: uppercase; font-size:0.5rem; display:inline-flex; align-items:center; gap:6px;" class="brand-font-regular">
+                            ${user.badge}
+                        </div>
+                        <div style="font-size:1.6rem;">${user.flag}</div>
+                    </div>
+                    <div class="text-center">
+                        <div style="width:60px; height:60px; border-radius:50%; background:rgba(255,255,255,0.12); display:inline-flex; align-items:center; justify-content:center; font-size:2.0rem;">
+                            ${user.emoji}
+                        </div>
+                    </div>
+                    <div class="text-center brand-font-regular mb-2" style="font-size:1.4rem; font-weight:700;">${user.name}</div>
+                    <div class="row brand-font-regular text-center g-2">
+                        <div class="col">
+                            <div style="background:rgba(255,255,255,0.1); border-radius:10px; padding:10px 4px;">
+                                <div style="font-size:0.7rem; font-weight:900; text-transform:uppercase; color:rgba(255,255,255,0.6);">Division</div>
+                                <div style="font-size:1rem; font-weight:900;">${user.div}</div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div style="background:rgba(255,255,255,0.1); border-radius:10px; padding:10px 4px;">
+                                <div style="font-size:0.7rem; font-weight:900; text-transform:uppercase; color:rgba(255,255,255,0.6);">Matchups</div>
+                                <div style="font-size:1rem; font-weight:900;">${user.matchups}</div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div style="background:rgba(255,255,255,0.1); border-radius:10px; padding:10px 4px;">
+                                <div style="font-size:0.7rem; font-weight:900; text-transform:uppercase; color:rgba(255,255,255,0.6);">Trophies</div>
+                                <div style="font-size:1rem; font-weight:900;">${user.trophies || '—'}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Nav Tabs -->
+                <div style="display:flex; border-bottom:2px solid rgba(255,255,255,0.1); margin-bottom:16px;" class="brand-font-regular">
+                    <div style="flex:1; text-align:center; padding:10px 0; font-weight:900; font-size:0.8rem; color:var(--accent-green); border-bottom:3px solid var(--accent-green); text-transform:uppercase;">Picks</div>
+                    <div style="flex:1; text-align:center; padding:10px 0; font-weight:900; font-size:0.8rem; color:rgba(255,255,255,0.4); text-transform:uppercase;">Trophy Cabinet</div>
+                </div>
+
+                <!-- Week dropdown + Total pts -->
+                <div class="d-flex align-items-center justify-content-between mb-3" style="gap:12px;">
+                    <select class="form-select" style="background:#fff; color:#1a0b5a; border-color:#ddd; font-weight:300; width:auto; flex:0 0 auto; min-width:150px;">
+                        <option>March: Week 3</option>
+                        <option>March: Week 2</option>
+                        <option>March: Week 1</option>
+                        <option>February: Week 4</option>
+                    </select>
+                    <div class="brand-font-regular" style="font-size:1rem; font-weight:600; white-space:nowrap;"><span style="font-family:'MonumentExtendedRegular',sans-serif; font-size:1.5rem; font-weight:900;">${totalPts}pts</span></div>
+                </div>
+
+                <div class="row g-2 mb-4">${playerCardsHtml}</div>
+            `;
+        }
+
+        function closeUserProfile() {
+            document.getElementById('header-back-btn').style.display = 'none';
+            document.getElementById('user-profile-view').style.display = 'none';
+            document.getElementById('final-summary-view').style.display = 'block';
+            document.getElementById('bottom-nav-bar').style.display = 'none';
+            document.getElementById('header-score-centre').style.display = 'flex';
+            window.scrollTo(0,0);
+        }
+
+        function openPlayerStatsModal(source, idx) {
+            const player = source === 'profile'
+                ? window._profilePlayers[idx]
+                : window._summaryPlayers[idx];
+            if (!player) return;
+            const badge = `https://www.pickteamz.com/static/images/club-artwork/ENG/${getClubSlug(player.club)}.png`;
+            // Resolve the points value shown on the tile (summary uses _pts, profile uses pts)
+            const tilePoints = player._pts !== undefined ? player._pts : (player.pts !== undefined ? player.pts : '—');
+            const modalStats = [
+                { label: 'Goals',       val: Math.floor(Math.random() * 4) },
+                { label: 'Assists',     val: Math.floor(Math.random() * 3) },
+                { label: 'Shots OT',    val: Math.floor(Math.random() * 5) },
+                { label: 'Key Passes',  val: Math.floor(Math.random() * 9) },
+                { label: 'Key Tackles', val: Math.floor(Math.random() * 9) },
+            ];
+            const statsHtml = modalStats.map(s =>
+                `<div class="stat-item"><span class="stat-label">${s.label}</span><span class="stat-val">${s.val}</span></div>`
+            ).join('');
+            document.getElementById('stats-modal-content').innerHTML = `
+                <div class="profile-header" style="border-radius:16px 16px 0 0; position:relative;">
+                    <button onclick="closeStatsModal()" style="position:absolute;top:10px;right:12px;background:none;border:none;color:#fff;font-size:1.2rem;font-weight:900;cursor:pointer;">✕</button>
+                    <div style="font-weight:900; color:var(--accent-green);" class="brand-font-regular mt-3">${player.position}</div>
+                    <div style="font-size:1.6rem; line-height:1; color:#fff;" class="brand-font-regular">${player.surname.toUpperCase()}</div>
+                    <img src="${badge}" style="width:40px; margin-top:15px;">
+                    <img src="${player.image}" class="profile-header-image rounded-2">
+                </div>
+                <div class="stat-grid brand-font-regular" style="border-radius:0 0 16px 16px;">
+                    <div class="stat-item" style="border-bottom:2px solid #e2e8f0; margin-bottom:8px; padding-bottom:12px;">
+                        <span class="stat-label brand-font-regular" style="font-size:0.8rem; color:#1a0b5a; font-weight:900;">Total Points</span>
+                        <span class="stat-val" style="font-family:'MonumentExtendedRegular',sans-serif; font-size:1.4rem; color:#1a0b5a;">${tilePoints}pts</span>
+                    </div>
+                    <div style="font-weight:900; color:#1a0b5a; font-size:0.8rem; margin-bottom:10px; display:inline-block;" class="brand-font-regular">MATCH STATS</div>
+                    ${statsHtml}
+                </div>
+            `;
+            document.getElementById('stats-modal-overlay').classList.add('active');
+        }
+
+        function closeStatsModal(e) {
+            if (!e || e.target === document.getElementById('stats-modal-overlay') || e.target.tagName === 'BUTTON') {
+                document.getElementById('stats-modal-overlay').classList.remove('active');
+            }
+        }
+
+        function startPickingJourney() {
+            document.getElementById('home-view').style.display = 'none';
+            document.getElementById('header-score-centre').style.display = 'none';
+            document.getElementById('player-grid-view').style.display = 'block';
+            document.getElementById('bottom-nav-bar').style.display = 'flex';
+            currentPositionIndex = 0;
+            renderGrid();
+        }
+
+        window.onload = () => {
+            POSITIONS.forEach(pos => {
+                const source = pos === 'DEF' ? defenders : pos === 'MID' ? midfielders : attackers;
+                gridDataByPosition[pos] = getRandomPlayers(source, GRID_SIZE).map(p => ({ ...p, picked: false }));
+            });
+            document.getElementById('spin-unpicked-btn').onclick = spinUnpicked;
+            document.getElementById('prev-btn').onclick = () => { if(currentPositionIndex > 0) { transitionPosition(currentPositionIndex - 1); } };
+            document.getElementById('next-btn').onclick = () => { 
+                if(currentPositionIndex < 2) { 
+                    transitionPosition(currentPositionIndex + 1);
+                } else {
+                    showPostPick();
+                }
+            };
+            // Start on home view — hide bottom nav, show score centre
+            document.getElementById('bottom-nav-bar').style.display = 'none';
+            document.getElementById('header-score-centre').style.display = 'flex';
+        };
+    </script>
+</body>
+</html>
