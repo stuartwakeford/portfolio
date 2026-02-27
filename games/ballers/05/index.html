@@ -658,7 +658,7 @@
         let spinCount = 3; 
         let gridDataByPosition = {}; 
 
-        const IMG_URL = 'https://www.pickteamz.com/static/images/club-artwork/ENG/Newcastle.png';
+        const IMG_URL = 'https://www.pickteamz.com/static.pngs/club-artwork/ENG/Newcastle.png';
 
         const defenders = [
             { name: "Virgil Van Dijk", surname: "Van Dijk", club: "Liverpool", position: "DEF", image: 'https://img.sofascore.com/api/v1/player/151545/image', stats: { goals: 2, assists: 1, cleanSheets: 10, passAcc: "91%" } },
@@ -747,7 +747,7 @@
             document.getElementById('position-header').textContent = POSITION_TITLES[pos];
             
             container.innerHTML = players.map((player, index) => {
-                const badge = `https://www.pickteamz.com/static/images/club-artwork/ENG/${getClubSlug(player.club)}.png`;
+                const badge = `https://www.pickteamz.com/static.pngs/club-artwork/ENG/${getClubSlug(player.club)}.png`;
                 const isSpinning = animatingIndices.includes(index);
                 return `
                     <div class="col-4">
@@ -775,7 +775,7 @@
 
         function openDetail(index) {
             const player = gridDataByPosition[getCurrentPosition()][index];
-            const badge = `https://www.pickteamz.com/static/images/club-artwork/ENG/${getClubSlug(player.club)}.png`;
+            const badge = `https://www.pickteamz.com/static.pngs/club-artwork/ENG/${getClubSlug(player.club)}.png`;
 
             // Generate random season averages
             const avPts   = Math.floor(Math.random() * 80) + 30;
@@ -795,7 +795,7 @@
             const cs = 'width:42px;text-align:center;padding:6px 2px;';
             for (let w = 1; w <= currentWeek; w++) {
                 const opp = shuffledOpps[w-1];
-                const oppBadge = `https://www.pickteamz.com/static/images/club-artwork/ENG/${opp.s}.png`;
+                const oppBadge = `https://www.pickteamz.com/static.pngs/club-artwork/ENG/${opp.s}.png`;
                 if (w < currentWeek) {
                     const pts  = [0,30,50,80,100,110,120][Math.floor(Math.random()*7)];
                     const mins = pts === 0 ? 0 : Math.floor(Math.random()*60)+30;
@@ -839,7 +839,7 @@
             const nextOppSlug = oppSlugs[nextOppIdx];
             const nextOppName = oppNames[nextOppIdx];
             const playerClubBadge = badge;
-            const nextOppBadge = `https://www.pickteamz.com/static/images/club-artwork/ENG/${nextOppSlug}.png`;
+            const nextOppBadge = `https://www.pickteamz.com/static.pngs/club-artwork/ENG/${nextOppSlug}.png`;
 
             document.getElementById('player-detail-modal').classList.add('active');
             document.getElementById('detail-content').innerHTML = `
@@ -965,7 +965,7 @@
             document.getElementById('summary-total-pts').textContent = summaryTotal + 'pts';
 
             summaryGrid.innerHTML = allPicks.map((player, idx) => {
-                const badge = `https://www.pickteamz.com/static/images/club-artwork/ENG/${getClubSlug(player.club)}.png`;
+                const badge = `https://www.pickteamz.com/static.pngs/club-artwork/ENG/${getClubSlug(player.club)}.png`;
                 const points = player._pts;
                 return `
                     <div class="col-4">
@@ -1091,7 +1091,7 @@
 
             window._profilePlayers = allPicked;
             const playerCardsHtml = allPicked.map((player, idx) => {
-                const badge = `https://www.pickteamz.com/static/images/club-artwork/ENG/${getClubSlug(player.club)}.png`;
+                const badge = `https://www.pickteamz.com/static.pngs/club-artwork/ENG/${getClubSlug(player.club)}.png`;
                 return `
                     <div class="col-4">
                         <div class="player-card summary-card">
@@ -1179,7 +1179,7 @@
                 ? window._profilePlayers[idx]
                 : window._summaryPlayers[idx];
             if (!player) return;
-            const badge = `https://www.pickteamz.com/static/images/club-artwork/ENG/${getClubSlug(player.club)}.png`;
+            const badge = `https://www.pickteamz.com/static.pngs/club-artwork/ENG/${getClubSlug(player.club)}.png`;
             // Resolve the points value shown on the tile (summary uses _pts, profile uses pts)
             const tilePoints = player._pts !== undefined ? player._pts : (player.pts !== undefined ? player.pts : '—');
             const modalStats = [
