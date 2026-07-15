@@ -82,11 +82,12 @@ h1 {
    font-size: 90px;
    line-height: 90px; 
    font-weight: 700;
+    text-align: left;
 }
 
 .display-1 {
-   font-size: 160px;
-   line-height: 160px;
+   font-size: 120px;
+   line-height: 110px;
    font-weight: 700;
 }
 
@@ -97,6 +98,11 @@ h2 {
 
 h3 {
    font-size: 30px;
+}
+
+.intro-tile {
+    font-size: 25px;
+    line-height: 32px;
 }
 
 .article-subhead {
@@ -130,7 +136,7 @@ h3 {
 }
 
 .navbar {
-    border-bottom: 1px solid #331345;
+    border-bottom: 1px solid #D2C9CF;
     padding-bottom: 30px;
 }
 
@@ -240,11 +246,15 @@ h3 {
 }
 
 .service-tag {
-    background-color: #EFEBE8;
+    background-color: #F6EEF3;
+    color: #9525DE;
+    border: 1px solid #E7C8F4;
     width: auto;
+    display: inline-flex;
     padding: 14px 18px;
     border-radius: 10px;
     font-weight: 500;
+    margin-bottom: 11px;
 }
 
 .contact-card a{
@@ -334,8 +344,8 @@ h3 {
 /* XS */    
 @media (max-width: 575.98px) {
     .display-1 {
-        font-size: 50px !important;
-        line-height: 48px !important;
+        font-size: 37px !important;
+        line-height: 40px !important;
         -color: red;
     }
     h1 {
@@ -364,7 +374,7 @@ h3 {
         font-size: 20px;
     }
     .intro {
-       font-size: 24px;
+       font-size: 22px;
        line-height: 33px;
     }
     .branding {
@@ -375,6 +385,12 @@ h3 {
     .brand-sub {
         font-size: 16px;
         padding-top: 3px !important;
+    }
+    .service-tag {
+        font-size: 1rem;
+        padding: 10px 14px;
+        font-weight: 500;
+        margin-bottom: 11px;
     }
     .output-list.list-group:last-child {
         border-bottom: 0px !important;
@@ -392,8 +408,8 @@ h3 {
 /* SM */    
 @media (min-width: 576px) {
     .display-1 {
-        font-size: 56px !important;
-        line-height: 53px !important;
+        font-size: 70px !important;
+        line-height: 68px !important;
         -color: yellow;
     }
     h1 {
@@ -401,7 +417,7 @@ h3 {
        line-height: 55px; 
     }
     .intro {
-        font-size: 26px;
+        font-size: 22px;
         line-height: 36px;
     }
     h2 {
@@ -413,15 +429,18 @@ h3 {
 /* MD */    
 @media (min-width: 767.98px) {
     .display-1 {
-        font-size: 90px !important;
-        line-height: 81px !important;
+        font-size: 70px !important;
+        line-height: 64px !important;
         -color: pink;
     }
     h1 {
        font-size: 70px;
        line-height: 74px; 
     }
-    
+    .intro {
+        font-size: 22px;
+        line-height: 30px;
+    }
     h2 {
        font-size: 40px;
        line-height: 40px; 
@@ -457,9 +476,13 @@ h3 {
 /* LG */    
 @media (min-width: 991.98px) {
     .display-1 {
-        font-size: 120px !important;
-        line-height: 108px !important;
+        font-size: 100px !important;
+        line-height: 90px !important;
         -color: green !important;
+    }
+    .intro {
+        font-size: 22px;
+        line-height: 32px;
     }
     h2 {
        font-size: 40px;
@@ -470,8 +493,8 @@ h3 {
 /* XL */    
 @media (min-width: 1199.98px) {
     .display-1 {
-        font-size: 130px !important;
-        line-height: 122px !important;
+        font-size: 110px !important;
+        line-height: 100px !important;
         -color: orange !important;
     }
 }
@@ -479,8 +502,8 @@ h3 {
 /* XXL */    
 @media (min-width: 1400px) {
     .display-1 {
-        font-size: 140px !important;
-        line-height: 134px !important;
+        font-size: 120px !important;
+        line-height: 110px !important;
         -color: blue !important;
     }
 }
