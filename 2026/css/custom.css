@@ -136,7 +136,7 @@ h3 {
 }
 
 .navbar {
-    border-bottom: 1px solid #331345;
+    border-bottom: 1px solid #D2C9CF;
     padding-bottom: 30px;
 }
 
@@ -344,8 +344,8 @@ h3 {
 /* XS */    
 @media (max-width: 575.98px) {
     .display-1 {
-        font-size: 42px !important;
-        line-height: 44px !important;
+        font-size: 37px !important;
+        line-height: 40px !important;
         -color: red;
     }
     h1 {
