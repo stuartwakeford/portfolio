@@ -65,6 +65,11 @@ code::selection {
 p {
     font-size: 20px;
     line-height: 30px;
+    a,
+    a:focus {
+      color: #A932F8;
+      text-decoration: none;
+    }
 }
 
 a,
