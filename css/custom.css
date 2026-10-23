@@ -515,7 +515,7 @@ main p:not([class]) {
     }
 
     .page-h1 {
-        line-height: 39px;
+        line-height: 46px;
     }
 
     h2 {
@@ -534,7 +534,17 @@ main p:not([class]) {
         padding-left: 1.4rem !important;
         padding-right: 1.4rem !important;
     }
-    
+
+    .service-pills-row {
+        width: calc(100% + 1.5rem) !important;
+        margin-left: -0.75rem !important;
+        margin-right: -0.75rem !important;
+    }
+
+    .service-block-card .card-body {
+        --bs-card-spacer-x: 18.4px !important;
+    }
+
     .contact-links {
         font-size: 20px;
     }
