@@ -190,6 +190,10 @@ html.is-loaded .navbar {
     pointer-events: auto;
 }
 
+body.nav-open {
+    overflow: hidden;
+}
+
 .navbar-brand {
     color: #FAF7F2;
 }
@@ -664,6 +668,61 @@ main p:not([class]) {
         background-color: #201F1F;
     }
 
+    .navbar-toggler-icon {
+        position: relative;
+        display: inline-block;
+    }
+
+    .navbar-toggler-icon img {
+        display: block;
+        transition: opacity 0.15s ease;
+    }
+
+    .navbar-toggler-icon::before,
+    .navbar-toggler-icon::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 20px;
+        height: 2px;
+        background-color: #FAF7F2;
+        opacity: 0;
+        transform: translate(-50%, -50%) rotate(0deg);
+        transition: opacity 0.15s ease, transform 0.15s ease;
+    }
+
+    .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon img {
+        opacity: 0;
+    }
+
+    .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon::before {
+        opacity: 1;
+        transform: translate(-50%, -50%) rotate(45deg);
+    }
+
+    .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon::after {
+        opacity: 1;
+        transform: translate(-50%, -50%) rotate(-45deg);
+    }
+
+    .navbar-toggler:focus {
+        box-shadow: 0 0 0 2px #A932F8;
+    }
+
+    .nav-item a:active {
+        text-decoration: none;
+    }
+
+    .nav-item:has(a:active) {
+        background-color: rgba(32, 31, 31, 0.6);
+    }
+
+    .nav-cta:active {
+        text-decoration: none;
+        background-color: rgba(250, 247, 242, 0.6);
+    }
+
     .navbar-nav{
         margin-top: 10px;
     }
@@ -689,7 +748,8 @@ main p:not([class]) {
     .nav-item-cta .nav-cta {
         width: 100%;
         justify-content: center;
-        margin-top: 0;
+        font-size: 28.5px;
+        margin: 10px 0;
     }
 }
     
